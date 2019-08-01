@@ -371,14 +371,14 @@ def GenerateRooms(RoomPos):
 	return
 
 def PlaceStairs(Labyrinth):
-	StairsXMin=-7*Level
-	StairsXMax=7*Level
-	StairsYMin=-7*Level
-	StairsYMax=7*Level
+	StairsXMin=-1*Level
+	StairsXMax=Level
+	StairsYMin=-1*Level
+	StairsYMax=Level
 	LookingForASpot=True
 	while LookingForASpot:
-		StairsX=random.randint(StairsXMin, StairsXMax)
-		StairsY=random.randint(StairsYMin, StairsYMax)
+		StairsX=random.randint(StairsXMin, StairsXMax)*7
+		StairsY=random.randint(StairsYMin, StairsYMax)*7
 		Counter=0
 		MaxCounter=len(Labyrinth)
 		while Counter < MaxCounter:
@@ -391,7 +391,43 @@ def PlaceStairs(Labyrinth):
 			Counter=Counter+3
 	return
 
+def DoOuterWall(Level):
+	YTop=(Level*7)+7
+	Xleft=(Level*-7)-7
+	XRight=(Level*7)+7
+	while Xleft <= XRight:
+		Labyrinth.append('Wall')
+		Labyrinth.append(Xleft)
+		Labyrinth.append(YTop)
+		Xleft=Xleft+1
+	YTop=(Level*7)+7
+	YBottom=(Level*-7)-7
+	XRight=(Level*7)+7
+	while YTop >= YBottom:
+		Labyrinth.append('Wall')
+		Labyrinth.append(XRight)
+		Labyrinth.append(YTop)
+		YTop=YTop-1
+	YBottom=(Level*-7)-7
+	Xleft=(Level*-7)-7
+	XRight=(Level*7)+7
+	while XRight >= Xleft:
+		Labyrinth.append('Wall')
+		Labyrinth.append(XRight)
+		Labyrinth.append(YBottom)
+		XRight=XRight-1
+	YBottom=(Level*-7)-7
+	Xleft=(Level*-7)-7
+	YTop=(Level*7)+7
+	while YBottom <= YTop:
+		Labyrinth.append('Wall')
+		Labyrinth.append(Xleft)
+		Labyrinth.append(YBottom)
+		YBottom=YBottom+1
+	return
+
 def GenerateLabyrinth():
+	DoOuterWall(Level)
 	GenerateRoomPos(Level)
 	GenerateRooms(RoomPos)
 	PlaceStairs(Labyrinth)
