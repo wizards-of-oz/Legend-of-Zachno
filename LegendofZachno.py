@@ -197,8 +197,8 @@ def GenerateRoomPos(Level):
 	YCounterMax=Level
 	while YCounterMin <= YCounterMax:
 		while XCounterMin <= XCounterMax:
-			RoomX=XCounterMin*7
-			RoomY=YCounterMin*7
+			RoomX=XCounterMin*8
+			RoomY=YCounterMin*8
 			RoomPos.append(RoomX)
 			RoomPos.append(RoomY)
 			XCounterMin=XCounterMin+1
@@ -207,126 +207,190 @@ def GenerateRoomPos(Level):
 	return
 
 # Creates a tunnel in the up directioon from a room
-def BuildTunnelUp(RoomCenterX, RoomCenterY):
-	Counter=1
-	MaxCounter=7
+def BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize):
+	print('Building tunnel up')
+	Counter=RoomSize
+	MaxCounter=8
 	while Counter < MaxCounter:
 		ObjectX=RoomCenterX
 		ObjectY=RoomCenterY+Counter
+		CheckX=ObjectX
+		CheckY=ObjectY+1
+		FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
 		Labyrinth.append('Floor')
 		Labyrinth.append(ObjectX)
 		Labyrinth.append(ObjectY)
+		if FoundSomething:
+			break
 		Counter=Counter+1
-	Counter=1
-	MaxCounter=7
+	Counter=RoomSize
+	MaxCounter=8
 	while Counter < MaxCounter:
 		ObjectX=RoomCenterX-1
 		ObjectY=RoomCenterY+Counter
+		CheckX=ObjectX
+		CheckY=ObjectY+1
+		FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
 		Labyrinth.append('Wall')
 		Labyrinth.append(ObjectX)
 		Labyrinth.append(ObjectY)
+		if FoundSomething:
+			break
 		Counter=Counter+1
-	Counter=1
-	MaxCounter=7
+	Counter=RoomSize
+	MaxCounter=8
 	while Counter < MaxCounter:
 		ObjectX=RoomCenterX+1
 		ObjectY=RoomCenterY+Counter
+		CheckX=ObjectX
+		CheckY=ObjectY+1
+		FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
 		Labyrinth.append('Wall')
 		Labyrinth.append(ObjectX)
 		Labyrinth.append(ObjectY)
+		if FoundSomething:
+			break
 		Counter=Counter+1
 	return
 
 # Creates a tunnel in the right directioon from a room
-def BuildTunnelRight(RoomCenterX, RoomCenterY):
-	Counter=1
-	MaxCounter=7
+def BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize):
+	print('Building tunnel right')
+	Counter=RoomSize
+	MaxCounter=8
 	while Counter < MaxCounter:
 		ObjectX=RoomCenterX+Counter
 		ObjectY=RoomCenterY
+		CheckX=ObjectX+1
+		CheckY=ObjectY
+		FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
 		Labyrinth.append('Floor')
 		Labyrinth.append(ObjectX)
 		Labyrinth.append(ObjectY)
+		if FoundSomething:
+			break
 		Counter=Counter+1
-	Counter=1
-	MaxCounter=7
+	Counter=RoomSize
+	MaxCounter=8
 	while Counter < MaxCounter:
 		ObjectX=RoomCenterX+Counter
 		ObjectY=RoomCenterY+1
+		CheckX=ObjectX+1
+		CheckY=ObjectY
+		FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
 		Labyrinth.append('Wall')
 		Labyrinth.append(ObjectX)
 		Labyrinth.append(ObjectY)
+		if FoundSomething:
+			break
 		Counter=Counter+1
-	Counter=1
-	MaxCounter=7
+	Counter=RoomSize
+	MaxCounter=8
 	while Counter < MaxCounter:
 		ObjectX=RoomCenterX+Counter
 		ObjectY=RoomCenterY-1
+		CheckX=ObjectX+1
+		CheckY=ObjectY
+		FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
 		Labyrinth.append('Wall')
 		Labyrinth.append(ObjectX)
 		Labyrinth.append(ObjectY)
+		if FoundSomething:
+			break
 		Counter=Counter+1
 	return
 
 # Creates a tunnel in the down directioon from a room
-def BuildTunnelDown(RoomCenterX, RoomCenterY):
-	Counter=-1
-	MaxCounter=-7
+def BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize):
+	print('Building tunnel down')
+	Counter=-1*RoomSize
+	MaxCounter=-8
 	while Counter > MaxCounter:
 		ObjectX=RoomCenterX
 		ObjectY=RoomCenterY+Counter
+		CheckX=ObjectX
+		CheckY=ObjectY-1
+		FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
 		Labyrinth.append('Floor')
 		Labyrinth.append(ObjectX)
 		Labyrinth.append(ObjectY)
+		if FoundSomething:
+			break
 		Counter=Counter-1
-	Counter=-1
-	MaxCounter=-7
+	Counter=-1*RoomSize
+	MaxCounter=-8
 	while Counter > MaxCounter:
 		ObjectX=RoomCenterX-1
 		ObjectY=RoomCenterY+Counter
+		CheckX=ObjectX
+		CheckY=ObjectY-1
+		FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
 		Labyrinth.append('Wall')
 		Labyrinth.append(ObjectX)
 		Labyrinth.append(ObjectY)
+		if FoundSomething:
+			break
 		Counter=Counter-1
-	Counter=-1
-	MaxCounter=-7
+	Counter=-1*RoomSize
+	MaxCounter=-8
 	while Counter > MaxCounter:
 		ObjectX=RoomCenterX+1
 		ObjectY=RoomCenterY+Counter
+		CheckX=ObjectX
+		CheckY=ObjectY-1
+		FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
 		Labyrinth.append('Wall')
 		Labyrinth.append(ObjectX)
 		Labyrinth.append(ObjectY)
+		if FoundSomething:
+			break
 		Counter=Counter-1
 	return
 
 # Creates a tunnel in the left directioon from a room
-def BuildTunnelLeft(RoomCenterX, RoomCenterY):
-	Counter=-1
-	MaxCounter=-7
+def BuildTunnelLeft(RoomCenterX, RoomCenterY, RoomSize):
+	print('Building tunnel left')
+	Counter=-1*RoomSize
+	MaxCounter=-8
 	while Counter > MaxCounter:
 		ObjectX=RoomCenterX+Counter
 		ObjectY=RoomCenterY
+		CheckX=ObjectX-1
+		CheckY=ObjectY
+		FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
 		Labyrinth.append('Floor')
 		Labyrinth.append(ObjectX)
 		Labyrinth.append(ObjectY)
+		if FoundSomething:
+			break
 		Counter=Counter-1
-	Counter=-1
-	MaxCounter=-7
+	Counter=-1*RoomSize
+	MaxCounter=-8
 	while Counter > MaxCounter:
 		ObjectX=RoomCenterX+Counter
 		ObjectY=RoomCenterY-1
+		CheckX=ObjectX-1
+		CheckY=ObjectY
+		FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
 		Labyrinth.append('Wall')
 		Labyrinth.append(ObjectX)
 		Labyrinth.append(ObjectY)
+		if FoundSomething:
+			break
 		Counter=Counter-1
-	Counter=-1
-	MaxCounter=-7
+	Counter=-1*RoomSize
+	MaxCounter=-8
 	while Counter > MaxCounter:
 		ObjectX=RoomCenterX+Counter
 		ObjectY=RoomCenterY+1
+		CheckX=ObjectX-1
+		CheckY=ObjectY
+		FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
 		Labyrinth.append('Wall')
 		Labyrinth.append(ObjectX)
 		Labyrinth.append(ObjectY)
+		if FoundSomething:
+			break
 		Counter=Counter-1
 	return
 
@@ -519,7 +583,8 @@ def GenerateRooms(RoomPos):
 		RoomCenterX=RoomPos[Counter]
 		RoomCenterY=RoomPos[Counter+1]
 		NumberofExits=random.randint(1, 4)
-		RoomSize=random.randint(1, 3)
+		print('Generating room', RoomCenterX, RoomCenterY)
+		RoomSize=random.randint(1, 4)
 		ExitCounter=0
 		ExitUp=False
 		ExitRight=False
@@ -528,33 +593,33 @@ def GenerateRooms(RoomPos):
 		while ExitCounter < NumberofExits:
 			ExitDir=random.randint(1, 4)
 			if ExitDir==1:
-				if RoomCenterY != (Level*7):
+				if RoomCenterY != (Level*8):
 					ExitUp=True
-					BuildTunnelUp(RoomCenterX, RoomCenterY)
+					BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize)
 				else:
 					ExitDown=True
-					BuildTunnelDown(RoomCenterX, RoomCenterY)
+					BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize)
 			if ExitDir==2:
-				if RoomCenterX != (Level*7):
+				if RoomCenterX != (Level*8):
 					ExitRight=True
-					BuildTunnelRight(RoomCenterX, RoomCenterY)
+					BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize)
 				else:
 					ExitLeft=True
-					BuildTunnelLeft(RoomCenterX, RoomCenterY)
+					BuildTunnelLeft(RoomCenterX, RoomCenterY, RoomSize)
 			if ExitDir==3:
-				if RoomCenterY != (Level*-7):
+				if RoomCenterY != (Level*-8):
 					ExitDown=True
-					BuildTunnelDown(RoomCenterX, RoomCenterY)
+					BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize)
 				else:
 					ExitUp=True
-					BuildTunnelUp(RoomCenterX, RoomCenterY)
+					BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize)
 			if ExitDir==4:
-				if RoomCenterX != (Level*-7):
+				if RoomCenterX != (Level*-8):
 					ExitLeft=True
-					BuildTunnelLeft(RoomCenterX, RoomCenterY)
+					BuildTunnelLeft(RoomCenterX, RoomCenterY, RoomSize)
 				else:
 					ExitRight=True
-					BuildTunnelRight(RoomCenterX, RoomCenterY)
+					BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize)
 			ExitCounter=ExitCounter+1
 		FloorMinX=-1*RoomSize
 		FloorMaxX=RoomSize
@@ -639,8 +704,8 @@ def PlaceStairs(Labyrinth):
 	StairsYMax=Level
 	LookingForASpot=True
 	while LookingForASpot:
-		StairsX=random.randint(StairsXMin, StairsXMax)*7
-		StairsY=random.randint(StairsYMin, StairsYMax)*7
+		StairsX=random.randint(StairsXMin, StairsXMax)*8
+		StairsY=random.randint(StairsYMin, StairsYMax)*8
 		Counter=0
 		MaxCounter=len(Labyrinth)
 		while Counter < MaxCounter:
@@ -650,6 +715,7 @@ def PlaceStairs(Labyrinth):
 			if ObjectX==StairsX and ObjectY==StairsY and Object=='Floor':
 				Labyrinth[Counter]='Stairs'
 				LookingForASpot=False
+				break
 			Counter=Counter+3
 	return
 
@@ -696,13 +762,6 @@ def GenerateLabyrinth():
 	#DoOuterWall(Level)
 	GenerateRoomPos(Level)
 	GenerateRooms(RoomPos)
-	NumberofStairs=int(Level/2)
-	if NumberofStairs==0:
-		NumberofStairs=1
-	StairCounter=0
-	while StairCounter < NumberofStairs:
-		PlaceStairs(Labyrinth)
-		StairCounter=StairCounter+1
 	return
 
 # Main loop
@@ -750,5 +809,12 @@ while Level < 11:
 				del Labyrinth[:]
 				GenerateLabyrinth()
 				CheckNextRoom(Labyrinth, RoomPos)
+				NumberofStairs=int(Level/2)
+				if NumberofStairs==0:
+					NumberofStairs=1
+				StairCounter=0
+				while StairCounter < NumberofStairs:
+					PlaceStairs(Labyrinth)
+					StairCounter=StairCounter+1
 
 sys.exit()
