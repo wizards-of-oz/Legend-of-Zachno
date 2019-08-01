@@ -42,6 +42,7 @@ moon_glow = ((235,245,255))
 Walk = pygame.mixer.Sound('Walk.ogg')
 Bump = pygame.mixer.Sound('Bump.ogg')
 StairsUp = pygame.mixer.Sound('Up.ogg')
+Ping = pygame.mixer.Sound('Ping.ogg')
 
 Black=pygame.image.load('Black.png')
 Floor=pygame.image.load('newFloor.PNG')
@@ -798,7 +799,7 @@ while Level < 11:
 					sys.exit()
 		DoScreen(Labyrinth, Level)
 		if NextLevel:
-			LoadingText='Loading...'
+			LoadingText='Cooking next level...'
 			LoadingTextSurf = myfont.render(LoadingText, False, green)
 			screen.blit(LoadingTextSurf,(0,780))
 			pygame.display.flip()
@@ -816,5 +817,6 @@ while Level < 11:
 				while StairCounter < NumberofStairs:
 					PlaceStairs(Labyrinth)
 					StairCounter=StairCounter+1
-
+			Ping.play()
+wait()
 sys.exit()
