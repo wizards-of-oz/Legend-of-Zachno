@@ -65,6 +65,7 @@ VisualList=list()
 PlayerPos=[PlayerX, PlayerY]
 NextLevel=False
 
+# Declaring the map for level zero
 Labyrinth=['Wall','-3','3','Wall','-2','3','Wall','-1','3','Wall','0','3','Wall','1','3','Wall','2','3','Wall','3','3','Wall','-3','2','Floor','-2','2','Floor','-1','2','Floor','0','2',
 'Floor','1','2','Floor','2','2','Wall','3','2','Wall','-3','1','Floor','-2','1','Floor','-1','1','Floor','0','1','Floor','1','1','Floor','2','1','Wall','3','1',
 'Wall','-3','0','Floor','-2','0','Floor','-1','0','Floor','0','0','Floor','1','0','Floor','2','0','Wall','3','0',
@@ -72,6 +73,7 @@ Labyrinth=['Wall','-3','3','Wall','-2','3','Wall','-1','3','Wall','0','3','Wall'
 'Wall','-3','-2','Floor','-2','-2','Floor','-1','-2','Stairs','0','-2','Floor','1','-2','Floor','2','-2','Wall','3','-2',
 'Wall','-3','-3','Wall','-2','-3','Wall','-1','-3','Wall','0','-3','Wall','1','-3','Wall','2','-3','Wall','3','-3']
 
+# A pause function
 def wait():
 	while True:
 		for event in pygame.event.get():
@@ -79,6 +81,7 @@ def wait():
 				if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN:
 	                		return
 
+#Function that collects items from the game array when they are in screen range
 def VisualScan(Labyrinth):
 	del VisualList[:]
 	MaxCounter=len(Labyrinth)
@@ -89,13 +92,14 @@ def VisualScan(Labyrinth):
 		ObjectY=int(Labyrinth[Counter+2])
 		XDiff=ObjectX-PlayerX
 		YDiff=ObjectY-PlayerY
-		if (-7 <= XDiff) and ( XDiff <= 7) and (-4 <= YDiff) and (YDiff <= 4):
+		if (-7 <= XDiff) and ( XDiff <= 7) and (-5 <= YDiff) and (YDiff <= 4):
 			VisualList.append(Object)
 			VisualList.append(XDiff)
 			VisualList.append(YDiff)
 		Counter=Counter+3
 	return(VisualList)
 
+# Translates items in game array to pictures
 def GetScreenItem(ObjectImage):
 	if ObjectImage=='Wall':
 		ScreenItem=Wall
@@ -106,6 +110,7 @@ def GetScreenItem(ObjectImage):
 	
 	return(ScreenItem)
 
+# Display function
 def DoScreen (Labyrinth, Level):
 	VisualScan(Labyrinth)
 	Counter=0
@@ -122,12 +127,16 @@ def DoScreen (Labyrinth, Level):
 		screen.blit(ScreenItem, (ScreenX, ScreenY))
 		Counter=Counter+3
 	LevelText = 'Level: '+str(Level)
+	PlayerPosText = 'Position: '+str(PlayerX)+' '+str(PlayerY)
 	LevelTextSurf = myfont.render(LevelText, False, green)
+	PlayerPosTextSurf = myfont.render(PlayerPosText, False, green)
 	screen.blit(LevelTextSurf,(0,0))
+	screen.blit(PlayerPosTextSurf,(0,20))
 	screen.blit(Player, (560, 320))
 	pygame.display.flip()
 	return
 
+# Player movement
 def DoMovePlayer(PlayerX, PlayerY, Dir):
 	PlayerPos[0]=PlayerX
 	PlayerPos[1]=PlayerY
@@ -152,6 +161,7 @@ def DoMovePlayer(PlayerX, PlayerY, Dir):
 		Walk.play()
 	return(PlayerPos)
 
+# Checks next position in movement and makes game decisions
 def DoPlayerCollisionDetection(NewX, NewY, Labyrinth):
 	global PlayerX
 	global PlayerY
@@ -177,7 +187,9 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth):
 		Counter=Counter+3
 	return(Collision)
 
+# Creates a list of all room positions in current level
 def GenerateRoomPos(Level):
+	print('GenerateRoomPos')
 	del RoomPos[:]
 	XCounterMin=-1*Level
 	XCounterMax=Level
@@ -194,6 +206,7 @@ def GenerateRoomPos(Level):
 		YCounterMin=YCounterMin+1
 	return
 
+# Creates a tunnel in the up directioon from a room
 def BuildTunnelUp(RoomCenterX, RoomCenterY):
 	Counter=1
 	MaxCounter=7
@@ -224,6 +237,7 @@ def BuildTunnelUp(RoomCenterX, RoomCenterY):
 		Counter=Counter+1
 	return
 
+# Creates a tunnel in the right directioon from a room
 def BuildTunnelRight(RoomCenterX, RoomCenterY):
 	Counter=1
 	MaxCounter=7
@@ -254,6 +268,7 @@ def BuildTunnelRight(RoomCenterX, RoomCenterY):
 		Counter=Counter+1
 	return
 
+# Creates a tunnel in the down directioon from a room
 def BuildTunnelDown(RoomCenterX, RoomCenterY):
 	Counter=-1
 	MaxCounter=-7
@@ -284,6 +299,7 @@ def BuildTunnelDown(RoomCenterX, RoomCenterY):
 		Counter=Counter-1
 	return
 
+# Creates a tunnel in the left directioon from a room
 def BuildTunnelLeft(RoomCenterX, RoomCenterY):
 	Counter=-1
 	MaxCounter=-7
@@ -314,33 +330,231 @@ def BuildTunnelLeft(RoomCenterX, RoomCenterY):
 		Counter=Counter-1
 	return
 
-def GenerateRooms(RoomPos):
+# Function for checking wether there is Labyrinth in the CheckX and CheckY position
+def CheckSpace(Labyrinth, CheckX, CheckY):
+	FoundSomething=False
+	Counter=0
+	MaxCounter=len(Labyrinth)
+	while Counter < MaxCounter:
+		LabX=Labyrinth[Counter+1]
+		LabY=Labyrinth[Counter+2]
+		if CheckX==LabX and CheckY==LabY:
+			FoundSomething=True
+		Counter=Counter+3
+	return(FoundSomething)
+
+# Looks wether another room wants to make an opening in the current room
+def CheckRoomUp(Labyrinth, RoomCenterX, RoomCenterY):
+	print('CheckRoomUp ', RoomCenterX, RoomCenterY)
+	OffSetY=1
+	while OffSetY < 8:
+		LabCounter=0
+		LabCounterMax=len(Labyrinth)
+		while LabCounter < LabCounterMax:
+			Object=Labyrinth[LabCounter]
+			ObjectX=Labyrinth[LabCounter+1]
+			ObjectY=Labyrinth[LabCounter+2]
+			if ObjectX==RoomCenterX and ObjectY==(RoomCenterY+OffSetY):
+				if Object=='Wall':
+					print('Wall')
+					OffSetY=OffSetY+1
+					CheckX=RoomCenterX
+					CheckY=RoomCenterY+OffSetY
+					CheckCounter=0
+					CheckCounterMax=len(Labyrinth)
+					FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
+					if FoundSomething:
+						print('Found Something')
+						while CheckCounter < CheckCounterMax:
+							CheckObject=Labyrinth[CheckCounter]
+							CheckObjectX=Labyrinth[CheckCounter+1]
+							CheckObjectY=Labyrinth[CheckCounter+2]
+							if CheckObjectX==CheckX and CheckObjectY==CheckY: 
+								if CheckObject=='Floor':
+									Labyrinth[LabCounter]='Floor'
+									print('Floor')
+							CheckCounter=CheckCounter+3
+					else:
+						return
+					
+			LabCounter=LabCounter+3
+		OffSetY=OffSetY+1
+	return
+
+# Looks wether another room wants to make an opening in the current room
+def CheckRoomRight(Labyrinth, RoomCenterX, RoomCenterY):
+	print('CheckRoomRight', RoomCenterX, RoomCenterY)
+	OffSetX=1
+	while OffSetX < 8:
+		LabCounter=0
+		LabCounterMax=len(Labyrinth)
+		while LabCounter < LabCounterMax:
+			Object=Labyrinth[LabCounter]
+			ObjectX=Labyrinth[LabCounter+1]
+			ObjectY=Labyrinth[LabCounter+2]
+			if ObjectX==(RoomCenterX+OffSetX) and ObjectY==RoomCenterY:
+				if Object=='Wall':
+					print('Wall')
+					OffSetX=OffSetX+1
+					CheckX=RoomCenterX+OffSetX
+					CheckY=RoomCenterY
+					CheckCounter=0
+					CheckCounterMax=len(Labyrinth)
+					FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
+					if FoundSomething:
+						print('Found Something')
+						while CheckCounter < CheckCounterMax:
+							CheckObject=Labyrinth[CheckCounter]
+							CheckObjectX=Labyrinth[CheckCounter+1]
+							CheckObjectY=Labyrinth[CheckCounter+2]
+							if CheckObjectX==CheckX and CheckObjectY==CheckY:
+								if CheckObject=='Floor':
+									Labyrinth[LabCounter]='Floor'
+									print('Floor')
+							CheckCounter=CheckCounter+3
+					else:
+						return
+					
+			LabCounter=LabCounter+3
+		OffSetX=OffSetX+1
+	return
+
+# Looks wether another room wants to make an opening in the current room
+def CheckRoomDown(Labyrinth, RoomCenterX, RoomCenterY):
+	print('CheckRoomDown', RoomCenterX, RoomCenterY)
+	OffSetY=-1
+	while OffSetY > -8:
+		LabCounter=0
+		LabCounterMax=len(Labyrinth)
+		while LabCounter < LabCounterMax:
+			Object=Labyrinth[LabCounter]
+			ObjectX=Labyrinth[LabCounter+1]
+			ObjectY=Labyrinth[LabCounter+2]
+			if ObjectX==RoomCenterX and ObjectY==(RoomCenterY+OffSetY):
+				if Object=='Wall':
+					print('Wall')
+					OffSetY=OffSetY-1
+					CheckX=RoomCenterX
+					CheckY=RoomCenterY+OffSetY
+					CheckCounter=0
+					CheckCounterMax=len(Labyrinth)
+					FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
+					if FoundSomething:
+						print('Found Something')
+						while CheckCounter < CheckCounterMax:
+							CheckObject=Labyrinth[CheckCounter]
+							CheckObjectX=Labyrinth[CheckCounter+1]
+							CheckObjectY=Labyrinth[CheckCounter+2]
+							if CheckObjectX==CheckX and CheckObjectY==CheckY:
+								if CheckObject=='Floor':
+									Labyrinth[LabCounter]='Floor'
+									print('Floor')
+							CheckCounter=CheckCounter+3
+					else:
+						return
+					
+			LabCounter=LabCounter+3
+		OffSetY=OffSetY-1
+	return
+
+# Looks wether another room wants to make an opening in the current room
+def CheckRoomLeft(Labyrinth, RoomCenterX, RoomCenterY):
+	print('CheckRoomLeft', RoomCenterX, RoomCenterY)
+	OffSetX=-1
+	while OffSetX > -8:
+		LabCounter=0
+		LabCounterMax=len(Labyrinth)
+		while LabCounter < LabCounterMax:
+			Object=Labyrinth[LabCounter]
+			ObjectX=Labyrinth[LabCounter+1]
+			ObjectY=Labyrinth[LabCounter+2]
+			if ObjectX==(RoomCenterX+OffSetX) and ObjectY==RoomCenterY:
+				if Object=='Wall':
+					print('Wall')
+					OffSetX=OffSetX-1
+					CheckX=RoomCenterX+OffSetX
+					CheckY=RoomCenterY
+					CheckCounter=0
+					CheckCounterMax=len(Labyrinth)
+					FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
+					if FoundSomething:
+						print('Found Something')
+						while CheckCounter < CheckCounterMax:
+							CheckObject=Labyrinth[CheckCounter]
+							CheckObjectX=Labyrinth[CheckCounter+1]
+							CheckObjectY=Labyrinth[CheckCounter+2]
+							if CheckObjectX==CheckX and CheckObjectY==CheckY:
+								if CheckObject=='Floor':
+									Labyrinth[LabCounter]='Floor'
+									print('Floor')
+							CheckCounter=CheckCounter+3
+					else:
+						return
+					
+			LabCounter=LabCounter+3
+		OffSetX=OffSetX-1
+	return
+
+# Function that checks for surrounding rooms
+def CheckNextRoom(Labyrinth, RoomPos):
+	print('CheckNextRoom')
 	Counter=0
 	MaxCounter=len(RoomPos)
 	while Counter < MaxCounter:
 		RoomCenterX=RoomPos[Counter]
 		RoomCenterY=RoomPos[Counter+1]
-		NumberofExits=random.randint(0, 3)
-		RoomSize=random.randint(0, 2)
+		CheckRoomUp(Labyrinth, RoomCenterX, RoomCenterY)
+		CheckRoomRight(Labyrinth, RoomCenterX, RoomCenterY)
+		CheckRoomDown(Labyrinth, RoomCenterX, RoomCenterY)
+		CheckRoomLeft(Labyrinth, RoomCenterX, RoomCenterY)
+		Counter=Counter+2
+	return(Labyrinth)
+
+# Generates a room per room positions found in the RoomPos array
+def GenerateRooms(RoomPos):
+	print('GenerateRooms')
+	Counter=0
+	MaxCounter=len(RoomPos)
+	while Counter < MaxCounter:
+		RoomCenterX=RoomPos[Counter]
+		RoomCenterY=RoomPos[Counter+1]
+		NumberofExits=random.randint(1, 4)
+		RoomSize=random.randint(1, 3)
 		ExitCounter=0
 		ExitUp=False
 		ExitRight=False
 		ExitDown=False
 		ExitLeft=False
-		while ExitCounter <= NumberofExits:
+		while ExitCounter < NumberofExits:
 			ExitDir=random.randint(1, 4)
-			if ExitDir==0:
-				ExitUp=True
-				BuildTunnelUp(RoomCenterX, RoomCenterY)
 			if ExitDir==1:
-				ExitRight=True
-				BuildTunnelRight(RoomCenterX, RoomCenterY)
+				if RoomCenterY != (Level*7):
+					ExitUp=True
+					BuildTunnelUp(RoomCenterX, RoomCenterY)
+				else:
+					ExitDown=True
+					BuildTunnelDown(RoomCenterX, RoomCenterY)
 			if ExitDir==2:
-				ExitDown=True
-				BuildTunnelDown(RoomCenterX, RoomCenterY)
+				if RoomCenterX != (Level*7):
+					ExitRight=True
+					BuildTunnelRight(RoomCenterX, RoomCenterY)
+				else:
+					ExitLeft=True
+					BuildTunnelLeft(RoomCenterX, RoomCenterY)
 			if ExitDir==3:
-				ExitLeft=True
-				BuildTunnelLeft(RoomCenterX, RoomCenterY)
+				if RoomCenterY != (Level*-7):
+					ExitDown=True
+					BuildTunnelDown(RoomCenterX, RoomCenterY)
+				else:
+					ExitUp=True
+					BuildTunnelUp(RoomCenterX, RoomCenterY)
+			if ExitDir==4:
+				if RoomCenterX != (Level*-7):
+					ExitLeft=True
+					BuildTunnelLeft(RoomCenterX, RoomCenterY)
+				else:
+					ExitRight=True
+					BuildTunnelRight(RoomCenterX, RoomCenterY)
 			ExitCounter=ExitCounter+1
 		FloorMinX=-1*RoomSize
 		FloorMaxX=RoomSize
@@ -367,10 +581,58 @@ def GenerateRooms(RoomPos):
 				FloorMinX=FloorMinX+1
 			FloorMinX=-1*RoomSize
 			FloorMinY=FloorMinY+1
+
+		YTop=RoomCenterY+RoomSize
+		Xleft=RoomCenterX-RoomSize
+		XRight=RoomCenterX+RoomSize
+		while Xleft <= XRight:
+			if Xleft==RoomCenterX and ExitUp:
+				Labyrinth.append('Floor')
+			else:
+				Labyrinth.append('Wall')
+			Labyrinth.append(Xleft)
+			Labyrinth.append(YTop)
+			Xleft=Xleft+1
+		YTop=RoomCenterY+RoomSize
+		YBottom=RoomCenterY-RoomSize
+		XRight=RoomCenterX+RoomSize
+		while YTop >= YBottom:
+			if YTop==RoomCenterY and ExitRight:
+				Labyrinth.append('Floor')
+			else:
+				Labyrinth.append('Wall')
+			Labyrinth.append(XRight)
+			Labyrinth.append(YTop)
+			YTop=YTop-1
+		YBottom=RoomCenterY-RoomSize
+		Xleft=RoomCenterX-RoomSize
+		XRight=RoomCenterX+RoomSize
+		while XRight >= Xleft:
+			if XRight==RoomCenterX and ExitDown:
+				Labyrinth.append('Floor')
+			else:
+				Labyrinth.append('Wall')
+			Labyrinth.append(XRight)
+			Labyrinth.append(YBottom)
+			XRight=XRight-1
+		YBottom=RoomCenterY-RoomSize
+		Xleft=RoomCenterX-RoomSize
+		YTop=RoomCenterY+RoomSize
+		while YBottom <= YTop:
+			if YBottom==RoomCenterY and ExitLeft:
+				Labyrinth.append('Floor')
+			else:
+				Labyrinth.append('Wall')
+			Labyrinth.append(Xleft)
+			Labyrinth.append(YBottom)
+			YBottom=YBottom+1
+
 		Counter=Counter+2
 	return
 
+# Sticks stairs to the next level in a random room
 def PlaceStairs(Labyrinth):
+	print('PlaceStairs')
 	StairsXMin=-1*Level
 	StairsXMax=Level
 	StairsYMin=-1*Level
@@ -391,7 +653,9 @@ def PlaceStairs(Labyrinth):
 			Counter=Counter+3
 	return
 
+# I don't use this function anymore, my code has evolved!
 def DoOuterWall(Level):
+	print('DoOuterWall')
 	YTop=(Level*7)+7
 	Xleft=(Level*-7)-7
 	XRight=(Level*7)+7
@@ -426,15 +690,24 @@ def DoOuterWall(Level):
 		YBottom=YBottom+1
 	return
 
+# Container Function for all the functions that generate a new level
 def GenerateLabyrinth():
-	DoOuterWall(Level)
+	print('GenerateLabyrinth')
+	#DoOuterWall(Level)
 	GenerateRoomPos(Level)
 	GenerateRooms(RoomPos)
-	PlaceStairs(Labyrinth)
+	NumberofStairs=int(Level/2)
+	if NumberofStairs==0:
+		NumberofStairs=1
+	StairCounter=0
+	while StairCounter < NumberofStairs:
+		PlaceStairs(Labyrinth)
+		StairCounter=StairCounter+1
 	return
 
+# Main loop
 Level=0
-while Level < 21:
+while Level < 11:
 	DoScreen(Labyrinth, Level)
 	Running=True
 	PlayerX=0
@@ -466,11 +739,16 @@ while Level < 21:
 					sys.exit()
 		DoScreen(Labyrinth, Level)
 		if NextLevel:
+			LoadingText='Loading...'
+			LoadingTextSurf = myfont.render(LoadingText, False, green)
+			screen.blit(LoadingTextSurf,(0,780))
+			pygame.display.flip()
 			Level=Level+1
 			NextLevel=False
 			Running=False
-			del Labyrinth[:]
-			GenerateLabyrinth()
-
+			if Level < 11:
+				del Labyrinth[:]
+				GenerateLabyrinth()
+				CheckNextRoom(Labyrinth, RoomPos)
 
 sys.exit()
