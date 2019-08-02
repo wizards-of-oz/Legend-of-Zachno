@@ -55,6 +55,7 @@ pygame.display.set_caption('Legend of Zachno')
 Width=int(1200)
 Heigth=int(800)
 screen = pygame.display.set_mode((Width, Heigth))
+Message=''
 
 PlayerX=0
 PlayerY=0
@@ -65,6 +66,11 @@ Room=list()
 VisualList=list()
 PlayerPos=[PlayerX, PlayerY]
 NextLevel=False
+global StairsX
+global StairsY
+
+StairsX=0
+StairsY=-2
 
 # Declaring the map for level zero
 Labyrinth=['Wall','-3','3','Wall','-2','3','Wall','-1','3','Wall','0','3','Wall','1','3','Wall','2','3','Wall','3','3','Wall','-3','2','Floor','-2','2','Floor','-1','2','Floor','0','2',
@@ -127,12 +133,17 @@ def DoScreen (Labyrinth, Level):
 		ScreenY=(YConvert+4)*80
 		screen.blit(ScreenItem, (ScreenX, ScreenY))
 		Counter=Counter+3
+	SDiffX=StairsX-PlayerX
+	SDiffY=StairsY-PlayerY
 	LevelText = 'Level: '+str(Level)
 	PlayerPosText = 'Position: '+str(PlayerX)+' '+str(PlayerY)
-	LevelTextSurf = myfont.render(LevelText, False, green)
+	StairsPosText = 'Stairs: '+str(SDiffX)+' '+str(SDiffY)
+	LevelTextSurf = myfont.render(LevelText, 1, green)
 	PlayerPosTextSurf = myfont.render(PlayerPosText, False, green)
+	StairsPosTextSurf = myfont.render(StairsPosText, 1, green)
 	screen.blit(LevelTextSurf,(0,0))
 	screen.blit(PlayerPosTextSurf,(0,20))
+	#screen.blit(StairsPosTextSurf,(0,20))
 	screen.blit(Player, (560, 320))
 	pygame.display.flip()
 	return
@@ -198,8 +209,8 @@ def GenerateRoomPos(Level):
 	YCounterMax=Level
 	while YCounterMin <= YCounterMax:
 		while XCounterMin <= XCounterMax:
-			RoomX=XCounterMin*8
-			RoomY=YCounterMin*8
+			RoomX=XCounterMin*9
+			RoomY=YCounterMin*9
 			RoomPos.append(RoomX)
 			RoomPos.append(RoomY)
 			XCounterMin=XCounterMin+1
@@ -211,7 +222,7 @@ def GenerateRoomPos(Level):
 def BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize):
 	print('Building tunnel up')
 	Counter=RoomSize
-	MaxCounter=8
+	MaxCounter=9
 	while Counter < MaxCounter:
 		ObjectX=RoomCenterX
 		ObjectY=RoomCenterY+Counter
@@ -225,7 +236,7 @@ def BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize):
 			break
 		Counter=Counter+1
 	Counter=RoomSize
-	MaxCounter=8
+	MaxCounter=9
 	while Counter < MaxCounter:
 		ObjectX=RoomCenterX-1
 		ObjectY=RoomCenterY+Counter
@@ -239,7 +250,7 @@ def BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize):
 			break
 		Counter=Counter+1
 	Counter=RoomSize
-	MaxCounter=8
+	MaxCounter=9
 	while Counter < MaxCounter:
 		ObjectX=RoomCenterX+1
 		ObjectY=RoomCenterY+Counter
@@ -258,7 +269,7 @@ def BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize):
 def BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize):
 	print('Building tunnel right')
 	Counter=RoomSize
-	MaxCounter=8
+	MaxCounter=9
 	while Counter < MaxCounter:
 		ObjectX=RoomCenterX+Counter
 		ObjectY=RoomCenterY
@@ -272,7 +283,7 @@ def BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize):
 			break
 		Counter=Counter+1
 	Counter=RoomSize
-	MaxCounter=8
+	MaxCounter=9
 	while Counter < MaxCounter:
 		ObjectX=RoomCenterX+Counter
 		ObjectY=RoomCenterY+1
@@ -286,7 +297,7 @@ def BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize):
 			break
 		Counter=Counter+1
 	Counter=RoomSize
-	MaxCounter=8
+	MaxCounter=9
 	while Counter < MaxCounter:
 		ObjectX=RoomCenterX+Counter
 		ObjectY=RoomCenterY-1
@@ -305,7 +316,7 @@ def BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize):
 def BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize):
 	print('Building tunnel down')
 	Counter=-1*RoomSize
-	MaxCounter=-8
+	MaxCounter=-9
 	while Counter > MaxCounter:
 		ObjectX=RoomCenterX
 		ObjectY=RoomCenterY+Counter
@@ -319,7 +330,7 @@ def BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize):
 			break
 		Counter=Counter-1
 	Counter=-1*RoomSize
-	MaxCounter=-8
+	MaxCounter=-9
 	while Counter > MaxCounter:
 		ObjectX=RoomCenterX-1
 		ObjectY=RoomCenterY+Counter
@@ -333,7 +344,7 @@ def BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize):
 			break
 		Counter=Counter-1
 	Counter=-1*RoomSize
-	MaxCounter=-8
+	MaxCounter=-9
 	while Counter > MaxCounter:
 		ObjectX=RoomCenterX+1
 		ObjectY=RoomCenterY+Counter
@@ -352,7 +363,7 @@ def BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize):
 def BuildTunnelLeft(RoomCenterX, RoomCenterY, RoomSize):
 	print('Building tunnel left')
 	Counter=-1*RoomSize
-	MaxCounter=-8
+	MaxCounter=-9
 	while Counter > MaxCounter:
 		ObjectX=RoomCenterX+Counter
 		ObjectY=RoomCenterY
@@ -366,7 +377,7 @@ def BuildTunnelLeft(RoomCenterX, RoomCenterY, RoomSize):
 			break
 		Counter=Counter-1
 	Counter=-1*RoomSize
-	MaxCounter=-8
+	MaxCounter=-9
 	while Counter > MaxCounter:
 		ObjectX=RoomCenterX+Counter
 		ObjectY=RoomCenterY-1
@@ -380,7 +391,7 @@ def BuildTunnelLeft(RoomCenterX, RoomCenterY, RoomSize):
 			break
 		Counter=Counter-1
 	Counter=-1*RoomSize
-	MaxCounter=-8
+	MaxCounter=-9
 	while Counter > MaxCounter:
 		ObjectX=RoomCenterX+Counter
 		ObjectY=RoomCenterY+1
@@ -394,6 +405,22 @@ def BuildTunnelLeft(RoomCenterX, RoomCenterY, RoomSize):
 			break
 		Counter=Counter-1
 	return
+
+def CheckFloor(Labyrinth, CheckX, CheckY):
+	FloorFound=False
+	Counter=0
+	MaxCounter=len(Labyrinth)
+	while Counter < MaxCounter:
+		Object=Labyrinth[Counter]
+		ObjectX=Labyrinth[Counter+1]
+		ObjectY=Labyrinth[Counter+2]
+		if Object=='Floor':
+			FloorFound=True
+		if Object=='Wall':
+			FloorFound=False
+			break
+	Counter=Counter+3
+	return(FloorFound)
 
 # Function for checking wether there is Labyrinth in the CheckX and CheckY position
 def CheckSpace(Labyrinth, CheckX, CheckY):
@@ -412,7 +439,7 @@ def CheckSpace(Labyrinth, CheckX, CheckY):
 def CheckRoomUp(Labyrinth, RoomCenterX, RoomCenterY):
 	print('CheckRoomUp ', RoomCenterX, RoomCenterY)
 	OffSetY=1
-	while OffSetY < 8:
+	while OffSetY < 9:
 		LabCounter=0
 		LabCounterMax=len(Labyrinth)
 		while LabCounter < LabCounterMax:
@@ -450,7 +477,7 @@ def CheckRoomUp(Labyrinth, RoomCenterX, RoomCenterY):
 def CheckRoomRight(Labyrinth, RoomCenterX, RoomCenterY):
 	print('CheckRoomRight', RoomCenterX, RoomCenterY)
 	OffSetX=1
-	while OffSetX < 8:
+	while OffSetX < 9:
 		LabCounter=0
 		LabCounterMax=len(Labyrinth)
 		while LabCounter < LabCounterMax:
@@ -488,7 +515,7 @@ def CheckRoomRight(Labyrinth, RoomCenterX, RoomCenterY):
 def CheckRoomDown(Labyrinth, RoomCenterX, RoomCenterY):
 	print('CheckRoomDown', RoomCenterX, RoomCenterY)
 	OffSetY=-1
-	while OffSetY > -8:
+	while OffSetY > -9:
 		LabCounter=0
 		LabCounterMax=len(Labyrinth)
 		while LabCounter < LabCounterMax:
@@ -526,7 +553,7 @@ def CheckRoomDown(Labyrinth, RoomCenterX, RoomCenterY):
 def CheckRoomLeft(Labyrinth, RoomCenterX, RoomCenterY):
 	print('CheckRoomLeft', RoomCenterX, RoomCenterY)
 	OffSetX=-1
-	while OffSetX > -8:
+	while OffSetX > -9:
 		LabCounter=0
 		LabCounterMax=len(Labyrinth)
 		while LabCounter < LabCounterMax:
@@ -594,34 +621,45 @@ def GenerateRooms(RoomPos):
 		while ExitCounter < NumberofExits:
 			ExitDir=random.randint(1, 4)
 			if ExitDir==1:
-				if RoomCenterY != (Level*8):
-					ExitUp=True
-					BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize)
+				if RoomCenterY != (Level*9):
+					if ExitUp==False:
+						ExitUp=True
+						BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize)
+						ExitCounter=ExitCounter+1
 				else:
 					ExitDown=True
 					BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize)
+					ExitCounter=ExitCounter+1
 			if ExitDir==2:
-				if RoomCenterX != (Level*8):
-					ExitRight=True
-					BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize)
+				if RoomCenterX != (Level*9):
+					if ExitRight==False:
+						ExitRight=True
+						BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize)
+						ExitCounter=ExitCounter+1
 				else:
 					ExitLeft=True
 					BuildTunnelLeft(RoomCenterX, RoomCenterY, RoomSize)
+					ExitCounter=ExitCounter+1
 			if ExitDir==3:
-				if RoomCenterY != (Level*-8):
-					ExitDown=True
-					BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize)
+				if RoomCenterY != (Level*-9):
+					if ExitDown==False:
+						ExitDown=True
+						BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize)
+						ExitCounter=ExitCounter+1
 				else:
 					ExitUp=True
 					BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize)
+					ExitCounter=ExitCounter+1
 			if ExitDir==4:
-				if RoomCenterX != (Level*-8):
-					ExitLeft=True
-					BuildTunnelLeft(RoomCenterX, RoomCenterY, RoomSize)
+				if RoomCenterX != (Level*-9):
+					if ExitLeft==False:
+						ExitLeft=True
+						BuildTunnelLeft(RoomCenterX, RoomCenterY, RoomSize)
+						ExitCounter=ExitCounter+1
 				else:
 					ExitRight=True
 					BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize)
-			ExitCounter=ExitCounter+1
+					ExitCounter=ExitCounter+1
 		FloorMinX=-1*RoomSize
 		FloorMaxX=RoomSize
 		FloorMinY=-1*RoomSize
@@ -699,25 +737,42 @@ def GenerateRooms(RoomPos):
 # Sticks stairs to the next level in a random room
 def PlaceStairs(Labyrinth):
 	print('PlaceStairs')
-	StairsXMin=-1*Level
-	StairsXMax=Level
-	StairsYMin=-1*Level
-	StairsYMax=Level
+	global StairsX
+	global StairsY
+	StairsXMin=-1*Level*9
+	StairsXMax=Level*9
+	StairsYMin=-1*Level*9
+	StairsYMax=Level*9
 	LookingForASpot=True
 	while LookingForASpot:
-		StairsX=random.randint(StairsXMin, StairsXMax)*8
-		StairsY=random.randint(StairsYMin, StairsYMax)*8
+		StairsX=random.randint(StairsXMin, StairsXMax)
+		StairsY=random.randint(StairsYMin, StairsYMax)
+		FoundASpot=False
 		Counter=0
 		MaxCounter=len(Labyrinth)
 		while Counter < MaxCounter:
 			Object=Labyrinth[Counter]
 			ObjectX=Labyrinth[Counter+1]
 			ObjectY=Labyrinth[Counter+2]
-			if ObjectX==StairsX and ObjectY==StairsY and Object=='Floor':
-				Labyrinth[Counter]='Stairs'
-				LookingForASpot=False
-				break
+			if ObjectX==StairsX and ObjectY==StairsY:
+				if Object=='Wall':
+					FoundASpot=False
+					break
+				if Object=='Floor':
+					FoundASpot=True
 			Counter=Counter+3
+		if FoundASpot:
+			LookingForASpot=False
+			Counter=0
+			MaxCounter=len(Labyrinth)
+			while Counter < MaxCounter:
+				Object=Labyrinth[Counter]
+				ObjectX=Labyrinth[Counter+1]
+				ObjectY=Labyrinth[Counter+2]
+				if ObjectX==StairsX and ObjectY==StairsY:
+					Labyrinth[Counter]='Stairs'
+					print('Placed stairs')
+				Counter=Counter+3
 	return
 
 # I don't use this function anymore, my code has evolved!
@@ -799,24 +854,18 @@ while Level < 11:
 					sys.exit()
 		DoScreen(Labyrinth, Level)
 		if NextLevel:
-			LoadingText='Cooking next level...'
+			Level=Level+1
+			LoadingText='Cooking level '+str(Level)+'...'
 			LoadingTextSurf = myfont.render(LoadingText, False, green)
 			screen.blit(LoadingTextSurf,(0,780))
 			pygame.display.flip()
-			Level=Level+1
 			NextLevel=False
 			Running=False
 			if Level < 11:
 				del Labyrinth[:]
 				GenerateLabyrinth()
 				CheckNextRoom(Labyrinth, RoomPos)
-				NumberofStairs=int(Level/2)
-				if NumberofStairs==0:
-					NumberofStairs=1
-				StairCounter=0
-				while StairCounter < NumberofStairs:
-					PlaceStairs(Labyrinth)
-					StairCounter=StairCounter+1
+				PlaceStairs(Labyrinth)
 			Ping.play()
 wait()
 sys.exit()
