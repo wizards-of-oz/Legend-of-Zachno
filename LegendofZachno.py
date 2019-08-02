@@ -45,10 +45,12 @@ StairsUp = pygame.mixer.Sound('Up.ogg')
 Ping = pygame.mixer.Sound('Ping.ogg')
 
 Black=pygame.image.load('Black.png')
+Loading=pygame.image.load('Loading.png')
 Floor=pygame.image.load('newFloor.PNG')
 Stairs=pygame.image.load('newStairs.PNG')
 Wall=pygame.image.load('newWall.PNG')
 Player=pygame.image.load('newMonster.PNG')
+TextBar=pygame.image.load('TextBar.png')
 
 #pygame.display.set_icon()
 pygame.display.set_caption('Legend of Zachno')
@@ -69,6 +71,7 @@ NextLevel=False
 global StairsX
 global StairsY
 
+LevelMax=15
 StairsX=0
 StairsY=-2
 
@@ -79,6 +82,11 @@ Labyrinth=['Wall','-3','3','Wall','-2','3','Wall','-1','3','Wall','0','3','Wall'
 'Wall','-3','-1','Floor','-2','-1','Floor','-1','-1','Floor','0','-1','Floor','1','-1','Floor','2','-1','Wall','3','-1',
 'Wall','-3','-2','Floor','-2','-2','Floor','-1','-2','Stairs','0','-2','Floor','1','-2','Floor','2','-2','Wall','3','-2',
 'Wall','-3','-3','Wall','-2','-3','Wall','-1','-3','Wall','0','-3','Wall','1','-3','Wall','2','-3','Wall','3','-3']
+
+Load=open('Zachno.sav', 'r')
+LoadList=list(Load)
+Load.close()
+
 
 # A pause function
 def wait():
@@ -201,14 +209,21 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth):
 
 # Creates a list of all room positions in current level
 def GenerateRoomPos(Level):
-	print('GenerateRoomPos')
+	global MaxRooms
+	LoadingText='Generating room positions...'
+	LoadingTextSurf = myfont.render(LoadingText, False, green)
+	screen.blit(TextBar,(0,780))
+	screen.blit(LoadingTextSurf,(0,780))
+	pygame.display.flip()
 	del RoomPos[:]
 	XCounterMin=-1*Level
 	XCounterMax=Level
 	YCounterMin=-1*Level
 	YCounterMax=Level
+	MaxRooms=0
 	while YCounterMin <= YCounterMax:
 		while XCounterMin <= XCounterMax:
+			MaxRooms=MaxRooms+2
 			RoomX=XCounterMin*9
 			RoomY=YCounterMin*9
 			RoomPos.append(RoomX)
@@ -216,11 +231,16 @@ def GenerateRoomPos(Level):
 			XCounterMin=XCounterMin+1
 		XCounterMin=-1*Level
 		YCounterMin=YCounterMin+1
-	return
+	return(MaxRooms)
 
 # Creates a tunnel in the up directioon from a room
 def BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize):
-	print('Building tunnel up')
+	LoadingText='Building tunnel up room...'
+	LoadingTextSurf = myfont.render(LoadingText, False, green)
+	screen.blit(TextBar,(0,780))
+	screen.blit(LoadingTextSurf,(0,780))
+	pygame.display.flip()
+
 	Counter=RoomSize
 	MaxCounter=9
 	while Counter < MaxCounter:
@@ -267,7 +287,13 @@ def BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize):
 
 # Creates a tunnel in the right directioon from a room
 def BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize):
-	print('Building tunnel right')
+	LoadingText='Building tunnel up right...'
+	LoadingTextSurf = myfont.render(LoadingText, False, green)
+	screen.blit(TextBar,(0,780))
+	screen.blit(LoadingTextSurf,(0,780))
+	pygame.display.flip()
+
+
 	Counter=RoomSize
 	MaxCounter=9
 	while Counter < MaxCounter:
@@ -314,7 +340,13 @@ def BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize):
 
 # Creates a tunnel in the down directioon from a room
 def BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize):
-	print('Building tunnel down')
+	LoadingText='Building tunnel up down...'
+	LoadingTextSurf = myfont.render(LoadingText, False, green)
+	screen.blit(TextBar,(0,780))
+	screen.blit(LoadingTextSurf,(0,780))
+	pygame.display.flip()
+
+
 	Counter=-1*RoomSize
 	MaxCounter=-9
 	while Counter > MaxCounter:
@@ -361,7 +393,12 @@ def BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize):
 
 # Creates a tunnel in the left directioon from a room
 def BuildTunnelLeft(RoomCenterX, RoomCenterY, RoomSize):
-	print('Building tunnel left')
+	LoadingText='Building tunnel up left...'
+	LoadingTextSurf = myfont.render(LoadingText, False, green)
+	screen.blit(TextBar,(0,780))
+	screen.blit(LoadingTextSurf,(0,780))
+	pygame.display.flip()
+
 	Counter=-1*RoomSize
 	MaxCounter=-9
 	while Counter > MaxCounter:
@@ -437,7 +474,12 @@ def CheckSpace(Labyrinth, CheckX, CheckY):
 
 # Looks wether another room wants to make an opening in the current room
 def CheckRoomUp(Labyrinth, RoomCenterX, RoomCenterY):
-	print('CheckRoomUp ', RoomCenterX, RoomCenterY)
+	LoadingText='Checking for room up '+str(RoomCenterX)+str(RoomCenterY)+'...'
+	LoadingTextSurf = myfont.render(LoadingText, False, green)
+	screen.blit(TextBar,(0,780))
+	screen.blit(LoadingTextSurf,(0,780))
+	pygame.display.flip()
+
 	OffSetY=1
 	while OffSetY < 9:
 		LabCounter=0
@@ -448,7 +490,6 @@ def CheckRoomUp(Labyrinth, RoomCenterX, RoomCenterY):
 			ObjectY=Labyrinth[LabCounter+2]
 			if ObjectX==RoomCenterX and ObjectY==(RoomCenterY+OffSetY):
 				if Object=='Wall':
-					print('Wall')
 					OffSetY=OffSetY+1
 					CheckX=RoomCenterX
 					CheckY=RoomCenterY+OffSetY
@@ -456,7 +497,6 @@ def CheckRoomUp(Labyrinth, RoomCenterX, RoomCenterY):
 					CheckCounterMax=len(Labyrinth)
 					FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
 					if FoundSomething:
-						print('Found Something')
 						while CheckCounter < CheckCounterMax:
 							CheckObject=Labyrinth[CheckCounter]
 							CheckObjectX=Labyrinth[CheckCounter+1]
@@ -464,7 +504,6 @@ def CheckRoomUp(Labyrinth, RoomCenterX, RoomCenterY):
 							if CheckObjectX==CheckX and CheckObjectY==CheckY: 
 								if CheckObject=='Floor':
 									Labyrinth[LabCounter]='Floor'
-									print('Floor')
 							CheckCounter=CheckCounter+3
 					else:
 						return
@@ -475,7 +514,12 @@ def CheckRoomUp(Labyrinth, RoomCenterX, RoomCenterY):
 
 # Looks wether another room wants to make an opening in the current room
 def CheckRoomRight(Labyrinth, RoomCenterX, RoomCenterY):
-	print('CheckRoomRight', RoomCenterX, RoomCenterY)
+	LoadingText='Checking for room to the right '+str(RoomCenterX)+str(RoomCenterY)+'...'
+	LoadingTextSurf = myfont.render(LoadingText, False, green)
+	screen.blit(TextBar,(0,780))
+	screen.blit(LoadingTextSurf,(0,780))
+	pygame.display.flip()
+
 	OffSetX=1
 	while OffSetX < 9:
 		LabCounter=0
@@ -486,7 +530,6 @@ def CheckRoomRight(Labyrinth, RoomCenterX, RoomCenterY):
 			ObjectY=Labyrinth[LabCounter+2]
 			if ObjectX==(RoomCenterX+OffSetX) and ObjectY==RoomCenterY:
 				if Object=='Wall':
-					print('Wall')
 					OffSetX=OffSetX+1
 					CheckX=RoomCenterX+OffSetX
 					CheckY=RoomCenterY
@@ -494,7 +537,6 @@ def CheckRoomRight(Labyrinth, RoomCenterX, RoomCenterY):
 					CheckCounterMax=len(Labyrinth)
 					FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
 					if FoundSomething:
-						print('Found Something')
 						while CheckCounter < CheckCounterMax:
 							CheckObject=Labyrinth[CheckCounter]
 							CheckObjectX=Labyrinth[CheckCounter+1]
@@ -502,7 +544,6 @@ def CheckRoomRight(Labyrinth, RoomCenterX, RoomCenterY):
 							if CheckObjectX==CheckX and CheckObjectY==CheckY:
 								if CheckObject=='Floor':
 									Labyrinth[LabCounter]='Floor'
-									print('Floor')
 							CheckCounter=CheckCounter+3
 					else:
 						return
@@ -513,7 +554,12 @@ def CheckRoomRight(Labyrinth, RoomCenterX, RoomCenterY):
 
 # Looks wether another room wants to make an opening in the current room
 def CheckRoomDown(Labyrinth, RoomCenterX, RoomCenterY):
-	print('CheckRoomDown', RoomCenterX, RoomCenterY)
+	LoadingText='Checking for room down '+str(RoomCenterX)+str(RoomCenterY)+'...'
+	LoadingTextSurf = myfont.render(LoadingText, False, green)
+	screen.blit(TextBar,(0,780))
+	screen.blit(LoadingTextSurf,(0,780))
+	pygame.display.flip()
+
 	OffSetY=-1
 	while OffSetY > -9:
 		LabCounter=0
@@ -524,7 +570,6 @@ def CheckRoomDown(Labyrinth, RoomCenterX, RoomCenterY):
 			ObjectY=Labyrinth[LabCounter+2]
 			if ObjectX==RoomCenterX and ObjectY==(RoomCenterY+OffSetY):
 				if Object=='Wall':
-					print('Wall')
 					OffSetY=OffSetY-1
 					CheckX=RoomCenterX
 					CheckY=RoomCenterY+OffSetY
@@ -532,7 +577,6 @@ def CheckRoomDown(Labyrinth, RoomCenterX, RoomCenterY):
 					CheckCounterMax=len(Labyrinth)
 					FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
 					if FoundSomething:
-						print('Found Something')
 						while CheckCounter < CheckCounterMax:
 							CheckObject=Labyrinth[CheckCounter]
 							CheckObjectX=Labyrinth[CheckCounter+1]
@@ -540,7 +584,6 @@ def CheckRoomDown(Labyrinth, RoomCenterX, RoomCenterY):
 							if CheckObjectX==CheckX and CheckObjectY==CheckY:
 								if CheckObject=='Floor':
 									Labyrinth[LabCounter]='Floor'
-									print('Floor')
 							CheckCounter=CheckCounter+3
 					else:
 						return
@@ -551,7 +594,12 @@ def CheckRoomDown(Labyrinth, RoomCenterX, RoomCenterY):
 
 # Looks wether another room wants to make an opening in the current room
 def CheckRoomLeft(Labyrinth, RoomCenterX, RoomCenterY):
-	print('CheckRoomLeft', RoomCenterX, RoomCenterY)
+	LoadingText='Checking for room to the left '+str(RoomCenterX)+str(RoomCenterY)+'...'
+	LoadingTextSurf = myfont.render(LoadingText, False, green)
+	screen.blit(TextBar,(0,780))
+	screen.blit(LoadingTextSurf,(0,780))
+	pygame.display.flip()
+
 	OffSetX=-1
 	while OffSetX > -9:
 		LabCounter=0
@@ -562,7 +610,6 @@ def CheckRoomLeft(Labyrinth, RoomCenterX, RoomCenterY):
 			ObjectY=Labyrinth[LabCounter+2]
 			if ObjectX==(RoomCenterX+OffSetX) and ObjectY==RoomCenterY:
 				if Object=='Wall':
-					print('Wall')
 					OffSetX=OffSetX-1
 					CheckX=RoomCenterX+OffSetX
 					CheckY=RoomCenterY
@@ -570,7 +617,6 @@ def CheckRoomLeft(Labyrinth, RoomCenterX, RoomCenterY):
 					CheckCounterMax=len(Labyrinth)
 					FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
 					if FoundSomething:
-						print('Found Something')
 						while CheckCounter < CheckCounterMax:
 							CheckObject=Labyrinth[CheckCounter]
 							CheckObjectX=Labyrinth[CheckCounter+1]
@@ -578,7 +624,6 @@ def CheckRoomLeft(Labyrinth, RoomCenterX, RoomCenterY):
 							if CheckObjectX==CheckX and CheckObjectY==CheckY:
 								if CheckObject=='Floor':
 									Labyrinth[LabCounter]='Floor'
-									print('Floor')
 							CheckCounter=CheckCounter+3
 					else:
 						return
@@ -589,10 +634,20 @@ def CheckRoomLeft(Labyrinth, RoomCenterX, RoomCenterY):
 
 # Function that checks for surrounding rooms
 def CheckNextRoom(Labyrinth, RoomPos):
-	print('CheckNextRoom')
+	global Rooms
+	global MaxRooms
 	Counter=0
 	MaxCounter=len(RoomPos)
 	while Counter < MaxCounter:
+		Rooms=Rooms+1
+		Percentage=GetPercentage(Rooms, MaxRooms)
+		PercentageText=str(Percentage)+'%'
+		PercentageTextSurf = myfont.render(PercentageText, False, green)
+		screen.blit(TextBar,(0,780))
+		screen.blit(TextBar,(0,0))
+		screen.blit(PercentageTextSurf,(0,0))
+		pygame.display.flip()
+
 		RoomCenterX=RoomPos[Counter]
 		RoomCenterY=RoomPos[Counter+1]
 		CheckRoomUp(Labyrinth, RoomCenterX, RoomCenterY)
@@ -602,16 +657,31 @@ def CheckNextRoom(Labyrinth, RoomPos):
 		Counter=Counter+2
 	return(Labyrinth)
 
+def GetPercentage(Rooms, MaxRooms):
+	Percentage=int((Rooms/MaxRooms)*100)
+	return(Percentage)
+
 # Generates a room per room positions found in the RoomPos array
 def GenerateRooms(RoomPos):
-	print('GenerateRooms')
+	global Rooms
+	global MaxRooms
 	Counter=0
 	MaxCounter=len(RoomPos)
 	while Counter < MaxCounter:
+		Rooms=Rooms+1
 		RoomCenterX=RoomPos[Counter]
 		RoomCenterY=RoomPos[Counter+1]
+		LoadingText='Generating room '+str(RoomCenterX)+str(RoomCenterY)+'...'
+		Percentage=GetPercentage(Rooms, MaxRooms)
+		PercentageText=str(Percentage)+'%'
+		PercentageTextSurf = myfont.render(PercentageText, False, green)
+		LoadingTextSurf = myfont.render(LoadingText, False, green)
+		screen.blit(TextBar,(0,780))
+		screen.blit(TextBar,(0,0))
+		screen.blit(LoadingTextSurf,(0,780))
+		screen.blit(PercentageTextSurf,(0,0))
+		pygame.display.flip()
 		NumberofExits=random.randint(1, 4)
-		print('Generating room', RoomCenterX, RoomCenterY)
 		RoomSize=random.randint(1, 4)
 		ExitCounter=0
 		ExitUp=False
@@ -732,11 +802,16 @@ def GenerateRooms(RoomPos):
 			YBottom=YBottom+1
 
 		Counter=Counter+2
-	return
+	return(Rooms)
 
 # Sticks stairs to the next level in a random room
 def PlaceStairs(Labyrinth):
-	print('PlaceStairs')
+	LoadingText='Placing stairs to next level...'
+	LoadingTextSurf = myfont.render(LoadingText, False, green)
+	screen.blit(TextBar,(0,780))
+	screen.blit(LoadingTextSurf,(0,780))
+	pygame.display.flip()
+
 	global StairsX
 	global StairsY
 	StairsXMin=-1*Level*9
@@ -771,13 +846,11 @@ def PlaceStairs(Labyrinth):
 				ObjectY=Labyrinth[Counter+2]
 				if ObjectX==StairsX and ObjectY==StairsY:
 					Labyrinth[Counter]='Stairs'
-					print('Placed stairs')
 				Counter=Counter+3
 	return
 
 # I don't use this function anymore, my code has evolved!
 def DoOuterWall(Level):
-	print('DoOuterWall')
 	YTop=(Level*7)+7
 	Xleft=(Level*-7)-7
 	XRight=(Level*7)+7
@@ -814,15 +887,30 @@ def DoOuterWall(Level):
 
 # Container Function for all the functions that generate a new level
 def GenerateLabyrinth():
-	print('GenerateLabyrinth')
+	LoadingText='Cooking level '+str(Level)+'...'
+	LoadingTextSurf = myfont.render(LoadingText, False, green)
+	screen.blit(TextBar,(0,780))
+	screen.blit(LoadingTextSurf,(0,780))
+	pygame.display.flip()
 	#DoOuterWall(Level)
 	GenerateRoomPos(Level)
 	GenerateRooms(RoomPos)
 	return
 
 # Main loop
-Level=0
-while Level < 11:
+Level=int(LoadList[0])
+if Level > 0:
+	MaxRooms=0
+	Rooms=0
+	screen.blit(Loading,(0,0))
+	pygame.display.flip()
+	del Labyrinth[:]
+	GenerateLabyrinth()
+	CheckNextRoom(Labyrinth, RoomPos)
+	PlaceStairs(Labyrinth)
+	Ping.play()
+
+while Level < LevelMax:
 	DoScreen(Labyrinth, Level)
 	Running=True
 	PlayerX=0
@@ -855,17 +943,42 @@ while Level < 11:
 		DoScreen(Labyrinth, Level)
 		if NextLevel:
 			Level=Level+1
+			LoadList[0]=Level
+			os.system('rm Zachno.sav')
+			Save=open('Zachno.sav', 'a')
+			Line=str(LoadList[0]).strip()
+			SLine=Line+'\n'
+			Save.write(SLine)
+			Save.close()
+			LoadingText='Continue to next level? [j/n]...'
+			LoadingTextSurf = myfont.render(LoadingText, False, green)
+			screen.blit(TextBar,(0,390))
+			screen.blit(LoadingTextSurf,(0,390))
+			pygame.display.flip()
+			MakingAChoice=True
+			while MakingAChoice:
+				for event in pygame.event.get():
+					if event.type == pygame.KEYDOWN:
+						if event.key == pygame.K_j:
+							MakingAChoice=False
+						if event.key == pygame.K_n:
+							sys.exit()
+
 			LoadingText='Cooking level '+str(Level)+'...'
 			LoadingTextSurf = myfont.render(LoadingText, False, green)
+			screen.blit(Black,(0,0))
+			screen.blit(Loading,(0,0))
 			screen.blit(LoadingTextSurf,(0,780))
 			pygame.display.flip()
 			NextLevel=False
 			Running=False
-			if Level < 11:
+
+			if Level < LevelMax:
 				del Labyrinth[:]
 				GenerateLabyrinth()
-				CheckNextRoom(Labyrinth, RoomPos)
+				CheckNextRoom(Labyrinth, RoomPos,)
 				PlaceStairs(Labyrinth)
 			Ping.play()
+
 wait()
 sys.exit()
