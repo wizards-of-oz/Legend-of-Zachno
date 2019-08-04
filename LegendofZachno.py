@@ -148,23 +148,19 @@ def DoScreen (Labyrinth, Level):
 		ScreenY=(YConvert+4)*80
 		screen.blit(ScreenItem, (ScreenX, ScreenY))
 		Counter=Counter+3
-	if StairsX < PlayerX:
-		Horizontal='Left '
-	elif StairsX > PlayerX:
-		Horizontal='Right '
-	else:
-		Horizontal=''
 
-	if StairsY < PlayerY:
-		Vertical='below'
-	elif StairsY > PlayerX:
-		Vertical='above'
+	
+	Xdiff=StairsX-PlayerX
+	Ydiff=StairsY-PlayerY
+
+	if (Xdiff==0) and (Ydiff==0):
+		StairDistance=0
 	else:
-		Vertical='       '
+		StairDistance=int(math.sqrt((Xdiff**2+Ydiff**2)))
 
 	LevelText = 'Level: '+str(Level)
 	PlayerPosText = 'Position: '+str(PlayerX)+' '+str(PlayerY)
-	StairsPosText = 'Stairs: '+Horizontal+Vertical
+	StairsPosText = 'Distance to stairs: '+str(StairDistance)
 
 	WeaponText='Weapon:'
 	MoveText='Speed:'
@@ -742,7 +738,7 @@ def CheckNextRoom(Labyrinth, RoomPos):
 
 		Rooms=Rooms+1
 		Percentage=GetPercentage(Rooms, MaxRooms)
-		PercentageText='Loading level '+str(Level)+' '+str(Percentage)+'%'
+		PercentageText='Generating level '+str(Level)+' '+str(Percentage)+'%'
 		PercentageTextSurf = myfont.render(PercentageText, False, green)
 		screen.blit(TextBar,(0,780))
 		screen.blit(TextBar,(0,0))
@@ -805,7 +801,7 @@ def GenerateRooms(RoomPos):
 		RoomCenterY=RoomPos[Counter+2]
 		LoadingText='Generating room '+str(RoomCenterX)+str(RoomCenterY)+'...'
 		Percentage=GetPercentage(Rooms, MaxRooms)
-		PercentageText='Loading level '+str(Level)+' '+str(Percentage)+'%'
+		PercentageText='Generating level '+str(Level)+' '+str(Percentage)+'%'
 		PercentageTextSurf = myfont.render(PercentageText, False, green)
 		LoadingTextSurf = myfont.render(LoadingText, False, green)
 		screen.blit(TextBar,(0,780))
@@ -1010,14 +1006,26 @@ def PlaceStairs(Labyrinth):
 
 	global StairsX
 	global StairsY
-	StairsXMin=-1*Level*9
-	StairsXMax=Level*9
-	StairsYMin=-1*Level*9
-	StairsYMax=Level*9
+	StairsXMin=-1*MapGen*9
+	StairsXMax=MapGen*9
+	StairsYMin=-1*MapGen*9
+	StairsYMax=MapGen*9
 	LookingForASpot=True
 	while LookingForASpot:
-		StairsX=random.randint(StairsXMin, StairsXMax)
-		StairsY=random.randint(StairsYMin, StairsYMax)
+		StairsDir=random.randint(1,4)
+		if StairsDir==1:
+			StairsX=random.randint(StairsXMin, StairsXMax)
+			StairsY=StairsYMax+1
+		if StairsDir==2:
+			StairsX=StairsXMax+1
+			StairsY=random.randint(StairsYMin, StairsYMax)
+		if StairsDir==3:
+			StairsX=random.randint(StairsXMin, StairsXMax)
+			StairsY=StairsYMin-1
+		if StairsDir==4:
+			StairsX=StairsXMin-1
+			StairsY=random.randint(StairsYMin, StairsYMax)
+
 		FoundASpot=False
 		Counter=0
 		MaxCounter=len(Labyrinth)
