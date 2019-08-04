@@ -78,7 +78,7 @@ global StairsX
 global StairsY
 global MapGen
 
-LevelMax=20
+LevelMax=21
 StairsX=0
 StairsY=-2
 
@@ -89,10 +89,6 @@ Labyrinth=['Wall','-3','3','Wall','-2','3','Wall','-1','3','Wall','0','3','Wall'
 'Wall','-3','-1','Floor','-2','-1','Floor','-1','-1','Floor','0','-1','Floor','1','-1','Floor','2','-1','Wall','3','-1',
 'Wall','-3','-2','Floor','-2','-2','Floor','-1','-2','Stairs','0','-2','Floor','1','-2','Floor','2','-2','Wall','3','-2',
 'Wall','-3','-3','Wall','-2','-3','Wall','-1','-3','Wall','0','-3','Wall','1','-3','Wall','2','-3','Wall','3','-3']
-
-Load=open('Zachno.sav', 'r')
-LoadList=list(Load)
-Load.close()
 
 
 # A pause function
@@ -1103,23 +1099,55 @@ def GenerateLabyrinth():
 	return()
 
 # Main loop
-Level=int(LoadList[0])
+PlayerX=0
+PlayerY=0
+
+Load=open('Zachno.sav', 'r')
+LoadList=list(Load)
+Load.close()
+
+LoadCounter=0
+LoadCounterMax=len(LoadList)
+ConSwitch=int(LoadList[0])
+Level=int(LoadList[1])
 if Level > 0:
-	MaxRooms=0
-	Rooms=0
-	screen.blit(Loading,(0,0))
-	pygame.display.flip()
-	del Labyrinth[:]
-	GenerateLabyrinth()
-	CheckNextRoom(Labyrinth, RoomPos)
-	PlaceStairs(Labyrinth)
-	Ping.play()
+	if ConSwitch==0:
+		if Level > 0 and Level < LevelMax:
+			PlayerX=0
+			PlayerY=0
+			MaxRooms=0
+			Rooms=0
+			screen.blit(Loading,(0,0))
+			pygame.display.flip()
+			del Labyrinth[:]
+			GenerateLabyrinth()
+			CheckNextRoom(Labyrinth, RoomPos)
+			PlaceStairs(Labyrinth)
+			Ping.play()
+	else:
+		del Labyrinth[:]
+		PlayerX=int(LoadList[2])
+		PlayerY=int(LoadList[3])
+		LoadMap=open('MapState.sav', 'r')
+		LabyrinthState=list(LoadMap)
+		LoadMap.close()
+		Counter=0
+		maxCounter=len(LabyrinthState)
+		while Counter < maxCounter:
+			Object=str(LabyrinthState[Counter]).rstrip()
+			ObjectX=int(LabyrinthState[Counter+1])
+			ObjectY=int(LabyrinthState[Counter+2])
+			if Object=='Stairs':
+				StairsX=ObjectX
+				StairsY=ObjectY
+			Labyrinth.append(Object)
+			Labyrinth.append(ObjectX)
+			Labyrinth.append(ObjectY)
+			Counter=Counter+3
 
 while Level < LevelMax:
 	DoScreen(Labyrinth, Level)
 	Running=True
-	PlayerX=0
-	PlayerY=0
 	while Running:
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
@@ -1144,16 +1172,43 @@ while Level < LevelMax:
 					PlayerX=PlayerPos[0]
 					PlayerY=PlayerPos[1]
 				if event.key == pygame.K_ESCAPE:
+					if Level > 0:
+						os.system('rm Zachno.sav')
+						Save=open('Zachno.sav', 'a')
+						Save.write('1\n')
+						LevelSave=str(Level)+'\n'
+						Save.write(LevelSave)
+						XSave=str(PlayerX)+'\n'
+						Save.write(XSave)
+						YSave=str(PlayerY)
+						Save.write(YSave)
+						Save.close()
+						os.system('rm MapState.sav')
+						MapSave=open('MapState.sav', 'a')
+						LabCounter=0
+						LabCounterMax=len(Labyrinth)
+						while LabCounter < LabCounterMax:
+							Object=str(Labyrinth[LabCounter])+'\n'
+							ObjectX=str(Labyrinth[LabCounter+1])+'\n'
+							ObjectY=str(Labyrinth[LabCounter+2])+'\n'
+							MapSave.write(Object)
+							MapSave.write(ObjectX)
+							MapSave.write(ObjectY)
+							LabCounter=LabCounter+3
+						MapSave.close()
 					sys.exit()
 		DoScreen(Labyrinth, Level)
 		if NextLevel:
+			PlayerX=0
+			PlayerY=0
 			Level=Level+1
-			LoadList[0]=Level
 			os.system('rm Zachno.sav')
 			Save=open('Zachno.sav', 'a')
-			Line=str(LoadList[0]).strip()
-			SLine=Line+'\n'
-			Save.write(SLine)
+			LevelSave=str(Level)+'\n'
+			Save.write('0\n')
+			Save.write(LevelSave)
+			Save.write('0\n')
+			Save.write('0')
 			Save.close()
 			LoadingText='Continue to next level? [j/n]...'
 			LoadingTextSurf = myfont.render(LoadingText, False, green)
