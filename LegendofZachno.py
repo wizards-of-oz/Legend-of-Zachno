@@ -61,12 +61,6 @@ Message=''
 
 PlayerX=0
 PlayerY=0
-PlayerWeapon='Fists'
-PlayerMove=1
-PlayerLifeMax=20
-PlayerLife=20
-PlayerMagic=2
-PlayerMagicMax=2
 
 Labyrinth=list()
 RoomPos=list()
@@ -158,35 +152,63 @@ def DoScreen (Labyrinth, Level):
 	PlayerPosText = 'Position: '+str(PlayerX)+' '+str(PlayerY)
 	StairsPosText = 'Distance to stairs: '+str(StairDistance)
 
+	PlayerAttackText='Attack: '
+	PlayerSpeedText='Speed:'
+	PlayerLifeLevelText='Health: '
+	PlayerMagicText='Magic: '
+	PlayerLifeText='Life: '
+	PlayerManaText='Mana: '
+
+	PlayerAttackTextSurf=myfont.render(PlayerAttackText, False, green)
+	PlayerSpeedTextSurf=myfont.render(PlayerSpeedText, False, green)
+	PlayerLifeLevelTextSurf=myfont.render(PlayerLifeLevelText, False, green)
+	PlayerMagicTextSurf=myfont.render(PlayerMagicText, False, green)
+	PlayerLifeTextSurf=myfont.render(PlayerLifeText, False, green)
+	PlayerManaTextSurf=myfont.render(PlayerManaText, False, green)
+
+	screen.blit(PlayerAttackTextSurf,(950,0))
+	screen.blit(PlayerSpeedTextSurf,(950,20))
+	screen.blit(PlayerLifeLevelTextSurf,(950,40))
+	screen.blit(PlayerMagicTextSurf,(950,60))
+	screen.blit(PlayerLifeTextSurf,(950,80))
+	screen.blit(PlayerManaTextSurf,(950,100))
+
+	PlayerAttackNo=str(PlayerAttack)
+	PlayerSpeedNo=str(PlayerSpeed)
+	PlayerLifeLevelNo=str(PlayerLifeLevel)
+	PlayerMagicNo=str(PlayerMagic)
+	PlayerLifeNo=str(PlayerLife)
+	PlayerManaNo=str(PlayerMana)
+
+	PlayerAttackNoSurf=myfont.render(PlayerAttackNo, False, green)
+	PlayerSpeedNoSurf=myfont.render(PlayerSpeedNo, False, green)
+	PlayerLifeLevelNoSurf=myfont.render(PlayerLifeLevelNo, False, green)
+	PlayerMagicNoSurf=myfont.render(PlayerMagicNo, False, green)
+	PlayerLifeNoSurf=myfont.render(PlayerLifeNo, False, green)
+	PlayerManaNoSurf=myfont.render(PlayerManaNo, False, green)
+
+	screen.blit(PlayerAttackNoSurf,(1100,0))
+	screen.blit(PlayerSpeedNoSurf,(1100,20))
+	screen.blit(PlayerLifeLevelNoSurf,(1100,40))
+	screen.blit(PlayerMagicNoSurf,(1100,60))
+	screen.blit(PlayerLifeNoSurf,(1100,80))
+	screen.blit(PlayerManaNoSurf,(1100,100))
+
 	WeaponText='Weapon:'
-	MoveText='Speed:'
-	LifeText='Life:'
-	MagicText='Magic:'
+	ArmorText='Armor:'
+	WeaponTextSurf=myfont.render(WeaponText, False, green)
+	ArmorTextSurf=myfont.render(ArmorText, False, green)
+
+	screen.blit(WeaponTextSurf,(950,140))
+	screen.blit(ArmorTextSurf,(950,160))
 
 	PlayerWeaponText=PlayerWeapon
-	PlayerMoveText=str(PlayerMove)
-	PlayerLifeText=str(PlayerLife)+'/'+str(PlayerLifeMax)
-	PlayerMagicText=str(PlayerMagic)+'/'+str(PlayerMagicMax)
+	PlayerArmorText=PlayerArmor
+	PlayerWeaponTextSurf=myfont.render(PlayerWeaponText, False, green)
+	PlayerArmorTextSurf=myfont.render(PlayerArmorText, False, green)
 
-	WeaponTextSurf= myfont.render(WeaponText, False, green)
-	MoveTextSurf= myfont.render(MoveText, False, green)
-	LifeTextSurf= myfont.render(LifeText, False, green)
-	MagicTextSurf= myfont.render(MagicText, False, green)
-
-	screen.blit(WeaponTextSurf,(1000,0))
-	screen.blit(MoveTextSurf,(1000,20))
-	screen.blit(LifeTextSurf,(1000,40))
-	screen.blit(MagicTextSurf,(1000,60))
-
-	PlayerWeaponTextSurf= myfont.render(PlayerWeaponText, False, green)
-	PlayerMoveTextSurf= myfont.render(PlayerMoveText, False, green)
-	PlayerLifeTextSurf= myfont.render(PlayerLifeText, False, green)
-	PlayerMagicTextSurf= myfont.render(PlayerMagicText, False, green)
-
-	screen.blit(PlayerWeaponTextSurf,(1100,0))
-	screen.blit(PlayerMoveTextSurf,(1100,20))
-	screen.blit(PlayerLifeTextSurf,(1100,40))
-	screen.blit(PlayerMagicTextSurf,(1100,60))
+	screen.blit(PlayerWeaponTextSurf,(1100,140))
+	screen.blit(PlayerArmorTextSurf,(1100,160))
 
 	LevelTextSurf=myfont.render(LevelText, 1, green)
 	PlayerPosTextSurf = myfont.render(PlayerPosText, False, green)
@@ -1099,6 +1121,15 @@ def GenerateLabyrinth():
 	return()
 
 # Main loop
+PlayerWeapon='Fists'
+PlayerArmor='None'
+
+PlayerAttack=1
+PlayerSpeed=1
+PlayerLifeLevel=1
+PlayerMagic=1
+PlayerLife=PlayerLifeLevel*10
+PlayerMana=1
 PlayerX=0
 PlayerY=0
 
@@ -1113,6 +1144,12 @@ Level=int(LoadList[1])
 if Level > 0:
 	if ConSwitch==0:
 		if Level > 0 and Level < LevelMax:
+			PlayerAttack=int(LoadList[2])
+			PlayerSpeed=int(LoadList[3])
+			PlayerLifeLevel=int(LoadList[4])
+			PlayerMagic=int(LoadList[5])
+			PlayerLife=int(LoadList[6])
+			PlayerMana=int(LoadList[7])
 			PlayerX=0
 			PlayerY=0
 			MaxRooms=0
@@ -1126,8 +1163,14 @@ if Level > 0:
 			Ping.play()
 	else:
 		del Labyrinth[:]
-		PlayerX=int(LoadList[2])
-		PlayerY=int(LoadList[3])
+		PlayerAttack=int(LoadList[2])
+		PlayerSpeed=int(LoadList[3])
+		PlayerLifeLevel=int(LoadList[4])
+		PlayerMagic=int(LoadList[5])
+		PlayerLife=int(LoadList[6])
+		PlayerMana=int(LoadList[7])
+		PlayerX=int(LoadList[8])
+		PlayerY=int(LoadList[9])
 		LoadMap=open('MapState.sav', 'r')
 		LabyrinthState=list(LoadMap)
 		LoadMap.close()
@@ -1178,6 +1221,20 @@ while Level < LevelMax:
 						Save.write('1\n')
 						LevelSave=str(Level)+'\n'
 						Save.write(LevelSave)
+						AttackSave=str(PlayerAttack)+'\n'
+						SpeedSave=str(PlayerSpeed)+'\n'
+						HealthSave=str(PlayerLifeLevel)+'\n'
+						MagicSave=str(PlayerMagic)+'\n'
+						LifeSave=str(PlayerLife)+'\n'
+						ManaSave=str(PlayerMana)+'\n'
+
+						Save.write(AttackSave)
+						Save.write(SpeedSave)
+						Save.write(HealthSave)
+						Save.write(MagicSave)
+						Save.write(LifeSave)
+						Save.write(ManaSave)
+
 						XSave=str(PlayerX)+'\n'
 						Save.write(XSave)
 						YSave=str(PlayerY)
@@ -1207,6 +1264,19 @@ while Level < LevelMax:
 			LevelSave=str(Level)+'\n'
 			Save.write('0\n')
 			Save.write(LevelSave)
+			AttackSave=str(PlayerAttack)+'\n'
+			SpeedSave=str(PlayerSpeed)+'\n'
+			HealthSave=str(PlayerLifeLevel)+'\n'
+			MagicSave=str(PlayerMagic)+'\n'
+			LifeSave=str(PlayerLife)+'\n'
+			ManaSave=str(PlayerMana)+'\n'
+			Save.write(AttackSave)
+			Save.write(SpeedSave)
+			Save.write(HealthSave)
+			Save.write(MagicSave)
+			Save.write(LifeSave)
+			Save.write(ManaSave)
+
 			Save.write('0\n')
 			Save.write('0')
 			Save.close()
