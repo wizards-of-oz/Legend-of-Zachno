@@ -148,11 +148,23 @@ def DoScreen (Labyrinth, Level):
 		ScreenY=(YConvert+4)*80
 		screen.blit(ScreenItem, (ScreenX, ScreenY))
 		Counter=Counter+3
-	SDiffX=StairsX-PlayerX
-	SDiffY=StairsY-PlayerY
+	if StairsX < PlayerX:
+		Horizontal='Left '
+	elif StairsX > PlayerX:
+		Horizontal='Right '
+	else:
+		Horizontal=''
+
+	if StairsY < PlayerY:
+		Vertical='below'
+	elif StairsY > PlayerX:
+		Vertical='above'
+	else:
+		Vertical='       '
+
 	LevelText = 'Level: '+str(Level)
 	PlayerPosText = 'Position: '+str(PlayerX)+' '+str(PlayerY)
-	StairsPosText = 'Stairs: '+str(SDiffX)+' '+str(SDiffY)
+	StairsPosText = 'Stairs: '+Horizontal+Vertical
 
 	WeaponText='Weapon:'
 	MoveText='Speed:'
@@ -259,7 +271,7 @@ def GenerateRoomPos(Level):
 	XCounterMin=-1*MapGen
 	XCounterMax=MapGen
 	YCounterMin=-1*MapGen
-	YCounterMax=Level
+	YCounterMax=MapGen
 	MaxRooms=0
 	while YCounterMin <= YCounterMax:
 		while XCounterMin <= XCounterMax:
