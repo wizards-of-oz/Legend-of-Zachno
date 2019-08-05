@@ -1146,6 +1146,58 @@ def DoExit():
 	wait()
 	return
 
+def DoVictory():
+	screen.blit(Black,(0,0))
+	screen.blit(Splash,(480,280))
+	screen.blit(TextBar,(0,780))
+	LoadingText='Congratulations on beating Legend of Zachno, keep current save (k) or reset save (r)...'
+	LoadingTextSurf = myfont.render(LoadingText, False, green)
+	screen.blit(LoadingTextSurf,(0,780))
+	pygame.display.flip()
+	MakingAChoice=True
+	while MakingAChoice:
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_k:
+					os.system('rm Zachno.sav')
+					Save=open('Zachno.sav', 'a')
+					LevelSave='20\n'
+					Save.write('0\n')
+					Save.write(LevelSave)
+					AttackSave=str(PlayerAttack)+'\n'
+					SpeedSave=str(PlayerSpeed)+'\n'
+					HealthSave=str(PlayerLifeLevel)+'\n'
+					MagicSave=str(PlayerMagic)+'\n'
+					LifeSave=str(PlayerLife)+'\n'
+					ManaSave=str(PlayerMana)+'\n'
+					Save.write(AttackSave)
+					Save.write(SpeedSave)
+					Save.write(HealthSave)
+					Save.write(MagicSave)
+					Save.write(LifeSave)
+					Save.write(ManaSave)
+					Save.write('0\n')
+					Save.write('0')
+					Save.close()
+					sys.exit()
+				if event.key == pygame.K_r:
+					os.system('rm Zachno.sav')
+					Save=open('Zachno.sav', 'a')
+					Save.write('0\n')
+					Save.write('0\n')
+					Save.write('1\n')
+					Save.write('1\n')
+					Save.write('1\n')
+					Save.write('1\n')
+					Save.write('10\n')
+					Save.write('1\n')
+					Save.write('0\n')
+					Save.write('0')
+					Save.close()
+					sys.exit()
+	wait()
+	return
+
 # Main loop
 PlayerWeapon='Fists'
 PlayerArmor='None'
@@ -1284,57 +1336,60 @@ while Level < LevelMax:
 					sys.exit()
 		DoScreen(Labyrinth, Level)
 		if NextLevel:
-			PlayerX=0
-			PlayerY=0
 			Level=Level+1
-			os.system('rm Zachno.sav')
-			Save=open('Zachno.sav', 'a')
-			LevelSave=str(Level)+'\n'
-			Save.write('0\n')
-			Save.write(LevelSave)
-			AttackSave=str(PlayerAttack)+'\n'
-			SpeedSave=str(PlayerSpeed)+'\n'
-			HealthSave=str(PlayerLifeLevel)+'\n'
-			MagicSave=str(PlayerMagic)+'\n'
-			LifeSave=str(PlayerLife)+'\n'
-			ManaSave=str(PlayerMana)+'\n'
-			Save.write(AttackSave)
-			Save.write(SpeedSave)
-			Save.write(HealthSave)
-			Save.write(MagicSave)
-			Save.write(LifeSave)
-			Save.write(ManaSave)
+			if Level < LevelMax:
+				PlayerX=0
+				PlayerY=0
+				os.system('rm Zachno.sav')
+				Save=open('Zachno.sav', 'a')
+				LevelSave=str(Level)+'\n'
+				Save.write('0\n')
+				Save.write(LevelSave)
+				AttackSave=str(PlayerAttack)+'\n'
+				SpeedSave=str(PlayerSpeed)+'\n'
+				HealthSave=str(PlayerLifeLevel)+'\n'
+				MagicSave=str(PlayerMagic)+'\n'
+				LifeSave=str(PlayerLife)+'\n'
+				ManaSave=str(PlayerMana)+'\n'
+				Save.write(AttackSave)
+				Save.write(SpeedSave)
+				Save.write(HealthSave)
+				Save.write(MagicSave)
+				Save.write(LifeSave)
+				Save.write(ManaSave)
+		
+				Save.write('0\n')
+				Save.write('0')
+				Save.close()
+				LoadingText='Continue to next level? [j/n]...'
+				LoadingTextSurf = myfont.render(LoadingText, False, green)
+	
+				screen.blit(TextBar,(0,370))
+				screen.blit(TextBar,(0,390))
+				screen.blit(TextBar,(0,410))
+		
+				screen.blit(LoadingTextSurf,(0,390))
+				pygame.display.flip()
+				MakingAChoice=True
+				while MakingAChoice:
+					for event in pygame.event.get():
+						if event.type == pygame.KEYDOWN:
+							if event.key == pygame.K_j:
+								MakingAChoice=False
+							if event.key == pygame.K_n:
+								DoExit()
+								sys.exit()
 
-			Save.write('0\n')
-			Save.write('0')
-			Save.close()
-			LoadingText='Continue to next level? [j/n]...'
-			LoadingTextSurf = myfont.render(LoadingText, False, green)
-
-			screen.blit(TextBar,(0,370))
-			screen.blit(TextBar,(0,390))
-			screen.blit(TextBar,(0,410))
-
-			screen.blit(LoadingTextSurf,(0,390))
-			pygame.display.flip()
-			MakingAChoice=True
-			while MakingAChoice:
-				for event in pygame.event.get():
-					if event.type == pygame.KEYDOWN:
-						if event.key == pygame.K_j:
-							MakingAChoice=False
-						if event.key == pygame.K_n:
-							DoExit()
-							sys.exit()
-
-			LoadingText='Cooking level '+str(Level)+'...'
-			LoadingTextSurf = myfont.render(LoadingText, False, green)
-			screen.blit(Black,(0,0))
-			screen.blit(Loading,(0,0))
-			screen.blit(LoadingTextSurf,(0,780))
-			pygame.display.flip()
-			NextLevel=False
-			Running=False
+				LoadingText='Cooking level '+str(Level)+'...'
+				LoadingTextSurf = myfont.render(LoadingText, False, green)
+				screen.blit(Black,(0,0))
+				screen.blit(Loading,(0,0))
+				screen.blit(LoadingTextSurf,(0,780))
+				pygame.display.flip()
+				NextLevel=False
+				Running=False
+			else:
+				DoVictory()
 
 			if Level < LevelMax:
 				Rooms=0
@@ -1343,7 +1398,9 @@ while Level < LevelMax:
 				GenerateLabyrinth()
 				CheckNextRoom(Labyrinth, RoomPos)
 				PlaceStairs(Labyrinth)
-			Ping.play()
+				Ping.play()
+			else:
+				DoVictory()
 
 wait()
 sys.exit()
