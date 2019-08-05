@@ -51,6 +51,7 @@ Stairs=pygame.image.load('newStairs.PNG')
 Wall=pygame.image.load('newWall.PNG')
 Player=pygame.image.load('newMonster.PNG')
 TextBar=pygame.image.load('TextBar.png')
+Splash=pygame.image.load('Splash.png')
 
 #pygame.display.set_icon()
 pygame.display.set_caption('Legend of Zachno')
@@ -159,12 +160,12 @@ def DoScreen (Labyrinth, Level):
 	PlayerLifeText='Life: '
 	PlayerManaText='Mana: '
 
-	PlayerAttackTextSurf=myfont.render(PlayerAttackText, False, green)
-	PlayerSpeedTextSurf=myfont.render(PlayerSpeedText, False, green)
-	PlayerLifeLevelTextSurf=myfont.render(PlayerLifeLevelText, False, green)
-	PlayerMagicTextSurf=myfont.render(PlayerMagicText, False, green)
-	PlayerLifeTextSurf=myfont.render(PlayerLifeText, False, green)
-	PlayerManaTextSurf=myfont.render(PlayerManaText, False, green)
+	PlayerAttackTextSurf=myfont.render(PlayerAttackText, False, red)
+	PlayerSpeedTextSurf=myfont.render(PlayerSpeedText, False, red)
+	PlayerLifeLevelTextSurf=myfont.render(PlayerLifeLevelText, False, red)
+	PlayerMagicTextSurf=myfont.render(PlayerMagicText, False, red)
+	PlayerLifeTextSurf=myfont.render(PlayerLifeText, False, red)
+	PlayerManaTextSurf=myfont.render(PlayerManaText, False, red)
 
 	screen.blit(PlayerAttackTextSurf,(950,0))
 	screen.blit(PlayerSpeedTextSurf,(950,20))
@@ -180,12 +181,12 @@ def DoScreen (Labyrinth, Level):
 	PlayerLifeNo=str(PlayerLife)
 	PlayerManaNo=str(PlayerMana)
 
-	PlayerAttackNoSurf=myfont.render(PlayerAttackNo, False, green)
-	PlayerSpeedNoSurf=myfont.render(PlayerSpeedNo, False, green)
-	PlayerLifeLevelNoSurf=myfont.render(PlayerLifeLevelNo, False, green)
-	PlayerMagicNoSurf=myfont.render(PlayerMagicNo, False, green)
-	PlayerLifeNoSurf=myfont.render(PlayerLifeNo, False, green)
-	PlayerManaNoSurf=myfont.render(PlayerManaNo, False, green)
+	PlayerAttackNoSurf=myfont.render(PlayerAttackNo, False, red)
+	PlayerSpeedNoSurf=myfont.render(PlayerSpeedNo, False, red)
+	PlayerLifeLevelNoSurf=myfont.render(PlayerLifeLevelNo, False, red)
+	PlayerMagicNoSurf=myfont.render(PlayerMagicNo, False, red)
+	PlayerLifeNoSurf=myfont.render(PlayerLifeNo, False, red)
+	PlayerManaNoSurf=myfont.render(PlayerManaNo, False, red)
 
 	screen.blit(PlayerAttackNoSurf,(1100,0))
 	screen.blit(PlayerSpeedNoSurf,(1100,20))
@@ -196,23 +197,23 @@ def DoScreen (Labyrinth, Level):
 
 	WeaponText='Weapon:'
 	ArmorText='Armor:'
-	WeaponTextSurf=myfont.render(WeaponText, False, green)
-	ArmorTextSurf=myfont.render(ArmorText, False, green)
+	WeaponTextSurf=myfont.render(WeaponText, False, red)
+	ArmorTextSurf=myfont.render(ArmorText, False, red)
 
 	screen.blit(WeaponTextSurf,(950,140))
 	screen.blit(ArmorTextSurf,(950,160))
 
 	PlayerWeaponText=PlayerWeapon
 	PlayerArmorText=PlayerArmor
-	PlayerWeaponTextSurf=myfont.render(PlayerWeaponText, False, green)
-	PlayerArmorTextSurf=myfont.render(PlayerArmorText, False, green)
+	PlayerWeaponTextSurf=myfont.render(PlayerWeaponText, False, red)
+	PlayerArmorTextSurf=myfont.render(PlayerArmorText, False, red)
 
 	screen.blit(PlayerWeaponTextSurf,(1100,140))
 	screen.blit(PlayerArmorTextSurf,(1100,160))
 
-	LevelTextSurf=myfont.render(LevelText, 1, green)
-	PlayerPosTextSurf = myfont.render(PlayerPosText, False, green)
-	StairsPosTextSurf = myfont.render(StairsPosText, 1, green)
+	LevelTextSurf=myfont.render(LevelText, 1, red)
+	PlayerPosTextSurf = myfont.render(PlayerPosText, False, red)
+	StairsPosTextSurf = myfont.render(StairsPosText, 1, red)
 	screen.blit(LevelTextSurf,(0,0))
 	#screen.blit(PlayerPosTextSurf,(0,20))
 	screen.blit(StairsPosTextSurf,(0,20))
@@ -303,7 +304,7 @@ def GenerateRoomPos(Level):
 
 # Creates a tunnel in the up directioon from a room
 def BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth):
-	LoadingText='Building tunnel up...'
+	LoadingText='Building tunnel up room '+str(RoomCenterX)+' '+str(RoomCenterY)+'...'
 	LoadingTextSurf = myfont.render(LoadingText, False, green)
 	screen.blit(TextBar,(0,780))
 	screen.blit(LoadingTextSurf,(0,780))
@@ -367,7 +368,7 @@ def BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth):
 
 # Creates a tunnel in the right directioon from a room
 def BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth):
-	LoadingText='Building tunnel right...'
+	LoadingText='Building tunnel right room '+str(RoomCenterX)+' '+str(RoomCenterY)+'...'
 	LoadingTextSurf = myfont.render(LoadingText, False, green)
 	screen.blit(TextBar,(0,780))
 	screen.blit(LoadingTextSurf,(0,780))
@@ -430,7 +431,7 @@ def BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth):
 
 # Creates a tunnel in the down directioon from a room
 def BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth):
-	LoadingText='Building tunnel up down...'
+	LoadingText='Building tunnel down room '+str(RoomCenterX)+' '+str(RoomCenterY)+'...'
 	LoadingTextSurf = myfont.render(LoadingText, False, green)
 	screen.blit(TextBar,(0,780))
 	screen.blit(LoadingTextSurf,(0,780))
@@ -492,7 +493,7 @@ def BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth):
 
 # Creates a tunnel in the left directioon from a room
 def BuildTunnelLeft(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth):
-	LoadingText='Building tunnel up left...'
+	LoadingText='Building tunnel left room '+str(RoomCenterX)+' '+str(RoomCenterY)+'...'
 	LoadingTextSurf = myfont.render(LoadingText, False, green)
 	screen.blit(TextBar,(0,780))
 	screen.blit(LoadingTextSurf,(0,780))
@@ -1120,6 +1121,31 @@ def GenerateLabyrinth():
 	GenerateRooms(RoomPos)
 	return()
 
+def DoSplash():
+	screen.blit(Black,(0,0))
+	screen.blit(Splash,(480,280))
+	screen.blit(TextBar,(0,780))
+	Text='Entering level '+str(Level)+'...'
+	TextSurf = myfont.render(Text, False, green)
+	LoadingText='Welcome to Legend of Zachno, press enter...'
+	LoadingTextSurf = myfont.render(LoadingText, False, green)
+	screen.blit(TextSurf,(0,0))
+	screen.blit(LoadingTextSurf,(0,780))
+	pygame.display.flip()
+	wait()
+	return
+
+def DoExit():
+	screen.blit(Black,(0,0))
+	screen.blit(Splash,(480,280))
+	screen.blit(TextBar,(0,780))
+	LoadingText='Game state saved next session will be in level '+str(Level)+' , press enter...'
+	LoadingTextSurf = myfont.render(LoadingText, False, green)
+	screen.blit(LoadingTextSurf,(0,780))
+	pygame.display.flip()
+	wait()
+	return
+
 # Main loop
 PlayerWeapon='Fists'
 PlayerArmor='None'
@@ -1141,6 +1167,7 @@ LoadCounter=0
 LoadCounterMax=len(LoadList)
 ConSwitch=int(LoadList[0])
 Level=int(LoadList[1])
+DoSplash()
 if Level > 0:
 	if ConSwitch==0:
 		if Level > 0 and Level < LevelMax:
@@ -1253,6 +1280,7 @@ while Level < LevelMax:
 							MapSave.write(ObjectY)
 							LabCounter=LabCounter+3
 						MapSave.close()
+						DoExit()
 					sys.exit()
 		DoScreen(Labyrinth, Level)
 		if NextLevel:
@@ -1296,6 +1324,7 @@ while Level < LevelMax:
 						if event.key == pygame.K_j:
 							MakingAChoice=False
 						if event.key == pygame.K_n:
+							DoExit()
 							sys.exit()
 
 			LoadingText='Cooking level '+str(Level)+'...'
