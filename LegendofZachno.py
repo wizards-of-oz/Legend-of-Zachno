@@ -847,14 +847,15 @@ def GenerateRooms(RoomPos):
 						BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth)
 						ExitCounter=ExitCounter+1
 				else:
-					if RoomCenterY > (MapGen*-9):
-						ExitDown=True
-						TargetX=RoomCenterX
-						TargetY=RoomCenterY-9
-						TunnelWidth=CheckTargetRoom(TargetX, TargetY, RoomSize, RoomPos)
-						TunnelDown=TunnelWidth
-						BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth)
 						ExitCounter=ExitCounter+1
+#					if RoomCenterY > (MapGen*-9):
+#						ExitDown=True
+#						TargetX=RoomCenterX
+#						TargetY=RoomCenterY-9
+#						TunnelWidth=CheckTargetRoom(TargetX, TargetY, RoomSize, RoomPos)
+#						TunnelDown=TunnelWidth
+#						BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth)
+#						ExitCounter=ExitCounter+1
 			if ExitDir==2:
 				if RoomCenterX < (MapGen*9):
 					if ExitRight==False:
@@ -866,14 +867,15 @@ def GenerateRooms(RoomPos):
 						BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth)
 						ExitCounter=ExitCounter+1
 				else:
-					if RoomCenterX > (MapGen*-9):
-						ExitLeft=True
-						TargetX=RoomCenterX-9
-						TargetY=RoomCenterY
-						TunnelWidth=CheckTargetRoom(TargetX, TargetY, RoomSize, RoomPos)
-						TunnelLeft=TunnelWidth
-						BuildTunnelLeft(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth)
 						ExitCounter=ExitCounter+1
+#					if RoomCenterX > (MapGen*-9):
+#						ExitLeft=True
+#						TargetX=RoomCenterX-9
+#						TargetY=RoomCenterY
+#						TunnelWidth=CheckTargetRoom(TargetX, TargetY, RoomSize, RoomPos)
+#						TunnelLeft=TunnelWidth
+#						BuildTunnelLeft(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth)
+#						ExitCounter=ExitCounter+1
 			if ExitDir==3:
 				if RoomCenterY > (MapGen*-9):
 					if ExitDown==False:
@@ -885,14 +887,15 @@ def GenerateRooms(RoomPos):
 						BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth)
 						ExitCounter=ExitCounter+1
 				else:
-					if RoomCenterY < (MapGen*9):
-						ExitUp=True
-						TargetX=RoomCenterX
-						TargetY=RoomCenterY+9
-						TunnelWidth=CheckTargetRoom(TargetX, TargetY, RoomSize, RoomPos)
-						TunnelUp=TunnelWidth
-						BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth)
 						ExitCounter=ExitCounter+1
+#					if RoomCenterY < (MapGen*9):
+#						ExitUp=True
+#						TargetX=RoomCenterX
+#						TargetY=RoomCenterY+9
+#						TunnelWidth=CheckTargetRoom(TargetX, TargetY, RoomSize, RoomPos)
+#						TunnelUp=TunnelWidth
+#						BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth)
+#						ExitCounter=ExitCounter+1
 			if ExitDir==4:
 				if RoomCenterX > (MapGen*-9):
 					if ExitLeft==False:
@@ -905,14 +908,15 @@ def GenerateRooms(RoomPos):
 						BuildTunnelLeft(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth)
 						ExitCounter=ExitCounter+1
 				else:
-					if RoomCenterX < (MapGen*9):
-						ExitRight=True
-						TargetX=RoomCenterX+9
-						TargetY=RoomCenterY
-						TunnelWidth=CheckTargetRoom(TargetX, TargetY, RoomSize, RoomPos)
-						TunnelRight=TunnelWidth
-						BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth)
 						ExitCounter=ExitCounter+1
+#					if RoomCenterX < (MapGen*9):
+#						ExitRight=True
+#						TargetX=RoomCenterX+9
+#						TargetY=RoomCenterY
+#						TunnelWidth=CheckTargetRoom(TargetX, TargetY, RoomSize, RoomPos)
+#						TunnelRight=TunnelWidth
+#						BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth)
+#						ExitCounter=ExitCounter+1
 		FloorMinX=-1*RoomSize
 		FloorMaxX=RoomSize
 		FloorMinY=-1*RoomSize
@@ -1219,6 +1223,7 @@ LoadCounter=0
 LoadCounterMax=len(LoadList)
 ConSwitch=int(LoadList[0])
 Level=int(LoadList[1])
+pygame.key.set_repeat(30,30)
 DoSplash()
 if Level > 0:
 	if ConSwitch==0:
@@ -1272,69 +1277,69 @@ while Level < LevelMax:
 	Running=True
 	while Running:
 		for event in pygame.event.get():
-			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_UP:
-					Dir=8
-					DoMovePlayer(PlayerX, PlayerY, Dir)
-					PlayerX=PlayerPos[0]
-					PlayerY=PlayerPos[1]
-				if event.key == pygame.K_RIGHT:
-					Dir=6
-					DoMovePlayer(PlayerX, PlayerY, Dir)
-					PlayerX=PlayerPos[0]
-					PlayerY=PlayerPos[1]
-				if event.key == pygame.K_DOWN:
-					Dir=2
-					DoMovePlayer(PlayerX, PlayerY, Dir)
-					PlayerX=PlayerPos[0]
-					PlayerY=PlayerPos[1]
-				if event.key == pygame.K_LEFT:
-					Dir=4
-					DoMovePlayer(PlayerX, PlayerY, Dir)
-					PlayerX=PlayerPos[0]
-					PlayerY=PlayerPos[1]
-				if event.key == pygame.K_ESCAPE:
-					if Level > 0:
-						os.system('rm Zachno.sav')
-						Save=open('Zachno.sav', 'a')
-						Save.write('1\n')
-						LevelSave=str(Level)+'\n'
-						Save.write(LevelSave)
-						AttackSave=str(PlayerAttack)+'\n'
-						SpeedSave=str(PlayerSpeed)+'\n'
-						HealthSave=str(PlayerLifeLevel)+'\n'
-						MagicSave=str(PlayerMagic)+'\n'
-						LifeSave=str(PlayerLife)+'\n'
-						ManaSave=str(PlayerMana)+'\n'
+			if pygame.key.get_pressed()[pygame.K_UP]:
+				Dir=8
+				DoMovePlayer(PlayerX, PlayerY, Dir)
+				PlayerX=PlayerPos[0]
+				PlayerY=PlayerPos[1]
+			if pygame.key.get_pressed()[pygame.K_RIGHT]:
+				Dir=6
+				DoMovePlayer(PlayerX, PlayerY, Dir)
+				PlayerX=PlayerPos[0]
+				PlayerY=PlayerPos[1]
+			if pygame.key.get_pressed()[pygame.K_DOWN]:
+				Dir=2
+				DoMovePlayer(PlayerX, PlayerY, Dir)
+				PlayerX=PlayerPos[0]
+				PlayerY=PlayerPos[1]
+			if pygame.key.get_pressed()[pygame.K_LEFT]:
+				Dir=4
+				DoMovePlayer(PlayerX, PlayerY, Dir)
+				PlayerX=PlayerPos[0]
+				PlayerY=PlayerPos[1]
+			if pygame.key.get_pressed()[pygame.K_ESCAPE]:
+				if Level > 0:
+					os.system('rm Zachno.sav')
+					Save=open('Zachno.sav', 'a')
+					Save.write('1\n')
+					LevelSave=str(Level)+'\n'
+					Save.write(LevelSave)
+					AttackSave=str(PlayerAttack)+'\n'
+					SpeedSave=str(PlayerSpeed)+'\n'
+					HealthSave=str(PlayerLifeLevel)+'\n'
+					MagicSave=str(PlayerMagic)+'\n'
+					LifeSave=str(PlayerLife)+'\n'
+					ManaSave=str(PlayerMana)+'\n'
+	
+					Save.write(AttackSave)
+					Save.write(SpeedSave)
+					Save.write(HealthSave)
+					Save.write(MagicSave)
+					Save.write(LifeSave)
+					Save.write(ManaSave)
 
-						Save.write(AttackSave)
-						Save.write(SpeedSave)
-						Save.write(HealthSave)
-						Save.write(MagicSave)
-						Save.write(LifeSave)
-						Save.write(ManaSave)
-
-						XSave=str(PlayerX)+'\n'
-						Save.write(XSave)
-						YSave=str(PlayerY)
-						Save.write(YSave)
-						Save.close()
-						os.system('rm MapState.sav')
-						MapSave=open('MapState.sav', 'a')
-						LabCounter=0
-						LabCounterMax=len(Labyrinth)
-						while LabCounter < LabCounterMax:
-							Object=str(Labyrinth[LabCounter])+'\n'
-							ObjectX=str(Labyrinth[LabCounter+1])+'\n'
-							ObjectY=str(Labyrinth[LabCounter+2])+'\n'
-							MapSave.write(Object)
-							MapSave.write(ObjectX)
-							MapSave.write(ObjectY)
-							LabCounter=LabCounter+3
-						MapSave.close()
-						DoExit()
-					sys.exit()
+					XSave=str(PlayerX)+'\n'
+					Save.write(XSave)
+					YSave=str(PlayerY)
+					Save.write(YSave)
+					Save.close()
+					os.system('rm MapState.sav')
+					MapSave=open('MapState.sav', 'a')
+					LabCounter=0
+					LabCounterMax=len(Labyrinth)
+					while LabCounter < LabCounterMax:
+						Object=str(Labyrinth[LabCounter])+'\n'
+						ObjectX=str(Labyrinth[LabCounter+1])+'\n'
+						ObjectY=str(Labyrinth[LabCounter+2])+'\n'
+						MapSave.write(Object)
+						MapSave.write(ObjectX)
+						MapSave.write(ObjectY)
+						LabCounter=LabCounter+3
+					MapSave.close()
+					DoExit()
+				sys.exit()
 		DoScreen(Labyrinth, Level)
+		pygame.event.pump()
 		if NextLevel:
 			Level=Level+1
 			if Level < LevelMax:
@@ -1361,7 +1366,7 @@ while Level < LevelMax:
 				Save.write('0\n')
 				Save.write('0')
 				Save.close()
-				LoadingText='Continue to next level? [j/n]...'
+				LoadingText='Continue to next level? [y/n]...'
 				LoadingTextSurf = myfont.render(LoadingText, False, green)
 	
 				screen.blit(TextBar,(0,370))
@@ -1374,7 +1379,7 @@ while Level < LevelMax:
 				while MakingAChoice:
 					for event in pygame.event.get():
 						if event.type == pygame.KEYDOWN:
-							if event.key == pygame.K_j:
+							if event.key == pygame.K_y:
 								MakingAChoice=False
 							if event.key == pygame.K_n:
 								DoExit()
