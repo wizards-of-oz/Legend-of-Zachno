@@ -215,8 +215,8 @@ def DoScreen (Labyrinth, Level):
 	PlayerPosTextSurf = myfont.render(PlayerPosText, False, red)
 	StairsPosTextSurf = myfont.render(StairsPosText, 1, red)
 	screen.blit(LevelTextSurf,(0,0))
-	#screen.blit(PlayerPosTextSurf,(0,20))
-	screen.blit(StairsPosTextSurf,(0,20))
+	screen.blit(PlayerPosTextSurf,(0,20))
+	#screen.blit(StairsPosTextSurf,(0,20))
 	screen.blit(Player, (560, 320))
 	pygame.display.flip()
 	return
