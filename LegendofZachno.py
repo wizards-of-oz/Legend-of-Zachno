@@ -801,15 +801,15 @@ def GenerateRooms(RoomPos):
 						BuildTunnelUp(RoomCenterX, RoomCenterY,TargetX, TargetY, RoomSize, TunnelWidth, RoomPos)
 						ExitCounter=ExitCounter+1
 				else:
+					if RoomCenterY > (MapGen*-9):
+						RoomPos[Counter+3]=1
+						ExitDown=True
+						TargetX=RoomCenterX
+						TargetY=RoomCenterY-9
+						TunnelWidth=CheckTargetRoom(TargetX, TargetY, RoomSize, RoomPos)
+						TunnelDown=TunnelWidth
+						BuildTunnelDown(RoomCenterX, RoomCenterY,TargetX, TargetY, RoomSize, TunnelWidth, RoomPos)
 						ExitCounter=ExitCounter+1
-#					if RoomCenterY > (MapGen*-9):
-#						ExitDown=True
-#						TargetX=RoomCenterX
-#						TargetY=RoomCenterY-9
-#						TunnelWidth=CheckTargetRoom(TargetX, TargetY, RoomSize, RoomPos)
-#						TunnelDown=TunnelWidth
-#						BuildTunnelDown(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth)
-#						ExitCounter=ExitCounter+1
 			if ExitDir==2:
 				if RoomCenterX < (MapGen*9):
 					if ExitRight==False:
@@ -822,15 +822,15 @@ def GenerateRooms(RoomPos):
 						BuildTunnelRight(RoomCenterX, RoomCenterY,TargetX, TargetY, RoomSize, TunnelWidth, RoomPos)
 						ExitCounter=ExitCounter+1
 				else:
+					if RoomCenterX > (MapGen*-9):
+						RoomPos[Counter+4]=1
+						ExitLeft=True
+						TargetX=RoomCenterX-9
+						TargetY=RoomCenterY
+						TunnelWidth=CheckTargetRoom(TargetX, TargetY, RoomSize, RoomPos)
+						TunnelLeft=TunnelWidth
+						BuildTunnelLeft(RoomCenterX, RoomCenterY,TargetX, TargetY, RoomSize, TunnelWidth, RoomPos)
 						ExitCounter=ExitCounter+1
-#					if RoomCenterX > (MapGen*-9):
-#						ExitLeft=True
-#						TargetX=RoomCenterX-9
-#						TargetY=RoomCenterY
-#						TunnelWidth=CheckTargetRoom(TargetX, TargetY, RoomSize, RoomPos)
-#						TunnelLeft=TunnelWidth
-#						BuildTunnelLeft(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth)
-#						ExitCounter=ExitCounter+1
 			if ExitDir==3:
 				if RoomCenterY > (MapGen*-9):
 					if ExitDown==False:
@@ -843,15 +843,15 @@ def GenerateRooms(RoomPos):
 						BuildTunnelDown(RoomCenterX, RoomCenterY,TargetX, TargetY, RoomSize, TunnelWidth, RoomPos)
 						ExitCounter=ExitCounter+1
 				else:
+					if RoomCenterY < (MapGen*9):
+						ExitUp=True
+						RoomPos[Counter+1]=1
+						TargetX=RoomCenterX
+						TargetY=RoomCenterY+9
+						TunnelWidth=CheckTargetRoom(TargetX, TargetY, RoomSize, RoomPos)
+						TunnelUp=TunnelWidth
+						BuildTunnelUp(RoomCenterX, RoomCenterY,TargetX, TargetY, RoomSize, TunnelWidth, RoomPos)
 						ExitCounter=ExitCounter+1
-#					if RoomCenterY < (MapGen*9):
-#						ExitUp=True
-#						TargetX=RoomCenterX
-#						TargetY=RoomCenterY+9
-#						TunnelWidth=CheckTargetRoom(TargetX, TargetY, RoomSize, RoomPos)
-#						TunnelUp=TunnelWidth
-#						BuildTunnelUp(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth)
-#						ExitCounter=ExitCounter+1
 			if ExitDir==4:
 				if RoomCenterX > (MapGen*-9):
 					if ExitLeft==False:
@@ -865,15 +865,15 @@ def GenerateRooms(RoomPos):
 						BuildTunnelLeft(RoomCenterX, RoomCenterY,TargetX, TargetY, RoomSize, TunnelWidth, RoomPos)
 						ExitCounter=ExitCounter+1
 				else:
+					if RoomCenterX < (MapGen*9):
+						RoomPos[Counter+2]=1
+						ExitRight=True
+						TargetX=RoomCenterX+9
+						TargetY=RoomCenterY
+						TunnelWidth=CheckTargetRoom(TargetX, TargetY, RoomSize, RoomPos)
+						TunnelRight=TunnelWidth
+						BuildTunnelRight(RoomCenterX, RoomCenterY,TargetX, TargetY, RoomSize, TunnelWidth, RoomPos)
 						ExitCounter=ExitCounter+1
-#					if RoomCenterX < (MapGen*9):
-#						ExitRight=True
-#						TargetX=RoomCenterX+9
-#						TargetY=RoomCenterY
-#						TunnelWidth=CheckTargetRoom(TargetX, TargetY, RoomSize, RoomPos)
-#						TunnelRight=TunnelWidth
-#						BuildTunnelRight(RoomCenterX, RoomCenterY, RoomSize, TunnelWidth)
-#						ExitCounter=ExitCounter+1
 		FloorMinX=-1*RoomSize
 		FloorMaxX=RoomSize
 		FloorMinY=-1*RoomSize
