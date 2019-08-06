@@ -992,36 +992,17 @@ def PlaceStairs(Labyrinth):
 	StairsYMax=MapGen*9
 	LookingForASpot=True
 	while LookingForASpot:
-		StairsDir=random.randint(1,4)
-		if StairsDir==1:
-			StairsX=random.randint(StairsXMin, StairsXMax)
-			StairsY=StairsYMax+1
-		if StairsDir==2:
-			StairsX=StairsXMax+1
-			StairsY=random.randint(StairsYMin, StairsYMax)
-		if StairsDir==3:
-			StairsX=random.randint(StairsXMin, StairsXMax)
-			StairsY=StairsYMin-1
-		if StairsDir==4:
-			StairsX=StairsXMin-1
-			StairsY=random.randint(StairsYMin, StairsYMax)
+		NoBlock=True
+		StairsX=random.randint(StairsXMin, StairsXMax)
+		StairsY=random.randint(StairsYMin, StairsYMax)
 
-		FoundASpot=False
-		Counter=0
-		MaxCounter=len(Labyrinth)
-		while Counter < MaxCounter:
-			Object=Labyrinth[Counter]
-			ObjectX=Labyrinth[Counter+1]
-			ObjectY=Labyrinth[Counter+2]
-			if ObjectX==StairsX and ObjectY==StairsY:
-				if Object=='Wall':
-					FoundASpot=False
-					break
-				if Object=='Floor':
-					FoundASpot=True
-			Counter=Counter+3
-		if FoundASpot:
-			LookingForASpot=False
+		if (StairsX/9)==int(StairsX/9):
+			NoBlock=False
+		if (StairsY/9)==int(StairsY/9):
+			NoBlock=False
+
+		if NoBlock:
+			FoundASpot=False
 			Counter=0
 			MaxCounter=len(Labyrinth)
 			while Counter < MaxCounter:
@@ -1029,8 +1010,23 @@ def PlaceStairs(Labyrinth):
 				ObjectX=Labyrinth[Counter+1]
 				ObjectY=Labyrinth[Counter+2]
 				if ObjectX==StairsX and ObjectY==StairsY:
-					Labyrinth[Counter]='Stairs'
+					if Object=='Wall':
+						FoundASpot=False
+						break
+					if Object=='Floor':
+						FoundASpot=True
 				Counter=Counter+3
+			if FoundASpot:
+				LookingForASpot=False
+				Counter=0
+				MaxCounter=len(Labyrinth)
+				while Counter < MaxCounter:
+					Object=Labyrinth[Counter]
+					ObjectX=Labyrinth[Counter+1]
+					ObjectY=Labyrinth[Counter+2]
+					if ObjectX==StairsX and ObjectY==StairsY:
+						Labyrinth[Counter]='Stairs'
+					Counter=Counter+3
 	return
 
 # Container Function for all the functions that generate a new level
