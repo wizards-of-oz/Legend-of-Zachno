@@ -164,8 +164,12 @@ def DoScreen (Labyrinth, Level):
 
 
 	# Preparing and 'blitting' text on the game screen
+	MapGen=int(Level/2)+1
+	Size=(MapGen*2*9)+9
+
 	LevelText = 'Level: '+str(Level)
 	PlayerPosText = 'Position: '+str(PlayerX)+' '+str(PlayerY)
+	LabyrinthText='Size of map: '+str(Size)+' by '+str(Size)
 
 	PlayerAttackText='Attack: '
 	PlayerSpeedText='Speed:'
@@ -174,12 +178,12 @@ def DoScreen (Labyrinth, Level):
 	PlayerLifeText='Life: '
 	PlayerManaText='Mana: '
 
-	PlayerAttackTextSurf=myfont.render(PlayerAttackText, False, red)
-	PlayerSpeedTextSurf=myfont.render(PlayerSpeedText, False, red)
-	PlayerLifeLevelTextSurf=myfont.render(PlayerLifeLevelText, False, red)
-	PlayerMagicTextSurf=myfont.render(PlayerMagicText, False, red)
-	PlayerLifeTextSurf=myfont.render(PlayerLifeText, False, red)
-	PlayerManaTextSurf=myfont.render(PlayerManaText, False, red)
+	PlayerAttackTextSurf=myfont.render(PlayerAttackText, False, green)
+	PlayerSpeedTextSurf=myfont.render(PlayerSpeedText, False, green)
+	PlayerLifeLevelTextSurf=myfont.render(PlayerLifeLevelText, False, green)
+	PlayerMagicTextSurf=myfont.render(PlayerMagicText, False, green)
+	PlayerLifeTextSurf=myfont.render(PlayerLifeText, False, green)
+	PlayerManaTextSurf=myfont.render(PlayerManaText, False, green)
 
 	screen.blit(PlayerAttackTextSurf,(950,0))
 	screen.blit(PlayerSpeedTextSurf,(950,20))
@@ -195,12 +199,12 @@ def DoScreen (Labyrinth, Level):
 	PlayerLifeNo=str(PlayerLife)
 	PlayerManaNo=str(PlayerMana)
 
-	PlayerAttackNoSurf=myfont.render(PlayerAttackNo, False, red)
-	PlayerSpeedNoSurf=myfont.render(PlayerSpeedNo, False, red)
-	PlayerLifeLevelNoSurf=myfont.render(PlayerLifeLevelNo, False, red)
-	PlayerMagicNoSurf=myfont.render(PlayerMagicNo, False, red)
-	PlayerLifeNoSurf=myfont.render(PlayerLifeNo, False, red)
-	PlayerManaNoSurf=myfont.render(PlayerManaNo, False, red)
+	PlayerAttackNoSurf=myfont.render(PlayerAttackNo, False, green)
+	PlayerSpeedNoSurf=myfont.render(PlayerSpeedNo, False, green)
+	PlayerLifeLevelNoSurf=myfont.render(PlayerLifeLevelNo, False, green)
+	PlayerMagicNoSurf=myfont.render(PlayerMagicNo, False, green)
+	PlayerLifeNoSurf=myfont.render(PlayerLifeNo, False, green)
+	PlayerManaNoSurf=myfont.render(PlayerManaNo, False, green)
 
 	screen.blit(PlayerAttackNoSurf,(1100,0))
 	screen.blit(PlayerSpeedNoSurf,(1100,20))
@@ -211,24 +215,26 @@ def DoScreen (Labyrinth, Level):
 
 	WeaponText='Weapon:'
 	ArmorText='Armor:'
-	WeaponTextSurf=myfont.render(WeaponText, False, red)
-	ArmorTextSurf=myfont.render(ArmorText, False, red)
+	WeaponTextSurf=myfont.render(WeaponText, False, green)
+	ArmorTextSurf=myfont.render(ArmorText, False, green)
 
 	screen.blit(WeaponTextSurf,(950,140))
 	screen.blit(ArmorTextSurf,(950,160))
 
 	PlayerWeaponText=PlayerWeapon
 	PlayerArmorText=PlayerArmor
-	PlayerWeaponTextSurf=myfont.render(PlayerWeaponText, False, red)
-	PlayerArmorTextSurf=myfont.render(PlayerArmorText, False, red)
+	PlayerWeaponTextSurf=myfont.render(PlayerWeaponText, False, green)
+	PlayerArmorTextSurf=myfont.render(PlayerArmorText, False, green)
 
 	screen.blit(PlayerWeaponTextSurf,(1100,140))
 	screen.blit(PlayerArmorTextSurf,(1100,160))
 
-	LevelTextSurf=myfont.render(LevelText, 1, red)
-	PlayerPosTextSurf = myfont.render(PlayerPosText, False, red)
+	LevelTextSurf=myfont.render(LevelText, 1, green)
+	PlayerPosTextSurf = myfont.render(PlayerPosText, False, green)
+	LabyrinthTextSurf = myfont.render(LabyrinthText, False, green)
 	screen.blit(LevelTextSurf,(0,0))
 	screen.blit(PlayerPosTextSurf,(0,20))
+	screen.blit(LabyrinthTextSurf,(0,40))
 	#screen.blit(StairsPosTextSurf,(0,20))
 	# Placing the player picture in the middle of the screen
 	screen.blit(Player, (560, 320))
@@ -547,12 +553,13 @@ def CheckFloor(Labyrinth, CheckX, CheckY):
 		Object=Labyrinth[Counter]
 		ObjectX=Labyrinth[Counter+1]
 		ObjectY=Labyrinth[Counter+2]
-		if Object=='Floor':
-			FloorFound=True
-		if Object=='Wall':
-			FloorFound=False
-			break
-	Counter=Counter+3
+		if CheckX==ObjectX and CheckY==ObjectY:
+			if Object=='Floor':
+				FloorFound=True
+			if Object!='Floor':
+				FloorFound=False
+				break
+		Counter=Counter+3
 	return(FloorFound)
 
 # Function for checking wether there is Labyrinth in the CheckX and CheckY position
@@ -1002,21 +1009,13 @@ def PlaceStairs(Labyrinth):
 			NoBlock=False
 
 		if NoBlock:
-			FoundASpot=False
-			Counter=0
-			MaxCounter=len(Labyrinth)
-			while Counter < MaxCounter:
-				Object=Labyrinth[Counter]
-				ObjectX=Labyrinth[Counter+1]
-				ObjectY=Labyrinth[Counter+2]
-				if ObjectX==StairsX and ObjectY==StairsY:
-					if Object=='Wall':
-						FoundASpot=False
-						break
-					if Object=='Floor':
-						FoundASpot=True
-				Counter=Counter+3
-			if FoundASpot:
+			FloorFound=False
+			CheckX=StairsX
+			CheckY=StairsY
+			FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+			if FloorFound:
+				Counter=0
+				MaxCounter=len(Labyrinth)
 				LookingForASpot=False
 				Counter=0
 				MaxCounter=len(Labyrinth)
