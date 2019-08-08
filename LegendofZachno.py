@@ -1056,7 +1056,7 @@ def PlaceDecorations():
 	global StairsY
 
 	DecMin=0
-	DecMax=int(len(RoomPos)/6)
+	DecMax=int(len(RoomPos)/12)
 	while DecMin < DecMax:
 		DecNo=random.randint(1,5)
 		if DecNo==1:
