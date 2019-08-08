@@ -56,6 +56,11 @@ Wall=pygame.image.load('newWall.PNG')
 Player=pygame.image.load('newMonster.PNG')
 TextBar=pygame.image.load('TextBar.png')
 Splash=pygame.image.load('Splash.png')
+Candle=pygame.image.load('Candle.png')
+Lantern=pygame.image.load('Lantern.png')
+Rubble=pygame.image.load('Rubble.png')
+Skull=pygame.image.load('Skull.png')
+Shield=pygame.image.load('Shield.png')
 
 # Declaring the main game screen, only do this once, outside of a loop otherwise video-memory will be flooded after extended game-play
 pygame.display.set_caption('Legend of Zachno')
@@ -128,7 +133,16 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=Floor
 	elif ObjectImage=='Stairs':
 		ScreenItem=Stairs
-	
+	elif ObjectImage=='Lantern':
+		ScreenItem=Lantern
+	elif ObjectImage=='Rubble':
+		ScreenItem=Rubble
+	elif ObjectImage=='Skull':
+		ScreenItem=Skull
+	elif ObjectImage=='Shield':
+		ScreenItem=Shield
+	elif ObjectImage=='Candle':
+		ScreenItem=Candle
 	return(ScreenItem)
 
 # Display function
@@ -1031,6 +1045,70 @@ def PlaceStairs(Labyrinth):
 					Counter=Counter+3
 	return
 
+def PlaceDecorations():
+	LoadingText='Placing decorations...'
+	LoadingTextSurf = myfont.render(LoadingText, False, green)
+	screen.blit(TextBar,(0,780))
+	screen.blit(LoadingTextSurf,(0,780))
+	pygame.display.flip()
+
+	global StairsX
+	global StairsY
+
+	DecMin=0
+	DecMax=int(len(RoomPos)/6)
+	while DecMin < DecMax:
+		DecNo=random.randint(1,5)
+		if DecNo==1:
+			Decoration='Candle'
+		if DecNo==2:
+			Decoration='Lantern'
+		if DecNo==3:
+			Decoration='Rubble'
+		if DecNo==4:
+			Decoration='Skull'
+		if DecNo==5:
+			Decoration='Shield'
+
+		DecXMin=-1*MapGen*9
+		DecXMax=MapGen*9
+		DecYMin=-1*MapGen*9
+		DecYMax=MapGen*9
+		LookingForASpot=True
+		while LookingForASpot:
+			NoBlock=True
+			DecX=random.randint(DecXMin, DecXMax)
+			DecY=random.randint(DecYMin, DecYMax)
+
+			if (DecX/9)==int(DecX/9):
+				NoBlock=False
+			if (DecY/9)==int(DecY/9):
+				NoBlock=False
+	
+			if NoBlock:
+				FloorFound=False
+				CheckX=DecX
+				CheckY=DecY
+				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+				if FloorFound:
+					Counter=0
+					MaxCounter=len(Labyrinth)
+					LookingForASpot=False
+					Counter=0
+					MaxCounter=len(Labyrinth)
+					while Counter < MaxCounter:
+						Object=Labyrinth[Counter]
+						ObjectX=Labyrinth[Counter+1]
+						ObjectY=Labyrinth[Counter+2]
+						if ObjectX==DecX and ObjectY==DecY:
+							Labyrinth.append(Decoration)
+							Labyrinth.append(DecX)
+							Labyrinth.append(DecY)
+						Counter=Counter+3
+		DecMin=DecMin+1
+	return
+
+
 # Container Function for all the functions that generate a new level
 def GenerateLabyrinth():
 	global MapGen
@@ -1163,6 +1241,7 @@ if Level > 0:
 			GenerateLabyrinth()
 			CheckNextRoom(Labyrinth, RoomPos)
 			PlaceStairs(Labyrinth)
+			PlaceDecorations()
 			Ping.play()
 	else:
 		del Labyrinth[:]
@@ -1218,7 +1297,7 @@ while Level < LevelMax:
 				PlayerY=PlayerPos[1]
 			if pygame.key.get_pressed()[pygame.K_ESCAPE]:
 				if Level > 0:
-					LoadingText='Exiting game, save current map <s> continue next name with new map <n>...'
+					LoadingText='Exiting game, save current map <s> start next game with new map <n>...'
 					LoadingTextSurf = myfont.render(LoadingText, False, green)
 
 					screen.blit(TextBar,(0,370))
@@ -1344,6 +1423,7 @@ while Level < LevelMax:
 				GenerateLabyrinth()
 				CheckNextRoom(Labyrinth, RoomPos)
 				PlaceStairs(Labyrinth)
+				PlaceDecorations()
 				Ping.play()
 			else:
 				DoVictory()
