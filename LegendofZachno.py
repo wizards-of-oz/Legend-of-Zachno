@@ -165,7 +165,10 @@ def DoScreen (Labyrinth, Level):
 
 	# Preparing and 'blitting' text on the game screen
 	MapGen=int(Level/2)+1
-	Size=(MapGen*2*9)+9
+	if Level==0:
+		Size=7
+	else:
+		Size=(MapGen*2*9)+9
 
 	LevelText = 'Level: '+str(Level)
 	PlayerPosText = 'Position: '+str(PlayerX)+' '+str(PlayerY)
@@ -1215,9 +1218,31 @@ while Level < LevelMax:
 				PlayerY=PlayerPos[1]
 			if pygame.key.get_pressed()[pygame.K_ESCAPE]:
 				if Level > 0:
+					LoadingText='Exiting game, save current map <s> continue next name with new map <n>...'
+					LoadingTextSurf = myfont.render(LoadingText, False, green)
+
+					screen.blit(TextBar,(0,370))
+					screen.blit(TextBar,(0,390))
+					screen.blit(TextBar,(0,410))
+
+					screen.blit(LoadingTextSurf,(0,390))
+					pygame.display.flip()
+					MakingAChoice=True
+					ConSwitch=0
+					while MakingAChoice:
+						for event in pygame.event.get():
+							if event.type == pygame.KEYDOWN:
+								if event.key == pygame.K_s:
+									MakingAChoice=False
+									ConSwitch=1
+								if event.key == pygame.K_n:
+									ConSwitch=0
+									MakingAChoice=False
+					
+					SwitchWrite=str(ConSwitch)+'\n'
 					os.system('rm Zachno.sav')
 					Save=open('Zachno.sav', 'a')
-					Save.write('1\n')
+					Save.write(SwitchWrite)
 					LevelSave=str(Level)+'\n'
 					Save.write(LevelSave)
 					AttackSave=str(PlayerAttack)+'\n'
