@@ -1097,7 +1097,8 @@ def PlaceDecorations():
 
 	global StairsX
 	global StairsY
-
+	Chests=0
+	MaxChests=Level
 	DecMin=0
 	DecMax=int(len(RoomPos)/12)
 	while DecMin < DecMax:
@@ -1113,7 +1114,9 @@ def PlaceDecorations():
 		if DecNo==5:
 			Decoration='Shield'
 		if DecNo==6:
-			Decoration='ChestClosed'
+			Chests=Chests+1
+			if Chests <= MaxChests:
+				Decoration='ChestClosed'
 
 		DecXMin=-1*MapGen*9
 		DecXMax=MapGen*9
