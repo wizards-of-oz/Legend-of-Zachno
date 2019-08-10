@@ -46,6 +46,7 @@ Walk = pygame.mixer.Sound('Walk.ogg')
 Bump = pygame.mixer.Sound('Bump.ogg')
 StairsUp = pygame.mixer.Sound('Up.ogg')
 Ping = pygame.mixer.Sound('Ping.ogg')
+OpeningChest = pygame.mixer.Sound('OpeningChest.ogg')
 
 # Loading picture files into RAM
 Black=pygame.image.load('Black.png')
@@ -61,6 +62,9 @@ Lantern=pygame.image.load('Lantern.png')
 Rubble=pygame.image.load('Rubble.png')
 Skull=pygame.image.load('Skull.png')
 Shield=pygame.image.load('Shield.png')
+ChestClosed=pygame.image.load('ChestClosed.png')
+ChestOpen=pygame.image.load('ChestOpen.png')
+
 
 # Declaring the main game screen, only do this once, outside of a loop otherwise video-memory will be flooded after extended game-play
 pygame.display.set_caption('Legend of Zachno')
@@ -143,6 +147,11 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=Shield
 	elif ObjectImage=='Candle':
 		ScreenItem=Candle
+	elif ObjectImage=='ChestClosed':
+		ScreenItem=ChestClosed
+	elif ObjectImage=='ChestOpen':
+		ScreenItem=ChestOpen
+
 	return(ScreenItem)
 
 # Display function
@@ -287,6 +296,37 @@ def DoMovePlayer(PlayerX, PlayerY, Dir):
 		Walk.play()
 	return(PlayerPos)
 
+def DoChest(NewX, NewY):
+	ChestText='Open chest? <y/n>...'
+	ChestTextSurf = myfont.render(ChestText, False, green)
+
+	screen.blit(TextBar,(0,370))
+	screen.blit(TextBar,(0,390))
+	screen.blit(TextBar,(0,410))
+
+	screen.blit(ChestTextSurf,(0,390))
+	pygame.display.flip()
+	MakingAChoice=True
+	while MakingAChoice:
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_y:
+					Counter=0
+					MaxCounter=len(Labyrinth)
+					while Counter < MaxCounter:
+						Object=Labyrinth[Counter]
+						ObjectX=Labyrinth[Counter+1]
+						ObjectY=Labyrinth[Counter+2]
+						if ObjectX==NewX and ObjectY==NewY:
+							if Object=='ChestClosed':
+								Labyrinth[Counter]='ChestOpen'
+								OpeningChest.play()
+						Counter=Counter+3
+					MakingAChoice=False
+				if event.key == pygame.K_n:
+					MakingAChoice=False
+	return
+
 # Checks next position in movement and makes game decisions
 def DoPlayerCollisionDetection(NewX, NewY, Labyrinth):
 	global PlayerX
@@ -311,6 +351,9 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth):
 				DoScreen(Labyrinth, Level)
 				StairsUp.play()
 				NextLevel=True
+			elif Object == 'ChestClosed':
+				DoChest(NewX, NewY)
+				Collision=True
 			else:
 				Collision=True
 		Counter=Counter+3
@@ -1058,7 +1101,7 @@ def PlaceDecorations():
 	DecMin=0
 	DecMax=int(len(RoomPos)/12)
 	while DecMin < DecMax:
-		DecNo=random.randint(1,5)
+		DecNo=random.randint(1,6)
 		if DecNo==1:
 			Decoration='Candle'
 		if DecNo==2:
@@ -1069,6 +1112,8 @@ def PlaceDecorations():
 			Decoration='Skull'
 		if DecNo==5:
 			Decoration='Shield'
+		if DecNo==6:
+			Decoration='ChestClosed'
 
 		DecXMin=-1*MapGen*9
 		DecXMax=MapGen*9
