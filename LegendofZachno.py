@@ -75,6 +75,10 @@ ManaPotion=pygame.image.load('Mana.png')
 Dagger=pygame.image.load('Dagger.png')
 Sword=pygame.image.load('Sword.png')
 BattleAxe=pygame.image.load('BattleAxe.png')
+DaggerSmall=pygame.image.load('DaggerSmall.png')
+SwordSmall=pygame.image.load('SwordSmall.png')
+MaceSmall=pygame.image.load('MaceSmall.png')
+BattleAxeSmall=pygame.image.load('BattleAxeSmall.png')
 
 
 
@@ -337,6 +341,15 @@ def DoScreen (Labyrinth, Level):
 	#screen.blit(StairsPosTextSurf,(0,20))
 	# Placing the player picture in the middle of the screen
 	screen.blit(Player, (560, 320))
+	if PlayerWeapon=='Dagger':
+			screen.blit(DaggerSmall, (560, 320))
+	elif PlayerWeapon=='Sword':
+			screen.blit(SwordSmall, (560, 320))
+	elif PlayerWeapon=='Mace':
+			screen.blit(MaceSmall, (560, 320))
+	elif PlayerWeapon=='Battleaxe':
+			screen.blit(BattleAxeSmall, (560, 320))
+
 	# Writing all previous draw commands into the game-screen at once
 	pygame.display.flip()
 	return
