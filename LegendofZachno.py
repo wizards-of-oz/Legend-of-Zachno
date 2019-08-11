@@ -1498,7 +1498,7 @@ def DropItem(ItemCounter):
 	if InvList[ItemCounter].rstrip()=='Mace':
 		Object='Mace'
 	if InvList[ItemCounter].rstrip()=='Beartrap':
-		Object='Beartrap'
+		Object='BearTrap'
 	if InvList[ItemCounter].rstrip()=='Mine':
 		Object='Mine'
 	if InvList[ItemCounter].rstrip()=='Lifepotion':
