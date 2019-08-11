@@ -47,6 +47,9 @@ Bump = pygame.mixer.Sound('Bump.ogg')
 StairsUp = pygame.mixer.Sound('Up.ogg')
 Ping = pygame.mixer.Sound('Ping.ogg')
 OpeningChest = pygame.mixer.Sound('OpeningChest.ogg')
+Life = pygame.mixer.Sound('Life.ogg')
+Mana = pygame.mixer.Sound('Mana.ogg')
+Grab = pygame.mixer.Sound('Grab.ogg')
 
 # Loading picture files into RAM
 Black=pygame.image.load('Black.png')
@@ -64,6 +67,15 @@ Skull=pygame.image.load('Skull.png')
 Shield=pygame.image.load('Shield.png')
 ChestClosed=pygame.image.load('ChestClosed.png')
 ChestOpen=pygame.image.load('ChestOpen.png')
+Mace=pygame.image.load('Mace.png')
+BearTrap=pygame.image.load('BearTrap.png')
+Mine=pygame.image.load('Mine.png')
+LifePotion=pygame.image.load('Life.png')
+ManaPotion=pygame.image.load('Mana.png')
+Dagger=pygame.image.load('Dagger.png')
+Sword=pygame.image.load('Sword.png')
+BattleAxe=pygame.image.load('BattleAxe.png')
+
 
 
 # Declaring the main game screen, only do this once, outside of a loop otherwise video-memory will be flooded after extended game-play
@@ -151,8 +163,67 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=ChestClosed
 	elif ObjectImage=='ChestOpen':
 		ScreenItem=ChestOpen
+	elif ObjectImage=='Mace':
+		ScreenItem=Mace
+	elif ObjectImage=='BearTrap':
+		ScreenItem=BearTrap
+	elif ObjectImage=='Mine':
+		ScreenItem=Mine
+	elif ObjectImage=='Life':
+		ScreenItem=LifePotion
+	elif ObjectImage=='Mana':
+		ScreenItem=ManaPotion
+	elif ObjectImage=='Dagger':
+		ScreenItem=Dagger
+	elif ObjectImage=='Sword':
+		ScreenItem=Sword
+	elif ObjectImage=='BattleAxe':
+		ScreenItem=BattleAxe
 
 	return(ScreenItem)
+
+def DoInventoryList():
+	if len(InvList) > 0:
+		ItemText='1> '+InvList[0].rstrip()
+		ItemTextSurf=myfont.render(ItemText, False, green)		
+		screen.blit(ItemTextSurf,(950,200))
+	if len(InvList) > 1:
+		ItemText='2> '+InvList[1].rstrip()
+		ItemTextSurf=myfont.render(ItemText, False, green)		
+		screen.blit(ItemTextSurf,(950,220))
+	if len(InvList) > 2:
+		ItemText='3> '+InvList[2].rstrip()
+		ItemTextSurf=myfont.render(ItemText, False, green)		
+		screen.blit(ItemTextSurf,(950,240))
+	if len(InvList) > 3:
+		ItemText='4> '+InvList[3].rstrip()
+		ItemTextSurf=myfont.render(ItemText, False, green)		
+		screen.blit(ItemTextSurf,(950,260))
+	if len(InvList) > 4:
+		ItemText='5> '+InvList[4].rstrip()
+		ItemTextSurf=myfont.render(ItemText, False, green)		
+		screen.blit(ItemTextSurf,(950,280))
+	if len(InvList) > 5:
+		ItemText='6> '+InvList[5].rstrip()
+		ItemTextSurf=myfont.render(ItemText, False, green)		
+		screen.blit(ItemTextSurf,(950,300))
+	if len(InvList) > 6:
+		ItemText='7> '+InvList[6].rstrip()
+		ItemTextSurf=myfont.render(ItemText, False, green)		
+		screen.blit(ItemTextSurf,(950,320))
+	if len(InvList) > 7:
+		ItemText='8> '+InvList[7].rstrip()
+		ItemTextSurf=myfont.render(ItemText, False, green)		
+		screen.blit(ItemTextSurf,(950,340))
+	if len(InvList) > 8:
+		ItemText='9> '+InvList[8].rstrip()
+		ItemTextSurf=myfont.render(ItemText, False, green)		
+		screen.blit(ItemTextSurf,(950,360))
+	if len(InvList) > 9:
+		ItemText='0> '+InvList[9].rstrip()
+		ItemTextSurf=myfont.render(ItemText, False, green)		
+		screen.blit(ItemTextSurf,(950,380))
+	return
 
 # Display function
 def DoScreen (Labyrinth, Level):
@@ -239,6 +310,8 @@ def DoScreen (Labyrinth, Level):
 	screen.blit(PlayerLifeNoSurf,(1100,80))
 	screen.blit(PlayerManaNoSurf,(1100,100))
 
+	DoInventoryList()
+
 	WeaponText='Weapon:'
 	ArmorText='Armor:'
 	WeaponTextSurf=myfont.render(WeaponText, False, green)
@@ -296,6 +369,38 @@ def DoMovePlayer(PlayerX, PlayerY, Dir):
 		Walk.play()
 	return(PlayerPos)
 
+def DoGetItem():
+	ItemNo=random.randint(1,8)
+	if ItemNo==1:
+		Item='Mace'
+	if ItemNo==2:
+		Item='Beartrap'
+	if ItemNo==3:
+		Item='Mine'
+	if ItemNo==4:
+		Item='Lifepotion'
+	if ItemNo==5:
+		Item='Manapotion'
+	if ItemNo==6:
+		Item='Dagger'
+	if ItemNo==7:
+		Item='Sword'
+	if ItemNo==8:
+		Item='Battleaxe'
+
+	InvList.append(Item)
+	ChestText='You received a '+Item+', press enter...'
+	ChestTextSurf = myfont.render(ChestText, False, green)
+
+	screen.blit(TextBar,(0,370))
+	screen.blit(TextBar,(0,390))
+	screen.blit(TextBar,(0,410))
+
+	screen.blit(ChestTextSurf,(0,390))
+	pygame.display.flip()
+	wait()
+	return
+
 def DoChest(NewX, NewY):
 	ChestText='Open chest? <y/n>...'
 	ChestTextSurf = myfont.render(ChestText, False, green)
@@ -311,6 +416,7 @@ def DoChest(NewX, NewY):
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_y:
+					DoGetItem()
 					Counter=0
 					MaxCounter=len(Labyrinth)
 					while Counter < MaxCounter:
@@ -342,20 +448,87 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth):
 		ObjectY=int(Labyrinth[Counter+2])
 		if (ObjectX == NewX) and (ObjectY == NewY):
 			# If the object is a Floor, the player can freely move on
-			if Object == 'Floor':
-				Collision=False
+			if Object == 'Wall':
+				Collision=True
 			# If the object is a stair the stairwalking sound will be played and NextLevel will be set to True
-			elif Object == 'Stairs':
+			if Object == 'Stairs':
 				PlayerX=NewX
 				PlayerY=NewY
 				DoScreen(Labyrinth, Level)
 				StairsUp.play()
 				NextLevel=True
-			elif Object == 'ChestClosed':
-				DoChest(NewX, NewY)
+				Collision=False
+			if Object == 'Floor':
+				Collision=False
+			if Object == 'ChestClosed':
+				if len(InvList) < 10:
+					DoChest(NewX, NewY)
+				else:
+					ChestText='Inventory full, press enter...'
+					ChestTextSurf = myfont.render(ChestText, False, green)
+
+					screen.blit(TextBar,(0,370))
+					screen.blit(TextBar,(0,390))
+					screen.blit(TextBar,(0,410))
+
+					screen.blit(ChestTextSurf,(0,390))
+					pygame.display.flip()
+					wait()
 				Collision=True
-			else:
-				Collision=True
+			if Object == 'Dagger':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Dagger')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'Mace':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Mace')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'Sword':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Sword')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'BattleAxe':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Battleaxe')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'Life':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Lifepotion')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'Mana':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Manapotion')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
 		Counter=Counter+3
 	return(Collision)
 
@@ -1098,9 +1271,9 @@ def PlaceDecorations():
 	global StairsX
 	global StairsY
 	Chests=0
-	MaxChests=Level
+	MaxChests=int(Level/2)
 	DecMin=0
-	DecMax=int(len(RoomPos)/12)
+	DecMax=int(len(RoomPos)/14)
 	while DecMin < DecMax:
 		DecNo=random.randint(1,6)
 		if DecNo==1:
@@ -1247,6 +1420,80 @@ def DoVictory():
 	wait()
 	return
 
+def DoItem(ItemCounter):
+	Item=InvList[ItemCounter].rstrip()
+	ChestText='Use '+Item+' <u> or drop '+Item+' <d>...'
+	ChestTextSurf = myfont.render(ChestText, False, green)
+
+	screen.blit(TextBar,(0,370))
+	screen.blit(TextBar,(0,390))
+	screen.blit(TextBar,(0,410))
+
+	screen.blit(ChestTextSurf,(0,390))
+	pygame.display.flip()
+	MakingAChoice=True
+	while MakingAChoice:
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_u:
+					UseItem(ItemCounter)
+					MakingAChoice=False
+				if event.key == pygame.K_d:
+					DropItem(ItemCounter)
+					MakingAChoice=False
+
+	return
+
+def UseItem(ItemCounter):
+	global PlayerWeapon
+	if InvList[ItemCounter].rstrip()=='Mace':
+		PlayerWeapon='Mace'
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Dagger':
+		PlayerWeapon='Dagger'
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Sword':
+		PlayerWeapon='Sword'
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Battleaxe':
+		PlayerWeapon='Battleaxe'
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Beartrap':
+		DropItem(ItemCounter)
+	elif InvList[ItemCounter].rstrip()=='Mine':
+		DropItem(ItemCounter)
+	elif InvList[ItemCounter].rstrip()=='Lifepotion':
+		Life.play()
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Manapotion':
+		Mana.play()
+		del InvList[ItemCounter]
+	return
+
+
+def DropItem(ItemCounter):
+	if InvList[ItemCounter].rstrip()=='Mace':
+		Object='Mace'
+	if InvList[ItemCounter].rstrip()=='Beartrap':
+		Object='Beartrap'
+	if InvList[ItemCounter].rstrip()=='Mine':
+		Object='Mine'
+	if InvList[ItemCounter].rstrip()=='Lifepotion':
+		Object='Life'
+	if InvList[ItemCounter].rstrip()=='Manapotion':
+		Object='Mana'
+	if InvList[ItemCounter].rstrip()=='Dagger':
+		Object='Dagger'
+	if InvList[ItemCounter].rstrip()=='Sword':
+		Object='Sword'
+	if InvList[ItemCounter].rstrip()=='Battleaxe':
+		Object='BattleAxe'
+	Labyrinth.append(Object)
+	Labyrinth.append(PlayerX)
+	Labyrinth.append(PlayerY)
+	del InvList[ItemCounter]
+	return
+
 # Main loop
 PlayerWeapon='Fists'
 PlayerArmor='None'
@@ -1268,21 +1515,29 @@ LoadCounter=0
 LoadCounterMax=len(LoadList)
 ConSwitch=int(LoadList[0])
 Level=int(LoadList[1])
+
+
+InvList=list()
 pygame.key.set_repeat(30,30)
 DoSplash()
 if Level > 0:
 	if ConSwitch==0:
 		if Level > 0 and Level < LevelMax:
-			PlayerAttack=int(LoadList[2])
-			PlayerSpeed=int(LoadList[3])
-			PlayerLifeLevel=int(LoadList[4])
-			PlayerMagic=int(LoadList[5])
-			PlayerLife=int(LoadList[6])
-			PlayerMana=int(LoadList[7])
+			PlayerWeapon=LoadList[2].rstrip()
+			PlayerArmor=LoadList[3].rstrip()
+			PlayerAttack=int(LoadList[4])
+			PlayerSpeed=int(LoadList[5])
+			PlayerLifeLevel=int(LoadList[6])
+			PlayerMagic=int(LoadList[7])
+			PlayerLife=int(LoadList[8])
+			PlayerMana=int(LoadList[9])
 			PlayerX=0
 			PlayerY=0
 			MaxRooms=0
 			Rooms=0
+			LoadInv=open('Inventory.sav', 'r')
+			InvList=list(LoadInv)
+			LoadInv.close()
 			screen.blit(Loading,(0,0))
 			pygame.display.flip()
 			del Labyrinth[:]
@@ -1293,14 +1548,19 @@ if Level > 0:
 			Ping.play()
 	else:
 		del Labyrinth[:]
-		PlayerAttack=int(LoadList[2])
-		PlayerSpeed=int(LoadList[3])
-		PlayerLifeLevel=int(LoadList[4])
-		PlayerMagic=int(LoadList[5])
-		PlayerLife=int(LoadList[6])
-		PlayerMana=int(LoadList[7])
-		PlayerX=int(LoadList[8])
-		PlayerY=int(LoadList[9])
+		PlayerWeapon=LoadList[2].rstrip()
+		PlayerArmor=LoadList[3].rstrip()
+		PlayerAttack=int(LoadList[4])
+		PlayerSpeed=int(LoadList[5])
+		PlayerLifeLevel=int(LoadList[6])
+		PlayerMagic=int(LoadList[7])
+		PlayerLife=int(LoadList[8])
+		PlayerMana=int(LoadList[9])
+		PlayerX=int(LoadList[10])
+		PlayerY=int(LoadList[11])
+		LoadInv=open('Inventory.sav', 'r')
+		InvList=list(LoadInv)
+		LoadInv.close()
 		LoadMap=open('MapState.sav', 'r')
 		LabyrinthState=list(LoadMap)
 		LoadMap.close()
@@ -1343,6 +1603,36 @@ while Level < LevelMax:
 				DoMovePlayer(PlayerX, PlayerY, Dir)
 				PlayerX=PlayerPos[0]
 				PlayerY=PlayerPos[1]
+			if pygame.key.get_pressed()[pygame.K_1] and len(InvList) > 0:
+				ItemCounter=0
+				DoItem(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_2] and len(InvList) > 1:
+				ItemCounter=1
+				DoItem(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_3] and len(InvList) > 2:
+				ItemCounter=2
+				DoItem(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_4] and len(InvList) > 3:
+				ItemCounter=3
+				DoItem(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_5] and len(InvList) > 4:
+				ItemCounter=4
+				DoItem(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_6] and len(InvList) > 5:
+				ItemCounter=5
+				DoItem(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_7] and len(InvList) > 6:
+				ItemCounter=6
+				DoItem(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_8] and len(InvList) > 7:
+				ItemCounter=7
+				DoItem(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_9] and len(InvList) > 8:
+				ItemCounter=8
+				DoItem(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_0] and len(InvList) > 9:
+				ItemCounter=9
+				DoItem(ItemCounter)
 			if pygame.key.get_pressed()[pygame.K_ESCAPE]:
 				if Level > 0:
 					LoadingText='Exiting game, save current map <s> start next game with new map <n>...'
@@ -1372,13 +1662,18 @@ while Level < LevelMax:
 					Save.write(SwitchWrite)
 					LevelSave=str(Level)+'\n'
 					Save.write(LevelSave)
+
+					WeaponSave=str(PlayerWeapon)+'\n'
+					ArmorSave=str(PlayerArmor)+'\n'
 					AttackSave=str(PlayerAttack)+'\n'
 					SpeedSave=str(PlayerSpeed)+'\n'
 					HealthSave=str(PlayerLifeLevel)+'\n'
 					MagicSave=str(PlayerMagic)+'\n'
 					LifeSave=str(PlayerLife)+'\n'
 					ManaSave=str(PlayerMana)+'\n'
-	
+
+					Save.write(WeaponSave)
+					Save.write(ArmorSave)
 					Save.write(AttackSave)
 					Save.write(SpeedSave)
 					Save.write(HealthSave)
@@ -1404,6 +1699,17 @@ while Level < LevelMax:
 						MapSave.write(ObjectY)
 						LabCounter=LabCounter+3
 					MapSave.close()
+					os.system('rm Inventory.sav')
+					InvSave=open('Inventory.sav', 'a')
+					InvCounter=0
+					InvCounterMax=len(InvList)
+					while InvCounter < InvCounterMax:
+						Object=str(InvList[InvCounter]).rstrip()
+						InvSave.write(Object)
+						if not InvCounter==InvCounterMax-1:
+							InvSave.write('\n')
+						InvCounter=InvCounter+1
+					InvSave.close()
 					DoExit()
 				sys.exit()
 		DoScreen(Labyrinth, Level)
@@ -1418,12 +1724,17 @@ while Level < LevelMax:
 				LevelSave=str(Level)+'\n'
 				Save.write('0\n')
 				Save.write(LevelSave)
+				WeaponSave=str(PlayerWeapon)+'\n'
+				ArmorSave=str(PlayerArmor)+'\n'
 				AttackSave=str(PlayerAttack)+'\n'
 				SpeedSave=str(PlayerSpeed)+'\n'
 				HealthSave=str(PlayerLifeLevel)+'\n'
 				MagicSave=str(PlayerMagic)+'\n'
 				LifeSave=str(PlayerLife)+'\n'
 				ManaSave=str(PlayerMana)+'\n'
+
+				Save.write(WeaponSave)
+				Save.write(ArmorSave)
 				Save.write(AttackSave)
 				Save.write(SpeedSave)
 				Save.write(HealthSave)
@@ -1434,6 +1745,17 @@ while Level < LevelMax:
 				Save.write('0\n')
 				Save.write('0')
 				Save.close()
+				os.system('rm Inventory.sav')
+				InvSave=open('Inventory.sav', 'a')
+				InvCounter=0
+				InvCounterMax=len(InvList)
+				while InvCounter < InvCounterMax:
+					Object=str(InvList[InvCounter]).rstrip()
+					InvSave.write(Object)
+					if not InvCounter==InvCounterMax-1:
+						InvSave.write('\n')
+					InvCounter=InvCounter+1
+				InvSave.close()
 				LoadingText='Continue to next level? [y/n]...'
 				LoadingTextSurf = myfont.render(LoadingText, False, green)
 	
