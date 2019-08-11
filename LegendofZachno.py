@@ -79,6 +79,7 @@ DaggerSmall=pygame.image.load('DaggerSmall.png')
 SwordSmall=pygame.image.load('SwordSmall.png')
 MaceSmall=pygame.image.load('MaceSmall.png')
 BattleAxeSmall=pygame.image.load('BattleAxeSmall.png')
+ShieldSmall=pygame.image.load('ShieldSmall.png')
 
 
 
@@ -183,7 +184,6 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=Sword
 	elif ObjectImage=='BattleAxe':
 		ScreenItem=BattleAxe
-
 	return(ScreenItem)
 
 def DoInventoryList():
@@ -350,6 +350,8 @@ def DoScreen (Labyrinth, Level):
 	elif PlayerWeapon=='Battleaxe':
 			screen.blit(BattleAxeSmall, (560, 320))
 
+	if PlayerArmor=='Shield':
+			screen.blit(ShieldSmall, (600, 340))
 	# Writing all previous draw commands into the game-screen at once
 	pygame.display.flip()
 	return
@@ -383,7 +385,7 @@ def DoMovePlayer(PlayerX, PlayerY, Dir):
 	return(PlayerPos)
 
 def DoGetItem():
-	ItemNo=random.randint(1,8)
+	ItemNo=random.randint(1,9)
 	if ItemNo==1:
 		Item='Mace'
 	if ItemNo==2:
@@ -400,6 +402,8 @@ def DoGetItem():
 		Item='Sword'
 	if ItemNo==8:
 		Item='Battleaxe'
+	if ItemNo==9:
+		Item='Shield'
 
 	InvList.append(Item)
 	ChestText='You received a '+Item+', press enter...'
@@ -1459,6 +1463,7 @@ def DoItem(ItemCounter):
 
 def UseItem(ItemCounter):
 	global PlayerWeapon
+	global PlayerArmor
 	if InvList[ItemCounter].rstrip()=='Mace':
 		PlayerWeapon='Mace'
 		del InvList[ItemCounter]
@@ -1470,6 +1475,9 @@ def UseItem(ItemCounter):
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Battleaxe':
 		PlayerWeapon='Battleaxe'
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Shield':
+		PlayerArmor='Shield'
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Beartrap':
 		DropItem(ItemCounter)
@@ -1501,6 +1509,8 @@ def DropItem(ItemCounter):
 		Object='Sword'
 	if InvList[ItemCounter].rstrip()=='Battleaxe':
 		Object='BattleAxe'
+	if InvList[ItemCounter].rstrip()=='Shield':
+		Object='Shield'
 	Labyrinth.append(Object)
 	Labyrinth.append(PlayerX)
 	Labyrinth.append(PlayerY)
