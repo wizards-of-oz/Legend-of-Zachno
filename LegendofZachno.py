@@ -1307,6 +1307,8 @@ def PlaceDecorations():
 			Chests=Chests+1
 			if Chests <= MaxChests:
 				Decoration='ChestClosed'
+			else:
+				Decoration='Skull'
 
 		DecXMin=-1*MapGen*9
 		DecXMax=MapGen*9
