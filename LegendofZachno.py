@@ -53,7 +53,9 @@ Grab = pygame.mixer.Sound('Grab.ogg')
 Clank = pygame.mixer.Sound('Clank.ogg')
 Fire = pygame.mixer.Sound('Fire.ogg')
 Stone = pygame.mixer.Sound('Stone.ogg')
+Steal = pygame.mixer.Sound('Steal.ogg')
 Lightning = pygame.mixer.Sound('Lightning.ogg')
+Fireball = pygame.mixer.Sound('Fireball.ogg')
 
 # Loading picture files into RAM
 Black=pygame.image.load('Black.png')
@@ -92,7 +94,9 @@ ElectroTrap=pygame.image.load('ElectroTrap.png')
 FireScroll=pygame.image.load('FireScroll.png')
 StoneScroll=pygame.image.load('StoneScroll.png')
 LightningScroll=pygame.image.load('LightningScroll.png')
-
+DrainScroll=pygame.image.load('DrainScroll.png')
+FireballScroll=pygame.image.load('FireballScroll.png')
+Gnome=pygame.image.load('Gnome.png')
 
 # Declaring the main game screen, only do this once, outside of a loop otherwise video-memory will be flooded after extended game-play
 pygame.display.set_caption('Legend of Zachno')
@@ -205,8 +209,14 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=FireScroll
 	elif ObjectImage=='StoneScroll':
 		ScreenItem=StoneScroll
+	elif ObjectImage=='DrainScroll':
+		ScreenItem=DrainScroll
 	elif ObjectImage=='LightningScroll':
 		ScreenItem=LightningScroll
+	elif ObjectImage=='FireballScroll':
+		ScreenItem=FireballScroll
+	elif ObjectImage=='Gnome':
+		ScreenItem=Gnome
 	return(ScreenItem)
 
 def DoInventoryList():
@@ -294,6 +304,7 @@ def DoScreen (Labyrinth, Level):
 	LevelText = 'Level: '+str(Level)
 	PlayerPosText = 'Position: '+str(PlayerX)+' '+str(PlayerY)
 	LabyrinthText='Size of map: '+str(Size)+' by '+str(Size)
+	GoldText='Player gold: '+str(Gold)
 
 	PlayerAttackText='Attack: '
 	PlayerSpeedText='Speed:'
@@ -358,9 +369,11 @@ def DoScreen (Labyrinth, Level):
 	LevelTextSurf=myfont.render(LevelText, 1, green)
 	PlayerPosTextSurf = myfont.render(PlayerPosText, False, green)
 	LabyrinthTextSurf = myfont.render(LabyrinthText, False, green)
+	GoldTextSurf = myfont.render(GoldText, False, green)
 	screen.blit(LevelTextSurf,(0,0))
 	screen.blit(PlayerPosTextSurf,(0,20))
 	screen.blit(LabyrinthTextSurf,(0,40))
+	screen.blit(GoldTextSurf,(0,60))
 	#screen.blit(StairsPosTextSurf,(0,20))
 	# Placing the player picture in the middle of the screen
 	screen.blit(Player, (560, 320))
@@ -442,12 +455,16 @@ def DoGetItem():
 	if ItemNo==17:
 		Item='Petrify'
 	if ItemNo==18:
+		Item='Drain'
+	if ItemNo==19:
 		Item='Lightning'
 	if ItemNo==19:
-		Item='Shield'
-	if ItemNo==20:
-		Item='WShield'
+		Item='Fireball'
 	if ItemNo==21:
+		Item='Shield'
+	if ItemNo==22:
+		Item='WShield'
+	if ItemNo==23:
 		Item='TShield'
 
 
@@ -496,6 +513,143 @@ def DoChest(NewX, NewY):
 					MakingAChoice=False
 	return
 
+def BuyItem():
+	return
+
+def GetGold(ItemCounter):
+	global Gold
+	if InvList[ItemCounter].rstrip()=='Mace':
+		Gold=Gold+2
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Dagger':
+		Gold=Gold+1
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Sword':
+		Gold=Gold+4
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Battleaxe':
+		Gold=Gold+5
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Shield':
+		Gold=Gold+10
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='WShield':
+		Gold=Gold+5
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='TShield':
+		Gold=Gold+15
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Beartrap':
+		Gold=Gold+4
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Spiketrap':
+		Gold=Gold+2
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Acidtrap':
+		Gold=Gold+6
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Electrotrap':
+		Gold=Gold+8
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Mine':
+		Gold=Gold+10
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Lifepotion':
+		Gold=Gold+9
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Manapotion':
+		Gold=Gold+15
+		Mana.play()
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Fire':
+		Gold=Gold+4
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Petrify':
+		Gold=Gold+8
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Drain':
+		Gold=Gold+12
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Lightning':
+		Gold=Gold+16
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Fireball':
+		Gold=Gold+20
+		del InvList[ItemCounter]
+	DoScreen(Labyrinth, Level)
+	return
+
+def SellItem():
+	MakingaChoice=True
+	while MakingaChoice:
+		ChestText='Press inventory number to sell or <enter> to cancel...'
+		ChestTextSurf = myfont.render(ChestText, False, green)
+
+		screen.blit(TextBar,(0,370))
+		screen.blit(TextBar,(0,390))
+		screen.blit(TextBar,(0,410))
+
+		screen.blit(ChestTextSurf,(0,390))
+		pygame.display.flip()
+
+		for event in pygame.event.get():
+			if pygame.key.get_pressed()[pygame.K_1] and len(InvList) > 0:
+				ItemCounter=0
+				GetGold(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_2] and len(InvList) > 1:
+				ItemCounter=1
+				GetGold(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_3] and len(InvList) > 2:
+				ItemCounter=2
+				GetGold(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_4] and len(InvList) > 3:
+				ItemCounter=3
+				GetGold(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_5] and len(InvList) > 4:
+				ItemCounter=4
+				GetGold(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_6] and len(InvList) > 5:
+				ItemCounter=5
+				GetGold(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_7] and len(InvList) > 6:
+				ItemCounter=6
+				GetGold(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_8] and len(InvList) > 7:
+				ItemCounter=7
+				GetGold(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_9] and len(InvList) > 8:
+				ItemCounter=8
+				GetGold(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_0] and len(InvList) > 9:
+				ItemCounter=9
+				GetGold(ItemCounter)
+			if pygame.key.get_pressed()[pygame.K_RETURN]:
+				MakingaChoice=False
+	return
+
+def DoGnome():
+	ChestText='Buy <b> Sell <s> Ignore <enter>...'
+	ChestTextSurf = myfont.render(ChestText, False, green)
+
+	screen.blit(TextBar,(0,370))
+	screen.blit(TextBar,(0,390))
+	screen.blit(TextBar,(0,410))
+
+	screen.blit(ChestTextSurf,(0,390))
+	pygame.display.flip()
+
+	MakingAChoice=True
+	while MakingAChoice:
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_b:
+					BuyItem()
+				if event.key == pygame.K_s:
+					SellItem()
+				if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN:
+					MakingAChoice=False
+	return
+
 # Checks next position in movement and makes game decisions
 def DoPlayerCollisionDetection(NewX, NewY, Labyrinth):
 	global PlayerX
@@ -538,6 +692,10 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth):
 					pygame.display.flip()
 					wait()
 				Collision=True
+			if Object == 'Gnome':
+				DoGnome()
+				Collision=True
+
 			if Object == 'Dagger':
 				Collision=False
 				if len(InvList) < 10:
@@ -610,10 +768,28 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth):
 					del Labyrinth[Counter]
 					MaxCounter=len(Labyrinth)
 					Grab.play()
+			if Object == 'DrainScroll':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Drain')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
 			if Object == 'LightningScroll':
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Lightning')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'FireballScroll':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Fireball')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1351,6 +1527,40 @@ def PlaceStairs(Labyrinth):
 					Counter=Counter+3
 	return
 
+def PlaceGnome(Labyrinth):
+	LoadingText='Placing Gome...'
+	LoadingTextSurf = myfont.render(LoadingText, False, green)
+	screen.blit(TextBar,(0,780))
+	screen.blit(LoadingTextSurf,(0,780))
+	pygame.display.flip()
+
+	GnomeXMin=-1*MapGen*9
+	GnomeXMax=MapGen*9
+	GnomeYMin=-1*MapGen*9
+	GnomeYMax=MapGen*9
+	LookingForASpot=True
+	while LookingForASpot:
+		NoBlock=True
+		GnomeX=random.randint(GnomeXMin, GnomeXMax)
+		GnomeY=random.randint(GnomeYMin, GnomeYMax)
+
+		if (GnomeX/9)==int(GnomeX/9):
+			NoBlock=False
+		if (GnomeY/9)==int(GnomeY/9):
+			NoBlock=False
+
+		if NoBlock:
+			FloorFound=False
+			CheckX=GnomeX
+			CheckY=GnomeY
+			FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+			if FloorFound:
+				Labyrinth.append('Gnome')
+				Labyrinth.append(GnomeX)
+				Labyrinth.append(GnomeY)
+	return
+
+
 def PlaceDecorations():
 	LoadingText='Placing decorations...'
 	LoadingTextSurf = myfont.render(LoadingText, False, green)
@@ -1509,7 +1719,7 @@ def DoVictory():
 					Save.write('1\n')
 					Save.write('1\n')
 					Save.write('10\n')
-					Save.write('1\n')
+					Save.write('10\n')
 					Save.write('0\n')
 					Save.write('0')
 					Save.close()
@@ -1544,6 +1754,10 @@ def DoItem(ItemCounter):
 def UseItem(ItemCounter):
 	global PlayerWeapon
 	global PlayerArmor
+	global PlayerLifeLevel
+	global PlayerLife
+	global PlayerMagic
+	global PlayerMana
 	if InvList[ItemCounter].rstrip()=='Mace':
 		PlayerWeapon='Mace'
 		del InvList[ItemCounter]
@@ -1580,9 +1794,14 @@ def UseItem(ItemCounter):
 		Clank.play()
 		DropItem(ItemCounter)
 	elif InvList[ItemCounter].rstrip()=='Lifepotion':
+		PlayerLife=PlayerLife+10
+		if PlayerLife > PlayerLifeLevel*10:
+			PlayerLife=PlayerLifeLevel*10
 		Life.play()
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Manapotion':
+		if PlayerMana > PlayerMagic*10:
+			PlayerMana=PlayerMagic*10
 		Mana.play()
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Fire':
@@ -1591,8 +1810,14 @@ def UseItem(ItemCounter):
 	elif InvList[ItemCounter].rstrip()=='Petrify':
 		Stone.play()
 		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Drain':
+		Steal.play()
+		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Lightning':
 		Lightning.play()
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Fireball':
+		Fireball.play()
 		del InvList[ItemCounter]
 	return
 
@@ -1630,8 +1855,12 @@ def DropItem(ItemCounter):
 		Object='FireScroll'
 	if InvList[ItemCounter].rstrip()=='Petrify':
 		Object='StoneScroll'
+	if InvList[ItemCounter].rstrip()=='Drain':
+		Object='DrainScroll'
 	if InvList[ItemCounter].rstrip()=='Lightning':
-		Object='Lightning'
+		Object='LightningScroll'
+	if InvList[ItemCounter].rstrip()=='Fireball':
+		Object='FireballScroll'
 	Clank.play()
 	Labyrinth.append(Object)
 	Labyrinth.append(PlayerX)
@@ -1642,13 +1871,14 @@ def DropItem(ItemCounter):
 # Main loop
 PlayerWeapon='Fists'
 PlayerArmor='None'
+Gold=0
 
 PlayerAttack=1
 PlayerSpeed=1
 PlayerLifeLevel=1
 PlayerMagic=1
 PlayerLife=PlayerLifeLevel*10
-PlayerMana=1
+PlayerMana=PlayerMagic*10
 PlayerX=0
 PlayerY=0
 
@@ -1670,12 +1900,13 @@ if Level > 0:
 		if Level > 0 and Level < LevelMax:
 			PlayerWeapon=LoadList[2].rstrip()
 			PlayerArmor=LoadList[3].rstrip()
-			PlayerAttack=int(LoadList[4])
-			PlayerSpeed=int(LoadList[5])
-			PlayerLifeLevel=int(LoadList[6])
-			PlayerMagic=int(LoadList[7])
-			PlayerLife=int(LoadList[8])
-			PlayerMana=int(LoadList[9])
+			Gold=int(LoadList[4])
+			PlayerAttack=int(LoadList[5])
+			PlayerSpeed=int(LoadList[6])
+			PlayerLifeLevel=int(LoadList[7])
+			PlayerMagic=int(LoadList[8])
+			PlayerLife=int(LoadList[9])
+			PlayerMana=int(LoadList[10])
 			PlayerX=0
 			PlayerY=0
 			MaxRooms=0
@@ -1690,19 +1921,21 @@ if Level > 0:
 			CheckNextRoom(Labyrinth, RoomPos)
 			PlaceStairs(Labyrinth)
 			PlaceDecorations()
+			PlaceGnome(Labyrinth)
 			Ping.play()
 	else:
 		del Labyrinth[:]
 		PlayerWeapon=LoadList[2].rstrip()
 		PlayerArmor=LoadList[3].rstrip()
-		PlayerAttack=int(LoadList[4])
-		PlayerSpeed=int(LoadList[5])
-		PlayerLifeLevel=int(LoadList[6])
-		PlayerMagic=int(LoadList[7])
-		PlayerLife=int(LoadList[8])
-		PlayerMana=int(LoadList[9])
-		PlayerX=int(LoadList[10])
-		PlayerY=int(LoadList[11])
+		Gold=int(LoadList[4])		
+		PlayerAttack=int(LoadList[5])
+		PlayerSpeed=int(LoadList[6])
+		PlayerLifeLevel=int(LoadList[7])
+		PlayerMagic=int(LoadList[8])
+		PlayerLife=int(LoadList[9])
+		PlayerMana=int(LoadList[10])
+		PlayerX=int(LoadList[11])
+		PlayerY=int(LoadList[12])
 		LoadInv=open('Inventory.sav', 'r')
 		InvList=list(LoadInv)
 		LoadInv.close()
@@ -1810,6 +2043,7 @@ while Level < LevelMax:
 
 					WeaponSave=str(PlayerWeapon)+'\n'
 					ArmorSave=str(PlayerArmor)+'\n'
+					GoldSave=str(Gold)+'\n'
 					AttackSave=str(PlayerAttack)+'\n'
 					SpeedSave=str(PlayerSpeed)+'\n'
 					HealthSave=str(PlayerLifeLevel)+'\n'
@@ -1819,6 +2053,7 @@ while Level < LevelMax:
 
 					Save.write(WeaponSave)
 					Save.write(ArmorSave)
+					Save.write(GoldSave)
 					Save.write(AttackSave)
 					Save.write(SpeedSave)
 					Save.write(HealthSave)
@@ -1871,6 +2106,7 @@ while Level < LevelMax:
 				Save.write(LevelSave)
 				WeaponSave=str(PlayerWeapon)+'\n'
 				ArmorSave=str(PlayerArmor)+'\n'
+				GoldSave=str(Gold)+'\n'
 				AttackSave=str(PlayerAttack)+'\n'
 				SpeedSave=str(PlayerSpeed)+'\n'
 				HealthSave=str(PlayerLifeLevel)+'\n'
@@ -1880,6 +2116,7 @@ while Level < LevelMax:
 
 				Save.write(WeaponSave)
 				Save.write(ArmorSave)
+				Save.write(GoldSave)
 				Save.write(AttackSave)
 				Save.write(SpeedSave)
 				Save.write(HealthSave)
@@ -1939,6 +2176,7 @@ while Level < LevelMax:
 				CheckNextRoom(Labyrinth, RoomPos)
 				PlaceStairs(Labyrinth)
 				PlaceDecorations()
+				PlaceGnome(Labyrinth)
 				Ping.play()
 			else:
 				DoVictory()
