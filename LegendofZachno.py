@@ -50,6 +50,10 @@ OpeningChest = pygame.mixer.Sound('OpeningChest.ogg')
 Life = pygame.mixer.Sound('Life.ogg')
 Mana = pygame.mixer.Sound('Mana.ogg')
 Grab = pygame.mixer.Sound('Grab.ogg')
+Clank = pygame.mixer.Sound('Clank.ogg')
+Fire = pygame.mixer.Sound('Fire.ogg')
+Stone = pygame.mixer.Sound('Stone.ogg')
+Lightning = pygame.mixer.Sound('Lightning.ogg')
 
 # Loading picture files into RAM
 Black=pygame.image.load('Black.png')
@@ -80,7 +84,14 @@ SwordSmall=pygame.image.load('SwordSmall.png')
 MaceSmall=pygame.image.load('MaceSmall.png')
 BattleAxeSmall=pygame.image.load('BattleAxeSmall.png')
 ShieldSmall=pygame.image.load('ShieldSmall.png')
-
+WShieldSmall=pygame.image.load('WShield.png')
+TShieldSmall=pygame.image.load('TShield.png')
+SpikeTrap=pygame.image.load('SpikeTrap.png')
+AcidTrap=pygame.image.load('AcidTrap.png')
+ElectroTrap=pygame.image.load('ElectroTrap.png')
+FireScroll=pygame.image.load('FireScroll.png')
+StoneScroll=pygame.image.load('StoneScroll.png')
+LightningScroll=pygame.image.load('LightningScroll.png')
 
 
 # Declaring the main game screen, only do this once, outside of a loop otherwise video-memory will be flooded after extended game-play
@@ -172,6 +183,8 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=Mace
 	elif ObjectImage=='BearTrap':
 		ScreenItem=BearTrap
+	elif ObjectImage=='ElectroTrap':
+		ScreenItem=ElectroTrap
 	elif ObjectImage=='Mine':
 		ScreenItem=Mine
 	elif ObjectImage=='Life':
@@ -184,6 +197,16 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=Sword
 	elif ObjectImage=='BattleAxe':
 		ScreenItem=BattleAxe
+	elif ObjectImage=='SpikeTrap':
+		ScreenItem=SpikeTrap
+	elif ObjectImage=='AcidTrap':
+		ScreenItem=AcidTrap
+	elif ObjectImage=='FireScroll':
+		ScreenItem=FireScroll
+	elif ObjectImage=='StoneScroll':
+		ScreenItem=StoneScroll
+	elif ObjectImage=='LightningScroll':
+		ScreenItem=LightningScroll
 	return(ScreenItem)
 
 def DoInventoryList():
@@ -352,6 +375,10 @@ def DoScreen (Labyrinth, Level):
 
 	if PlayerArmor=='Shield':
 			screen.blit(ShieldSmall, (600, 340))
+	elif PlayerArmor=='WShield':
+			screen.blit(WShieldSmall, (600, 340))
+	elif PlayerArmor=='TShield':
+			screen.blit(TShieldSmall, (600, 340))
 	# Writing all previous draw commands into the game-screen at once
 	pygame.display.flip()
 	return
@@ -385,25 +412,44 @@ def DoMovePlayer(PlayerX, PlayerY, Dir):
 	return(PlayerPos)
 
 def DoGetItem():
-	ItemNo=random.randint(1,9)
+	ItemNo=random.randint(1,19)
 	if ItemNo==1:
-		Item='Mace'
-	if ItemNo==2:
-		Item='Beartrap'
-	if ItemNo==3:
-		Item='Mine'
-	if ItemNo==4:
-		Item='Lifepotion'
-	if ItemNo==5:
-		Item='Manapotion'
-	if ItemNo==6:
 		Item='Dagger'
-	if ItemNo==7:
+	if ItemNo==2:
+		Item='Dagger'
+	if ItemNo==3:
+		Item='Mace'
+	if ItemNo==4:
 		Item='Sword'
-	if ItemNo==8:
+	if ItemNo==5:
 		Item='Battleaxe'
+	if ItemNo==6:
+		Item='Beartrap'
+	if ItemNo==7:
+		Item='Spiketrap'
+	if ItemNo==8:
+		Item='Acidtrap'
 	if ItemNo==9:
+		Item='Electrotrap'
+	if ItemNo==10:
+		Item='Mine'
+	if ItemNo>=11 and ItemNo<=13:
+		Item='Lifepotion'
+	if ItemNo>=14 and ItemNo<=15:
+		Item='Manapotion'
+	if ItemNo==16:
+		Item='Fire'
+	if ItemNo==17:
+		Item='Petrify'
+	if ItemNo==18:
+		Item='Lightning'
+	if ItemNo==19:
 		Item='Shield'
+	if ItemNo==20:
+		Item='WShield'
+	if ItemNo==21:
+		Item='TShield'
+
 
 	InvList.append(Item)
 	ChestText='You received a '+Item+', press enter...'
@@ -541,6 +587,33 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Manapotion')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'FireScroll':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Fire')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'StoneScroll':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Petrify')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'LightningScroll':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Lightning')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1292,6 +1365,11 @@ def PlaceDecorations():
 	DecMin=0
 	DecMax=int(len(RoomPos)/14)
 	while DecMin < DecMax:
+		LoadingText='Placing decoration '+str(DecMin)+' of '+str(DecMax)+'...'
+		LoadingTextSurf = myfont.render(LoadingText, False, green)
+		screen.blit(TextBar,(0,780))
+		screen.blit(LoadingTextSurf,(0,780))
+		pygame.display.flip()
 		DecNo=random.randint(1,6)
 		if DecNo==1:
 			Decoration='Candle'
@@ -1481,15 +1559,40 @@ def UseItem(ItemCounter):
 	elif InvList[ItemCounter].rstrip()=='Shield':
 		PlayerArmor='Shield'
 		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='WShield':
+		PlayerArmor='WShield'
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='TShield':
+		PlayerArmor='TShield'
+		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Beartrap':
 		DropItem(ItemCounter)
+	elif InvList[ItemCounter].rstrip()=='Spiketrap':
+		Clank.play()
+		DropItem(ItemCounter)
+	elif InvList[ItemCounter].rstrip()=='Acidtrap':
+		Clank.play()
+		DropItem(ItemCounter)
+	elif InvList[ItemCounter].rstrip()=='Electrotrap':
+		Clank.play()
+		DropItem(ItemCounter)
 	elif InvList[ItemCounter].rstrip()=='Mine':
+		Clank.play()
 		DropItem(ItemCounter)
 	elif InvList[ItemCounter].rstrip()=='Lifepotion':
 		Life.play()
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Manapotion':
 		Mana.play()
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Fire':
+		Fire.play()
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Petrify':
+		Stone.play()
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Lightning':
+		Lightning.play()
 		del InvList[ItemCounter]
 	return
 
@@ -1499,6 +1602,12 @@ def DropItem(ItemCounter):
 		Object='Mace'
 	if InvList[ItemCounter].rstrip()=='Beartrap':
 		Object='BearTrap'
+	if InvList[ItemCounter].rstrip()=='Spiketrap':
+		Object='SpikeTrap'
+	if InvList[ItemCounter].rstrip()=='Electrotrap':
+		Object='ElectroTrap'
+	if InvList[ItemCounter].rstrip()=='Acidtrap':
+		Object='AcidTrap'
 	if InvList[ItemCounter].rstrip()=='Mine':
 		Object='Mine'
 	if InvList[ItemCounter].rstrip()=='Lifepotion':
@@ -1513,6 +1622,17 @@ def DropItem(ItemCounter):
 		Object='BattleAxe'
 	if InvList[ItemCounter].rstrip()=='Shield':
 		Object='Shield'
+	if InvList[ItemCounter].rstrip()=='WShield':
+		Object='Shield'
+	if InvList[ItemCounter].rstrip()=='TShield':
+		Object='Shield'
+	if InvList[ItemCounter].rstrip()=='Fire':
+		Object='FireScroll'
+	if InvList[ItemCounter].rstrip()=='Petrify':
+		Object='StoneScroll'
+	if InvList[ItemCounter].rstrip()=='Lightning':
+		Object='Lightning'
+	Clank.play()
 	Labyrinth.append(Object)
 	Labyrinth.append(PlayerX)
 	Labyrinth.append(PlayerY)
