@@ -92,7 +92,7 @@ SpikeTrap=pygame.image.load('SpikeTrap.png')
 AcidTrap=pygame.image.load('AcidTrap.png')
 ElectroTrap=pygame.image.load('ElectroTrap.png')
 FireScroll=pygame.image.load('FireScroll.png')
-StoneScroll=pygame.image.load('StoneScroll.png')
+TeleportScroll=pygame.image.load('TeleportScroll.png')
 LightningScroll=pygame.image.load('LightningScroll.png')
 DrainScroll=pygame.image.load('DrainScroll.png')
 FireballScroll=pygame.image.load('FireballScroll.png')
@@ -207,8 +207,8 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=AcidTrap
 	elif ObjectImage=='FireScroll':
 		ScreenItem=FireScroll
-	elif ObjectImage=='StoneScroll':
-		ScreenItem=StoneScroll
+	elif ObjectImage=='TeleportScroll':
+		ScreenItem=TeleportScroll
 	elif ObjectImage=='DrainScroll':
 		ScreenItem=DrainScroll
 	elif ObjectImage=='LightningScroll':
@@ -307,42 +307,42 @@ def DoScreen (Labyrinth, Level):
 	GoldText='Player gold: '+str(Gold)
 
 	PlayerAttackText='Attack: '
-	PlayerSpeedText='Speed:'
+	PlayerDefenceText='Defence:'
 	PlayerLifeLevelText='Health: '
 	PlayerMagicText='Magic: '
 	PlayerLifeText='Life: '
 	PlayerManaText='Mana: '
 
 	PlayerAttackTextSurf=myfont.render(PlayerAttackText, False, green)
-	PlayerSpeedTextSurf=myfont.render(PlayerSpeedText, False, green)
+	PlayerDefenceTextSurf=myfont.render(PlayerDefenceText, False, green)
 	PlayerLifeLevelTextSurf=myfont.render(PlayerLifeLevelText, False, green)
 	PlayerMagicTextSurf=myfont.render(PlayerMagicText, False, green)
 	PlayerLifeTextSurf=myfont.render(PlayerLifeText, False, green)
 	PlayerManaTextSurf=myfont.render(PlayerManaText, False, green)
 
 	screen.blit(PlayerAttackTextSurf,(950,0))
-	screen.blit(PlayerSpeedTextSurf,(950,20))
+	screen.blit(PlayerDefenceTextSurf,(950,20))
 	screen.blit(PlayerLifeLevelTextSurf,(950,40))
 	screen.blit(PlayerMagicTextSurf,(950,60))
 	screen.blit(PlayerLifeTextSurf,(950,80))
 	screen.blit(PlayerManaTextSurf,(950,100))
 
 	PlayerAttackNo=str(PlayerAttack)
-	PlayerSpeedNo=str(PlayerSpeed)
+	PlayerDefenceNo=str(PlayerDefence)
 	PlayerLifeLevelNo=str(PlayerLifeLevel)
 	PlayerMagicNo=str(PlayerMagic)
 	PlayerLifeNo=str(PlayerLife)
 	PlayerManaNo=str(PlayerMana)
 
 	PlayerAttackNoSurf=myfont.render(PlayerAttackNo, False, green)
-	PlayerSpeedNoSurf=myfont.render(PlayerSpeedNo, False, green)
+	PlayerDefenceNoSurf=myfont.render(PlayerDefenceNo, False, green)
 	PlayerLifeLevelNoSurf=myfont.render(PlayerLifeLevelNo, False, green)
 	PlayerMagicNoSurf=myfont.render(PlayerMagicNo, False, green)
 	PlayerLifeNoSurf=myfont.render(PlayerLifeNo, False, green)
 	PlayerManaNoSurf=myfont.render(PlayerManaNo, False, green)
 
 	screen.blit(PlayerAttackNoSurf,(1100,0))
-	screen.blit(PlayerSpeedNoSurf,(1100,20))
+	screen.blit(PlayerDefenceNoSurf,(1100,20))
 	screen.blit(PlayerLifeLevelNoSurf,(1100,40))
 	screen.blit(PlayerMagicNoSurf,(1100,60))
 	screen.blit(PlayerLifeNoSurf,(1100,80))
@@ -453,7 +453,7 @@ def DoGetItem():
 	if ItemNo==16:
 		Item='Fire'
 	if ItemNo==17:
-		Item='Petrify'
+		Item='Teleport'
 	if ItemNo==18:
 		Item='Drain'
 	if ItemNo==19:
@@ -514,15 +514,90 @@ def DoChest(NewX, NewY):
 	return
 
 def BuyItem():
+	global Gold
+	pygame.key.set_repeat()
+	MakingaChoice=True
+	while MakingaChoice:
+		Text1='Press item number to buy or <enter> to cancel... Your gold: '+str(Gold)
+		Text1Surf = myfont.render(Text1, False, green)
+		Text2='1> 12 gold: Lifepotion'
+		Text2Surf = myfont.render(Text2, False, green)
+		Text3='2> 16 gold: Manapotion'
+		Text3Surf = myfont.render(Text3, False, green)
+		Text4='3> 10 gold: Fire'
+		Text4Surf = myfont.render(Text4, False, green)
+		Text5='4> 12 gold: Teleport'
+		Text5Surf = myfont.render(Text5, False, green)
+		Text6='5> 14 gold: Drain'
+		Text6Surf = myfont.render(Text6, False, green)
+		Text7='6> 16 gold: Lightning'
+		Text7Surf = myfont.render(Text7, False, green)
+		Text8='7> 18 gold: Fireball'
+		Text8Surf = myfont.render(Text8, False, green)
+
+		screen.blit(TextBar,(0,620))
+		screen.blit(TextBar,(0,640))
+		screen.blit(TextBar,(0,660))
+		screen.blit(TextBar,(0,680))
+		screen.blit(TextBar,(0,700))
+		screen.blit(TextBar,(0,720))
+		screen.blit(TextBar,(0,740))
+		screen.blit(TextBar,(0,760))
+
+		screen.blit(Text1Surf,(0,620))
+		screen.blit(Text2Surf,(0,640))
+		screen.blit(Text3Surf,(0,660))
+		screen.blit(Text4Surf,(0,680))
+		screen.blit(Text5Surf,(0,700))
+		screen.blit(Text6Surf,(0,720))
+		screen.blit(Text7Surf,(0,740))
+		screen.blit(Text8Surf,(0,760))
+
+		pygame.display.flip()
+
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_1 and len(InvList) < 10:
+					if Gold >= 12:
+						Gold=Gold-12
+						InvList.append('Lifepotion')
+				if event.key == pygame.K_2 and len(InvList) < 10:
+					if Gold >= 16:
+						Gold=Gold-16
+						InvList.append('Manapotion')
+				if event.key == pygame.K_3 and len(InvList) < 10:
+					if Gold >= 10:
+						Gold=Gold-10
+						InvList.append('Fire')
+				if event.key == pygame.K_4 and len(InvList) < 10:
+					if Gold >= 12:
+						Gold=Gold-12
+						InvList.append('Teleport')
+				if event.key == pygame.K_5 and len(InvList) < 10:
+					if Gold >= 14:
+						Gold=Gold-14
+						InvList.append('Drain')
+				if event.key == pygame.K_6 and len(InvList) < 10:
+					if Gold >= 16:
+						Gold=Gold-16
+						InvList.append('Lightning')
+				if event.key == pygame.K_7 and len(InvList) < 10:
+					if Gold >= 18:
+						Gold=Gold-18
+						InvList.append('Fireball')
+				if event.key == pygame.K_RETURN:
+					MakingaChoice=False
+	pygame.key.set_repeat(30,30)
+
 	return
 
 def GetGold(ItemCounter):
 	global Gold
 	if InvList[ItemCounter].rstrip()=='Mace':
-		Gold=Gold+2
+		Gold=Gold+3
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Dagger':
-		Gold=Gold+1
+		Gold=Gold+2
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Sword':
 		Gold=Gold+4
@@ -564,7 +639,7 @@ def GetGold(ItemCounter):
 	elif InvList[ItemCounter].rstrip()=='Fire':
 		Gold=Gold+4
 		del InvList[ItemCounter]
-	elif InvList[ItemCounter].rstrip()=='Petrify':
+	elif InvList[ItemCounter].rstrip()=='Teleport':
 		Gold=Gold+8
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Drain':
@@ -580,6 +655,7 @@ def GetGold(ItemCounter):
 	return
 
 def SellItem():
+	pygame.key.set_repeat()
 	MakingaChoice=True
 	while MakingaChoice:
 		ChestText='Press inventory number to sell or <enter> to cancel...'
@@ -593,38 +669,40 @@ def SellItem():
 		pygame.display.flip()
 
 		for event in pygame.event.get():
-			if pygame.key.get_pressed()[pygame.K_1] and len(InvList) > 0:
-				ItemCounter=0
-				GetGold(ItemCounter)
-			if pygame.key.get_pressed()[pygame.K_2] and len(InvList) > 1:
-				ItemCounter=1
-				GetGold(ItemCounter)
-			if pygame.key.get_pressed()[pygame.K_3] and len(InvList) > 2:
-				ItemCounter=2
-				GetGold(ItemCounter)
-			if pygame.key.get_pressed()[pygame.K_4] and len(InvList) > 3:
-				ItemCounter=3
-				GetGold(ItemCounter)
-			if pygame.key.get_pressed()[pygame.K_5] and len(InvList) > 4:
-				ItemCounter=4
-				GetGold(ItemCounter)
-			if pygame.key.get_pressed()[pygame.K_6] and len(InvList) > 5:
-				ItemCounter=5
-				GetGold(ItemCounter)
-			if pygame.key.get_pressed()[pygame.K_7] and len(InvList) > 6:
-				ItemCounter=6
-				GetGold(ItemCounter)
-			if pygame.key.get_pressed()[pygame.K_8] and len(InvList) > 7:
-				ItemCounter=7
-				GetGold(ItemCounter)
-			if pygame.key.get_pressed()[pygame.K_9] and len(InvList) > 8:
-				ItemCounter=8
-				GetGold(ItemCounter)
-			if pygame.key.get_pressed()[pygame.K_0] and len(InvList) > 9:
-				ItemCounter=9
-				GetGold(ItemCounter)
-			if pygame.key.get_pressed()[pygame.K_RETURN]:
-				MakingaChoice=False
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_1 and len(InvList) > 0:
+					ItemCounter=0
+					GetGold(ItemCounter)
+				if event.key == pygame.K_2 and len(InvList) > 1:
+					ItemCounter=1
+					GetGold(ItemCounter)
+				if event.key == pygame.K_3 and len(InvList) > 2:
+					ItemCounter=2
+					GetGold(ItemCounter)
+				if event.key == pygame.K_4 and len(InvList) > 3:
+					ItemCounter=3
+					GetGold(ItemCounter)
+				if event.key == pygame.K_5 and len(InvList) > 4:
+					ItemCounter=4
+					GetGold(ItemCounter)
+				if event.key == pygame.K_6 and len(InvList) > 5:
+					ItemCounter=5
+					GetGold(ItemCounter)
+				if event.key == pygame.K_7 and len(InvList) > 6:
+					ItemCounter=6
+					GetGold(ItemCounter)
+				if event.key == pygame.K_8 and len(InvList) > 7:
+					ItemCounter=7
+					GetGold(ItemCounter)
+				if event.key == pygame.K_9 and len(InvList) > 8:
+					ItemCounter=8
+					GetGold(ItemCounter)
+				if event.key == pygame.K_0 and len(InvList) > 9:
+					ItemCounter=9
+					GetGold(ItemCounter)
+				if event.key == pygame.K_RETURN:
+					MakingaChoice=False
+	pygame.key.set_repeat(30,30)
 	return
 
 def DoGnome():
@@ -759,10 +837,10 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth):
 					del Labyrinth[Counter]
 					MaxCounter=len(Labyrinth)
 					Grab.play()
-			if Object == 'StoneScroll':
+			if Object == 'TeleportScroll':
 				Collision=False
 				if len(InvList) < 10:
-					InvList.append('Petrify')
+					InvList.append('Teleport')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1558,6 +1636,7 @@ def PlaceGnome(Labyrinth):
 				Labyrinth.append('Gnome')
 				Labyrinth.append(GnomeX)
 				Labyrinth.append(GnomeY)
+				LookingForASpot=False
 	return
 
 
@@ -1694,13 +1773,13 @@ def DoVictory():
 					Save.write('0\n')
 					Save.write(LevelSave)
 					AttackSave=str(PlayerAttack)+'\n'
-					SpeedSave=str(PlayerSpeed)+'\n'
+					DefenceSave=str(PlayerDefence)+'\n'
 					HealthSave=str(PlayerLifeLevel)+'\n'
 					MagicSave=str(PlayerMagic)+'\n'
 					LifeSave=str(PlayerLife)+'\n'
 					ManaSave=str(PlayerMana)+'\n'
 					Save.write(AttackSave)
-					Save.write(SpeedSave)
+					Save.write(DefenceSave)
 					Save.write(HealthSave)
 					Save.write(MagicSave)
 					Save.write(LifeSave)
@@ -1807,7 +1886,7 @@ def UseItem(ItemCounter):
 	elif InvList[ItemCounter].rstrip()=='Fire':
 		Fire.play()
 		del InvList[ItemCounter]
-	elif InvList[ItemCounter].rstrip()=='Petrify':
+	elif InvList[ItemCounter].rstrip()=='Teleport':
 		Stone.play()
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Drain':
@@ -1853,8 +1932,8 @@ def DropItem(ItemCounter):
 		Object='Shield'
 	if InvList[ItemCounter].rstrip()=='Fire':
 		Object='FireScroll'
-	if InvList[ItemCounter].rstrip()=='Petrify':
-		Object='StoneScroll'
+	if InvList[ItemCounter].rstrip()=='Teleport':
+		Object='TeleportScroll'
 	if InvList[ItemCounter].rstrip()=='Drain':
 		Object='DrainScroll'
 	if InvList[ItemCounter].rstrip()=='Lightning':
@@ -1873,12 +1952,12 @@ PlayerWeapon='Fists'
 PlayerArmor='None'
 Gold=0
 
-PlayerAttack=1
-PlayerSpeed=1
-PlayerLifeLevel=1
-PlayerMagic=1
+PlayerAttack=2
+PlayerDefence=2
+PlayerLifeLevel=2
+PlayerMagic=2
 PlayerLife=PlayerLifeLevel*10
-PlayerMana=PlayerMagic*10
+PlayerMana=PlayerMagic*5
 PlayerX=0
 PlayerY=0
 
@@ -1902,7 +1981,7 @@ if Level > 0:
 			PlayerArmor=LoadList[3].rstrip()
 			Gold=int(LoadList[4])
 			PlayerAttack=int(LoadList[5])
-			PlayerSpeed=int(LoadList[6])
+			PlayerDefence=int(LoadList[6])
 			PlayerLifeLevel=int(LoadList[7])
 			PlayerMagic=int(LoadList[8])
 			PlayerLife=int(LoadList[9])
@@ -1929,7 +2008,7 @@ if Level > 0:
 		PlayerArmor=LoadList[3].rstrip()
 		Gold=int(LoadList[4])		
 		PlayerAttack=int(LoadList[5])
-		PlayerSpeed=int(LoadList[6])
+		PlayerDefence=int(LoadList[6])
 		PlayerLifeLevel=int(LoadList[7])
 		PlayerMagic=int(LoadList[8])
 		PlayerLife=int(LoadList[9])
@@ -2045,7 +2124,7 @@ while Level < LevelMax:
 					ArmorSave=str(PlayerArmor)+'\n'
 					GoldSave=str(Gold)+'\n'
 					AttackSave=str(PlayerAttack)+'\n'
-					SpeedSave=str(PlayerSpeed)+'\n'
+					DefenceSave=str(PlayerDefence)+'\n'
 					HealthSave=str(PlayerLifeLevel)+'\n'
 					MagicSave=str(PlayerMagic)+'\n'
 					LifeSave=str(PlayerLife)+'\n'
@@ -2055,7 +2134,7 @@ while Level < LevelMax:
 					Save.write(ArmorSave)
 					Save.write(GoldSave)
 					Save.write(AttackSave)
-					Save.write(SpeedSave)
+					Save.write(DefenceSave)
 					Save.write(HealthSave)
 					Save.write(MagicSave)
 					Save.write(LifeSave)
@@ -2108,7 +2187,7 @@ while Level < LevelMax:
 				ArmorSave=str(PlayerArmor)+'\n'
 				GoldSave=str(Gold)+'\n'
 				AttackSave=str(PlayerAttack)+'\n'
-				SpeedSave=str(PlayerSpeed)+'\n'
+				DefenceSave=str(PlayerDefence)+'\n'
 				HealthSave=str(PlayerLifeLevel)+'\n'
 				MagicSave=str(PlayerMagic)+'\n'
 				LifeSave=str(PlayerLife)+'\n'
@@ -2118,7 +2197,7 @@ while Level < LevelMax:
 				Save.write(ArmorSave)
 				Save.write(GoldSave)
 				Save.write(AttackSave)
-				Save.write(SpeedSave)
+				Save.write(DefenceSave)
 				Save.write(HealthSave)
 				Save.write(MagicSave)
 				Save.write(LifeSave)
