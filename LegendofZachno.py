@@ -403,9 +403,9 @@ def DoScreen (Labyrinth, Level):
 	elif PlayerArmor=='TShield':
 			screen.blit(TShieldSmall, (600, 340))
 	elif PlayerArmor=='Chainmail':
-			screen.blit(ChainmailSmall, (620, 320))
+			screen.blit(ChainmailSmall, (580, 340))
 	elif PlayerArmor=='Plate':
-			screen.blit(PlateSmall, (620, 320))
+			screen.blit(PlateSmall, (580, 340))
 
 	if PlayerWeapon=='Dagger':
 			screen.blit(DaggerSmall, (560, 320))
@@ -642,6 +642,12 @@ def GetGold(ItemCounter):
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='TShield':
 		Gold=Gold+15
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Chainmail':
+		Gold=Gold+20
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Plate':
+		Gold=Gold+25
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Beartrap':
 		Gold=Gold+4
