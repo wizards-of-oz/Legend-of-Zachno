@@ -52,7 +52,7 @@ Mana = pygame.mixer.Sound('Mana.ogg')
 Grab = pygame.mixer.Sound('Grab.ogg')
 Clank = pygame.mixer.Sound('Clank.ogg')
 Fire = pygame.mixer.Sound('Fire.ogg')
-Stone = pygame.mixer.Sound('Stone.ogg')
+Teleport = pygame.mixer.Sound('Teleport.ogg')
 Steal = pygame.mixer.Sound('Steal.ogg')
 Lightning = pygame.mixer.Sound('Lightning.ogg')
 Fireball = pygame.mixer.Sound('Fireball.ogg')
@@ -97,6 +97,20 @@ LightningScroll=pygame.image.load('LightningScroll.png')
 DrainScroll=pygame.image.load('DrainScroll.png')
 FireballScroll=pygame.image.load('FireballScroll.png')
 Gnome=pygame.image.load('Gnome.png')
+
+Bully=pygame.image.load('Bully.png')
+Peasant=pygame.image.load('Peasant.png')
+Soldier=pygame.image.load('Soldier.png')
+Trapper=pygame.image.load('Trapper.png')
+Apprentice=pygame.image.load('Apprentice.png')
+Knight=pygame.image.load('Knight.png')
+Warlock=pygame.image.load('Warlock.png')
+Strongman=pygame.image.load('Strongman.png')
+Chainmail=pygame.image.load('Chainmail.png')
+ChainmailSmall=pygame.image.load('ChainmailSmall.png')
+Plate=pygame.image.load('Plate.png')
+PlateSmall=pygame.image.load('PlateSmall.png')
+
 
 # Declaring the main game screen, only do this once, outside of a loop otherwise video-memory will be flooded after extended game-play
 pygame.display.set_caption('Legend of Zachno')
@@ -215,6 +229,10 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=LightningScroll
 	elif ObjectImage=='FireballScroll':
 		ScreenItem=FireballScroll
+	elif ObjectImage=='Chainmail':
+		ScreenItem=Chainmail
+	elif ObjectImage=='Plate':
+		ScreenItem=Plate
 	elif ObjectImage=='Gnome':
 		ScreenItem=Gnome
 	return(ScreenItem)
@@ -377,6 +395,18 @@ def DoScreen (Labyrinth, Level):
 	#screen.blit(StairsPosTextSurf,(0,20))
 	# Placing the player picture in the middle of the screen
 	screen.blit(Player, (560, 320))
+
+	if PlayerArmor=='Shield':
+			screen.blit(ShieldSmall, (600, 340))
+	elif PlayerArmor=='WShield':
+			screen.blit(WShieldSmall, (600, 340))
+	elif PlayerArmor=='TShield':
+			screen.blit(TShieldSmall, (600, 340))
+	elif PlayerArmor=='Chainmail':
+			screen.blit(ChainmailSmall, (620, 320))
+	elif PlayerArmor=='Plate':
+			screen.blit(PlateSmall, (620, 320))
+
 	if PlayerWeapon=='Dagger':
 			screen.blit(DaggerSmall, (560, 320))
 	elif PlayerWeapon=='Sword':
@@ -386,12 +416,6 @@ def DoScreen (Labyrinth, Level):
 	elif PlayerWeapon=='Battleaxe':
 			screen.blit(BattleAxeSmall, (560, 320))
 
-	if PlayerArmor=='Shield':
-			screen.blit(ShieldSmall, (600, 340))
-	elif PlayerArmor=='WShield':
-			screen.blit(WShieldSmall, (600, 340))
-	elif PlayerArmor=='TShield':
-			screen.blit(TShieldSmall, (600, 340))
 	# Writing all previous draw commands into the game-screen at once
 	pygame.display.flip()
 	return
@@ -425,7 +449,7 @@ def DoMovePlayer(PlayerX, PlayerY, Dir):
 	return(PlayerPos)
 
 def DoGetItem():
-	ItemNo=random.randint(1,19)
+	ItemNo=random.randint(1,20)
 	if ItemNo==1:
 		Item='Dagger'
 	if ItemNo==2:
@@ -446,26 +470,30 @@ def DoGetItem():
 		Item='Electrotrap'
 	if ItemNo==10:
 		Item='Mine'
-	if ItemNo>=11 and ItemNo<=13:
+	if ItemNo>=11:
 		Item='Lifepotion'
-	if ItemNo>=14 and ItemNo<=15:
+	if ItemNo>=12:
 		Item='Manapotion'
-	if ItemNo==16:
+	if ItemNo==13:
 		Item='Fire'
-	if ItemNo==17:
+	if ItemNo==14:
 		Item='Teleport'
-	if ItemNo==18:
+	if ItemNo==15:
 		Item='Drain'
-	if ItemNo==19:
+	if ItemNo==16:
 		Item='Lightning'
-	if ItemNo==19:
+	if ItemNo==17:
 		Item='Fireball'
-	if ItemNo==21:
+	if ItemNo==18:
 		Item='Shield'
-	if ItemNo==22:
+	if ItemNo==19:
 		Item='WShield'
-	if ItemNo==23:
+	if ItemNo==20:
 		Item='TShield'
+	if ItemNo==21:
+		Item='Chainmail'
+	if ItemNo==22:
+		Item='Plate'
 
 
 	InvList.append(Item)
@@ -587,6 +615,7 @@ def BuyItem():
 						InvList.append('Fireball')
 				if event.key == pygame.K_RETURN:
 					MakingaChoice=False
+		DoScreen(Labyrinth, Level)
 	pygame.key.set_repeat(30,30)
 
 	return
@@ -661,11 +690,11 @@ def SellItem():
 		ChestText='Press inventory number to sell or <enter> to cancel...'
 		ChestTextSurf = myfont.render(ChestText, False, green)
 
-		screen.blit(TextBar,(0,370))
-		screen.blit(TextBar,(0,390))
-		screen.blit(TextBar,(0,410))
+		screen.blit(TextBar,(0,500))
+		screen.blit(TextBar,(0,520))
+		screen.blit(TextBar,(0,540))
 
-		screen.blit(ChestTextSurf,(0,390))
+		screen.blit(ChestTextSurf,(0,520))
 		pygame.display.flip()
 
 		for event in pygame.event.get():
@@ -702,22 +731,24 @@ def SellItem():
 					GetGold(ItemCounter)
 				if event.key == pygame.K_RETURN:
 					MakingaChoice=False
+			DoScreen(Labyrinth, Level)
 	pygame.key.set_repeat(30,30)
 	return
 
 def DoGnome():
-	ChestText='Buy <b> Sell <s> Ignore <enter>...'
-	ChestTextSurf = myfont.render(ChestText, False, green)
-
-	screen.blit(TextBar,(0,370))
-	screen.blit(TextBar,(0,390))
-	screen.blit(TextBar,(0,410))
-
-	screen.blit(ChestTextSurf,(0,390))
-	pygame.display.flip()
-
 	MakingAChoice=True
 	while MakingAChoice:
+		DoScreen(Labyrinth, Level)
+		ChestText='Buy <b> Sell <s> Ignore <enter>...'
+		ChestTextSurf = myfont.render(ChestText, False, green)
+
+		screen.blit(TextBar,(0,370))
+		screen.blit(TextBar,(0,390))
+		screen.blit(TextBar,(0,410))
+
+		screen.blit(ChestTextSurf,(0,390))
+		pygame.display.flip()
+
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_b:
@@ -868,6 +899,24 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Fireball')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'Chainmail':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Chainmail')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'Plate':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Plate')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1858,6 +1907,12 @@ def UseItem(ItemCounter):
 	elif InvList[ItemCounter].rstrip()=='TShield':
 		PlayerArmor='TShield'
 		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Chainmail':
+		PlayerArmor='Chainmail'
+		del InvList[ItemCounter]
+	elif InvList[ItemCounter].rstrip()=='Plate':
+		PlayerArmor='Plate'
+		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Beartrap':
 		DropItem(ItemCounter)
 	elif InvList[ItemCounter].rstrip()=='Spiketrap':
@@ -1879,25 +1934,36 @@ def UseItem(ItemCounter):
 		Life.play()
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Manapotion':
-		if PlayerMana > PlayerMagic*10:
-			PlayerMana=PlayerMagic*10
+		PlayerMana=PlayerMana+10
+		if PlayerMana > PlayerMagic*3:
+			PlayerMana=PlayerMagic*3
 		Mana.play()
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Fire':
-		Fire.play()
-		del InvList[ItemCounter]
+		if PlayerMana > 1:
+			PlayerMana=PlayerMana-1
+			Fire.play()
+			del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Teleport':
-		Stone.play()
-		del InvList[ItemCounter]
+		if PlayerMana > 2:
+			PlayerMana=PlayerMana-2
+			Teleport.play()
+			del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Drain':
-		Steal.play()
-		del InvList[ItemCounter]
+		if PlayerMana > 3:
+			PlayerMana=PlayerMana-3
+			Steal.play()
+			del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Lightning':
-		Lightning.play()
-		del InvList[ItemCounter]
+		if PlayerMana > 4:
+			PlayerMana=PlayerMana-4
+			Lightning.play()
+			del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Fireball':
-		Fireball.play()
-		del InvList[ItemCounter]
+		if PlayerMana > 5:
+			PlayerMana=PlayerMana-5
+			Fireball.play()
+			del InvList[ItemCounter]
 	return
 
 
@@ -1930,6 +1996,10 @@ def DropItem(ItemCounter):
 		Object='Shield'
 	if InvList[ItemCounter].rstrip()=='TShield':
 		Object='Shield'
+	if InvList[ItemCounter].rstrip()=='Chainmail':
+		Object='Chainmail'
+	if InvList[ItemCounter].rstrip()=='Plate':
+		Object='Plate'
 	if InvList[ItemCounter].rstrip()=='Fire':
 		Object='FireScroll'
 	if InvList[ItemCounter].rstrip()=='Teleport':
@@ -1957,7 +2027,7 @@ PlayerDefence=2
 PlayerLifeLevel=2
 PlayerMagic=2
 PlayerLife=PlayerLifeLevel*10
-PlayerMana=PlayerMagic*5
+PlayerMana=PlayerMagic*3
 PlayerX=0
 PlayerY=0
 
