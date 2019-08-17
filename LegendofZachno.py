@@ -56,6 +56,12 @@ Teleport = pygame.mixer.Sound('Teleport.ogg')
 Steal = pygame.mixer.Sound('Steal.ogg')
 Lightning = pygame.mixer.Sound('Lightning.ogg')
 Fireball = pygame.mixer.Sound('Fireball.ogg')
+Punch = pygame.mixer.Sound('Punch.ogg')
+Stab = pygame.mixer.Sound('Stab.ogg')
+MaceHit = pygame.mixer.Sound('MaceHit.ogg')
+SwordHit = pygame.mixer.Sound('SwordHit.ogg')
+AxeHit = pygame.mixer.Sound('AxeHit.ogg')
+Auch = pygame.mixer.Sound('Auch.ogg')
 
 # Loading picture files into RAM
 Black=pygame.image.load('Black.png')
@@ -106,6 +112,15 @@ Apprentice=pygame.image.load('Apprentice.png')
 Knight=pygame.image.load('Knight.png')
 Warlock=pygame.image.load('Warlock.png')
 Strongman=pygame.image.load('Strongman.png')
+Heavy=pygame.image.load('Heavy.png')
+Spacewizard=pygame.image.load('Spacewizard.png')
+Tank=pygame.image.load('Tank.png')
+Spacemage=pygame.image.load('Spacemage.png')
+Heavyguard=pygame.image.load('Heavyguard.png')
+Vampirehero=pygame.image.load('Vampirehero.png')
+Lightningmage=pygame.image.load('Lightningmage.png')
+Stormking=pygame.image.load('Stormking.png')
+
 Chainmail=pygame.image.load('Chainmail.png')
 ChainmailSmall=pygame.image.load('ChainmailSmall.png')
 Plate=pygame.image.load('Plate.png')
@@ -158,7 +173,7 @@ def wait():
 
 # Function that collects items from the game array when they are in screen range, these are stored in the VisualList array which DoScreen uses
 # XDiff and YDiff are x/y coordinates relative to the player
-def VisualScan(Labyrinth):
+def VisualScan(Labyrinth, HeroList):
 	del VisualList[:]
 	MaxCounter=len(Labyrinth)
 	Counter=0
@@ -173,6 +188,19 @@ def VisualScan(Labyrinth):
 			VisualList.append(XDiff)
 			VisualList.append(YDiff)
 		Counter=Counter+3
+	MaxCounter=len(HeroList)
+	Counter=0
+	while Counter<MaxCounter:
+		Object=str(HeroList[Counter+1])
+		ObjectX=int(HeroList[Counter+13])
+		ObjectY=int(HeroList[Counter+14])
+		XDiff=ObjectX-PlayerX
+		YDiff=ObjectY-PlayerY
+		if (-7 <= XDiff) and ( XDiff <= 7) and (-5 <= YDiff) and (YDiff <= 4):
+			VisualList.append(Object)
+			VisualList.append(XDiff)
+			VisualList.append(YDiff)
+		Counter=Counter+15
 	return(VisualList)
 
 # Translates items in game array to pictures
@@ -235,6 +263,38 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=Plate
 	elif ObjectImage=='Gnome':
 		ScreenItem=Gnome
+	elif ObjectImage=='Bully':
+		ScreenItem=Bully
+	elif ObjectImage=='Peasant':
+		ScreenItem=Peasant
+	elif ObjectImage=='Soldier':
+		ScreenItem=Soldier
+	elif ObjectImage=='Trapper':
+		ScreenItem=Trapper
+	elif ObjectImage=='Apprentice':
+		ScreenItem=Apprentice
+	elif ObjectImage=='Knight':
+		ScreenItem=Knight
+	elif ObjectImage=='Warlock':
+		ScreenItem=Warlock
+	elif ObjectImage=='Strongman':
+		ScreenItem=Strongman
+	elif ObjectImage=='Heavy':
+		ScreenItem=Heavy
+	elif ObjectImage=='Spacewizard':
+		ScreenItem=Spacewizard
+	elif ObjectImage=='Tank':
+		ScreenItem=Tank
+	elif ObjectImage=='Spacemage':
+		ScreenItem=Spacemage
+	elif ObjectImage=='Heavyguard':
+		ScreenItem=Heavyguard
+	elif ObjectImage=='Vampirehero':
+		ScreenItem=Vampirehero
+	elif ObjectImage=='Lightningmage':
+		ScreenItem=Lightningmage
+	elif ObjectImage=='Stormking':
+		ScreenItem=Stormking
 	return(ScreenItem)
 
 def DoInventoryList():
@@ -283,7 +343,7 @@ def DoInventoryList():
 # Display function
 def DoScreen (Labyrinth, Level):
 	# Calling VisualScan to fill VisualList
-	VisualScan(Labyrinth)
+	VisualScan(Labyrinth, HeroList)
 	Counter=0
 	MaxCounter=len(VisualList)
 	screen.blit(Black,(0,0))
@@ -437,7 +497,7 @@ def DoMovePlayer(PlayerX, PlayerY, Dir):
 		NewX=PlayerPos[0]-1
 		NewY=PlayerPos[1]
 	# Before the x and y coordinates of the player are updated DoPlayerCollisionDetection() checks what's in the next space
-	Collision=DoPlayerCollisionDetection(NewX, NewY, Labyrinth)
+	Collision=DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList)
 	# If DoPlayerCollisionDetection() returns True only the Bump sound will be played and the player x and y will not update
 	if Collision:
 		Bump.play()
@@ -669,7 +729,6 @@ def GetGold(ItemCounter):
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Manapotion':
 		Gold=Gold+15
-		Mana.play()
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Fire':
 		Gold=Gold+4
@@ -765,8 +824,92 @@ def DoGnome():
 					MakingAChoice=False
 	return
 
+def DoPlayerCombat(Counter):
+	global PlayerAttack
+	global PlayerDefence
+	global PlayerLifeLevel
+	global PlayerMagic
+	global PlayerLife
+	global PlayerMana
+	global PlayerLevel
+	global PlayerXP
+	global PlayerWeapon
+	global HeroList
+	HeroLevel=int(HeroList[Counter])
+	HeroArmor=str(HeroList[Counter+3])
+	HeroDefence=int(HeroList[Counter+6])
+	HeroLife=int(HeroList[Counter+9])
+	DropItemOne=str(HeroList[Counter+11])
+	DropItemTwo=str(HeroList[Counter+12])
+	HeroX=int(HeroList[Counter+13])
+	HeroY=int(HeroList[Counter+14])
+
+	if HeroArmor=='WShield':
+		HeroDefence=HeroDefence+1
+	elif HeroArmor=='Shield':
+		HeroDefence=HeroDefence+2
+	elif HeroArmor=='TShield':
+		HeroDefence=HeroDefence+3
+	elif HeroArmor=='Chainmail':
+		HeroDefence=HeroDefence+4
+	elif HeroArmor=='Plate':
+		HeroDefence=HeroDefence+5
+
+	ZachnoAttack=PlayerAttack
+	if PlayerWeapon=='Fists':
+		ZachnoAttack=PlayerAttack+1
+		Punch.play()
+	elif PlayerWeapon=='Dagger':
+		ZachnoAttack=PlayerAttack+2
+		Stab.play()
+	elif PlayerWeapon=='Mace':
+		ZachnoAttack=PlayerAttack+3
+		MaceHit.play()
+	elif PlayerWeapon=='Sword':
+		ZachnoAttack=PlayerAttack+4
+		SwordHit.play()
+	elif PlayerWeapon=='Battleaxe':
+		ZachnoAttack=PlayerAttack+5
+		AxeHit.play()
+
+	ZachnoAttack=ZachnoAttack-HeroDefence
+	if ZachnoAttack > 0:
+		HeroLife=HeroLife-ZachnoAttack
+		Auch.play()
+	if HeroLife < 1:
+		PlayerXP=PlayerXP+HeroLevel
+		Chance=random.randint(1,2)
+		if Chance==1:
+			if DropItemOne != 'None':
+				Labyrinth.append(DropItemOne)
+				Labyrinth.append(HeroX)
+				Labyrinth.append(HeroY)
+		if Chance==2:
+			if DropItemTwo != 'None':
+				Labyrinth.append(DropItemTwo)
+				Labyrinth.append(HeroX)
+				Labyrinth.append(HeroY)
+		del HeroList[Counter]
+		del HeroList[Counter]
+		del HeroList[Counter]
+		del HeroList[Counter]
+		del HeroList[Counter]
+		del HeroList[Counter]
+		del HeroList[Counter]
+		del HeroList[Counter]
+		del HeroList[Counter]
+		del HeroList[Counter]
+		del HeroList[Counter]
+		del HeroList[Counter]
+		del HeroList[Counter]
+		del HeroList[Counter]
+		del HeroList[Counter]
+	else:
+		HeroList[Counter+9]=HeroLife
+	return
+
 # Checks next position in movement and makes game decisions
-def DoPlayerCollisionDetection(NewX, NewY, Labyrinth):
+def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 	global PlayerX
 	global PlayerY
 	global NextLevel
@@ -929,6 +1072,16 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth):
 					MaxCounter=len(Labyrinth)
 					Grab.play()
 		Counter=Counter+3
+	Counter=0
+	MaxCounter=len(HeroList)
+	while Counter < MaxCounter:
+		HeroX=int(HeroList[Counter+13])
+		HeroY=int(HeroList[Counter+14])
+		if HeroX == NewX and HeroY == NewY:
+			DoPlayerCombat(Counter)
+			MaxCounter=len(HeroList)
+			Collision=True
+		Counter=Counter+15
 	return(Collision)
 
 # Creates a list of all room positions in current level
@@ -2023,6 +2176,70 @@ def DropItem(ItemCounter):
 	del InvList[ItemCounter]
 	return
 
+def PlaceHeroes(Labyrinth, Level):
+	global HeroList
+	HeroFile=open('Heroes', 'r')
+	ListofHeroes=list(HeroFile)
+	HeroFile.close()
+	MapGen=int(Level/2)+1
+	Counter=0
+	MaxCounter=len(ListofHeroes)
+	while Counter < MaxCounter:
+		HeroLevel=int(ListofHeroes[Counter])
+		HeroName=ListofHeroes[Counter+1].rstrip()
+		HeroWeapon=ListofHeroes[Counter+2].rstrip()
+		HeroArmor=ListofHeroes[Counter+3].rstrip()
+		HeroSpell=ListofHeroes[Counter+4].rstrip()
+		HeroAttack=int(ListofHeroes[Counter+5])
+		HeroDefence=int(ListofHeroes[Counter+6])
+		HeroLifeLevel=int(ListofHeroes[Counter+7])
+		HeroMagic=int(ListofHeroes[Counter+8])
+		HeroLife=int(ListofHeroes[Counter+9])
+		HeroMana=int(ListofHeroes[Counter+10])
+		HeroDropItemOne=ListofHeroes[Counter+11].rstrip()
+		HeroDropItemTwo=ListofHeroes[Counter+12].rstrip()
+		if HeroLevel <= Level:
+			HeroList.append(HeroLevel)
+			HeroList.append(HeroName)
+			HeroList.append(HeroWeapon)
+			HeroList.append(HeroArmor)
+			HeroList.append(HeroSpell)
+			HeroList.append(HeroAttack)
+			HeroList.append(HeroDefence)
+			HeroList.append(HeroLifeLevel)
+			HeroList.append(HeroMagic)
+			HeroList.append(HeroLife)
+			HeroList.append(HeroMana)
+			HeroList.append(HeroDropItemOne)
+			HeroList.append(HeroDropItemTwo)
+
+			HeroXMin=-1*MapGen*9
+			HeroXMax=MapGen*9
+			HeroYMin=-1*MapGen*9
+			HeroYMax=MapGen*9
+			LookingForASpot=True
+			while LookingForASpot:
+				NoBlock=True
+				HeroX=random.randint(HeroXMin, HeroXMax)
+				HeroY=random.randint(HeroYMin, HeroYMax)
+
+				if (HeroX/9)==int(HeroX/9):
+					NoBlock=False
+				if (HeroY/9)==int(HeroY/9):
+					NoBlock=False
+
+				if NoBlock:
+					FloorFound=False
+					CheckX=HeroX
+					CheckY=HeroY
+					FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+					if FloorFound:
+						HeroList.append(HeroX)
+						HeroList.append(HeroY)
+						LookingForASpot=False
+		Counter=Counter+13
+	return
+
 # Main loop
 PlayerWeapon='Fists'
 PlayerArmor='None'
@@ -2036,6 +2253,9 @@ PlayerLife=PlayerLifeLevel*10
 PlayerMana=PlayerMagic*3
 PlayerX=0
 PlayerY=0
+PlayerXP=0
+
+PlayerLevel=PlayerAttack+PlayerDefence+PlayerMagic
 
 Load=open('Zachno.sav', 'r')
 LoadList=list(Load)
@@ -2046,7 +2266,7 @@ LoadCounterMax=len(LoadList)
 ConSwitch=int(LoadList[0])
 Level=int(LoadList[1])
 
-
+HeroList=list()
 InvList=list()
 pygame.key.set_repeat(30,30)
 DoSplash()
@@ -2062,8 +2282,10 @@ if Level > 0:
 			PlayerMagic=int(LoadList[8])
 			PlayerLife=int(LoadList[9])
 			PlayerMana=int(LoadList[10])
+			PlayerXP=int(LoadList[11])
 			PlayerX=0
 			PlayerY=0
+			PlayerLevel=PlayerAttack+PlayerDefence+PlayerMagic
 			MaxRooms=0
 			Rooms=0
 			LoadInv=open('Inventory.sav', 'r')
@@ -2077,6 +2299,7 @@ if Level > 0:
 			PlaceStairs(Labyrinth)
 			PlaceDecorations()
 			PlaceGnome(Labyrinth)
+			PlaceHeroes(Labyrinth, Level)
 			Ping.play()
 	else:
 		del Labyrinth[:]
@@ -2089,8 +2312,10 @@ if Level > 0:
 		PlayerMagic=int(LoadList[8])
 		PlayerLife=int(LoadList[9])
 		PlayerMana=int(LoadList[10])
-		PlayerX=int(LoadList[11])
-		PlayerY=int(LoadList[12])
+		PlayerXP=int(LoadList[11])
+		PlayerX=int(LoadList[12])
+		PlayerY=int(LoadList[13])
+		PlayerLevel=PlayerAttack+PlayerDefence+PlayerMagic
 		LoadInv=open('Inventory.sav', 'r')
 		InvList=list(LoadInv)
 		LoadInv.close()
@@ -2110,6 +2335,7 @@ if Level > 0:
 			Labyrinth.append(ObjectX)
 			Labyrinth.append(ObjectY)
 			Counter=Counter+3
+		PlaceHeroes(Labyrinth, Level)
 
 while Level < LevelMax:
 	DoScreen(Labyrinth, Level)
@@ -2205,6 +2431,7 @@ while Level < LevelMax:
 					MagicSave=str(PlayerMagic)+'\n'
 					LifeSave=str(PlayerLife)+'\n'
 					ManaSave=str(PlayerMana)+'\n'
+					XPSave=str(PlayerXP)+'\n'
 
 					Save.write(WeaponSave)
 					Save.write(ArmorSave)
@@ -2215,6 +2442,7 @@ while Level < LevelMax:
 					Save.write(MagicSave)
 					Save.write(LifeSave)
 					Save.write(ManaSave)
+					Save.write(XPSave)
 
 					XSave=str(PlayerX)+'\n'
 					Save.write(XSave)
@@ -2268,6 +2496,7 @@ while Level < LevelMax:
 				MagicSave=str(PlayerMagic)+'\n'
 				LifeSave=str(PlayerLife)+'\n'
 				ManaSave=str(PlayerMana)+'\n'
+				XPSave=str(PlayerXP)+'\n'
 
 				Save.write(WeaponSave)
 				Save.write(ArmorSave)
@@ -2278,6 +2507,7 @@ while Level < LevelMax:
 				Save.write(MagicSave)
 				Save.write(LifeSave)
 				Save.write(ManaSave)
+				Save.write(XPSave)
 		
 				Save.write('0\n')
 				Save.write('0')
@@ -2332,6 +2562,7 @@ while Level < LevelMax:
 				PlaceStairs(Labyrinth)
 				PlaceDecorations()
 				PlaceGnome(Labyrinth)
+				PlaceHeroes(Labyrinth, Level)
 				Ping.play()
 			else:
 				DoVictory()
