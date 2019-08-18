@@ -63,6 +63,7 @@ SwordHit = pygame.mixer.Sound('SwordHit.ogg')
 AxeHit = pygame.mixer.Sound('AxeHit.ogg')
 Auch = pygame.mixer.Sound('Auch.ogg')
 Applause = pygame.mixer.Sound('Applause.ogg')
+Fail = pygame.mixer.Sound('Fail.ogg')
 
 # Loading picture files into RAM
 Black=pygame.image.load('Black.png')
@@ -103,6 +104,11 @@ TeleportScroll=pygame.image.load('TeleportScroll.png')
 LightningScroll=pygame.image.load('LightningScroll.png')
 DrainScroll=pygame.image.load('DrainScroll.png')
 FireballScroll=pygame.image.load('FireballScroll.png')
+Flame=pygame.image.load('Flame.png')
+Wormhole=pygame.image.load('Wormhole.png')
+Heart=pygame.image.load('Heart.png')
+Bolt=pygame.image.load('Bolt.png')
+Blast=pygame.image.load('Blast.png')
 Gnome=pygame.image.load('Gnome.png')
 
 Bully=pygame.image.load('Bully.png')
@@ -145,6 +151,7 @@ Labyrinth=list()
 RoomPos=list()
 Room=list()
 VisualList=list()
+HeroLifeList=list()
 PlayerPos=[PlayerX, PlayerY]
 NextLevel=False
 global StairsX
@@ -207,6 +214,7 @@ def VisualScan(Labyrinth, HeroList):
 
 # Translates items in game array to pictures
 def GetScreenItem(ObjectImage):
+	print(ObjectImage)
 	if ObjectImage=='Wall':
 		ScreenItem=Wall
 	elif ObjectImage=='Floor':
@@ -344,10 +352,28 @@ def DoInventoryList():
 		screen.blit(ItemTextSurf,(950,380))
 	return
 
+def HeroScan(Labyrinth, HeroList):
+	del HeroLifeList[:]
+	MaxCounter=len(HeroList)
+	Counter=0
+	while Counter<MaxCounter:
+		HeroLife=int(HeroList[Counter+9])
+		ObjectX=int(HeroList[Counter+13])
+		ObjectY=int(HeroList[Counter+14])
+		XDiff=ObjectX-PlayerX
+		YDiff=ObjectY-PlayerY
+		if (-7 <= XDiff) and ( XDiff <= 7) and (-5 <= YDiff) and (YDiff <= 4):
+			HeroLifeList.append(HeroLife)
+			HeroLifeList.append(XDiff)
+			HeroLifeList.append(YDiff)
+		Counter=Counter+15
+	return(HeroLifeList)
+
 # Display function
 def DoScreen (Labyrinth, Level):
 	# Calling VisualScan to fill VisualList
 	VisualScan(Labyrinth, HeroList)
+	HeroScan(Labyrinth, HeroList)
 	Counter=0
 	MaxCounter=len(VisualList)
 	screen.blit(Black,(0,0))
@@ -366,7 +392,41 @@ def DoScreen (Labyrinth, Level):
 		screen.blit(ScreenItem, (ScreenX, ScreenY))
 		Counter=Counter+3
 
+	Counter=0
+	MaxCounter=len(HeroLifeList)
+	while Counter < MaxCounter:
+		HeroLife=str(HeroLifeList[Counter])
+		ObjectX=int(HeroLifeList[Counter+1])
+		ObjectY=int(HeroLifeList[Counter+2])
+		# calling GetScreenItem to get the right picture with the object name
+		HeroLifeText=str(HeroLife)
+		HeroLifeTextSurf=myfont.render(HeroLifeText, False, green)
+		# Translating x and y coordinates from VisualList into actual pixel coordinatesd
+		ScreenX=(ObjectX+7)*80
+		YConvert=ObjectY*-1
+		ScreenY=((YConvert+4)*80)+60
+		# Placing the item on screen
+		screen.blit(HeroLifeTextSurf, (ScreenX, ScreenY))
+		Counter=Counter+3
+
 	
+
+	SpellXDiff=SpellX-PlayerX
+	SpellYDiff=SpellY-PlayerY
+	ScreenX=(SpellXDiff+7)*80
+	YConvert=SpellYDiff*-1
+	ScreenY=(YConvert+4)*80
+	if Spell=='Fire':
+		ScreenItem=Flame
+	elif Spell=='Teleport':
+		ScreenItem=Wormhole
+	elif Spell=='Drain':
+		ScreenItem=Heart
+	elif Spell=='Lightning':
+		ScreenItem=Bolt
+	elif Spell=='Fireball':
+		ScreenItem=Blast
+	screen.blit(ScreenItem, (ScreenX, ScreenY))
 #	Xdiff=StairsX-PlayerX
 #	Ydiff=StairsY-PlayerY
 
@@ -857,25 +917,9 @@ def DoPlayerCombat(Counter):
 		HeroDefence=10
 
 	ZachnoAttack=PlayerAttack
-	if PlayerWeapon=='Fists':
-		ZachnoAttack=PlayerAttack+1
-		Punch.play()
-	elif PlayerWeapon=='Dagger':
-		ZachnoAttack=PlayerAttack+2
-		Stab.play()
-	elif PlayerWeapon=='Mace':
-		ZachnoAttack=PlayerAttack+3
-		MaceHit.play()
-	elif PlayerWeapon=='Sword':
-		ZachnoAttack=PlayerAttack+4
-		SwordHit.play()
-	elif PlayerWeapon=='Battleaxe':
-		ZachnoAttack=PlayerAttack+5
-		AxeHit.play()
 
 	ZachnoAttack=ZachnoAttack-HeroDefence
 	if ZachnoAttack > 0:
-		HeroLife=HeroLife-ZachnoAttack
 		if PlayerWeapon=='Fists':
 			ZachnoAttack=PlayerAttack+2
 			Punch.play()
@@ -891,6 +935,7 @@ def DoPlayerCombat(Counter):
 		elif PlayerWeapon=='Battleaxe':
 			ZachnoAttack=PlayerAttack+10
 			AxeHit.play()
+		HeroLife=HeroLife-ZachnoAttack
 	else:
 		Bump.play()
 
@@ -1358,7 +1403,7 @@ def CheckFloor(Labyrinth, CheckX, CheckY):
 		ObjectX=Labyrinth[Counter+1]
 		ObjectY=Labyrinth[Counter+2]
 		if CheckX==ObjectX and CheckY==ObjectY:
-			if Object=='Wall':
+			if not Object=='Floor':
 				FloorFound=False
 				return(FloorFound)
 			if Object=='Floor':
@@ -2057,6 +2102,161 @@ def DoItem(ItemCounter):
 
 	return
 
+def DoSpell():
+	global PlayerX
+	global PlayerY
+	global PlayerLifeLevel
+	global PlayerLife
+	global PlayerXP
+	global Spell
+	global SpellX
+	global SpellY
+	global HeroList
+	MapGen=int(Level/2)+1
+	SpellText='Press direction for '+Spell+' spell...'
+	SpellTextSurf = myfont.render(SpellText, False, green)
+
+	screen.blit(TextBar,(0,740))
+	screen.blit(TextBar,(0,760))
+	screen.blit(TextBar,(0,780))
+
+	screen.blit(SpellTextSurf,(0,760))
+	pygame.display.flip()
+	MakingAChoice=True
+	while MakingAChoice:
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_UP:
+					SpellDir=1
+					MakingAChoice=False
+				if event.key == pygame.K_RIGHT:
+					SpellDir=2
+					MakingAChoice=False
+				if event.key == pygame.K_DOWN:
+					SpellDir=3
+					MakingAChoice=False
+				if event.key == pygame.K_LEFT:
+					SpellDir=4
+					MakingAChoice=False
+
+	SpellX=PlayerX
+	SpellY=PlayerY
+	FreeFlight=True
+	while FreeFlight:
+		if SpellDir==1:
+			SpellY=SpellY+1
+		elif SpellDir==2:
+			SpellX=SpellX+1
+		elif SpellDir==3:
+			SpellY=SpellY-1
+		elif SpellDir==4:
+			SpellX=SpellX-1
+		
+		DoScreen(Labyrinth, Level)
+
+		CheckX=SpellX
+		CheckY=SpellY
+		FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+		if FloorFound:
+			HeroCounter=0
+			HeroCounterMax=len(HeroList)
+			while HeroCounter < HeroCounterMax:
+				HeroLevel=int(HeroList[HeroCounter])
+				HeroArmor=str(HeroList[HeroCounter+3])
+				HeroAttack=int(HeroList[HeroCounter+5])
+				HeroDefence=int(HeroList[HeroCounter+6])
+				HeroLife=int(HeroList[HeroCounter+9])
+				HeroMana=int(HeroList[HeroCounter+10])
+				DropItemOne=str(HeroList[HeroCounter+11])
+				DropItemTwo=str(HeroList[HeroCounter+12])
+				HeroX=int(HeroList[HeroCounter+13])
+				HeroY=int(HeroList[HeroCounter+14])
+				if HeroX==SpellX and HeroY==SpellY:
+					FreeFlight=False
+					if Spell=='Fire':
+						Fire.play()
+						HeroAttack=HeroAttack-1
+						if HeroAttack < 0:
+							HeroAttack=0
+						HeroLife=HeroLife-4
+					if Spell=='Teleport':
+						Teleport.play()
+						TeleportXMin=-1*MapGen*9
+						TeleportXMax=MapGen*9
+						TeleportYMin=-1*MapGen*9
+						TeleportYMax=MapGen*9
+						LookingForASpot=True
+						while LookingForASpot:
+							NoBlock=True
+							TeleportX=random.randint(TeleportXMin, TeleportXMax)
+							TeleportY=random.randint(TeleportYMin, TeleportYMax)
+			
+							if (TeleportX/9)==int(TeleportX/9):
+								NoBlock=False
+							if (TeleportY/9)==int(TeleportY/9):
+								NoBlock=False
+
+							if NoBlock:
+								FloorFound=False
+								CheckX=TeleportX
+								CheckY=TeleportY
+								FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+								if FloorFound:
+									HeroList[HeroCounter+13]=TeleportX
+									HeroList[HeroCounter+14]=TeleportY
+									LookingForASpot=False
+					if Spell=='Drain':
+						Steal.play()
+						PlayerLife=PlayerLife+12
+						if PlayerLife > (PlayerLifeLevel*10):
+							PlayerLife = (PlayerLifeLevel*10)
+						HeroLife=HeroLife-12
+					if Spell=='Lightning':
+						Lightning.play()
+						HeroLife=HeroLife-16
+						HeroMana=HeroMana-4
+					if Spell=='Fireball':
+						Fireball.play()
+						HeroLife=HeroLife-20
+
+					if HeroLife < 1:
+						PlayerXP=PlayerXP+HeroLevel
+						Chance=random.randint(1,2)
+						if Chance==1:
+							if DropItemOne != 'None':
+								Labyrinth.append(DropItemOne)
+								Labyrinth.append(HeroX)
+								Labyrinth.append(HeroY)
+						if Chance==2:
+							if DropItemTwo != 'None':
+								Labyrinth.append(DropItemTwo)
+								Labyrinth.append(HeroX)
+								Labyrinth.append(HeroY)
+						del HeroList[HeroCounter]
+						del HeroList[HeroCounter]
+						del HeroList[HeroCounter]
+						del HeroList[HeroCounter]
+						del HeroList[HeroCounter]
+						del HeroList[HeroCounter]
+						del HeroList[HeroCounter]
+						del HeroList[HeroCounter]
+						del HeroList[HeroCounter]
+						del HeroList[HeroCounter]
+						del HeroList[HeroCounter]
+						del HeroList[HeroCounter]
+						del HeroList[HeroCounter]
+						del HeroList[HeroCounter]
+						del HeroList[HeroCounter]
+						HeroCounterMax=len(HeroList)
+					else:
+						HeroList[HeroCounter+9]=HeroLife
+				HeroCounter=HeroCounter+15
+		else:
+			FreeFlight=False
+	SpellX=-200
+	SpellY=-200
+	return
+
 def UseItem(ItemCounter):
 	global PlayerWeapon
 	global PlayerArmor
@@ -2064,6 +2264,7 @@ def UseItem(ItemCounter):
 	global PlayerLife
 	global PlayerMagic
 	global PlayerMana
+	global Spell
 	if InvList[ItemCounter].rstrip()=='Mace':
 		PlayerWeapon='Mace'
 		del InvList[ItemCounter]
@@ -2118,30 +2319,46 @@ def UseItem(ItemCounter):
 		Mana.play()
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Fire':
-		if PlayerMana > 1:
+		if PlayerMana >= 1:
 			PlayerMana=PlayerMana-1
-			Fire.play()
+			Spell='Fire'
+			DoSpell()
 			del InvList[ItemCounter]
+		else:
+			Fail.play()
 	elif InvList[ItemCounter].rstrip()=='Teleport':
-		if PlayerMana > 2:
+		if PlayerMana >= 2:
 			PlayerMana=PlayerMana-2
-			Teleport.play()
+			Spell='Teleport'
+			DoSpell()
 			del InvList[ItemCounter]
+		else:
+			Fail.play()
 	elif InvList[ItemCounter].rstrip()=='Drain':
-		if PlayerMana > 3:
+		if PlayerMana >= 3:
 			PlayerMana=PlayerMana-3
-			Steal.play()
+			Spell='Drain'
+			DoSpell()
 			del InvList[ItemCounter]
+		else:
+			Fail.play()
 	elif InvList[ItemCounter].rstrip()=='Lightning':
-		if PlayerMana > 4:
+		if PlayerMana >= 4:
 			PlayerMana=PlayerMana-4
 			Lightning.play()
+			Spell='Lightning'
+			DoSpell()
 			del InvList[ItemCounter]
+		else:
+			Fail.play()
 	elif InvList[ItemCounter].rstrip()=='Fireball':
-		if PlayerMana > 5:
+		if PlayerMana >= 5:
 			PlayerMana=PlayerMana-5
-			Fireball.play()
+			Spell='Fireball'
+			DoSpell()
 			del InvList[ItemCounter]
+		else:
+			Fail.play()
 	return
 
 
@@ -2266,6 +2483,7 @@ def DoLevelUp():
 	global PlayerMagic
 	global PlayerXP
 	PlayerLevel=PlayerAttack+PlayerDefence+PlayerLifeLevel+PlayerMagic
+	Applause.play()
 	MakingaChoice=True
 	while MakingaChoice:
 		Text1='Press number to level attribute...'
@@ -2297,19 +2515,19 @@ def DoLevelUp():
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_1:
 					PlayerAttack=PlayerAttack+1
-					PlayerXP=PlayerXP-PlayerLevel
+					PlayerXP=PlayerXP-(PlayerLevel*2)
 					MakingaChoice=False
 				if event.key == pygame.K_2:
 					PlayerDefence=PlayerDefence+1
-					PlayerXP=PlayerXP-PlayerLevel
+					PlayerXP=PlayerXP-(PlayerLevel*2)
 					MakingaChoice=False
 				if event.key == pygame.K_3:
 					PlayerLifeLevel=PlayerLifeLevel+1
-					PlayerXP=PlayerXP-PlayerLevel
+					PlayerXP=PlayerXP-(PlayerLevel*2)
 					MakingaChoice=False
 				if event.key == pygame.K_4:
 					PlayerMagic=PlayerMagic+1
-					PlayerXP=PlayerXP-PlayerLevel
+					PlayerXP=PlayerXP-(PlayerLevel*2)
 					MakingaChoice=False
 		DoScreen(Labyrinth, Level)
 	return
@@ -2330,6 +2548,10 @@ PlayerY=0
 PlayerXP=0
 
 PlayerLevel=PlayerAttack+PlayerDefence+PlayerMagic
+
+Spell='Fire'
+SpellX=-200
+SpellY=-200
 
 Load=open('Zachno.sav', 'r')
 LoadList=list(Load)
@@ -2550,7 +2772,7 @@ while Level < LevelMax:
 					DoExit()
 				sys.exit()
 		DoScreen(Labyrinth, Level)
-		if PlayerXP >= PlayerLevel:
+		if PlayerXP >= PlayerLevel*2:
 			DoLevelUp()
 		pygame.event.pump()
 		if NextLevel:
