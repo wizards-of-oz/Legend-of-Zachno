@@ -110,6 +110,7 @@ Peasant=pygame.image.load('Peasant.png')
 Soldier=pygame.image.load('Soldier.png')
 Trapper=pygame.image.load('Trapper.png')
 Apprentice=pygame.image.load('Apprentice.png')
+Battlemage=pygame.image.load('Battlemage.png')
 Knight=pygame.image.load('Knight.png')
 Warlock=pygame.image.load('Warlock.png')
 Strongman=pygame.image.load('Strongman.png')
@@ -274,6 +275,8 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=Trapper
 	elif ObjectImage=='Apprentice':
 		ScreenItem=Apprentice
+	elif ObjectImage=='Battlemage':
+		ScreenItem=Battlemage
 	elif ObjectImage=='Knight':
 		ScreenItem=Knight
 	elif ObjectImage=='Warlock':
@@ -500,10 +503,7 @@ def DoMovePlayer(PlayerX, PlayerY, Dir):
 	# Before the x and y coordinates of the player are updated DoPlayerCollisionDetection() checks what's in the next space
 	Collision=DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList)
 	# If DoPlayerCollisionDetection() returns True only the Bump sound will be played and the player x and y will not update
-	if Collision:
-		Bump.play()
-	else:
-	# If false the walking sound will be played and x and y will be updated
+	if not Collision:
 		PlayerPos[0]=NewX
 		PlayerPos[1]=NewY
 		Walk.play()
@@ -943,6 +943,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 			# If the object is a Floor, the player can freely move on
 			if Object == 'Wall':
 				Collision=True
+				Bump.play()
 			# If the object is a stair the stairwalking sound will be played and NextLevel will be set to True
 			if Object == 'Stairs':
 				PlayerX=NewX
@@ -1357,11 +1358,11 @@ def CheckFloor(Labyrinth, CheckX, CheckY):
 		ObjectX=Labyrinth[Counter+1]
 		ObjectY=Labyrinth[Counter+2]
 		if CheckX==ObjectX and CheckY==ObjectY:
+			if Object=='Wall':
+				FloorFound=False
+				return(FloorFound)
 			if Object=='Floor':
 				FloorFound=True
-			if Object!='Floor':
-				FloorFound=False
-				break
 		Counter=Counter+3
 	return(FloorFound)
 
@@ -2252,8 +2253,8 @@ def PlaceHeroes(Labyrinth, Level):
 					CheckY=HeroY
 					FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
 					if FloorFound:
-						HeroList.append(HeroX)
-						HeroList.append(HeroY)
+						HeroList.append(CheckX)
+						HeroList.append(CheckY)
 						LookingForASpot=False
 		Counter=Counter+13
 	return
@@ -2265,46 +2266,52 @@ def DoLevelUp():
 	global PlayerMagic
 	global PlayerXP
 	PlayerLevel=PlayerAttack+PlayerDefence+PlayerLifeLevel+PlayerMagic
-	Text1='Press number to level attribute...'
-	Text1Surf = myfont.render(Text1, False, green)
-	Text2='1> Attack: '+str(PlayerAttack)
-	Text2Surf = myfont.render(Text2, False, green)
-	Text3='2> Defence: '+str(PlayerDefence)
-	Text3Surf = myfont.render(Text3, False, green)
-	Text4='3> Health:'+str(PlayerLifeLevel)
-	Text4Surf = myfont.render(Text4, False, green)
-	Text5='4> Magic:'+str(PlayerMagic)
-	Text5Surf = myfont.render(Text5, False, green)
+	MakingaChoice=True
+	while MakingaChoice:
+		Text1='Press number to level attribute...'
+		Text1Surf = myfont.render(Text1, False, green)
+		Text2='1> Attack: '+str(PlayerAttack)
+		Text2Surf = myfont.render(Text2, False, green)
+		Text3='2> Defence: '+str(PlayerDefence)
+		Text3Surf = myfont.render(Text3, False, green)
+		Text4='3> Health:'+str(PlayerLifeLevel)
+		Text4Surf = myfont.render(Text4, False, green)
+		Text5='4> Magic:'+str(PlayerMagic)
+		Text5Surf = myfont.render(Text5, False, green)
 
-	screen.blit(TextBar,(0,620))
-	screen.blit(TextBar,(0,640))
-	screen.blit(TextBar,(0,660))
-	screen.blit(TextBar,(0,680))
-	screen.blit(TextBar,(0,700))
+		screen.blit(TextBar,(0,620))
+		screen.blit(TextBar,(0,640))
+		screen.blit(TextBar,(0,660))
+		screen.blit(TextBar,(0,680))
+		screen.blit(TextBar,(0,700))
 
-	screen.blit(Text1Surf,(0,620))
-	screen.blit(Text2Surf,(0,640))
-	screen.blit(Text3Surf,(0,660))
-	screen.blit(Text4Surf,(0,680))
-	screen.blit(Text5Surf,(0,700))
+		screen.blit(Text1Surf,(0,620))
+		screen.blit(Text2Surf,(0,640))
+		screen.blit(Text3Surf,(0,660))
+		screen.blit(Text4Surf,(0,680))
+		screen.blit(Text5Surf,(0,700))
 
-	pygame.display.flip()
+		pygame.display.flip()
 
-	for event in pygame.event.get():
-		if event.type == pygame.KEYDOWN:
-			if event.key == pygame.K_1:
-				PlayerAttack=PlayerAttack+1
-				PlayerXP=PlayerXP-PlayerLevel
-			if event.key == pygame.K_2 and len(InvList) < 10:
-				PlayerDefence=PlayerDefence+1
-				PlayerXP=PlayerXP-PlayerLevel
-			if event.key == pygame.K_3 and len(InvList) < 10:
-				PlayerLifeLevel=PlayerLifeLevel+1
-				PlayerXP=PlayerXP-PlayerLevel
-			if event.key == pygame.K_4 and len(InvList) < 10:
-				PlayerMagic=PlayerMagic+1
-				PlayerXP=PlayerXP-PlayerLevel
-	DoScreen(Labyrinth, Level)
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_1:
+					PlayerAttack=PlayerAttack+1
+					PlayerXP=PlayerXP-PlayerLevel
+					MakingaChoice=False
+				if event.key == pygame.K_2:
+					PlayerDefence=PlayerDefence+1
+					PlayerXP=PlayerXP-PlayerLevel
+					MakingaChoice=False
+				if event.key == pygame.K_3:
+					PlayerLifeLevel=PlayerLifeLevel+1
+					PlayerXP=PlayerXP-PlayerLevel
+					MakingaChoice=False
+				if event.key == pygame.K_4:
+					PlayerMagic=PlayerMagic+1
+					PlayerXP=PlayerXP-PlayerLevel
+					MakingaChoice=False
+		DoScreen(Labyrinth, Level)
 	return
 
 # Main loop

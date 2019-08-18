@@ -41,7 +41,7 @@ Life
 Soldier
 Sword
 None
-Fire
+FireScroll
 10
 1
 1
@@ -49,7 +49,7 @@ Fire
 5
 6
 Sword
-Fire
+FireScroll
 5
 Trapper
 Dagger
@@ -87,8 +87,8 @@ Fire
 3
 5
 9
-LightningTrap
-Fire
+ElectroTrap
+FireScroll
 7
 Knight
 Mace
@@ -113,8 +113,8 @@ Fire
 4
 25
 12
-LightningTrap
-Fire
+ElectroTrap
+FireScroll
 9
 Warlock
 Sword
@@ -126,7 +126,7 @@ Lightning
 10
 50
 30
-Lightning
+LightningScroll
 Fire
 6
 Strongman
@@ -165,8 +165,8 @@ Teleport
 4
 10
 12
-LightningTrap
-Teleport
+ElectroTrap
+TeleportScroll
 8
 Tank
 Fists
@@ -191,8 +191,8 @@ TShield
 5
 30
 15
-LightningTrap
-Teleport
+ElectroTrap
+TeleportScroll
 8
 Warlock
 Fists
@@ -204,8 +204,8 @@ Lightning
 10
 10
 30
-Lightning
-Teleport
+LightningScroll
+TeleportScroll
 9
 HeavyGuard
 Fists
@@ -231,7 +231,7 @@ Wshield
 50
 18
 Mana
-Drain
+DrainScroll
 11
 LightningMage
 Fists
@@ -243,8 +243,8 @@ Lightning
 10
 40
 30
-Lightning
-Drain
+LightningScroll
+DrainScroll
 12
 Stormking
 Fists
@@ -256,5 +256,5 @@ Lightning
 10
 20
 30
-Lightning
-Ligthning
+LightningScroll
+LigthningScroll
