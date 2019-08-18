@@ -62,6 +62,7 @@ MaceHit = pygame.mixer.Sound('MaceHit.ogg')
 SwordHit = pygame.mixer.Sound('SwordHit.ogg')
 AxeHit = pygame.mixer.Sound('AxeHit.ogg')
 Auch = pygame.mixer.Sound('Auch.ogg')
+Applause = pygame.mixer.Sound('Applause.ogg')
 
 # Loading picture files into RAM
 Black=pygame.image.load('Black.png')
@@ -845,15 +846,15 @@ def DoPlayerCombat(Counter):
 	HeroY=int(HeroList[Counter+14])
 
 	if HeroArmor=='WShield':
-		HeroDefence=HeroDefence+1
+		HeroDefence=2
 	elif HeroArmor=='Shield':
-		HeroDefence=HeroDefence+2
+		HeroDefence=4
 	elif HeroArmor=='TShield':
-		HeroDefence=HeroDefence+3
+		HeroDefence=6
 	elif HeroArmor=='Chainmail':
-		HeroDefence=HeroDefence+4
+		HeroDefence=8
 	elif HeroArmor=='Plate':
-		HeroDefence=HeroDefence+5
+		HeroDefence=10
 
 	ZachnoAttack=PlayerAttack
 	if PlayerWeapon=='Fists':
@@ -875,7 +876,24 @@ def DoPlayerCombat(Counter):
 	ZachnoAttack=ZachnoAttack-HeroDefence
 	if ZachnoAttack > 0:
 		HeroLife=HeroLife-ZachnoAttack
-		Auch.play()
+		if PlayerWeapon=='Fists':
+			ZachnoAttack=PlayerAttack+2
+			Punch.play()
+		elif PlayerWeapon=='Dagger':
+			ZachnoAttack=PlayerAttack+4
+			Stab.play()
+		elif PlayerWeapon=='Mace':
+			ZachnoAttack=PlayerAttack+6
+			MaceHit.play()
+		elif PlayerWeapon=='Sword':
+			ZachnoAttack=PlayerAttack+8
+			SwordHit.play()
+		elif PlayerWeapon=='Battleaxe':
+			ZachnoAttack=PlayerAttack+10
+			AxeHit.play()
+	else:
+		Bump.play()
+
 	if HeroLife < 1:
 		PlayerXP=PlayerXP+HeroLevel
 		Chance=random.randint(1,2)
@@ -2240,6 +2258,55 @@ def PlaceHeroes(Labyrinth, Level):
 		Counter=Counter+13
 	return
 
+def DoLevelUp():
+	global PlayerAttack
+	global PlayerDefence
+	global PlayerLifeLevel
+	global PlayerMagic
+	global PlayerXP
+	PlayerLevel=PlayerAttack+PlayerDefence+PlayerLifeLevel+PlayerMagic
+	Text1='Press number to level attribute...'
+	Text1Surf = myfont.render(Text1, False, green)
+	Text2='1> Attack: '+str(PlayerAttack)
+	Text2Surf = myfont.render(Text2, False, green)
+	Text3='2> Defence: '+str(PlayerDefence)
+	Text3Surf = myfont.render(Text3, False, green)
+	Text4='3> Health:'+str(PlayerLifeLevel)
+	Text4Surf = myfont.render(Text4, False, green)
+	Text5='4> Magic:'+str(PlayerMagic)
+	Text5Surf = myfont.render(Text5, False, green)
+
+	screen.blit(TextBar,(0,620))
+	screen.blit(TextBar,(0,640))
+	screen.blit(TextBar,(0,660))
+	screen.blit(TextBar,(0,680))
+	screen.blit(TextBar,(0,700))
+
+	screen.blit(Text1Surf,(0,620))
+	screen.blit(Text2Surf,(0,640))
+	screen.blit(Text3Surf,(0,660))
+	screen.blit(Text4Surf,(0,680))
+	screen.blit(Text5Surf,(0,700))
+
+	pygame.display.flip()
+
+	for event in pygame.event.get():
+		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_1:
+				PlayerAttack=PlayerAttack+1
+				PlayerXP=PlayerXP-PlayerLevel
+			if event.key == pygame.K_2 and len(InvList) < 10:
+				PlayerDefence=PlayerDefence+1
+				PlayerXP=PlayerXP-PlayerLevel
+			if event.key == pygame.K_3 and len(InvList) < 10:
+				PlayerLifeLevel=PlayerLifeLevel+1
+				PlayerXP=PlayerXP-PlayerLevel
+			if event.key == pygame.K_4 and len(InvList) < 10:
+				PlayerMagic=PlayerMagic+1
+				PlayerXP=PlayerXP-PlayerLevel
+	DoScreen(Labyrinth, Level)
+	return
+
 # Main loop
 PlayerWeapon='Fists'
 PlayerArmor='None'
@@ -2476,6 +2543,8 @@ while Level < LevelMax:
 					DoExit()
 				sys.exit()
 		DoScreen(Labyrinth, Level)
+		if PlayerXP >= PlayerLevel:
+			DoLevelUp()
 		pygame.event.pump()
 		if NextLevel:
 			Level=Level+1
