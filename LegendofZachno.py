@@ -214,7 +214,6 @@ def VisualScan(Labyrinth, HeroList):
 
 # Translates items in game array to pictures
 def GetScreenItem(ObjectImage):
-	print(ObjectImage)
 	if ObjectImage=='Wall':
 		ScreenItem=Wall
 	elif ObjectImage=='Floor':
@@ -1405,7 +1404,7 @@ def CheckFloor(Labyrinth, CheckX, CheckY):
 		if CheckX==ObjectX and CheckY==ObjectY:
 			if not Object=='Floor':
 				FloorFound=False
-				return(FloorFound)
+				break
 			if Object=='Floor':
 				FloorFound=True
 		Counter=Counter+3
@@ -1922,7 +1921,7 @@ def PlaceDecorations():
 	global StairsX
 	global StairsY
 	Chests=0
-	MaxChests=int(Level/2)
+	MaxChests=Level
 	DecMin=0
 	DecMax=int(len(RoomPos)/14)
 	while DecMin < DecMax:
@@ -1970,8 +1969,6 @@ def PlaceDecorations():
 				CheckY=DecY
 				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
 				if FloorFound:
-					Counter=0
-					MaxCounter=len(Labyrinth)
 					LookingForASpot=False
 					Counter=0
 					MaxCounter=len(Labyrinth)
@@ -2345,7 +2342,6 @@ def UseItem(ItemCounter):
 	elif InvList[ItemCounter].rstrip()=='Lightning':
 		if PlayerMana >= 4:
 			PlayerMana=PlayerMana-4
-			Lightning.play()
 			Spell='Lightning'
 			DoSpell()
 			del InvList[ItemCounter]
@@ -2434,7 +2430,9 @@ def PlaceHeroes(Labyrinth, Level):
 		HeroMana=int(ListofHeroes[Counter+10])
 		HeroDropItemOne=ListofHeroes[Counter+11].rstrip()
 		HeroDropItemTwo=ListofHeroes[Counter+12].rstrip()
-		if HeroLevel <= Level:
+		Number=1
+		MaxNumber=int(Level/HeroLevel)
+		while Number <= MaxNumber:
 			HeroList.append(HeroLevel)
 			HeroList.append(HeroName)
 			HeroList.append(HeroWeapon)
@@ -2470,9 +2468,10 @@ def PlaceHeroes(Labyrinth, Level):
 					CheckY=HeroY
 					FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
 					if FloorFound:
-						HeroList.append(CheckX)
-						HeroList.append(CheckY)
+						HeroList.append(HeroX)
+						HeroList.append(HeroY)
 						LookingForASpot=False
+			Number=Number+1
 		Counter=Counter+13
 	return
 
