@@ -905,15 +905,15 @@ def DoPlayerCombat(Counter):
 	HeroY=int(HeroList[Counter+14])
 
 	if HeroArmor=='WShield':
-		HeroDefence=2
+		HeroDefence=1
 	elif HeroArmor=='Shield':
-		HeroDefence=4
+		HeroDefence=2
 	elif HeroArmor=='TShield':
-		HeroDefence=6
+		HeroDefence=3
 	elif HeroArmor=='Chainmail':
-		HeroDefence=8
+		HeroDefence=4
 	elif HeroArmor=='Plate':
-		HeroDefence=10
+		HeroDefence=5
 
 	ZachnoAttack=PlayerAttack
 
