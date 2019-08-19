@@ -128,6 +128,12 @@ Heavyguard=pygame.image.load('Heavyguard.png')
 Vampirehero=pygame.image.load('Vampirehero.png')
 Lightningmage=pygame.image.load('Lightningmage.png')
 Stormking=pygame.image.load('Stormking.png')
+Berserker=pygame.image.load('Berserker.png')
+Rogue=pygame.image.load('Rogue.png')
+Paladin=pygame.image.load('Paladin.png')
+Archmage=pygame.image.load('Archmage.png')
+KingArthur=pygame.image.load('KingArthur.png')
+
 
 Chainmail=pygame.image.load('Chainmail.png')
 ChainmailSmall=pygame.image.load('ChainmailSmall.png')
@@ -306,6 +312,16 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=Lightningmage
 	elif ObjectImage=='Stormking':
 		ScreenItem=Stormking
+	elif ObjectImage=='Berserker':
+		ScreenItem=Berserker
+	elif ObjectImage=='Rogue':
+		ScreenItem=Rogue
+	elif ObjectImage=='Paladin':
+		ScreenItem=Paladin
+	elif ObjectImage=='Archmage':
+		ScreenItem=Archmage
+	elif ObjectImage=='KingArthur':
+		ScreenItem=KingArthur
 	return(ScreenItem)
 
 def DoInventoryList():
@@ -526,9 +542,9 @@ def DoScreen (Labyrinth, Level):
 	elif PlayerArmor=='TShield':
 			screen.blit(TShieldSmall, (600, 340))
 	elif PlayerArmor=='Chainmail':
-			screen.blit(ChainmailSmall, (580, 340))
+			screen.blit(ChainmailSmall, (580, 360))
 	elif PlayerArmor=='Plate':
-			screen.blit(PlateSmall, (580, 340))
+			screen.blit(PlateSmall, (580, 360))
 
 	if PlayerWeapon=='Dagger':
 			screen.blit(DaggerSmall, (560, 320))
@@ -569,7 +585,7 @@ def DoMovePlayer(PlayerX, PlayerY, Dir):
 	return(PlayerPos)
 
 def DoGetItem():
-	ItemNo=random.randint(1,20)
+	ItemNo=random.randint(1,22)
 	if ItemNo==1:
 		Item='Dagger'
 	if ItemNo==2:
@@ -905,34 +921,39 @@ def DoPlayerCombat(Counter):
 	HeroY=int(HeroList[Counter+14])
 
 	if HeroArmor=='WShield':
-		HeroDefence=1
+		HeroDefence=HeroDefence+1
 	elif HeroArmor=='Shield':
-		HeroDefence=2
+		HeroDefence=HeroDefence+2
 	elif HeroArmor=='TShield':
-		HeroDefence=3
+		HeroDefence=HeroDefence+3
 	elif HeroArmor=='Chainmail':
-		HeroDefence=4
+		HeroDefence=HeroDefence+4
 	elif HeroArmor=='Plate':
-		HeroDefence=5
+		HeroDefence=HeroDefence+5
 
 	ZachnoAttack=PlayerAttack
+	if PlayerWeapon=='Fists':
+		ZachnoAttack=PlayerAttack+1
+	elif PlayerWeapon=='Dagger':
+		ZachnoAttack=PlayerAttack+2
+	elif PlayerWeapon=='Mace':
+		ZachnoAttack=PlayerAttack+3
+	elif PlayerWeapon=='Sword':
+		ZachnoAttack=PlayerAttack+4
+	elif PlayerWeapon=='Battleaxe':
+		ZachnoAttack=PlayerAttack+5
 
 	ZachnoAttack=ZachnoAttack-HeroDefence
 	if ZachnoAttack > 0:
 		if PlayerWeapon=='Fists':
-			ZachnoAttack=PlayerAttack+2
 			Punch.play()
 		elif PlayerWeapon=='Dagger':
-			ZachnoAttack=PlayerAttack+4
 			Stab.play()
 		elif PlayerWeapon=='Mace':
-			ZachnoAttack=PlayerAttack+6
 			MaceHit.play()
 		elif PlayerWeapon=='Sword':
-			ZachnoAttack=PlayerAttack+8
 			SwordHit.play()
 		elif PlayerWeapon=='Battleaxe':
-			ZachnoAttack=PlayerAttack+10
 			AxeHit.play()
 		HeroLife=HeroLife-ZachnoAttack
 	else:
@@ -988,6 +1009,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 			if Object == 'Wall':
 				Collision=True
 				Bump.play()
+				break
 			# If the object is a stair the stairwalking sound will be played and NextLevel will be set to True
 			if Object == 'Stairs':
 				PlayerX=NewX
@@ -2109,6 +2131,7 @@ def DoSpell():
 	global SpellX
 	global SpellY
 	global HeroList
+	DoScreen(Labyrinth, Level)
 	MapGen=int(Level/2)+1
 	SpellText='Press direction for '+Spell+' spell...'
 	SpellTextSurf = myfont.render(SpellText, False, green)
@@ -2480,6 +2503,8 @@ def DoLevelUp():
 	global PlayerDefence
 	global PlayerLifeLevel
 	global PlayerMagic
+	global PlayerLife
+	global PlayerMana
 	global PlayerXP
 	PlayerLevel=PlayerAttack+PlayerDefence+PlayerLifeLevel+PlayerMagic
 	Applause.play()
@@ -2522,10 +2547,12 @@ def DoLevelUp():
 					MakingaChoice=False
 				if event.key == pygame.K_3:
 					PlayerLifeLevel=PlayerLifeLevel+1
+					PlayerLife=PlayerLifeLevel*10
 					PlayerXP=PlayerXP-(PlayerLevel*2)
 					MakingaChoice=False
 				if event.key == pygame.K_4:
 					PlayerMagic=PlayerMagic+1
+					PlayerMana=PlayerMagic*3
 					PlayerXP=PlayerXP-(PlayerLevel*2)
 					MakingaChoice=False
 		DoScreen(Labyrinth, Level)
@@ -2771,8 +2798,10 @@ while Level < LevelMax:
 					DoExit()
 				sys.exit()
 		DoScreen(Labyrinth, Level)
-		if PlayerXP >= PlayerLevel*2:
-			DoLevelUp()
+		PlayerLevel=PlayerAttack+PlayerDefence+PlayerMagic
+		if PlayerLevel < 41:
+			if PlayerXP >= PlayerLevel*2:
+				DoLevelUp()
 		pygame.event.pump()
 		if NextLevel:
 			Level=Level+1
