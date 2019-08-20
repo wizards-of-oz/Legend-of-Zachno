@@ -4,6 +4,7 @@ import sys
 import random
 import os
 import math
+from pytictoc import TicToc
 
 # Initializing the pygame components i use 
 pygame.mixer.pre_init()
@@ -12,6 +13,7 @@ pygame.font.init()
 
 pygame.mixer.init()
 myfont = pygame.font.SysFont('Arial', 20)
+Time=TicToc()
 
 #Storing color coded in variables so i can use a name when i want to color text
 white = ((255,255,255))
@@ -64,6 +66,7 @@ AxeHit = pygame.mixer.Sound('AxeHit.ogg')
 Auch = pygame.mixer.Sound('Auch.ogg')
 Applause = pygame.mixer.Sound('Applause.ogg')
 Fail = pygame.mixer.Sound('Fail.ogg')
+DeathScream = pygame.mixer.Sound('DeathScream.ogg')
 
 # Loading picture files into RAM
 Black=pygame.image.load('Black.png')
@@ -94,8 +97,11 @@ SwordSmall=pygame.image.load('SwordSmall.png')
 MaceSmall=pygame.image.load('MaceSmall.png')
 BattleAxeSmall=pygame.image.load('BattleAxeSmall.png')
 ShieldSmall=pygame.image.load('ShieldSmall.png')
-WShieldSmall=pygame.image.load('WShield.png')
-TShieldSmall=pygame.image.load('TShield.png')
+WShieldSmall=pygame.image.load('WShieldSmall.png')
+TShieldSmall=pygame.image.load('TShieldSmall.png')
+WShield=pygame.image.load('WShield.png')
+TShield=pygame.image.load('TShield.png')
+
 SpikeTrap=pygame.image.load('SpikeTrap.png')
 AcidTrap=pygame.image.load('AcidTrap.png')
 ElectroTrap=pygame.image.load('ElectroTrap.png')
@@ -272,6 +278,12 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=LightningScroll
 	elif ObjectImage=='FireballScroll':
 		ScreenItem=FireballScroll
+	elif ObjectImage=='WShield':
+		ScreenItem=WShield
+	elif ObjectImage=='Shield':
+		ScreenItem=Shield
+	elif ObjectImage=='TShield':
+		ScreenItem=TShield
 	elif ObjectImage=='Chainmail':
 		ScreenItem=Chainmail
 	elif ObjectImage=='Plate':
@@ -585,7 +597,7 @@ def DoMovePlayer(PlayerX, PlayerY, Dir):
 	return(PlayerPos)
 
 def DoGetItem():
-	ItemNo=random.randint(1,22)
+	ItemNo=random.randint(1,25)
 	if ItemNo==1:
 		Item='Dagger'
 	if ItemNo==2:
@@ -606,29 +618,29 @@ def DoGetItem():
 		Item='Electrotrap'
 	if ItemNo==10:
 		Item='Mine'
-	if ItemNo>=11:
+	if ItemNo>=11 and ItemNo<=13:
 		Item='Lifepotion'
-	if ItemNo>=12:
+	if ItemNo>=14 and ItemNo<=15:
 		Item='Manapotion'
-	if ItemNo==13:
-		Item='Fire'
-	if ItemNo==14:
-		Item='Teleport'
-	if ItemNo==15:
-		Item='Drain'
 	if ItemNo==16:
-		Item='Lightning'
+		Item='Fire'
 	if ItemNo==17:
-		Item='Fireball'
+		Item='Teleport'
 	if ItemNo==18:
-		Item='Shield'
+		Item='Drain'
 	if ItemNo==19:
-		Item='WShield'
+		Item='Lightning'
 	if ItemNo==20:
-		Item='TShield'
+		Item='Fireball'
 	if ItemNo==21:
-		Item='Chainmail'
+		Item='Shield'
 	if ItemNo==22:
+		Item='WShield'
+	if ItemNo==23:
+		Item='TShield'
+	if ItemNo==24:
+		Item='Chainmail'
+	if ItemNo==25:
 		Item='Plate'
 
 
@@ -960,6 +972,7 @@ def DoPlayerCombat(Counter):
 		Bump.play()
 
 	if HeroLife < 1:
+		DeathScream.play()
 		PlayerXP=PlayerXP+HeroLevel
 		Chance=random.randint(1,2)
 		if Chance==1:
@@ -1133,6 +1146,33 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Fireball')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'WShield':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('WShield')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'Shield':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Shield')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'TShield':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('TShield')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1426,7 +1466,7 @@ def CheckFloor(Labyrinth, CheckX, CheckY):
 		if CheckX==ObjectX and CheckY==ObjectY:
 			if not Object=='Floor':
 				FloorFound=False
-				break
+				return(FloorFound)
 			if Object=='Floor':
 				FloorFound=True
 		Counter=Counter+3
@@ -1952,7 +1992,7 @@ def PlaceDecorations():
 		screen.blit(TextBar,(0,780))
 		screen.blit(LoadingTextSurf,(0,780))
 		pygame.display.flip()
-		DecNo=random.randint(1,6)
+		DecNo=random.randint(1,5)
 		if DecNo==1:
 			Decoration='Candle'
 		if DecNo==2:
@@ -1962,8 +2002,6 @@ def PlaceDecorations():
 		if DecNo==4:
 			Decoration='Skull'
 		if DecNo==5:
-			Decoration='Shield'
-		if DecNo==6:
 			Chests=Chests+1
 			if Chests <= MaxChests:
 				Decoration='ChestClosed'
@@ -2200,6 +2238,10 @@ def DoSpell():
 							HeroAttack=0
 						HeroLife=HeroLife-4
 					if Spell=='Teleport':
+						HeroDefence=HeroDefence-2
+						if HeroDefence < 0:
+							HeroDefence=0
+						HeroList[HeroCounter+6]=HeroDefence
 						Teleport.play()
 						TeleportXMin=-1*MapGen*9
 						TeleportXMax=MapGen*9
@@ -2334,8 +2376,8 @@ def UseItem(ItemCounter):
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Manapotion':
 		PlayerMana=PlayerMana+10
-		if PlayerMana > PlayerMagic*3:
-			PlayerMana=PlayerMagic*3
+		if PlayerMana > PlayerMagic*5:
+			PlayerMana=PlayerMagic*5
 		Mana.play()
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Fire':
@@ -2456,20 +2498,6 @@ def PlaceHeroes(Labyrinth, Level):
 		Number=1
 		MaxNumber=int(Level/HeroLevel)
 		while Number <= MaxNumber:
-			HeroList.append(HeroLevel)
-			HeroList.append(HeroName)
-			HeroList.append(HeroWeapon)
-			HeroList.append(HeroArmor)
-			HeroList.append(HeroSpell)
-			HeroList.append(HeroAttack)
-			HeroList.append(HeroDefence)
-			HeroList.append(HeroLifeLevel)
-			HeroList.append(HeroMagic)
-			HeroList.append(HeroLife)
-			HeroList.append(HeroMana)
-			HeroList.append(HeroDropItemOne)
-			HeroList.append(HeroDropItemTwo)
-
 			HeroXMin=-1*MapGen*9
 			HeroXMax=MapGen*9
 			HeroYMin=-1*MapGen*9
@@ -2491,6 +2519,19 @@ def PlaceHeroes(Labyrinth, Level):
 					CheckY=HeroY
 					FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
 					if FloorFound:
+						HeroList.append(HeroLevel)
+						HeroList.append(HeroName)
+						HeroList.append(HeroWeapon)
+						HeroList.append(HeroArmor)
+						HeroList.append(HeroSpell)
+						HeroList.append(HeroAttack)
+						HeroList.append(HeroDefence)
+						HeroList.append(HeroLifeLevel)
+						HeroList.append(HeroMagic)
+						HeroList.append(HeroLife)
+						HeroList.append(HeroMana)
+						HeroList.append(HeroDropItemOne)
+						HeroList.append(HeroDropItemTwo)
 						HeroList.append(HeroX)
 						HeroList.append(HeroY)
 						LookingForASpot=False
@@ -2552,11 +2593,272 @@ def DoLevelUp():
 					MakingaChoice=False
 				if event.key == pygame.K_4:
 					PlayerMagic=PlayerMagic+1
-					PlayerMana=PlayerMagic*3
+					PlayerMana=PlayerMagic*5
 					PlayerXP=PlayerXP-(PlayerLevel*2)
 					MakingaChoice=False
 		DoScreen(Labyrinth, Level)
 	return
+
+def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
+	global PlayerX
+	global PlayerY
+	global PlayerLifeLevel
+	global PlayerLife
+	global PlayerXP
+	global Spell
+	global SpellX
+	global SpellY
+	global HeroList
+	MapGen=int(Level/2)+1
+	if HeroY < PlayerY:
+		SpellDir=1
+	if HeroX < PlayerX:
+		SpellDir=2
+	if HeroY > PlayerY:
+		SpellDir=3
+	if HeroX > PlayerX:
+		SpellDir=4
+
+	Spell=HeroSpell
+	print(Spell)
+	SpellX=HeroX
+	SpellY=HeroY
+	FreeFlight=True
+	while FreeFlight:
+		print(Spell, ' moving...')
+		if SpellDir==1:
+			SpellY=SpellY+1
+		elif SpellDir==2:
+			SpellX=SpellX+1
+		elif SpellDir==3:
+			SpellY=SpellY-1
+		elif SpellDir==4:
+			SpellX=SpellX-1
+		
+		DoScreen(Labyrinth, Level)
+
+		CheckX=SpellX
+		CheckY=SpellY
+		FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+		if FloorFound:
+			if SpellX==PlayerX and SpellY==PlayerY:
+				FreeFlight=False
+				if Spell=='Fire':
+					Fire.play()
+					HeroMana=int(HeroList[Counter+10])
+					HeroMana=HeroMana-1
+					HeroList[Counter+10]=HeroMana
+					PlayerLife=PlayerLife-4
+				if Spell=='Teleport':
+					HeroMana=int(HeroList[Counter+10])
+					HeroMana=HeroMana-2
+					HeroList[Counter+10]=HeroMana
+					Teleport.play()
+					TeleportXMin=-1*MapGen*9
+					TeleportXMax=MapGen*9
+					TeleportYMin=-1*MapGen*9
+					TeleportYMax=MapGen*9
+					LookingForASpot=True
+					while LookingForASpot:
+						NoBlock=True
+						TeleportX=random.randint(TeleportXMin, TeleportXMax)
+						TeleportY=random.randint(TeleportYMin, TeleportYMax)
+		
+						if (TeleportX/9)==int(TeleportX/9):
+							NoBlock=False
+						if (TeleportY/9)==int(TeleportY/9):
+							NoBlock=False
+
+						if NoBlock:
+							FloorFound=False
+							CheckX=TeleportX
+							CheckY=TeleportY
+							FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+						if FloorFound:
+							PlayerX=TeleportX
+							PlayerY=TeleportY
+							LookingForASpot=False
+				if Spell=='Drain':
+					HeroMana=int(HeroList[Counter+10])
+					HeroMana=HeroMana-3
+					HeroList[Counter+10]=HeroMana
+					HeroLife=int(HeroList[Counter+9])
+					HeroLife=HeroLife+12
+					HeroList[Counter+9]=HeroLife
+					Steal.play()
+					PlayerLife=PlayerLife-12
+				if Spell=='Lightning':
+					HeroMana=int(HeroList[Counter+10])
+					HeroMana=HeroMana-4
+					HeroList[Counter+10]=HeroMana
+					Lightning.play()
+					PlayerLife=PlayerLife-16
+				if Spell=='Fireball':
+					HeroMana=int(HeroList[Counter+10])
+					HeroMana=HeroMana-5
+					HeroList[Counter+10]=HeroMana
+					Fireball.play()
+					PlayerLife=PlayerLife-20
+
+				if PlayerLife < 1:
+					DeathScream.play()
+					wait()
+					sys.exit()
+		else:
+			FreeFlight=False
+	SpellX=-200
+	SpellY=-200
+	return
+
+def DoHeroCombat(Counter):
+	global PlayerX
+	global PlayerY
+	global PlayerArmor
+	global PlayerDefence
+	global PlayerLifeLevel
+	global PlayerLife
+	global PlayerXP
+	global Spell
+	global SpellX
+	global SpellY
+	global HeroList
+	PlayerDef=PlayerDefence
+	HeroWeapon=str(HeroList[Counter+2])
+	HeroAttack=int(HeroList[Counter+5])
+	if PlayerArmor=='WShield':
+		PlayerDef=PlayerDefence+1
+	elif PlayerArmor=='Shield':
+		PlayerDef=PlayerDefence+2
+	elif PlayerArmor=='TShield':
+		PlayerDef=PlayerDefence+3
+	elif PlayerArmor=='Chainmail':
+		PlayerDef=PlayerDefence+4
+	elif PlayerArmor=='Plate':
+		PlayerDef=PlayerDefence+5
+
+	if HeroWeapon=='Fists':
+		HeroAt=HeroAttack+1
+	elif HeroWeapon=='Dagger':
+		HeroAt=HeroAttack+2
+	elif HeroWeapon=='Mace':
+		HeroAt=HeroAttack+3
+	elif HeroWeapon=='Sword':
+		HeroAt=HeroAttack+4
+	elif HeroWeapon=='Battleaxe':
+		HeroAt=HeroAttack+5
+
+	HeroAt=HeroAt-PlayerDef
+	if HeroAt > 0:
+		if HeroWeapon=='Fists':
+			Punch.play()
+		elif HeroWeapon=='Dagger':
+			Stab.play()
+		elif HeroWeapon=='Mace':
+			MaceHit.play()
+		elif HeroWeapon=='Sword':
+			SwordHit.play()
+		elif HeroWeapon=='Battleaxe':
+			AxeHit.play()
+		PlayerLife=PlayerLife-HeroAt
+		if PlayerLife < 1:
+			DeathScream.play()
+			wait()
+			sys.exit()
+	else:
+		Bump.play()
+
+
+	return
+
+def EnemyMove(EnemyDir, Counter):
+	global PlayerX
+	global PlayerY
+	global Labyrinth
+	global HeroList
+	HeroX=HeroList[Counter+13]
+	HeroY=HeroList[Counter+14]
+	if EnemyDir==8:
+		NewHeroX=HeroX
+		NewHeroY=HeroY+1
+	elif EnemyDir==6:
+		NewHeroX=HeroX+1
+		NewHeroY=HeroY
+	elif EnemyDir==2:
+		NewHeroX=HeroX
+		NewHeroY=HeroY-1
+	elif EnemyDir==4:
+		NewHeroX=HeroX-1
+		NewHeroY=HeroY
+	if NewHeroX==PlayerX and NewHeroY==PlayerY:
+		DoHeroCombat(Counter)
+	else:
+		CheckX=NewHeroX
+		CheckY=NewHeroY
+		FoundFloor=False
+		FoundFloor=CheckFloor(Labyrinth, CheckX, CheckY)
+		if FoundFloor:
+			HeroList[Counter+13]=NewHeroX
+			HeroList[Counter+14]=NewHeroY
+	return
+
+def HeroHunts(Counter):
+	global PlayerX
+	global PlayerY
+	HeroX=HeroList[Counter+13]
+	HeroY=HeroList[Counter+14]
+	XDist=(HeroX-PlayerX)**2
+	YDist=(HeroY-PlayerY)**2
+	if XDist >= YDist:
+		if HeroX <= PlayerX:
+			EnemyDir=6
+		else:
+			EnemyDir=4
+	else:
+		if HeroY <= PlayerY:
+			EnemyDir=8
+		else:
+			EnemyDir=2
+	print(EnemyDir)
+	EnemyMove(EnemyDir, Counter)
+	return
+
+def HeroFlees(Counter):
+	return
+
+def DoEnemies():
+	Counter=0
+	MaxCounter=len(HeroList)
+	while Counter < MaxCounter:
+		HeroLevel=int(HeroList[Counter])
+		HeroName=HeroList[Counter+1].rstrip()
+		HeroWeapon=HeroList[Counter+2].rstrip()
+		HeroArmor=HeroList[Counter+3].rstrip()
+		HeroSpell=HeroList[Counter+4].rstrip()
+		HeroAttack=int(HeroList[Counter+5])
+		HeroDefence=int(HeroList[Counter+6])
+		HeroLifeLevel=int(HeroList[Counter+7])
+		HeroMagic=int(HeroList[Counter+8])
+		HeroLife=int(HeroList[Counter+9])
+		HeroMana=int(HeroList[Counter+10])
+		HeroDropItemOne=HeroList[Counter+11].rstrip()
+		HeroDropItemTwo=HeroList[Counter+12].rstrip()
+		HeroX=HeroList[Counter+13]
+		HeroY=HeroList[Counter+14]
+		XDiff=HeroX-PlayerX
+		YDiff=HeroY-PlayerY
+		print(HeroName)
+		if (-7 <= XDiff) and ( XDiff <= 7) and (-5 <= YDiff) and (YDiff <= 4):
+			if HeroLife > (HeroLifeLevel*5):
+				if HeroX==PlayerX or HeroY==PlayerY:
+					if HeroSpell != 'None' and HeroMana > 0:
+						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+					else:
+						HeroHunts(Counter)
+			else:
+				HeroFlees(Counter)
+		Counter=Counter+15
+	return
+
 
 # Main loop
 PlayerWeapon='Fists'
@@ -2568,7 +2870,7 @@ PlayerDefence=2
 PlayerLifeLevel=2
 PlayerMagic=2
 PlayerLife=PlayerLifeLevel*10
-PlayerMana=PlayerMagic*3
+PlayerMana=PlayerMagic*5
 PlayerX=0
 PlayerY=0
 PlayerXP=0
@@ -2659,10 +2961,16 @@ if Level > 0:
 			Counter=Counter+3
 		PlaceHeroes(Labyrinth, Level)
 
+
 while Level < LevelMax:
 	DoScreen(Labyrinth, Level)
 	Running=True
+	Time.tic()
+	EnemiesMoved=False
 	while Running:
+		if EnemiesMoved:
+			Time.tic()
+			EnemiesMoved=False
 		for event in pygame.event.get():
 			if pygame.key.get_pressed()[pygame.K_UP]:
 				Dir=8
@@ -2802,6 +3110,12 @@ while Level < LevelMax:
 		if PlayerLevel < 41:
 			if PlayerXP >= PlayerLevel*2:
 				DoLevelUp()
+
+		SpentTime=Time.tocvalue()
+		if SpentTime > 1:
+			DoEnemies()
+			EnemiesMoved=True
+			
 		pygame.event.pump()
 		if NextLevel:
 			Level=Level+1

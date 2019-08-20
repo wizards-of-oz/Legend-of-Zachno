@@ -79,7 +79,7 @@ Life
 7
 Apprentice
 Mace
-Shield
+WShield
 Fire
 6
 5
@@ -144,7 +144,7 @@ BearTrap
 7
 Heavy
 Fists
-Plate
+TShield
 None
 2
 10
@@ -184,7 +184,7 @@ Life
 Spacemage
 Fists
 Teleport
-TShield
+Shield
 2
 7
 6
@@ -196,7 +196,7 @@ TeleportScroll
 8
 Warlock
 Fists
-Chainmail
+Shield
 Lightning
 2
 8
@@ -257,8 +257,8 @@ Lightning
 40
 30
 LightningScroll
-LigthningScroll
-7
+LightningScroll
+4
 Berserker
 Battleaxe
 WShield
@@ -270,8 +270,8 @@ None
 20
 6
 BattleAxe
-Shield
-9
+WShield
+8
 Rogue
 Dagger
 Shield
@@ -284,7 +284,7 @@ None
 12
 Mine
 Shield
-11
+12
 Paladin
 Mace
 Shield
@@ -296,8 +296,8 @@ None
 100
 30
 Mana
-Shield
-13
+TShield
+16
 Archmage
 Sword
 Chainmail
@@ -310,7 +310,7 @@ Fireball
 30
 FireballScroll
 Chainmail
-15
+20
 KingArthur
 Battleaxe
 Plate
