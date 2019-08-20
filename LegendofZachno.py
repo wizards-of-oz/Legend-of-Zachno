@@ -2854,6 +2854,8 @@ def DoEnemies():
 						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
 					else:
 						HeroHunts(Counter)
+				else:
+					HeroHunts(Counter)
 			else:
 				HeroFlees(Counter)
 		Counter=Counter+15
