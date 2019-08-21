@@ -601,54 +601,80 @@ def DoMovePlayer(PlayerX, PlayerY, Dir):
 	return(PlayerPos)
 
 def DoGetItem():
-	ItemNo=random.randint(1,25)
+	global Gold
+	ItemNo=random.randint(1,26)
 	if ItemNo==1:
 		Item='Dagger'
+		InvList.append(Item)
 	if ItemNo==2:
 		Item='Dagger'
+		InvList.append(Item)
 	if ItemNo==3:
 		Item='Mace'
+		InvList.append(Item)
 	if ItemNo==4:
 		Item='Sword'
+		InvList.append(Item)
 	if ItemNo==5:
 		Item='Battleaxe'
+		InvList.append(Item)
 	if ItemNo==6:
 		Item='Beartrap'
+		InvList.append(Item)
 	if ItemNo==7:
 		Item='Spiketrap'
+		InvList.append(Item)
 	if ItemNo==8:
 		Item='Acidtrap'
+		InvList.append(Item)
 	if ItemNo==9:
 		Item='Electrotrap'
+		InvList.append(Item)
 	if ItemNo==10:
 		Item='Mine'
+		InvList.append(Item)
 	if ItemNo>=11 and ItemNo<=13:
 		Item='Lifepotion'
+		InvList.append(Item)
 	if ItemNo>=14 and ItemNo<=15:
 		Item='Manapotion'
+		InvList.append(Item)
 	if ItemNo==16:
 		Item='Fire'
+		InvList.append(Item)
 	if ItemNo==17:
 		Item='Teleport'
+		InvList.append(Item)
 	if ItemNo==18:
 		Item='Drain'
+		InvList.append(Item)
 	if ItemNo==19:
 		Item='Lightning'
+		InvList.append(Item)
 	if ItemNo==20:
 		Item='Fireball'
+		InvList.append(Item)
 	if ItemNo==21:
 		Item='Shield'
+		InvList.append(Item)
 	if ItemNo==22:
 		Item='WShield'
+		InvList.append(Item)
 	if ItemNo==23:
 		Item='TShield'
+		InvList.append(Item)
 	if ItemNo==24:
 		Item='Chainmail'
+		InvList.append(Item)
 	if ItemNo==25:
 		Item='Plate'
+		InvList.append(Item)
+	if ItemNo==26:
+		Item='bag of 10 gold'
+		Gold=Gold+10
 
 
-	InvList.append(Item)
+
 	ChestText='You received a '+Item+', press enter...'
 	ChestTextSurf = myfont.render(ChestText, False, green)
 
@@ -1943,6 +1969,7 @@ def PlaceStairs(Labyrinth):
 	return
 
 def PlaceGnome(Labyrinth):
+	global Level
 	LoadingText='Placing Gome...'
 	LoadingTextSurf = myfont.render(LoadingText, False, green)
 	screen.blit(TextBar,(0,780))
@@ -1953,27 +1980,31 @@ def PlaceGnome(Labyrinth):
 	GnomeXMax=MapGen*9
 	GnomeYMin=-1*MapGen*9
 	GnomeYMax=MapGen*9
-	LookingForASpot=True
-	while LookingForASpot:
-		NoBlock=True
-		GnomeX=random.randint(GnomeXMin, GnomeXMax)
-		GnomeY=random.randint(GnomeYMin, GnomeYMax)
+	Number=0
+	NumberofGnomes=int(Level/4)
+	while Number < NumberofGnomes: 
+		LookingForASpot=True
+		while LookingForASpot:
+			NoBlock=True
+			GnomeX=random.randint(GnomeXMin, GnomeXMax)
+			GnomeY=random.randint(GnomeYMin, GnomeYMax)
 
-		if (GnomeX/9)==int(GnomeX/9):
-			NoBlock=False
-		if (GnomeY/9)==int(GnomeY/9):
-			NoBlock=False
+			if (GnomeX/9)==int(GnomeX/9):
+				NoBlock=False
+			if (GnomeY/9)==int(GnomeY/9):
+				NoBlock=False
 
-		if NoBlock:
-			FloorFound=False
-			CheckX=GnomeX
-			CheckY=GnomeY
-			FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
-			if FloorFound:
-				Labyrinth.append('Gnome')
-				Labyrinth.append(GnomeX)
-				Labyrinth.append(GnomeY)
-				LookingForASpot=False
+			if NoBlock:
+				FloorFound=False
+				CheckX=GnomeX
+				CheckY=GnomeY
+				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+				if FloorFound:
+					Labyrinth.append('Gnome')
+					Labyrinth.append(GnomeX)
+					Labyrinth.append(GnomeY)
+					LookingForASpot=False
+		Number=Number+1
 	return
 
 
@@ -2808,15 +2839,13 @@ def EnemyMove(EnemyDir, Counter):
 	if NewHeroX==PlayerX and NewHeroY==PlayerY:
 		DoHeroCombat(Counter)
 	else:
-		HeroX=HeroList[Counter+13]
-		HeroY=HeroList[Counter+14]
 		LabNum=0
 		LabNumMax=len(Labyrinth)
 		while LabNum < LabNumMax:
 			Object=Labyrinth[LabNum]
 			ObjectX=int(Labyrinth[LabNum+1])
 			ObjectY=int(Labyrinth[LabNum+2])
-			if HeroX==ObjectX and HeroY==ObjectY:
+			if NewHeroX==ObjectX and NewHeroY==ObjectY:
 				if Object=='SpikeTrap':
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
@@ -2857,6 +2886,9 @@ def EnemyMove(EnemyDir, Counter):
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
 					LabNumMax=len(Labyrinth)
+					HeroAttack=HeroAttack-5
+					HeroDefence=HeroDefence-5
+					HeroMagic=HeroMagic-5
 					HeroLife=HeroLife-10
 					Boom.play()
 			LabNum=LabNum+3
@@ -2887,7 +2919,10 @@ def EnemyMove(EnemyDir, Counter):
 			del HeroList[Counter]
 			DeathScream.play()
 		else:
+			HeroList[Counter+5]=HeroAttack
+			HeroList[Counter+6]=HeroDefence
 			HeroList[Counter+9]=HeroLife
+			HeroList[Counter+10]=HeroMana
 		CheckX=NewHeroX
 		CheckY=NewHeroY
 		FoundFloor=False
@@ -2972,6 +3007,7 @@ def DoEnemies():
 					MaxCounter=len(HeroList)
 			else:
 				HeroFlees(Counter)
+				MaxCounter=len(HeroList)
 		Counter=Counter+15
 	return
 
@@ -3228,7 +3264,7 @@ while Level < LevelMax:
 				DoLevelUp()
 
 		SpentTime=Time.tocvalue()
-		if SpentTime > 1:
+		if SpentTime > 0.75:
 			DoEnemies()
 			EnemiesMoved=True
 			
