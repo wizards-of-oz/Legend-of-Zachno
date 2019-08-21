@@ -1497,6 +1497,9 @@ def CheckFloor(Labyrinth, CheckX, CheckY):
 			if not Object=='Floor':
 				FloorFound=False
 				return(FloorFound)
+			if Object=='':
+				FloorFound=False
+				return(FloorFound)
 			if Object=='Floor':
 				FloorFound=True
 		Counter=Counter+3
@@ -2317,6 +2320,7 @@ def DoSpell():
 						HeroLife=HeroLife-20
 
 					if HeroLife < 1:
+						DeathScream.play()
 						PlayerXP=PlayerXP+HeroLevel
 						Chance=random.randint(1,2)
 						if Chance==1:
