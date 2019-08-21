@@ -1490,6 +1490,7 @@ def CheckFloor(Labyrinth, CheckX, CheckY):
 	Counter=0
 	MaxCounter=len(Labyrinth)
 	while Counter < MaxCounter:
+		Object=''
 		Object=Labyrinth[Counter]
 		ObjectX=Labyrinth[Counter+1]
 		ObjectY=Labyrinth[Counter+2]
