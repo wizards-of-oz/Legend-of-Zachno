@@ -2777,8 +2777,22 @@ def EnemyMove(EnemyDir, Counter):
 	global PlayerY
 	global Labyrinth
 	global HeroList
+	HeroLevel=int(HeroList[Counter])
+	HeroName=HeroList[Counter+1].rstrip()
+	HeroWeapon=HeroList[Counter+2].rstrip()
+	HeroArmor=HeroList[Counter+3].rstrip()
+	HeroSpell=HeroList[Counter+4].rstrip()
+	HeroAttack=int(HeroList[Counter+5])
+	HeroDefence=int(HeroList[Counter+6])
+	HeroLifeLevel=int(HeroList[Counter+7])
+	HeroMagic=int(HeroList[Counter+8])
+	HeroLife=int(HeroList[Counter+9])
+	HeroMana=int(HeroList[Counter+10])
+	HeroDropItemOne=HeroList[Counter+11].rstrip()
+	HeroDropItemTwo=HeroList[Counter+12].rstrip()
 	HeroX=HeroList[Counter+13]
 	HeroY=HeroList[Counter+14]
+
 	if EnemyDir==8:
 		NewHeroX=HeroX
 		NewHeroY=HeroY+1
@@ -2794,6 +2808,86 @@ def EnemyMove(EnemyDir, Counter):
 	if NewHeroX==PlayerX and NewHeroY==PlayerY:
 		DoHeroCombat(Counter)
 	else:
+		HeroX=HeroList[Counter+13]
+		HeroY=HeroList[Counter+14]
+		LabNum=0
+		LabNumMax=len(Labyrinth)
+		while LabNum < LabNumMax:
+			Object=Labyrinth[LabNum]
+			ObjectX=int(Labyrinth[LabNum+1])
+			ObjectY=int(Labyrinth[LabNum+2])
+			if HeroX==ObjectX and HeroY==ObjectY:
+				if Object=='SpikeTrap':
+					del Labyrinth[LabNum]
+					del Labyrinth[LabNum]
+					del Labyrinth[LabNum]
+					LabNumMax=len(Labyrinth)
+					HeroAttack=HeroAttack-1
+					if HeroAttack < 0:
+						HeroAttack=0
+					HeroLife=HeroLife-2
+					Spikes.play()
+				if Object=='BearTrap':
+					del Labyrinth[LabNum]
+					del Labyrinth[LabNum]
+					del Labyrinth[LabNum]
+					LabNumMax=len(Labyrinth)
+					HeroDefence=HeroDefence-2
+					if HeroDefence < 0:
+						HeroDefence=0
+					HeroLife=HeroLife-4
+					Trap.play()
+				if Object=='AcidTrap':
+					del Labyrinth[LabNum]
+					del Labyrinth[LabNum]
+					del Labyrinth[LabNum]
+					LabNumMax=len(Labyrinth)
+					HeroLife=HeroLife-6
+					Sizzle.play()
+				if Object=='ElectroTrap':
+					del Labyrinth[LabNum]
+					del Labyrinth[LabNum]
+					del Labyrinth[LabNum]
+					LabNumMax=len(Labyrinth)
+					HeroMana=HeroMana-4
+					HeroLife=HeroLife-8
+					Lightning.play()
+				if Object=='Mine':
+					del Labyrinth[LabNum]
+					del Labyrinth[LabNum]
+					del Labyrinth[LabNum]
+					LabNumMax=len(Labyrinth)
+					HeroLife=HeroLife-10
+					Boom.play()
+			LabNum=LabNum+3
+		if HeroLife < 1:
+			Chance=random.randint(1,2)
+			if Chance==1:
+				Labyrinth.append(HeroDropItemOne)
+				Labyrinth.append(HeroX)
+				Labyrinth.append(HeroY)
+			else:
+				Labyrinth.append(HeroDropItemTwo)
+				Labyrinth.append(HeroX)
+				Labyrinth.append(HeroY)
+			del HeroList[Counter]
+			del HeroList[Counter]
+			del HeroList[Counter]
+			del HeroList[Counter]
+			del HeroList[Counter]
+			del HeroList[Counter]
+			del HeroList[Counter]
+			del HeroList[Counter]
+			del HeroList[Counter]
+			del HeroList[Counter]
+			del HeroList[Counter]
+			del HeroList[Counter]
+			del HeroList[Counter]
+			del HeroList[Counter]
+			del HeroList[Counter]
+			DeathScream.play()
+		else:
+			HeroList[Counter+9]=HeroLife
 		CheckX=NewHeroX
 		CheckY=NewHeroY
 		FoundFloor=False
@@ -2824,6 +2918,23 @@ def HeroHunts(Counter):
 	return
 
 def HeroFlees(Counter):
+	global PlayerX
+	global PlayerY
+	HeroX=HeroList[Counter+13]
+	HeroY=HeroList[Counter+14]
+	XDist=(HeroX-PlayerX)**2
+	YDist=(HeroY-PlayerY)**2
+	if XDist >= YDist:
+		if HeroX >= PlayerX:
+			EnemyDir=6
+		else:
+			EnemyDir=4
+	else:
+		if HeroY >= PlayerY:
+			EnemyDir=8
+		else:
+			EnemyDir=2
+	EnemyMove(EnemyDir, Counter)
 	return
 
 def DoEnemies():
@@ -2855,89 +2966,12 @@ def DoEnemies():
 						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
 					else:
 						HeroHunts(Counter)
+						MaxCounter=len(HeroList)
 				else:
 					HeroHunts(Counter)
+					MaxCounter=len(HeroList)
 			else:
 				HeroFlees(Counter)
-			HeroX=HeroList[Counter+13]
-			HeroY=HeroList[Counter+14]
-			LabNum=0
-			LabNumMax=len(Labyrinth)
-			while LabNum < LabNumMax:
-				Object=Labyrinth[LabNum]
-				ObjectX=int(Labyrinth[LabNum+1])
-				ObjectY=int(Labyrinth[LabNum+2])
-				if HeroX==ObjectX and HeroY==ObjectY:
-					if Object=='SpikeTrap':
-						del Labyrinth[LabNum]
-						del Labyrinth[LabNum]
-						del Labyrinth[LabNum]
-						LabNumMax=len(Labyrinth)
-						HeroAttack=HeroAttack-1
-						if HeroAttack < 0:
-							HeroAttack=0
-						HeroLife=HeroLife-2
-						Spikes.play()
-					if Object=='BearTrap':
-						del Labyrinth[LabNum]
-						del Labyrinth[LabNum]
-						del Labyrinth[LabNum]
-						LabNumMax=len(Labyrinth)
-						HeroDefence=HeroDefence-2
-						if HeroDefence < 0:
-							HeroDefence=0
-						HeroLife=HeroLife-4
-						Trap.play()
-					if Object=='AcidTrap':
-						del Labyrinth[LabNum]
-						del Labyrinth[LabNum]
-						del Labyrinth[LabNum]
-						LabNumMax=len(Labyrinth)
-						HeroLife=HeroLife-6
-						Sizzle.play()
-					if Object=='ElectroTrap':
-						del Labyrinth[LabNum]
-						del Labyrinth[LabNum]
-						del Labyrinth[LabNum]
-						LabNumMax=len(Labyrinth)
-						HeroMana=HeroMana-4
-						HeroLife=HeroLife-8
-						Lightning.play()
-					if Object=='Mine':
-						del Labyrinth[LabNum]
-						del Labyrinth[LabNum]
-						del Labyrinth[LabNum]
-						LabNumMax=len(Labyrinth)
-						HeroLife=HeroLife-10
-						Boom.play()
-				LabNum=LabNum+3
-		if HeroLife < 1:
-			Chance=random.randint(1,2)
-			if Chance==1:
-				Labyrinth.append(HeroDropItemOne)
-				Labyrinth.append(HeroX)
-				Labyrinth.append(HeroY)
-			else:
-				Labyrinth.append(HeroDropItemTwo)
-				Labyrinth.append(HeroX)
-				Labyrinth.append(HeroY)
-			del HeroList[Counter]
-			del HeroList[Counter]
-			del HeroList[Counter]
-			del HeroList[Counter]
-			del HeroList[Counter]
-			del HeroList[Counter]
-			del HeroList[Counter]
-			del HeroList[Counter]
-			del HeroList[Counter]
-			del HeroList[Counter]
-			del HeroList[Counter]
-			del HeroList[Counter]
-			del HeroList[Counter]
-			del HeroList[Counter]
-			del HeroList[Counter]
-			MaxCounter=len(HeroList)
-			DeathScream.play()
 		Counter=Counter+15
 	return
 
