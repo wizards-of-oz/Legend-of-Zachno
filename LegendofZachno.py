@@ -3047,7 +3047,8 @@ def DoEnemies():
 		HeroY=HeroList[Counter+14]
 		XDiff=HeroX-PlayerX
 		YDiff=HeroY-PlayerY
-		if (-7 <= XDiff) and ( XDiff <= 7) and (-5 <= YDiff) and (YDiff <= 4):
+		EnemyScan=int((HeroLevel+5)/2)
+		if (-1*EnemyScan <= XDiff) and ( XDiff <= EnemyScan) and (-1*EnemyScan <= YDiff) and (YDiff <= EnemyScan):
 			if HeroLife > (HeroLifeLevel*5):
 				if HeroX==PlayerX or HeroY==PlayerY:
 					if HeroSpell == 'Fire' and HeroMana > 0:
