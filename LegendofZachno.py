@@ -2759,7 +2759,6 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 					pygame.display.flip()
 					wait()
 					sys.exit()
-				print(HeroMana)
 		else:
 			FreeFlight=False
 	SpellX=-200
@@ -2833,6 +2832,7 @@ def EnemyMove(EnemyDir, Counter):
 	global PlayerY
 	global Labyrinth
 	global HeroList
+	Blocked=False
 	HeroLevel=int(HeroList[Counter])
 	HeroName=HeroList[Counter+1].rstrip()
 	HeroWeapon=HeroList[Counter+2].rstrip()
@@ -2955,7 +2955,9 @@ def EnemyMove(EnemyDir, Counter):
 		if FoundFloor:
 			HeroList[Counter+13]=NewHeroX
 			HeroList[Counter+14]=NewHeroY
-	return
+		else:
+			Blocked=True
+	return(Blocked)
 
 def HeroHunts(Counter):
 	global PlayerX
@@ -2964,17 +2966,36 @@ def HeroHunts(Counter):
 	HeroY=HeroList[Counter+14]
 	XDist=(HeroX-PlayerX)**2
 	YDist=(HeroY-PlayerY)**2
+	Blocked=False
+	Horizontal=False
+	Vertical=False
 	if XDist >= YDist:
-		if HeroX <= PlayerX:
-			EnemyDir=6
-		else:
-			EnemyDir=4
+		Horizontal=True
 	else:
-		if HeroY <= PlayerY:
-			EnemyDir=8
-		else:
-			EnemyDir=2
-	EnemyMove(EnemyDir, Counter)
+		Vertical=True
+
+	if HeroX <= PlayerX:
+		EnemyDirHRZ=6
+	else:
+		EnemyDirHRZ=4
+
+	if HeroY <= PlayerY:
+		EnemyDirVRT=8
+	else:
+		EnemyDirVRT=2
+
+	if Horizontal:
+		EnemyDir=EnemyDirHRZ
+		Blocked=EnemyMove(EnemyDir, Counter)
+		if Blocked:
+			EnemyDir=EnemyDirVRT
+			EnemyMove(EnemyDir, Counter)
+	else:
+		EnemyDir=EnemyDirVRT
+		Blocked=EnemyMove(EnemyDir, Counter)
+		if Blocked:
+			EnemyDir=EnemyDirHRZ
+			EnemyMove(EnemyDir, Counter)
 	return
 
 def HeroFlees(Counter):
