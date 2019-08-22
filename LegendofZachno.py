@@ -169,6 +169,7 @@ RoomPos=list()
 Room=list()
 VisualList=list()
 HeroLifeList=list()
+Spacebar=False
 PlayerPos=[PlayerX, PlayerY]
 NextLevel=False
 global StairsX
@@ -407,6 +408,7 @@ def HeroScan(Labyrinth, HeroList):
 def DoScreen (Labyrinth, Level):
 	# Calling VisualScan to fill VisualList
 	global PlayerLife
+	global Spacebar
 	VisualScan(Labyrinth, HeroList)
 	HeroScan(Labyrinth, HeroList)
 	Counter=0
@@ -576,6 +578,11 @@ def DoScreen (Labyrinth, Level):
 	elif PlayerWeapon=='Battleaxe':
 		screen.blit(BattleAxeSmall, (560, 320))
 
+	if Spacebar:
+		screen.blit(TextBar,(0,780))
+		Text='Game paused, press inventory number or SPACE to unpause...'
+		TextSurf = myfont.render(Text, False, green)
+		screen.blit(TextSurf,(0,780))
 
 	# Writing all previous draw commands into the game-screen at once
 	pygame.display.flip()
@@ -3173,27 +3180,35 @@ while Level < LevelMax:
 	Running=True
 	Time.tic()
 	EnemiesMoved=False
+	Spacebar=False
 	while Running:
 		if EnemiesMoved:
 			Time.tic()
 			EnemiesMoved=False
 		for event in pygame.event.get():
-			if pygame.key.get_pressed()[pygame.K_UP]:
+			if pygame.key.get_pressed()[pygame.K_SPACE]:
+				if Spacebar:
+					Spacebar=False
+				else:
+					Spacebar=True
+#			if pygame.key.get_pressed()[pygame.K_RETURN]:
+#				Spacebar=False
+			if pygame.key.get_pressed()[pygame.K_UP] and Spacebar==False:
 				Dir=8
 				DoMovePlayer(PlayerX, PlayerY, Dir)
 				PlayerX=PlayerPos[0]
 				PlayerY=PlayerPos[1]
-			if pygame.key.get_pressed()[pygame.K_RIGHT]:
+			if pygame.key.get_pressed()[pygame.K_RIGHT] and Spacebar==False:
 				Dir=6
 				DoMovePlayer(PlayerX, PlayerY, Dir)
 				PlayerX=PlayerPos[0]
 				PlayerY=PlayerPos[1]
-			if pygame.key.get_pressed()[pygame.K_DOWN]:
+			if pygame.key.get_pressed()[pygame.K_DOWN] and Spacebar==False:
 				Dir=2
 				DoMovePlayer(PlayerX, PlayerY, Dir)
 				PlayerX=PlayerPos[0]
 				PlayerY=PlayerPos[1]
-			if pygame.key.get_pressed()[pygame.K_LEFT]:
+			if pygame.key.get_pressed()[pygame.K_LEFT] and Spacebar==False:
 				Dir=4
 				DoMovePlayer(PlayerX, PlayerY, Dir)
 				PlayerX=PlayerPos[0]
@@ -3201,33 +3216,43 @@ while Level < LevelMax:
 			if pygame.key.get_pressed()[pygame.K_1] and len(InvList) > 0:
 				ItemCounter=0
 				DoItem(ItemCounter)
+				Spacebar=False
 			if pygame.key.get_pressed()[pygame.K_2] and len(InvList) > 1:
 				ItemCounter=1
 				DoItem(ItemCounter)
+				Spacebar=False
 			if pygame.key.get_pressed()[pygame.K_3] and len(InvList) > 2:
 				ItemCounter=2
 				DoItem(ItemCounter)
+				Spacebar=False
 			if pygame.key.get_pressed()[pygame.K_4] and len(InvList) > 3:
 				ItemCounter=3
 				DoItem(ItemCounter)
+				Spacebar=False
 			if pygame.key.get_pressed()[pygame.K_5] and len(InvList) > 4:
 				ItemCounter=4
 				DoItem(ItemCounter)
+				Spacebar=False
 			if pygame.key.get_pressed()[pygame.K_6] and len(InvList) > 5:
 				ItemCounter=5
 				DoItem(ItemCounter)
+				Spacebar=False
 			if pygame.key.get_pressed()[pygame.K_7] and len(InvList) > 6:
 				ItemCounter=6
 				DoItem(ItemCounter)
+				Spacebar=False
 			if pygame.key.get_pressed()[pygame.K_8] and len(InvList) > 7:
 				ItemCounter=7
 				DoItem(ItemCounter)
+				Spacebar=False
 			if pygame.key.get_pressed()[pygame.K_9] and len(InvList) > 8:
 				ItemCounter=8
 				DoItem(ItemCounter)
+				Spacebar=False
 			if pygame.key.get_pressed()[pygame.K_0] and len(InvList) > 9:
 				ItemCounter=9
 				DoItem(ItemCounter)
+				Spacebar=False
 			if pygame.key.get_pressed()[pygame.K_ESCAPE]:
 				if Level > 0:
 					LoadingText='Exiting game, save current map <s> start next game with new map <n>...'
@@ -3318,7 +3343,7 @@ while Level < LevelMax:
 				DoLevelUp()
 
 		SpentTime=Time.tocvalue()
-		if SpentTime > 0.65:
+		if SpentTime > 0.65 and Spacebar==False:
 			DoEnemies()
 			EnemiesMoved=True
 			
