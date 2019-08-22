@@ -105,6 +105,7 @@ WShieldSmall=pygame.image.load('WShieldSmall.png')
 TShieldSmall=pygame.image.load('TShieldSmall.png')
 WShield=pygame.image.load('WShield.png')
 TShield=pygame.image.load('TShield.png')
+Dead=pygame.image.load('Dead.png')
 
 SpikeTrap=pygame.image.load('SpikeTrap.png')
 AcidTrap=pygame.image.load('AcidTrap.png')
@@ -405,6 +406,7 @@ def HeroScan(Labyrinth, HeroList):
 # Display function
 def DoScreen (Labyrinth, Level):
 	# Calling VisualScan to fill VisualList
+	global PlayerLife
 	VisualScan(Labyrinth, HeroList)
 	HeroScan(Labyrinth, HeroList)
 	Counter=0
@@ -552,27 +554,28 @@ def DoScreen (Labyrinth, Level):
 	screen.blit(GoldTextSurf,(0,60))
 	#screen.blit(StairsPosTextSurf,(0,20))
 	# Placing the player picture in the middle of the screen
-	screen.blit(Player, (560, 320))
 
+	screen.blit(Player, (560, 320))
 	if PlayerArmor=='Shield':
-			screen.blit(ShieldSmall, (600, 340))
+		screen.blit(ShieldSmall, (600, 340))
 	elif PlayerArmor=='WShield':
-			screen.blit(WShieldSmall, (600, 340))
+		screen.blit(WShieldSmall, (600, 340))
 	elif PlayerArmor=='TShield':
-			screen.blit(TShieldSmall, (600, 340))
+		screen.blit(TShieldSmall, (600, 340))
 	elif PlayerArmor=='Chainmail':
-			screen.blit(ChainmailSmall, (580, 360))
+		screen.blit(ChainmailSmall, (580, 360))
 	elif PlayerArmor=='Plate':
-			screen.blit(PlateSmall, (580, 360))
+		screen.blit(PlateSmall, (580, 360))
 
 	if PlayerWeapon=='Dagger':
-			screen.blit(DaggerSmall, (560, 320))
+		screen.blit(DaggerSmall, (560, 320))
 	elif PlayerWeapon=='Sword':
-			screen.blit(SwordSmall, (560, 320))
+		screen.blit(SwordSmall, (560, 320))
 	elif PlayerWeapon=='Mace':
-			screen.blit(MaceSmall, (560, 320))
+		screen.blit(MaceSmall, (560, 320))
 	elif PlayerWeapon=='Battleaxe':
-			screen.blit(BattleAxeSmall, (560, 320))
+		screen.blit(BattleAxeSmall, (560, 320))
+
 
 	# Writing all previous draw commands into the game-screen at once
 	pygame.display.flip()
@@ -2666,6 +2669,30 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 	SpellX=HeroX
 	SpellY=HeroY
 	FreeFlight=True
+	if Spell=='Fire':
+		HeroMana=int(HeroList[Counter+10])
+		HeroMana=HeroMana-1
+		HeroList[Counter+10]=HeroMana
+	if Spell=='Teleport':
+		HeroMana=int(HeroList[Counter+10])
+		HeroMana=HeroMana-2
+		HeroList[Counter+10]=HeroMana
+
+	if Spell=='Drain':
+		HeroMana=int(HeroList[Counter+10])
+		HeroMana=HeroMana-3
+		HeroList[Counter+10]=HeroMana
+
+	if Spell=='Lightning':
+		HeroMana=int(HeroList[Counter+10])
+		HeroMana=HeroMana-4
+		HeroList[Counter+10]=HeroMana
+
+	if Spell=='Fireball':
+		HeroMana=int(HeroList[Counter+10])
+		HeroMana=HeroMana-5
+		HeroList[Counter+10]=HeroMana
+
 	while FreeFlight:
 		if SpellDir==1:
 			SpellY=SpellY+1
@@ -2686,14 +2713,8 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 				FreeFlight=False
 				if Spell=='Fire':
 					Fire.play()
-					HeroMana=int(HeroList[Counter+10])
-					HeroMana=HeroMana-1
-					HeroList[Counter+10]=HeroMana
 					PlayerLife=PlayerLife-4
 				if Spell=='Teleport':
-					HeroMana=int(HeroList[Counter+10])
-					HeroMana=HeroMana-2
-					HeroList[Counter+10]=HeroMana
 					Teleport.play()
 					TeleportXMin=-1*MapGen*9
 					TeleportXMax=MapGen*9
@@ -2720,31 +2741,25 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 							PlayerY=TeleportY
 							LookingForASpot=False
 				if Spell=='Drain':
-					HeroMana=int(HeroList[Counter+10])
-					HeroMana=HeroMana-3
-					HeroList[Counter+10]=HeroMana
 					HeroLife=int(HeroList[Counter+9])
 					HeroLife=HeroLife+12
 					HeroList[Counter+9]=HeroLife
 					Steal.play()
 					PlayerLife=PlayerLife-12
 				if Spell=='Lightning':
-					HeroMana=int(HeroList[Counter+10])
-					HeroMana=HeroMana-4
-					HeroList[Counter+10]=HeroMana
 					Lightning.play()
 					PlayerLife=PlayerLife-16
 				if Spell=='Fireball':
-					HeroMana=int(HeroList[Counter+10])
-					HeroMana=HeroMana-5
-					HeroList[Counter+10]=HeroMana
 					Fireball.play()
 					PlayerLife=PlayerLife-20
 
 				if PlayerLife < 1:
 					DeathScream.play()
+					screen.blit(Dead, (560, 320))
+					pygame.display.flip()
 					wait()
 					sys.exit()
+				print(HeroMana)
 		else:
 			FreeFlight=False
 	SpellX=-200
@@ -2803,6 +2818,8 @@ def DoHeroCombat(Counter):
 		PlayerLife=PlayerLife-HeroAt
 		if PlayerLife < 1:
 			DeathScream.play()
+			screen.blit(Dead, (560, 320))
+			pygame.display.flip()
 			wait()
 			sys.exit()
 	else:
@@ -3005,7 +3022,15 @@ def DoEnemies():
 		if (-7 <= XDiff) and ( XDiff <= 7) and (-5 <= YDiff) and (YDiff <= 4):
 			if HeroLife > (HeroLifeLevel*5):
 				if HeroX==PlayerX or HeroY==PlayerY:
-					if HeroSpell != 'None' and HeroMana > 0:
+					if HeroSpell == 'Fire' and HeroMana > 0:
+						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+					elif HeroSpell == 'Teleport' and HeroMana > 1:
+						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+					elif HeroSpell == 'Drain' and HeroMana > 2:
+						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+					elif HeroSpell == 'Lightning' and HeroMana > 3:
+						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+					elif HeroSpell == 'Fireball' and HeroMana > 4:
 						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
 					else:
 						HeroHunts(Counter)
