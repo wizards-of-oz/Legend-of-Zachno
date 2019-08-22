@@ -388,12 +388,14 @@ def HeroScan(Labyrinth, HeroList):
 	MaxCounter=len(HeroList)
 	Counter=0
 	while Counter<MaxCounter:
+		HeroName=str(HeroList[Counter+1])
 		HeroLife=int(HeroList[Counter+9])
 		ObjectX=int(HeroList[Counter+13])
 		ObjectY=int(HeroList[Counter+14])
 		XDiff=ObjectX-PlayerX
 		YDiff=ObjectY-PlayerY
 		if (-7 <= XDiff) and ( XDiff <= 7) and (-5 <= YDiff) and (YDiff <= 4):
+			HeroLifeList.append(HeroName)
 			HeroLifeList.append(HeroLife)
 			HeroLifeList.append(XDiff)
 			HeroLifeList.append(YDiff)
@@ -426,11 +428,12 @@ def DoScreen (Labyrinth, Level):
 	Counter=0
 	MaxCounter=len(HeroLifeList)
 	while Counter < MaxCounter:
-		HeroLife=str(HeroLifeList[Counter])
-		ObjectX=int(HeroLifeList[Counter+1])
-		ObjectY=int(HeroLifeList[Counter+2])
+		HeroName=str(HeroLifeList[Counter])
+		HeroLife=str(HeroLifeList[Counter+1])
+		ObjectX=int(HeroLifeList[Counter+2])
+		ObjectY=int(HeroLifeList[Counter+3])
 		# calling GetScreenItem to get the right picture with the object name
-		HeroLifeText=str(HeroLife)
+		HeroLifeText=str(HeroName)+':'+str(HeroLife)
 		HeroLifeTextSurf=myfont.render(HeroLifeText, False, green)
 		# Translating x and y coordinates from VisualList into actual pixel coordinatesd
 		ScreenX=(ObjectX+7)*80
@@ -438,7 +441,7 @@ def DoScreen (Labyrinth, Level):
 		ScreenY=((YConvert+4)*80)+60
 		# Placing the item on screen
 		screen.blit(HeroLifeTextSurf, (ScreenX, ScreenY))
-		Counter=Counter+3
+		Counter=Counter+4
 
 	
 
@@ -3269,7 +3272,7 @@ while Level < LevelMax:
 				DoLevelUp()
 
 		SpentTime=Time.tocvalue()
-		if SpentTime > 0.75:
+		if SpentTime > 0.65:
 			DoEnemies()
 			EnemiesMoved=True
 			
