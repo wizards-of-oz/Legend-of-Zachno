@@ -506,9 +506,31 @@ def DoScreen (Labyrinth, Level):
 	screen.blit(PlayerMagicTextSurf,(950,60))
 	screen.blit(PlayerLifeTextSurf,(950,80))
 	screen.blit(PlayerManaTextSurf,(950,100))
+	Att=''
+	Arm=''
+	if PlayerWeapon=='Dagger':
+		Att='+2'
+	elif PlayerWeapon=='Mace':
+		Att='+3'
+	elif PlayerWeapon=='Sword':
+		Att='+4'
+	elif PlayerWeapon=='Battleaxe':
+		Att='+5'
 
-	PlayerAttackNo=str(PlayerAttack)
-	PlayerDefenceNo=str(PlayerDefence)
+	if PlayerArmor=='WShield':
+		Arm='+1'
+	elif PlayerArmor=='Shield':
+		Arm='+2'
+	elif PlayerArmor=='TShield':
+		Arm='+3'
+	elif PlayerArmor=='Chainmail':
+		Arm='+4'
+	elif PlayerArmor=='Plate':
+		Arm='+5'
+
+
+	PlayerAttackNo=str(PlayerAttack)+Att
+	PlayerDefenceNo=str(PlayerDefence)+Arm
 	PlayerLifeLevelNo=str(PlayerLifeLevel)
 	PlayerMagicNo=str(PlayerMagic)
 	PlayerLifeNo=str(PlayerLife)
@@ -3047,9 +3069,10 @@ def DoEnemies():
 		HeroY=HeroList[Counter+14]
 		XDiff=HeroX-PlayerX
 		YDiff=HeroY-PlayerY
+		TreshHold=10-HeroAttack
 		EnemyScan=int((HeroLevel+5)/2)
 		if (-1*EnemyScan <= XDiff) and ( XDiff <= EnemyScan) and (-1*EnemyScan <= YDiff) and (YDiff <= EnemyScan):
-			if HeroLife > (HeroLifeLevel*5):
+			if HeroLife > (HeroLifeLevel*TreshHold):
 				if HeroX==PlayerX or HeroY==PlayerY:
 					if HeroSpell == 'Fire' and HeroMana > 0:
 						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
