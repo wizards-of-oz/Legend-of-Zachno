@@ -1336,9 +1336,14 @@ def BuildTunnelUp(RoomCenterX, RoomCenterY,TargetX, TargetY, RoomSize, TunnelWid
 		while Counter < MaxCounter:
 			ObjectX=RoomCenterX+OffsetMin
 			ObjectY=RoomCenterY+Counter
-			Labyrinth.append('Floor')
-			Labyrinth.append(ObjectX)
-			Labyrinth.append(ObjectY)
+			CheckX=ObjectX
+			CheckY=ObjectY
+			FoundSomething=False
+			FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
+			if FoundSomething==False:
+				Labyrinth.append('Floor')
+				Labyrinth.append(ObjectX)
+				Labyrinth.append(ObjectY)
 			Counter=Counter+1
 		OffsetMin=OffsetMin+1
 	OffsetMin=-1*TunnelWidth
@@ -1389,12 +1394,16 @@ def BuildTunnelRight(RoomCenterX, RoomCenterY,TargetX, TargetY, RoomSize, Tunnel
 		Counter=RoomSize
 		FoundSomething=False
 		while Counter < MaxCounter:
-			FoundSomething=False
 			ObjectX=RoomCenterX+Counter
 			ObjectY=RoomCenterY+OffsetMin
-			Labyrinth.append('Floor')
-			Labyrinth.append(ObjectX)
-			Labyrinth.append(ObjectY)
+			CheckX=ObjectX
+			CheckY=ObjectY
+			FoundSomething=False
+			FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
+			if FoundSomething==False:
+				Labyrinth.append('Floor')
+				Labyrinth.append(ObjectX)
+				Labyrinth.append(ObjectY)
 			Counter=Counter+1
 		OffsetMin=OffsetMin+1
 	OffsetMin=-1*TunnelWidth
@@ -1444,9 +1453,14 @@ def BuildTunnelDown(RoomCenterX, RoomCenterY,TargetX, TargetY, RoomSize, TunnelW
 		while Counter > MaxCounter:
 			ObjectX=RoomCenterX+OffsetMin
 			ObjectY=RoomCenterY+Counter
-			Labyrinth.append('Floor')
-			Labyrinth.append(ObjectX)
-			Labyrinth.append(ObjectY)
+			CheckX=ObjectX
+			CheckY=ObjectY
+			FoundSomething=False
+			FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
+			if FoundSomething==False:
+				Labyrinth.append('Floor')
+				Labyrinth.append(ObjectX)
+				Labyrinth.append(ObjectY)
 			Counter=Counter-1
 		OffsetMin=OffsetMin+1
 	OffsetMin=-1*TunnelWidth
@@ -1495,9 +1509,14 @@ def BuildTunnelLeft(RoomCenterX, RoomCenterY,TargetX, TargetY, RoomSize, TunnelW
 		while Counter > MaxCounter:
 			ObjectX=RoomCenterX+Counter
 			ObjectY=RoomCenterY+OffsetMin
-			Labyrinth.append('Floor')
-			Labyrinth.append(ObjectX)
-			Labyrinth.append(ObjectY)
+			CheckX=ObjectX
+			CheckY=ObjectY
+			FoundSomething=False
+			FoundSomething=CheckSpace(Labyrinth, CheckX, CheckY)
+			if FoundSomething==False:
+				Labyrinth.append('Floor')
+				Labyrinth.append(ObjectX)
+				Labyrinth.append(ObjectY)
 			Counter=Counter-1
 		OffsetMin=OffsetMin+1
 	OffsetMin=-1*TunnelWidth
@@ -3034,17 +3053,37 @@ def HeroFlees(Counter):
 	HeroY=HeroList[Counter+14]
 	XDist=(HeroX-PlayerX)**2
 	YDist=(HeroY-PlayerY)**2
+	Blocked=False
+	Horizontal=False
+	Vertical=False
 	if XDist >= YDist:
-		if HeroX >= PlayerX:
-			EnemyDir=6
-		else:
-			EnemyDir=4
+		Horizontal=True
 	else:
-		if HeroY >= PlayerY:
-			EnemyDir=8
-		else:
-			EnemyDir=2
-	EnemyMove(EnemyDir, Counter)
+		Vertical=True
+
+	if HeroX <= PlayerX:
+		EnemyDirHRZ=4
+	else:
+		EnemyDirHRZ=6
+
+	if HeroY <= PlayerY:
+		EnemyDirVRT=2
+	else:
+		EnemyDirVRT=8
+
+	if Horizontal:
+		EnemyDir=EnemyDirHRZ
+		Blocked=EnemyMove(EnemyDir, Counter)
+		if Blocked:
+			EnemyDir=EnemyDirVRT
+			EnemyMove(EnemyDir, Counter)
+	else:
+		EnemyDir=EnemyDirVRT
+		Blocked=EnemyMove(EnemyDir, Counter)
+		if Blocked:
+			EnemyDir=EnemyDirHRZ
+			EnemyMove(EnemyDir, Counter)
+
 	return
 
 def DoEnemies():
