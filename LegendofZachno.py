@@ -3248,8 +3248,43 @@ if Level > 0:
 			Labyrinth.append(ObjectX)
 			Labyrinth.append(ObjectY)
 			Counter=Counter+3
-		PlaceHeroes(Labyrinth, Level)
-
+		HeroLoad=open('HeroState.sav', 'r')
+		HeroSave=list(HeroLoad)
+		HeroLoad.close()
+		HeroCounter=0
+		HeroCounterMax=len(HeroSave)
+		while HeroCounter < HeroCounterMax:
+			HeroLevel=str(HeroSave[HeroCounter]).rstrip()
+			HeroName=str(HeroSave[HeroCounter+1]).rstrip()
+			HeroWeapon=str(HeroSave[HeroCounter+2]).rstrip()
+			HeroArmor=str(HeroSave[HeroCounter+3]).rstrip()
+			HeroSpell=str(HeroSave[HeroCounter+4]).rstrip()
+			HeroAttack=int(HeroSave[HeroCounter+5])
+			HeroDefence=int(HeroSave[HeroCounter+6])
+			HeroLifeLevel=int(HeroSave[HeroCounter+7])
+			HeroMagic=int(HeroSave[HeroCounter+8])
+			HeroLife=int(HeroSave[HeroCounter+9])
+			HeroMana=int(HeroSave[HeroCounter+10])
+			HeroDropItemOne=str(HeroSave[HeroCounter+11]).rstrip()
+			HeroDropItemTwo=str(HeroSave[HeroCounter+12]).rstrip()
+			HeroX=int(HeroSave[HeroCounter+13])
+			HeroY=int(HeroSave[HeroCounter+14])
+			HeroList.append(HeroLevel)
+			HeroList.append(HeroName)
+			HeroList.append(HeroWeapon)
+			HeroList.append(HeroArmor)
+			HeroList.append(HeroSpell)
+			HeroList.append(HeroAttack)
+			HeroList.append(HeroDefence)
+			HeroList.append(HeroLifeLevel)
+			HeroList.append(HeroMagic)
+			HeroList.append(HeroLife)
+			HeroList.append(HeroMana)
+			HeroList.append(HeroDropItemOne)
+			HeroList.append(HeroDropItemTwo)
+			HeroList.append(HeroX)
+			HeroList.append(HeroY)
+			HeroCounter=HeroCounter+15
 
 while Level < LevelMax:
 	DoScreen(Labyrinth, Level)
@@ -3399,6 +3434,46 @@ while Level < LevelMax:
 						MapSave.write(ObjectY)
 						LabCounter=LabCounter+3
 					MapSave.close()
+					os.system('rm HeroState.sav')
+					HeroSave=open('HeroState.sav', 'a')
+					HeroCounter=0
+					HeroCounterMax=len(HeroList)
+					while HeroCounter < HeroCounterMax:
+						HeroLevel=str(HeroList[HeroCounter])+'\n'
+						HeroName=str(HeroList[HeroCounter+1])+'\n'
+						HeroWeapon=str(HeroList[HeroCounter+2])+'\n'
+						HeroArmor=str(HeroList[HeroCounter+3])+'\n'
+						HeroSpell=str(HeroList[HeroCounter+4])+'\n'
+						HeroAttack=str(HeroList[HeroCounter+5])+'\n'
+						HeroDefence=str(HeroList[HeroCounter+6])+'\n'
+						HeroLifeLevel=str(HeroList[HeroCounter+7])+'\n'
+						HeroMagic=str(HeroList[HeroCounter+8])+'\n'
+						HeroLife=str(HeroList[HeroCounter+9])+'\n'
+						HeroMana=str(HeroList[HeroCounter+10])+'\n'
+						HeroDropItemOne=str(HeroList[HeroCounter+11])+'\n'
+						HeroDropItemTwo=str(HeroList[HeroCounter+12])+'\n'
+						HeroX=str(HeroList[HeroCounter+13])+'\n'
+						HeroY=str(HeroList[HeroCounter+14])
+						HeroSave.write(HeroLevel)
+						HeroSave.write(HeroName)
+						HeroSave.write(HeroWeapon)
+						HeroSave.write(HeroArmor)
+						HeroSave.write(HeroSpell)
+						HeroSave.write(HeroAttack)
+						HeroSave.write(HeroDefence)
+						HeroSave.write(HeroLifeLevel)
+						HeroSave.write(HeroMagic)
+						HeroSave.write(HeroLife)
+						HeroSave.write(HeroMana)
+						HeroSave.write(HeroDropItemOne)
+						HeroSave.write(HeroDropItemTwo)
+						HeroSave.write(HeroX)
+						HeroSave.write(HeroY)
+						if not HeroCounter==HeroCounterMax-1:
+							HeroSave.write('\n')
+						HeroCounter=HeroCounter+15
+					HeroSave.close()
+
 					os.system('rm Inventory.sav')
 					InvSave=open('Inventory.sav', 'a')
 					InvCounter=0
