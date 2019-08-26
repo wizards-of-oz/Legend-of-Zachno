@@ -3110,15 +3110,31 @@ def DoEnemies():
 		if (-1*EnemyScan <= XDiff) and ( XDiff <= EnemyScan) and (-1*EnemyScan <= YDiff) and (YDiff <= EnemyScan):
 			if HeroLife > (HeroLifeLevel*TreshHold):
 				if HeroX==PlayerX or HeroY==PlayerY:
-					if HeroSpell == 'Fire' and HeroMana > 0 and SpellChance==1:
+					if HeroY < PlayerY:
+						CheckX=HeroX
+						CheckY=HeroY+1
+					if HeroX < PlayerX:
+						CheckX=HeroX+1
+						CheckY=HeroY
+
+					if HeroY > PlayerY:
+						CheckX=HeroX
+						CheckY=HeroY-1
+
+					if HeroX > PlayerX:
+						CheckX=HeroX-1
+						CheckY=HeroY
+					FloorFound=False
+					FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+					if HeroSpell == 'Fire' and HeroMana > 0 and SpellChance==1 and FloorFound:
 						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
-					elif HeroSpell == 'Teleport' and HeroMana > 1 and SpellChance==1:
+					elif HeroSpell == 'Teleport' and HeroMana > 1 and SpellChance==1 and FloorFound:
 						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
-					elif HeroSpell == 'Drain' and HeroMana > 2 and SpellChance==1:
+					elif HeroSpell == 'Drain' and HeroMana > 2 and SpellChance==1 and FloorFound:
 						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
-					elif HeroSpell == 'Lightning' and HeroMana > 3 and SpellChance==1:
+					elif HeroSpell == 'Lightning' and HeroMana > 3 and SpellChance==1 and FloorFound:
 						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
-					elif HeroSpell == 'Fireball' and HeroMana > 4 and SpellChance==1:
+					elif HeroSpell == 'Fireball' and HeroMana > 4 and SpellChance==1 and FloorFound:
 						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
 					else:
 						HeroHunts(Counter)

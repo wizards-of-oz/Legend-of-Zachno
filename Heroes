@@ -99,7 +99,7 @@ None
 8
 8
 80
-3
+24
 Life
 SpikeTrap
 8
@@ -183,8 +183,8 @@ Life
 9
 Spacemage
 Fists
-Teleport
 Shield
+Teleport
 2
 7
 6
@@ -222,8 +222,8 @@ Life
 10
 Vampirehero
 Fists
-Drain
 Wshield
+Drain
 3
 3
 10
@@ -294,7 +294,7 @@ None
 10
 6
 100
-30
+18
 Mana
 TShield
 16
