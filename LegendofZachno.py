@@ -2721,26 +2721,27 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 		HeroMana=int(HeroList[Counter+10])
 		HeroMana=HeroMana-1
 		HeroList[Counter+10]=HeroMana
+		Fire.play()
 	if Spell=='Teleport':
 		HeroMana=int(HeroList[Counter+10])
 		HeroMana=HeroMana-2
 		HeroList[Counter+10]=HeroMana
-
+		Teleport.play()
 	if Spell=='Drain':
 		HeroMana=int(HeroList[Counter+10])
 		HeroMana=HeroMana-3
 		HeroList[Counter+10]=HeroMana
-
+		Steal.play()
 	if Spell=='Lightning':
 		HeroMana=int(HeroList[Counter+10])
 		HeroMana=HeroMana-4
 		HeroList[Counter+10]=HeroMana
-
+		Lightning.play()
 	if Spell=='Fireball':
 		HeroMana=int(HeroList[Counter+10])
 		HeroMana=HeroMana-5
 		HeroList[Counter+10]=HeroMana
-
+		Fireball.play()
 	while FreeFlight:
 		if SpellDir==1:
 			SpellY=SpellY+1
@@ -2760,10 +2761,8 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 			if SpellX==PlayerX and SpellY==PlayerY:
 				FreeFlight=False
 				if Spell=='Fire':
-					Fire.play()
 					PlayerLife=PlayerLife-4
 				if Spell=='Teleport':
-					Teleport.play()
 					TeleportXMin=-1*MapGen*9
 					TeleportXMax=MapGen*9
 					TeleportYMin=-1*MapGen*9
@@ -2792,13 +2791,10 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 					HeroLife=int(HeroList[Counter+9])
 					HeroLife=HeroLife+12
 					HeroList[Counter+9]=HeroLife
-					Steal.play()
 					PlayerLife=PlayerLife-12
 				if Spell=='Lightning':
-					Lightning.play()
 					PlayerLife=PlayerLife-16
 				if Spell=='Fireball':
-					Fireball.play()
 					PlayerLife=PlayerLife-20
 
 				if PlayerLife < 1:
@@ -3109,19 +3105,20 @@ def DoEnemies():
 		XDiff=HeroX-PlayerX
 		YDiff=HeroY-PlayerY
 		TreshHold=10-HeroAttack
+		SpellChance=random.randint(1,2)
 		EnemyScan=int((HeroLevel+5)/2)
 		if (-1*EnemyScan <= XDiff) and ( XDiff <= EnemyScan) and (-1*EnemyScan <= YDiff) and (YDiff <= EnemyScan):
 			if HeroLife > (HeroLifeLevel*TreshHold):
 				if HeroX==PlayerX or HeroY==PlayerY:
-					if HeroSpell == 'Fire' and HeroMana > 0:
+					if HeroSpell == 'Fire' and HeroMana > 0 and SpellChance==1:
 						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
-					elif HeroSpell == 'Teleport' and HeroMana > 1:
+					elif HeroSpell == 'Teleport' and HeroMana > 1 and SpellChance==1:
 						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
-					elif HeroSpell == 'Drain' and HeroMana > 2:
+					elif HeroSpell == 'Drain' and HeroMana > 2 and SpellChance==1:
 						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
-					elif HeroSpell == 'Lightning' and HeroMana > 3:
+					elif HeroSpell == 'Lightning' and HeroMana > 3 and SpellChance==1:
 						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
-					elif HeroSpell == 'Fireball' and HeroMana > 4:
+					elif HeroSpell == 'Fireball' and HeroMana > 4 and SpellChance==1:
 						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
 					else:
 						HeroHunts(Counter)
@@ -3400,7 +3397,7 @@ while Level < LevelMax:
 					DoExit()
 				sys.exit()
 		DoScreen(Labyrinth, Level)
-		PlayerLevel=PlayerAttack+PlayerDefence+PlayerMagic
+		PlayerLevel=PlayerAttack+PlayerDefence+PlayerLifeLevel+PlayerMagic
 		if PlayerLevel < 41:
 			if PlayerXP >= PlayerLevel*2:
 				DoLevelUp()
@@ -3410,7 +3407,6 @@ while Level < LevelMax:
 			DoEnemies()
 			EnemiesMoved=True
 			
-		pygame.event.pump()
 		if NextLevel:
 			Level=Level+1
 			if Level < LevelMax:
