@@ -345,43 +345,43 @@ def GetScreenItem(ObjectImage):
 def DoInventoryList():
 	if len(InvList) > 0:
 		ItemText='1> '+InvList[0].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, green)		
+		ItemTextSurf=myfont.render(ItemText, False, red)		
 		screen.blit(ItemTextSurf,(950,200))
 	if len(InvList) > 1:
 		ItemText='2> '+InvList[1].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, green)		
+		ItemTextSurf=myfont.render(ItemText, False, red)		
 		screen.blit(ItemTextSurf,(950,220))
 	if len(InvList) > 2:
 		ItemText='3> '+InvList[2].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, green)		
+		ItemTextSurf=myfont.render(ItemText, False, red)		
 		screen.blit(ItemTextSurf,(950,240))
 	if len(InvList) > 3:
 		ItemText='4> '+InvList[3].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, green)		
+		ItemTextSurf=myfont.render(ItemText, False, red)		
 		screen.blit(ItemTextSurf,(950,260))
 	if len(InvList) > 4:
 		ItemText='5> '+InvList[4].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, green)		
+		ItemTextSurf=myfont.render(ItemText, False, red)		
 		screen.blit(ItemTextSurf,(950,280))
 	if len(InvList) > 5:
 		ItemText='6> '+InvList[5].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, green)		
+		ItemTextSurf=myfont.render(ItemText, False, red)		
 		screen.blit(ItemTextSurf,(950,300))
 	if len(InvList) > 6:
 		ItemText='7> '+InvList[6].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, green)		
+		ItemTextSurf=myfont.render(ItemText, False, red)		
 		screen.blit(ItemTextSurf,(950,320))
 	if len(InvList) > 7:
 		ItemText='8> '+InvList[7].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, green)		
+		ItemTextSurf=myfont.render(ItemText, False, red)		
 		screen.blit(ItemTextSurf,(950,340))
 	if len(InvList) > 8:
 		ItemText='9> '+InvList[8].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, green)		
+		ItemTextSurf=myfont.render(ItemText, False, red)		
 		screen.blit(ItemTextSurf,(950,360))
 	if len(InvList) > 9:
 		ItemText='0> '+InvList[9].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, green)		
+		ItemTextSurf=myfont.render(ItemText, False, red)		
 		screen.blit(ItemTextSurf,(950,380))
 	return
 
