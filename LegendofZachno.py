@@ -2964,13 +2964,15 @@ def EnemyMove(EnemyDir, Counter):
 		if HeroLife < 1:
 			Chance=random.randint(1,2)
 			if Chance==1:
-				Labyrinth.append(HeroDropItemOne)
-				Labyrinth.append(HeroX)
-				Labyrinth.append(HeroY)
+				if not HeroDropItemOne=='None':
+					Labyrinth.append(HeroDropItemOne)
+					Labyrinth.append(HeroX)
+					Labyrinth.append(HeroY)
 			else:
-				Labyrinth.append(HeroDropItemTwo)
-				Labyrinth.append(HeroX)
-				Labyrinth.append(HeroY)
+				if not HeroDropItemTwo=='None':
+					Labyrinth.append(HeroDropItemTwo)
+					Labyrinth.append(HeroX)
+					Labyrinth.append(HeroY)
 			del HeroList[Counter]
 			del HeroList[Counter]
 			del HeroList[Counter]
