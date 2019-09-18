@@ -2998,7 +2998,9 @@ def EnemyMove(EnemyDir, Counter):
 		CheckY=NewHeroY
 		FoundFloor=False
 		FoundFloor=CheckFloor(Labyrinth, CheckX, CheckY)
-		if FoundFloor:
+		NoEnemy=True
+		NoEnemy=CheckEnemy(HeroList, CheckX, CheckY)
+		if FoundFloor and NoEnemy:
 			HeroList[Counter+13]=NewHeroX
 			HeroList[Counter+14]=NewHeroY
 		else:
@@ -3083,6 +3085,20 @@ def HeroFlees(Counter):
 			EnemyMove(EnemyDir, Counter)
 
 	return
+
+def CheckEnemy(HeroList, CheckX, CheckY):
+	Counter=0
+	MaxCounter=len(HeroList)
+	NoEnemy=True
+	while Counter < MaxCounter:
+		HeroName=HeroList[Counter+1].rstrip()
+		HeroX=HeroList[Counter+13]
+		HeroY=HeroList[Counter+14]
+		if CheckX==HeroX and CheckY==HeroY:
+			if not HeroName=='':
+				NoEnemy=False
+		Counter = Counter+15
+	return(NoEnemy)
 
 def DoEnemies():
 	global Labyrinth
