@@ -1001,6 +1001,10 @@ def DoPlayerCombat(Counter):
 	global PlayerXP
 	global PlayerWeapon
 	global HeroList
+	global Spell
+	global SpellX
+	global SpellY
+
 	HeroLevel=int(HeroList[Counter])
 	HeroArmor=str(HeroList[Counter+3])
 	HeroDefence=int(HeroList[Counter+6])
@@ -1046,6 +1050,9 @@ def DoPlayerCombat(Counter):
 		elif PlayerWeapon=='Battleaxe':
 			AxeHit.play()
 		HeroLife=HeroLife-ZachnoAttack
+		Spell='BloodSpatter'
+		SpellX=HeroX
+		SpellY=HeroY
 	else:
 		Bump.play()
 
@@ -2872,6 +2879,9 @@ def DoHeroCombat(Counter):
 		elif HeroWeapon=='Battleaxe':
 			AxeHit.play()
 		PlayerLife=PlayerLife-HeroAt
+		Spell='BloodSpatter'
+		SpellX=PlayerX
+		SpellY=PlayerY
 		if PlayerLife < 1:
 			DeathScream.play()
 			screen.blit(Dead, (560, 320))
