@@ -121,6 +121,10 @@ Heart=pygame.image.load('Heart.png')
 Bolt=pygame.image.load('Bolt.png')
 Blast=pygame.image.load('Blast.png')
 Gnome=pygame.image.load('Gnome.png')
+BloodSpatter=pygame.image.load('BloodSpatter.png')
+AcidPuddle=pygame.image.load('AcidPuddle.png')
+ElectricSpark=pygame.image.load('ElectricSpark.png')
+Explosion=pygame.image.load('Explosion.png')
 
 Bully=pygame.image.load('Bully.png')
 Peasant=pygame.image.load('Peasant.png')
@@ -464,6 +468,15 @@ def DoScreen (Labyrinth, Level):
 		ScreenItem=Bolt
 	elif Spell=='Fireball':
 		ScreenItem=Blast
+	elif Spell=='BloodSpatter':
+		ScreenItem=BloodSpatter
+	elif Spell=='AcidPuddle':
+		ScreenItem=AcidPuddle
+	elif Spell=='ElectricSpark':
+		ScreenItem=ElectricSpark
+	elif Spell=='Explosion':
+		ScreenItem=Explosion
+
 	screen.blit(ScreenItem, (ScreenX, ScreenY))
 #	Xdiff=StairsX-PlayerX
 #	Ydiff=StairsY-PlayerY
@@ -2876,6 +2889,10 @@ def EnemyMove(EnemyDir, Counter):
 	global PlayerY
 	global Labyrinth
 	global HeroList
+	global Spell
+	global SpellX
+	global SpellY
+
 	Blocked=False
 	HeroLevel=int(HeroList[Counter])
 	HeroName=HeroList[Counter+1].rstrip()
@@ -2924,6 +2941,9 @@ def EnemyMove(EnemyDir, Counter):
 					if HeroAttack < 0:
 						HeroAttack=0
 					HeroLife=HeroLife-2
+					SpellX=NewHeroX
+					SpellY=NewHeroY
+					Spell='BloodSpatter'
 					Spikes.play()
 				if Object=='BearTrap':
 					del Labyrinth[LabNum]
@@ -2934,6 +2954,9 @@ def EnemyMove(EnemyDir, Counter):
 					if HeroDefence < 0:
 						HeroDefence=0
 					HeroLife=HeroLife-4
+					SpellX=NewHeroX
+					SpellY=NewHeroY
+					Spell='BloodSpatter'
 					Trap.play()
 				if Object=='AcidTrap':
 					del Labyrinth[LabNum]
@@ -2941,6 +2964,9 @@ def EnemyMove(EnemyDir, Counter):
 					del Labyrinth[LabNum]
 					LabNumMax=len(Labyrinth)
 					HeroLife=HeroLife-6
+					SpellX=NewHeroX
+					SpellY=NewHeroY
+					Spell='AcidPuddle'
 					Sizzle.play()
 				if Object=='ElectroTrap':
 					del Labyrinth[LabNum]
@@ -2949,6 +2975,9 @@ def EnemyMove(EnemyDir, Counter):
 					LabNumMax=len(Labyrinth)
 					HeroMana=HeroMana-4
 					HeroLife=HeroLife-8
+					SpellX=NewHeroX
+					SpellY=NewHeroY
+					Spell='ElectricSpark'
 					Lightning.play()
 				if Object=='Mine':
 					del Labyrinth[LabNum]
@@ -2959,6 +2988,9 @@ def EnemyMove(EnemyDir, Counter):
 					HeroDefence=HeroDefence-5
 					HeroMagic=HeroMagic-5
 					HeroLife=HeroLife-10
+					SpellX=NewHeroX
+					SpellY=NewHeroY
+					Spell='Explosion'
 					Boom.play()
 			LabNum=LabNum+3
 		if HeroLife < 1:
@@ -3506,6 +3538,8 @@ while Level < LevelMax:
 					DoExit()
 				sys.exit()
 		DoScreen(Labyrinth, Level)
+		SpellX=-200
+		SpellY=-200
 		PlayerLevel=PlayerAttack+PlayerDefence+PlayerLifeLevel+PlayerMagic
 		if PlayerLevel < 41:
 			if PlayerXP >= PlayerLevel*2:
