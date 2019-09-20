@@ -1191,6 +1191,51 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 					del Labyrinth[Counter]
 					MaxCounter=len(Labyrinth)
 					Grab.play()
+			if Object == 'SpikeTrap':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Spiketrap')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'BearTrap':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Beartrap')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'AcidTrap':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Acidtrap')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'ElectroTrap':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Electrotrap')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
+			if Object == 'Mine':
+				Collision=False
+				if len(InvList) < 10:
+					InvList.append('Mine')
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					del Labyrinth[Counter]
+					MaxCounter=len(Labyrinth)
+					Grab.play()
 			if Object == 'FireScroll':
 				Collision=False
 				if len(InvList) < 10:
