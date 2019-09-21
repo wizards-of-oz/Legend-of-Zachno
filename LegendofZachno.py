@@ -3076,6 +3076,7 @@ def EnemyMove(EnemyDir, Counter):
 			del HeroList[Counter]
 			del HeroList[Counter]
 			DeathScream.play()
+			return(Blocked)
 		else:
 			HeroList[Counter+5]=HeroAttack
 			HeroList[Counter+6]=HeroDefence
