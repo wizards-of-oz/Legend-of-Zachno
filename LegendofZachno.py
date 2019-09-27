@@ -396,7 +396,7 @@ def HeroScan(Labyrinth, HeroList):
 	while Counter<MaxCounter:
 		HeroName=str(HeroList[Counter+1])
 		HeroLife=int(HeroList[Counter+9])
-		HeroArmor=str(HeroList[Counter+4])
+		HeroArmor=str(HeroList[Counter+3])
 		HeroDef=int(HeroList[Counter+6])
 		ObjectX=int(HeroList[Counter+13])
 		ObjectY=int(HeroList[Counter+14])
