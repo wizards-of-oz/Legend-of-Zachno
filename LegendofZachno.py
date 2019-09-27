@@ -396,13 +396,26 @@ def HeroScan(Labyrinth, HeroList):
 	while Counter<MaxCounter:
 		HeroName=str(HeroList[Counter+1])
 		HeroLife=int(HeroList[Counter+9])
+		HeroArmor=str(HeroList[Counter+4])
+		HeroDef=int(HeroList[Counter+6])
 		ObjectX=int(HeroList[Counter+13])
 		ObjectY=int(HeroList[Counter+14])
+		if HeroArmor=='WShield':
+			HeroDef=HeroDef+1
+		elif HeroArmor=='Shield':
+			HeroDef=HeroDef+2
+		elif HeroArmor=='TShield':
+			HeroDef=HeroDef+3
+		elif HeroArmor=='Chainmail':
+			HeroDef=HeroDef+4
+		elif HeroArmor=='Plate':
+			HeroDef=HeroDef+5
 		XDiff=ObjectX-PlayerX
 		YDiff=ObjectY-PlayerY
 		if (-7 <= XDiff) and ( XDiff <= 7) and (-5 <= YDiff) and (YDiff <= 4):
 			HeroLifeList.append(HeroName)
 			HeroLifeList.append(HeroLife)
+			HeroLifeList.append(HeroDef)
 			HeroLifeList.append(XDiff)
 			HeroLifeList.append(YDiff)
 		Counter=Counter+15
@@ -433,23 +446,39 @@ def DoScreen (Labyrinth, Level):
 		screen.blit(ScreenItem, (ScreenX, ScreenY))
 		Counter=Counter+3
 
+	if PlayerWeapon=='Dagger':
+		PlayerAtt=PlayerAttack+2
+	elif PlayerWeapon=='Mace':
+		PlayerAtt=PlayerAttack+3
+	elif PlayerWeapon=='Sword':
+		PlayerAtt=PlayerAttack+4
+	elif PlayerWeapon=='Battleaxe':
+		PlayerAtt=PlayerAttack+5
+	else:
+		PlayerAtt=PlayerAttack
+
 	Counter=0
 	MaxCounter=len(HeroLifeList)
 	while Counter < MaxCounter:
 		HeroName=str(HeroLifeList[Counter])
 		HeroLife=str(HeroLifeList[Counter+1])
-		ObjectX=int(HeroLifeList[Counter+2])
-		ObjectY=int(HeroLifeList[Counter+3])
+		HeroDef=int(HeroLifeList[Counter+2])
+		ObjectX=int(HeroLifeList[Counter+3])
+		ObjectY=int(HeroLifeList[Counter+4])
 		# calling GetScreenItem to get the right picture with the object name
-		HeroLifeText=str(HeroName)+':'+str(HeroLife)
-		HeroLifeTextSurf=myfont.render(HeroLifeText, False, green)
+		if HeroDef >= PlayerAtt:
+			color=red
+		else:
+			color=green
+		HeroLifeText=str(HeroName)+':'+str(HeroLife)+' Def:'+str(HeroDef)
+		HeroLifeTextSurf=myfont.render(HeroLifeText, False, color)
 		# Translating x and y coordinates from VisualList into actual pixel coordinatesd
 		ScreenX=(ObjectX+7)*80
 		YConvert=ObjectY*-1
 		ScreenY=((YConvert+4)*80)+60
 		# Placing the item on screen
 		screen.blit(HeroLifeTextSurf, (ScreenX, ScreenY))
-		Counter=Counter+4
+		Counter=Counter+5
 
 	
 
