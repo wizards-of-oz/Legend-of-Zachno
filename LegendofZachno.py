@@ -396,10 +396,22 @@ def HeroScan(Labyrinth, HeroList):
 	while Counter<MaxCounter:
 		HeroName=str(HeroList[Counter+1])
 		HeroLife=int(HeroList[Counter+9])
+		HeroWeapon=str(HeroList[Counter+2])
 		HeroArmor=str(HeroList[Counter+3])
+		HeroAtt=str(HeroList[Counter+5])
 		HeroDef=int(HeroList[Counter+6])
+		HeroMana=int(HeroList[Counter+10])
 		ObjectX=int(HeroList[Counter+13])
 		ObjectY=int(HeroList[Counter+14])
+		if HeroWeapon=='Dagger':
+			HeroAtt=HeroDef+2
+		elif HeroWeapon=='Mace':
+			HeroAtt=HeroDef+3
+		elif HeroWeapon=='Sword':
+			HeroAtt=HeroDef+4
+		elif HeroArmor=='Battleaxe':
+			HeroAtt=HeroDef+5
+
 		if HeroArmor=='WShield':
 			HeroDef=HeroDef+1
 		elif HeroArmor=='Shield':
@@ -414,8 +426,10 @@ def HeroScan(Labyrinth, HeroList):
 		YDiff=ObjectY-PlayerY
 		if (-7 <= XDiff) and ( XDiff <= 7) and (-5 <= YDiff) and (YDiff <= 4):
 			HeroLifeList.append(HeroName)
-			HeroLifeList.append(HeroLife)
+			HeroLifeList.append(HeroAtt)
 			HeroLifeList.append(HeroDef)
+			HeroLifeList.append(HeroLife)
+			HeroLifeList.append(HeroMana)
 			HeroLifeList.append(XDiff)
 			HeroLifeList.append(YDiff)
 		Counter=Counter+15
@@ -461,24 +475,35 @@ def DoScreen (Labyrinth, Level):
 	MaxCounter=len(HeroLifeList)
 	while Counter < MaxCounter:
 		HeroName=str(HeroLifeList[Counter])
-		HeroLife=str(HeroLifeList[Counter+1])
+		HeroAtt=int(HeroLifeList[Counter+1])
 		HeroDef=int(HeroLifeList[Counter+2])
-		ObjectX=int(HeroLifeList[Counter+3])
-		ObjectY=int(HeroLifeList[Counter+4])
+		HeroLife=int(HeroLifeList[Counter+3])
+		HeroMana=int(HeroLifeList[Counter+4])
+		ObjectX=int(HeroLifeList[Counter+5])
+		ObjectY=int(HeroLifeList[Counter+6])
 		# calling GetScreenItem to get the right picture with the object name
 		if HeroDef >= PlayerAtt:
 			color=red
 		else:
 			color=green
-		HeroLifeText=str(HeroName)+':'+str(HeroLife)+' Def:'+str(HeroDef)
-		HeroLifeTextSurf=myfont.render(HeroLifeText, False, color)
+		HeroNameText=str(HeroName)
+		HeroLifeTextSurf=myfont.render(HeroNameText, False, color)
+		HeroText1='Att:'+str(HeroAtt)+' Def:'+str(HeroDef)
+		HeroText1Surf=myfont.render(HeroText1, False, color)
+		HeroText2='Life:'+str(HeroLife)+' Mana:'+str(HeroMana)
+		HeroText2Surf=myfont.render(HeroText2, False, color)
+
 		# Translating x and y coordinates from VisualList into actual pixel coordinatesd
 		ScreenX=(ObjectX+7)*80
 		YConvert=ObjectY*-1
 		ScreenY=((YConvert+4)*80)+60
 		# Placing the item on screen
 		screen.blit(HeroLifeTextSurf, (ScreenX, ScreenY))
-		Counter=Counter+5
+		ScreenY=((YConvert+4)*80)+80
+		screen.blit(HeroText1Surf, (ScreenX, ScreenY))
+		ScreenY=((YConvert+4)*80)+100
+		screen.blit(HeroText2Surf, (ScreenX, ScreenY))
+		Counter=Counter+7
 
 	
 
