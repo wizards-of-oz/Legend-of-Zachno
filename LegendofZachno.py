@@ -2688,6 +2688,7 @@ def DropItem(ItemCounter):
 
 def PlaceHeroes(Labyrinth, Level):
 	global HeroList
+	del HeroList[:]
 	HeroFile=open('Heroes', 'r')
 	ListofHeroes=list(HeroFile)
 	HeroFile.close()
