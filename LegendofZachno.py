@@ -2540,33 +2540,44 @@ def UseItem(ItemCounter):
 	global PlayerMagic
 	global PlayerMana
 	global Spell
+	OldWeapon=PlayerWeapon
+	OldArmor=PlayerArmor
 	if InvList[ItemCounter].rstrip()=='Mace':
 		PlayerWeapon='Mace'
 		del InvList[ItemCounter]
+		InvList.append(OldWeapon)
 	elif InvList[ItemCounter].rstrip()=='Dagger':
 		PlayerWeapon='Dagger'
 		del InvList[ItemCounter]
+		InvList.append(OldWeapon)
 	elif InvList[ItemCounter].rstrip()=='Sword':
 		PlayerWeapon='Sword'
 		del InvList[ItemCounter]
+		InvList.append(OldWeapon)
 	elif InvList[ItemCounter].rstrip()=='Battleaxe':
 		PlayerWeapon='Battleaxe'
 		del InvList[ItemCounter]
+		InvList.append(OldWeapon)
 	elif InvList[ItemCounter].rstrip()=='Shield':
 		PlayerArmor='Shield'
 		del InvList[ItemCounter]
+		InvList.append(OldArmor)
 	elif InvList[ItemCounter].rstrip()=='WShield':
 		PlayerArmor='WShield'
 		del InvList[ItemCounter]
+		InvList.append(OldArmor)
 	elif InvList[ItemCounter].rstrip()=='TShield':
 		PlayerArmor='TShield'
 		del InvList[ItemCounter]
+		InvList.append(OldArmor)
 	elif InvList[ItemCounter].rstrip()=='Chainmail':
 		PlayerArmor='Chainmail'
 		del InvList[ItemCounter]
+		InvList.append(OldArmor)
 	elif InvList[ItemCounter].rstrip()=='Plate':
 		PlayerArmor='Plate'
 		del InvList[ItemCounter]
+		InvList.append(OldArmor)
 	elif InvList[ItemCounter].rstrip()=='Beartrap':
 		DropItem(ItemCounter)
 	elif InvList[ItemCounter].rstrip()=='Spiketrap':
@@ -2749,6 +2760,12 @@ def PlaceHeroes(Labyrinth, Level):
 						HeroList.append(HeroX)
 						HeroList.append(HeroY)
 						LookingForASpot=False
+			LoadingText='Placing '+str(HeroName)+'...'
+			LoadingTextSurf = myfont.render(LoadingText, False, green)
+			screen.blit(TextBar,(0,780))
+			screen.blit(LoadingTextSurf,(0,780))
+			pygame.display.flip()
+
 			Number=Number+1
 		Counter=Counter+13
 	return
