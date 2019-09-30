@@ -45,6 +45,7 @@ moon_glow = ((235,245,255))
 
 # Loading soundfiles into RAM in variables so i can use the .play() command
 Walk = pygame.mixer.Sound('Walk.ogg')
+EnemyWalk = pygame.mixer.Sound('EnemyWalk.ogg')
 Bump = pygame.mixer.Sound('Bump.ogg')
 StairsUp = pygame.mixer.Sound('Up.ogg')
 Ping = pygame.mixer.Sound('Ping.ogg')
@@ -3172,6 +3173,7 @@ def EnemyMove(EnemyDir, Counter):
 		if FoundFloor and NoEnemy:
 			HeroList[Counter+13]=NewHeroX
 			HeroList[Counter+14]=NewHeroY
+			EnemyWalk.play()
 		else:
 			Blocked=True
 	return(Blocked)
