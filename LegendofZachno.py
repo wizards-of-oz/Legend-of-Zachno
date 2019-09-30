@@ -3073,10 +3073,10 @@ def EnemyMove(EnemyDir, Counter):
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
 					LabNumMax=len(Labyrinth)
-					HeroAttack=HeroAttack-1
+					HeroAttack=HeroAttack-2
 					if HeroAttack < 0:
 						HeroAttack=0
-					HeroLife=HeroLife-2
+					HeroLife=HeroLife-3
 					SpellX=NewHeroX
 					SpellY=NewHeroY
 					Spell='BloodSpatter'
@@ -3086,10 +3086,10 @@ def EnemyMove(EnemyDir, Counter):
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
 					LabNumMax=len(Labyrinth)
-					HeroDefence=HeroDefence-2
+					HeroDefence=HeroDefence-4
 					if HeroDefence < 0:
 						HeroDefence=0
-					HeroLife=HeroLife-4
+					HeroLife=HeroLife-6
 					SpellX=NewHeroX
 					SpellY=NewHeroY
 					Spell='BloodSpatter'
@@ -3099,7 +3099,7 @@ def EnemyMove(EnemyDir, Counter):
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
 					LabNumMax=len(Labyrinth)
-					HeroLife=HeroLife-6
+					HeroLife=HeroLife-9
 					SpellX=NewHeroX
 					SpellY=NewHeroY
 					Spell='AcidPuddle'
@@ -3109,8 +3109,8 @@ def EnemyMove(EnemyDir, Counter):
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
 					LabNumMax=len(Labyrinth)
-					HeroMana=HeroMana-4
-					HeroLife=HeroLife-8
+					HeroMana=HeroMana-8
+					HeroLife=HeroLife-12
 					SpellX=NewHeroX
 					SpellY=NewHeroY
 					Spell='ElectricSpark'
@@ -3123,7 +3123,7 @@ def EnemyMove(EnemyDir, Counter):
 					HeroAttack=HeroAttack-5
 					HeroDefence=HeroDefence-5
 					HeroMagic=HeroMagic-5
-					HeroLife=HeroLife-10
+					HeroLife=HeroLife-15
 					SpellX=NewHeroX
 					SpellY=NewHeroY
 					Spell='Explosion'
