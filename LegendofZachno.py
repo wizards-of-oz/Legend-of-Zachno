@@ -2545,39 +2545,48 @@ def UseItem(ItemCounter):
 	if InvList[ItemCounter].rstrip()=='Mace':
 		PlayerWeapon='Mace'
 		del InvList[ItemCounter]
-		InvList.append(OldWeapon)
+		if not OldWeapon=='Fists':
+			InvList.append(OldWeapon)
 	elif InvList[ItemCounter].rstrip()=='Dagger':
 		PlayerWeapon='Dagger'
 		del InvList[ItemCounter]
-		InvList.append(OldWeapon)
+		if not OldWeapon=='Fists':
+			InvList.append(OldWeapon)
 	elif InvList[ItemCounter].rstrip()=='Sword':
 		PlayerWeapon='Sword'
 		del InvList[ItemCounter]
-		InvList.append(OldWeapon)
+		if not OldWeapon=='Fists':
+			InvList.append(OldWeapon)
 	elif InvList[ItemCounter].rstrip()=='Battleaxe':
 		PlayerWeapon='Battleaxe'
 		del InvList[ItemCounter]
-		InvList.append(OldWeapon)
+		if not OldWeapon=='Fists':
+			InvList.append(OldWeapon)
 	elif InvList[ItemCounter].rstrip()=='Shield':
 		PlayerArmor='Shield'
 		del InvList[ItemCounter]
-		InvList.append(OldArmor)
+		if not OldArmor=='None':
+			InvList.append(OldArmor)
 	elif InvList[ItemCounter].rstrip()=='WShield':
 		PlayerArmor='WShield'
 		del InvList[ItemCounter]
-		InvList.append(OldArmor)
+		if not OldArmor=='None':
+			InvList.append(OldArmor)
 	elif InvList[ItemCounter].rstrip()=='TShield':
 		PlayerArmor='TShield'
 		del InvList[ItemCounter]
-		InvList.append(OldArmor)
+		if not OldArmor=='None':
+			InvList.append(OldArmor)
 	elif InvList[ItemCounter].rstrip()=='Chainmail':
 		PlayerArmor='Chainmail'
 		del InvList[ItemCounter]
-		InvList.append(OldArmor)
+		if not OldArmor=='None':
+			InvList.append(OldArmor)
 	elif InvList[ItemCounter].rstrip()=='Plate':
 		PlayerArmor='Plate'
 		del InvList[ItemCounter]
-		InvList.append(OldArmor)
+		if not OldArmor=='None':
+			InvList.append(OldArmor)
 	elif InvList[ItemCounter].rstrip()=='Beartrap':
 		DropItem(ItemCounter)
 	elif InvList[ItemCounter].rstrip()=='Spiketrap':
