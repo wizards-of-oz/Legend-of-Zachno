@@ -2271,19 +2271,96 @@ def GenerateLabyrinth():
 	GenerateRooms(RoomPos)
 	return()
 
-def DoSplash():
+def DoSplash(LoadList):
+	pygame.key.set_repeat()
 	screen.blit(Black,(0,0))
 	screen.blit(Splash,(480,280))
 	screen.blit(TextBar,(0,780))
-	Text='Entering level '+str(Level)+'...'
+	Text='Select a save slot...'
+	LevelSave1=int(LoadList[1].rstrip())
+	LevelSave2=int(LoadList[15].rstrip())
+	LevelSave3=int(LoadList[29].rstrip())
+	LevelSave4=int(LoadList[43].rstrip())
+	LevelSave5=int(LoadList[57].rstrip())
+	LevelSave6=int(LoadList[71].rstrip())
+
+	SLevelSave1=str(LevelSave1)
+	SLevelSave2=str(LevelSave2)
+	SLevelSave3=str(LevelSave3)
+	SLevelSave4=str(LevelSave4)
+	SLevelSave5=str(LevelSave5)
+	SLevelSave6=str(LevelSave6)
+
+	if LevelSave1==0:
+		Save1Status='Save slot 1, new game'
+	else:
+		Save1Status='Save slot 1, level: '+SLevelSave1
+	if LevelSave2==0:
+		Save2Status='Save slot 2, new game'
+	else:
+		Save2Status='Save slot 2, level: '+SLevelSave2
+	if LevelSave3==0:
+		Save3Status='Save slot 3, new game'
+	else:
+		Save3Status='Save slot 3, level: '+SLevelSave3
+	if LevelSave4==0:
+		Save4Status='Save slot 4, new game'
+	else:
+		Save4Status='Save slot 4, level: '+SLevelSave4
+	if LevelSave5==0:
+		Save5Status='Save slot 5, new game'
+	else:
+		Save5Status='Save slot 5, level: '+SLevelSave5
+	if LevelSave6==0:
+		Save6Status='Save slot 6, new game'
+	else:
+		Save6Status='Save slot 6, level: '+SLevelSave6
+
+	Save1Text = myfont.render(Save1Status, False, green)
+	Save2Text = myfont.render(Save2Status, False, green)
+	Save3Text = myfont.render(Save3Status, False, green)
+	Save4Text = myfont.render(Save4Status, False, green)
+	Save5Text = myfont.render(Save5Status, False, green)
+	Save6Text = myfont.render(Save6Status, False, green)
+	Status = myfont.render('Select a save slot or press ESC to quit', False, yellow)
+
+	screen.blit(Save1Text,(0,50))
+	screen.blit(Save2Text,(0,100))
+	screen.blit(Save3Text,(0,150))
+	screen.blit(Save4Text,(0,200))
+	screen.blit(Save5Text,(0,250))
+	screen.blit(Save6Text,(0,300))
 	TextSurf = myfont.render(Text, False, green)
 	LoadingText='Welcome to Legend of Zachno, press enter...'
 	LoadingTextSurf = myfont.render(LoadingText, False, green)
 	screen.blit(TextSurf,(0,0))
 	screen.blit(LoadingTextSurf,(0,780))
 	pygame.display.flip()
-	wait()
-	return
+	
+	Selection=True
+	while Selection:
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_KP1 or event.key == pygame.K_1:
+					SaveSlot=0
+					Selection=False
+				if event.key == pygame.K_KP2 or event.key == pygame.K_2:
+					SaveSlot=14
+					Selection=False
+				if event.key == pygame.K_KP3 or event.key == pygame.K_3:
+					SaveSlot=28
+					Selection=False
+				if event.key == pygame.K_KP4 or event.key == pygame.K_4:
+					SaveSlot=42
+					Selection=False
+				if event.key == pygame.K_KP5 or event.key == pygame.K_5:
+					SaveSlot=56
+					Selection=False
+				if event.key == pygame.K_KP6 or event.key == pygame.K_6:
+					SaveSlot=70
+					Selection=False
+	pygame.key.set_repeat(30,30)
+	return(SaveSlot)
 
 def DoExit():
 	screen.blit(Black,(0,0))
@@ -2304,48 +2381,8 @@ def DoVictory():
 	LoadingTextSurf = myfont.render(LoadingText, False, green)
 	screen.blit(LoadingTextSurf,(0,780))
 	pygame.display.flip()
-	MakingAChoice=True
-	while MakingAChoice:
-		for event in pygame.event.get():
-			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_k:
-					os.system('rm Zachno.sav')
-					Save=open('Zachno.sav', 'a')
-					LevelSave='20\n'
-					Save.write('0\n')
-					Save.write(LevelSave)
-					AttackSave=str(PlayerAttack)+'\n'
-					DefenceSave=str(PlayerDefence)+'\n'
-					HealthSave=str(PlayerLifeLevel)+'\n'
-					MagicSave=str(PlayerMagic)+'\n'
-					LifeSave=str(PlayerLife)+'\n'
-					ManaSave=str(PlayerMana)+'\n'
-					Save.write(AttackSave)
-					Save.write(DefenceSave)
-					Save.write(HealthSave)
-					Save.write(MagicSave)
-					Save.write(LifeSave)
-					Save.write(ManaSave)
-					Save.write('0\n')
-					Save.write('0')
-					Save.close()
-					sys.exit()
-				if event.key == pygame.K_r:
-					os.system('rm Zachno.sav')
-					Save=open('Zachno.sav', 'a')
-					Save.write('0\n')
-					Save.write('0\n')
-					Save.write('1\n')
-					Save.write('1\n')
-					Save.write('1\n')
-					Save.write('1\n')
-					Save.write('10\n')
-					Save.write('10\n')
-					Save.write('0\n')
-					Save.write('0')
-					Save.close()
-					sys.exit()
 	wait()
+	sys.exit()
 	return
 
 def DoItem(ItemCounter):
@@ -3364,34 +3401,47 @@ Load=open('Zachno.sav', 'r')
 LoadList=list(Load)
 Load.close()
 
-LoadCounter=0
-LoadCounterMax=len(LoadList)
-ConSwitch=int(LoadList[0])
-Level=int(LoadList[1])
-
 HeroList=list()
 InvList=list()
 pygame.key.set_repeat(30,30)
-DoSplash()
+LoadFile=open('Zachno.sav', 'r')
+LoadList=list(LoadFile)
+LoadFile.close()
+
+SaveSlot=DoSplash(LoadList)
+Level=int(LoadList[SaveSlot+1])
+ConSwitch=int(LoadList[SaveSlot])
 if Level > 0:
 	if ConSwitch==0:
 		if Level > 0 and Level < LevelMax:
-			PlayerWeapon=LoadList[2].rstrip()
-			PlayerArmor=LoadList[3].rstrip()
-			Gold=int(LoadList[4])
-			PlayerAttack=int(LoadList[5])
-			PlayerDefence=int(LoadList[6])
-			PlayerLifeLevel=int(LoadList[7])
-			PlayerMagic=int(LoadList[8])
-			PlayerLife=int(LoadList[9])
-			PlayerMana=int(LoadList[10])
-			PlayerXP=int(LoadList[11])
+			PlayerWeapon=LoadList[SaveSlot+2].rstrip()
+			PlayerArmor=LoadList[SaveSlot+3].rstrip()
+			Gold=int(LoadList[SaveSlot+4])
+			PlayerAttack=int(LoadList[SaveSlot+5])
+			PlayerDefence=int(LoadList[SaveSlot+6])
+			PlayerLifeLevel=int(LoadList[SaveSlot+7])
+			PlayerMagic=int(LoadList[SaveSlot+8])
+			PlayerLife=int(LoadList[SaveSlot+9])
+			PlayerMana=int(LoadList[SaveSlot+10])
+			PlayerXP=int(LoadList[SaveSlot+11])
 			PlayerX=0
 			PlayerY=0
-			PlayerLevel=PlayerAttack+PlayerDefence+PlayerMagic
+			PlayerLevel=PlayerAttack+PlayerDefence+PlayerLifeLevel+PlayerMagic
 			MaxRooms=0
 			Rooms=0
-			LoadInv=open('Inventory.sav', 'r')
+			if SaveSlot==0:
+				LoadInv=open('Inventory1.sav', 'r')
+			elif SaveSlot==14:
+				LoadInv=open('Inventory2.sav', 'r')
+			elif SaveSlot==28:
+				LoadInv=open('Inventory3.sav', 'r')
+			elif SaveSlot==42:
+				LoadInv=open('Inventory4.sav', 'r')
+			elif SaveSlot==56:
+				LoadInv=open('Inventory5.sav', 'r')
+			elif SaveSlot==70:
+				LoadInv=open('Inventory6.sav', 'r')
+
 			InvList=list(LoadInv)
 			LoadInv.close()
 			screen.blit(Loading,(0,0))
@@ -3406,23 +3456,47 @@ if Level > 0:
 			Ping.play()
 	else:
 		del Labyrinth[:]
-		PlayerWeapon=LoadList[2].rstrip()
-		PlayerArmor=LoadList[3].rstrip()
-		Gold=int(LoadList[4])		
-		PlayerAttack=int(LoadList[5])
-		PlayerDefence=int(LoadList[6])
-		PlayerLifeLevel=int(LoadList[7])
-		PlayerMagic=int(LoadList[8])
-		PlayerLife=int(LoadList[9])
-		PlayerMana=int(LoadList[10])
-		PlayerXP=int(LoadList[11])
-		PlayerX=int(LoadList[12])
-		PlayerY=int(LoadList[13])
-		PlayerLevel=PlayerAttack+PlayerDefence+PlayerMagic
-		LoadInv=open('Inventory.sav', 'r')
+		PlayerWeapon=LoadList[SaveSlot+2].rstrip()
+		PlayerArmor=LoadList[SaveSlot+3].rstrip()
+		Gold=int(LoadList[SaveSlot+4])		
+		PlayerAttack=int(LoadList[SaveSlot+5])
+		PlayerDefence=int(LoadList[SaveSlot+6])
+		PlayerLifeLevel=int(LoadList[SaveSlot+7])
+		PlayerMagic=int(LoadList[SaveSlot+8])
+		PlayerLife=int(LoadList[SaveSlot+9])
+		PlayerMana=int(LoadList[SaveSlot+10])
+		PlayerXP=int(LoadList[SaveSlot+11])
+		PlayerX=int(LoadList[SaveSlot+12])
+		PlayerY=int(LoadList[SaveSlot+13])
+		PlayerLevel=PlayerAttack+PlayerDefence+PlayerLifeLevel+PlayerMagic
+		if SaveSlot==0:
+			LoadInv=open('Inventory1.sav', 'r')
+		elif SaveSlot==14:
+			LoadInv=open('Inventory2.sav', 'r')
+		elif SaveSlot==28:
+			LoadInv=open('Inventory3.sav', 'r')
+		elif SaveSlot==42:
+			LoadInv=open('Inventory4.sav', 'r')
+		elif SaveSlot==56:
+			LoadInv=open('Inventory5.sav', 'r')
+		elif SaveSlot==70:
+			LoadInv=open('Inventory6.sav', 'r')
+
 		InvList=list(LoadInv)
 		LoadInv.close()
-		LoadMap=open('MapState.sav', 'r')
+		if SaveSlot==0:
+			LoadMap=open('MapState1.sav', 'r')
+		elif SaveSlot==14:
+			LoadMap=open('MapState2.sav', 'r')
+		elif SaveSlot==28:
+			LoadMap=open('MapState3.sav', 'r')
+		elif SaveSlot==42:
+			LoadMap=open('MapState4.sav', 'r')
+		elif SaveSlot==56:
+			LoadMap=open('MapState5.sav', 'r')
+		elif SaveSlot==70:
+			LoadMap=open('MapState6.sav', 'r')
+
 		LabyrinthState=list(LoadMap)
 		LoadMap.close()
 		Counter=0
@@ -3438,7 +3512,20 @@ if Level > 0:
 			Labyrinth.append(ObjectX)
 			Labyrinth.append(ObjectY)
 			Counter=Counter+3
-		HeroLoad=open('HeroState.sav', 'r')
+
+		if SaveSlot==0:
+			HeroLoad=open('HeroState1.sav', 'r')
+		elif SaveSlot==14:
+			HeroLoad=open('HeroState2.sav', 'r')
+		elif SaveSlot==28:
+			HeroLoad=open('HeroState3.sav', 'r')
+		elif SaveSlot==42:
+			HeroLoad=open('HeroState4.sav', 'r')
+		elif SaveSlot==56:
+			HeroLoad=open('HeroState5.sav', 'r')
+		elif SaveSlot==70:
+			HeroLoad=open('HeroState6.sav', 'r')
+
 		HeroSave=list(HeroLoad)
 		HeroLoad.close()
 		HeroCounter=0
@@ -3576,43 +3663,53 @@ while Level < LevelMax:
 								if event.key == pygame.K_n:
 									ConSwitch=0
 									MakingAChoice=False
-					
-					SwitchWrite=str(ConSwitch)+'\n'
+
+					LoadList[SaveSlot]=ConSwitch
+					LoadList[SaveSlot+1]=Level
+					LoadList[SaveSlot+2]=PlayerWeapon
+					LoadList[SaveSlot+3]=PlayerArmor
+					LoadList[SaveSlot+4]=Gold
+					LoadList[SaveSlot+5]=PlayerAttack
+					LoadList[SaveSlot+6]=PlayerDefence
+					LoadList[SaveSlot+7]=PlayerLifeLevel
+					LoadList[SaveSlot+8]=PlayerMagic
+					LoadList[SaveSlot+9]=PlayerLife
+					LoadList[SaveSlot+10]=PlayerMana
+					LoadList[SaveSlot+11]=PlayerXP
+					LoadList[SaveSlot+12]=PlayerX
+					LoadList[SaveSlot+13]=PlayerY
+
 					os.system('rm Zachno.sav')
 					Save=open('Zachno.sav', 'a')
-					Save.write(SwitchWrite)
-					LevelSave=str(Level)+'\n'
-					Save.write(LevelSave)
-
-					WeaponSave=str(PlayerWeapon)+'\n'
-					ArmorSave=str(PlayerArmor)+'\n'
-					GoldSave=str(Gold)+'\n'
-					AttackSave=str(PlayerAttack)+'\n'
-					DefenceSave=str(PlayerDefence)+'\n'
-					HealthSave=str(PlayerLifeLevel)+'\n'
-					MagicSave=str(PlayerMagic)+'\n'
-					LifeSave=str(PlayerLife)+'\n'
-					ManaSave=str(PlayerMana)+'\n'
-					XPSave=str(PlayerXP)+'\n'
-
-					Save.write(WeaponSave)
-					Save.write(ArmorSave)
-					Save.write(GoldSave)
-					Save.write(AttackSave)
-					Save.write(DefenceSave)
-					Save.write(HealthSave)
-					Save.write(MagicSave)
-					Save.write(LifeSave)
-					Save.write(ManaSave)
-					Save.write(XPSave)
-
-					XSave=str(PlayerX)+'\n'
-					Save.write(XSave)
-					YSave=str(PlayerY)
-					Save.write(YSave)
+					PlayerCounter=0
+					MaxPlayerCounter=len(LoadList)
+					while PlayerCounter < MaxPlayerCounter:
+						SaveLine=str(LoadList[PlayerCounter]).rstrip()
+						Save.write(SaveLine)
+						if not PlayerCounter==MaxPlayerCounter-1:
+							Save.write('\n')
+						PlayerCounter=PlayerCounter+1
 					Save.close()
-					os.system('rm MapState.sav')
-					MapSave=open('MapState.sav', 'a')
+
+					if SaveSlot==0:
+						os.system('rm MapState1.sav')
+						MapSave=open('MapState1.sav', 'a')
+					elif SaveSlot==14:
+						os.system('rm MapState2.sav')
+						MapSave=open('MapState2.sav', 'a')
+					elif SaveSlot==28:
+						os.system('rm MapState3.sav')
+						MapSave=open('MapState3.sav', 'a')
+					elif SaveSlot==42:
+						os.system('rm MapState4.sav')
+						MapSave=open('MapState4.sav', 'a')
+					elif SaveSlot==56:
+						os.system('rm MapState5.sav')
+						MapSave=open('MapState5.sav', 'a')
+					elif SaveSlot==70:
+						os.system('rm MapState6.sav')
+						MapSave=open('MapState6.sav', 'a')
+
 					LabCounter=0
 					LabCounterMax=len(Labyrinth)
 					while LabCounter < LabCounterMax:
@@ -3624,8 +3721,26 @@ while Level < LevelMax:
 						MapSave.write(ObjectY)
 						LabCounter=LabCounter+3
 					MapSave.close()
-					os.system('rm HeroState.sav')
-					HeroSave=open('HeroState.sav', 'a')
+
+					if SaveSlot==0:
+						os.system('rm HeroState1.sav')
+						HeroSave=open('HeroState1.sav', 'a')
+					elif SaveSlot==14:
+						os.system('rm HeroState2.sav')
+						HeroSave=open('HeroState2.sav', 'a')
+					elif SaveSlot==28:
+						os.system('rm HeroState3.sav')
+						HeroSave=open('HeroState3.sav', 'a')
+					elif SaveSlot==42:
+						os.system('rm HeroState4.sav')
+						HeroSave=open('HeroState4.sav', 'a')
+					elif SaveSlot==56:
+						os.system('rm HeroState5.sav')
+						HeroSave=open('HeroState5.sav', 'a')
+					elif SaveSlot==70:
+						os.system('rm HeroState6.sav')
+						HeroSave=open('HeroState6.sav', 'a')
+
 					HeroCounter=0
 					HeroCounterMax=len(HeroList)
 					while HeroCounter < HeroCounterMax:
@@ -3664,8 +3779,25 @@ while Level < LevelMax:
 						HeroCounter=HeroCounter+15
 					HeroSave.close()
 
-					os.system('rm Inventory.sav')
-					InvSave=open('Inventory.sav', 'a')
+					if SaveSlot==0:
+						os.system('rm Inventory1.sav')
+						InvSave=open('Inventory1.sav', 'a')
+					elif SaveSlot==14:
+						os.system('rm Inventory2.sav')
+						InvSave=open('Inventory2.sav', 'a')
+					elif SaveSlot==28:
+						os.system('rm Inventory3.sav')
+						InvSave=open('Inventory3.sav', 'a')
+					elif SaveSlot==42:
+						os.system('rm Inventory4.sav')
+						InvSave=open('Inventory4.sav', 'a')
+					elif SaveSlot==56:
+						os.system('rm Inventory5.sav')
+						InvSave=open('Inventory5.sav', 'a')
+					elif SaveSlot==70:
+						os.system('rm Inventory6.sav')
+						InvSave=open('Inventory6.sav', 'a')
+
 					InvCounter=0
 					InvCounterMax=len(InvList)
 					while InvCounter < InvCounterMax:
@@ -3693,40 +3825,53 @@ while Level < LevelMax:
 		if NextLevel:
 			Level=Level+1
 			if Level < LevelMax:
-				PlayerX=0
-				PlayerY=0
+
+				LoadList[SaveSlot]=0
+				LoadList[SaveSlot+1]=Level
+				LoadList[SaveSlot+2]=PlayerWeapon
+				LoadList[SaveSlot+3]=PlayerArmor
+				LoadList[SaveSlot+4]=Gold
+				LoadList[SaveSlot+5]=PlayerAttack
+				LoadList[SaveSlot+6]=PlayerDefence
+				LoadList[SaveSlot+7]=PlayerLifeLevel
+				LoadList[SaveSlot+8]=PlayerMagic
+				LoadList[SaveSlot+9]=PlayerLife
+				LoadList[SaveSlot+10]=PlayerMana
+				LoadList[SaveSlot+11]=PlayerXP
+				LoadList[SaveSlot+12]=0
+				LoadList[SaveSlot+13]=0
+
 				os.system('rm Zachno.sav')
 				Save=open('Zachno.sav', 'a')
-				LevelSave=str(Level)+'\n'
-				Save.write('0\n')
-				Save.write(LevelSave)
-				WeaponSave=str(PlayerWeapon)+'\n'
-				ArmorSave=str(PlayerArmor)+'\n'
-				GoldSave=str(Gold)+'\n'
-				AttackSave=str(PlayerAttack)+'\n'
-				DefenceSave=str(PlayerDefence)+'\n'
-				HealthSave=str(PlayerLifeLevel)+'\n'
-				MagicSave=str(PlayerMagic)+'\n'
-				LifeSave=str(PlayerLife)+'\n'
-				ManaSave=str(PlayerMana)+'\n'
-				XPSave=str(PlayerXP)+'\n'
-
-				Save.write(WeaponSave)
-				Save.write(ArmorSave)
-				Save.write(GoldSave)
-				Save.write(AttackSave)
-				Save.write(DefenceSave)
-				Save.write(HealthSave)
-				Save.write(MagicSave)
-				Save.write(LifeSave)
-				Save.write(ManaSave)
-				Save.write(XPSave)
-		
-				Save.write('0\n')
-				Save.write('0')
+				PlayerCounter=0
+				MaxPlayerCounter=len(LoadList)
+				while PlayerCounter < MaxPlayerCounter:
+					SaveLine=str(LoadList[PlayerCounter]).rstrip()
+					Save.write(SaveLine)
+					if not PlayerCounter==MaxPlayerCounter-1:
+						Save.write('\n')
+					PlayerCounter=PlayerCounter+1
 				Save.close()
-				os.system('rm Inventory.sav')
-				InvSave=open('Inventory.sav', 'a')
+		
+				if SaveSlot==0:
+					os.system('rm Inventory1.sav')
+					InvSave=open('Inventory1.sav', 'a')
+				elif SaveSlot==14:
+					os.system('rm Inventory2.sav')
+					InvSave=open('Inventory2.sav', 'a')
+				elif SaveSlot==28:
+					os.system('rm Inventory3.sav')
+					InvSave=open('Inventory3.sav', 'a')
+				elif SaveSlot==42:
+					os.system('rm Inventory4.sav')
+					InvSave=open('Inventory4.sav', 'a')
+				elif SaveSlot==56:
+					os.system('rm Inventory5.sav')
+					InvSave=open('Inventory5.sav', 'a')
+				elif SaveSlot==70:
+					os.system('rm Inventory6.sav')
+					InvSave=open('Inventory6.sav', 'a')
+
 				InvCounter=0
 				InvCounterMax=len(InvList)
 				while InvCounter < InvCounterMax:
