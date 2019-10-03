@@ -405,13 +405,13 @@ def HeroScan(Labyrinth, HeroList):
 		ObjectX=int(HeroList[Counter+13])
 		ObjectY=int(HeroList[Counter+14])
 		if HeroWeapon=='Dagger':
-			HeroAtt=HeroDef+2
-		elif HeroWeapon=='Mace':
-			HeroAtt=HeroDef+3
-		elif HeroWeapon=='Sword':
 			HeroAtt=HeroDef+4
+		elif HeroWeapon=='Mace':
+			HeroAtt=HeroDef+6
+		elif HeroWeapon=='Sword':
+			HeroAtt=HeroDef+8
 		elif HeroArmor=='Battleaxe':
-			HeroAtt=HeroDef+5
+			HeroAtt=HeroDef+10
 
 		if HeroArmor=='WShield':
 			HeroDef=HeroDef+1
@@ -462,13 +462,13 @@ def DoScreen (Labyrinth, Level):
 		Counter=Counter+3
 
 	if PlayerWeapon=='Dagger':
-		PlayerAtt=PlayerAttack+2
-	elif PlayerWeapon=='Mace':
-		PlayerAtt=PlayerAttack+3
-	elif PlayerWeapon=='Sword':
 		PlayerAtt=PlayerAttack+4
+	elif PlayerWeapon=='Mace':
+		PlayerAtt=PlayerAttack+6
+	elif PlayerWeapon=='Sword':
+		PlayerAtt=PlayerAttack+8
 	elif PlayerWeapon=='Battleaxe':
-		PlayerAtt=PlayerAttack+5
+		PlayerAtt=PlayerAttack+10
 	else:
 		PlayerAtt=PlayerAttack
 
@@ -577,13 +577,13 @@ def DoScreen (Labyrinth, Level):
 	Att=''
 	Arm=''
 	if PlayerWeapon=='Dagger':
-		Att='+2'
-	elif PlayerWeapon=='Mace':
-		Att='+3'
-	elif PlayerWeapon=='Sword':
 		Att='+4'
+	elif PlayerWeapon=='Mace':
+		Att='+6'
+	elif PlayerWeapon=='Sword':
+		Att='+8'
 	elif PlayerWeapon=='Battleaxe':
-		Att='+5'
+		Att='+10'
 
 	if PlayerArmor=='WShield':
 		Arm='+1'
@@ -1084,13 +1084,13 @@ def DoPlayerCombat(Counter):
 	if PlayerWeapon=='Fists':
 		ZachnoAttack=PlayerAttack+1
 	elif PlayerWeapon=='Dagger':
-		ZachnoAttack=PlayerAttack+2
-	elif PlayerWeapon=='Mace':
-		ZachnoAttack=PlayerAttack+3
-	elif PlayerWeapon=='Sword':
 		ZachnoAttack=PlayerAttack+4
+	elif PlayerWeapon=='Mace':
+		ZachnoAttack=PlayerAttack+6
+	elif PlayerWeapon=='Sword':
+		ZachnoAttack=PlayerAttack+8
 	elif PlayerWeapon=='Battleaxe':
-		ZachnoAttack=PlayerAttack+5
+		ZachnoAttack=PlayerAttack+10
 
 	ZachnoAttack=ZachnoAttack-HeroDefence
 	if ZachnoAttack > 0:
@@ -2985,13 +2985,13 @@ def DoHeroCombat(Counter):
 	if HeroWeapon=='Fists':
 		HeroAt=HeroAttack+1
 	elif HeroWeapon=='Dagger':
-		HeroAt=HeroAttack+2
-	elif HeroWeapon=='Mace':
-		HeroAt=HeroAttack+3
-	elif HeroWeapon=='Sword':
 		HeroAt=HeroAttack+4
+	elif HeroWeapon=='Mace':
+		HeroAt=HeroAttack+6
+	elif HeroWeapon=='Sword':
+		HeroAt=HeroAttack+8
 	elif HeroWeapon=='Battleaxe':
-		HeroAt=HeroAttack+5
+		HeroAt=HeroAttack+10
 
 	HeroAt=HeroAt-PlayerDef
 	if HeroAt > 0:
@@ -3015,6 +3015,7 @@ def DoHeroCombat(Counter):
 			pygame.display.flip()
 			wait()
 			sys.exit()
+		pygame.display.flip()
 	else:
 		Bump.play()
 
