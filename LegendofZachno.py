@@ -2486,6 +2486,7 @@ def DoSpell():
 						HeroAttack=HeroAttack-1
 						if HeroAttack < 0:
 							HeroAttack=0
+						HeroList[HeroCounter+5]=HeroAttack
 						HeroLife=HeroLife-4
 					if Spell=='Teleport':
 						HeroDefence=HeroDefence-2
@@ -2527,6 +2528,7 @@ def DoSpell():
 						Lightning.play()
 						HeroLife=HeroLife-16
 						HeroMana=HeroMana-4
+						HeroList[HeroCounter+10]=HeroMana
 					if Spell=='Fireball':
 						Fireball.play()
 						HeroLife=HeroLife-20
@@ -3643,28 +3645,95 @@ while Level < LevelMax:
 				Spacebar=False
 			if pygame.key.get_pressed()[pygame.K_ESCAPE]:
 				if Level > 0:
-					LoadingText='Exiting game, save current map <s> start next game with new map <n>...'
-					LoadingTextSurf = myfont.render(LoadingText, False, green)
+					pygame.key.set_repeat()
+					screen.blit(Black,(0,0))
+					screen.blit(Splash,(480,280))
+					screen.blit(TextBar,(0,780))
+					Text='Select a save slot to save current game...'
+					LevelSave1=int(LoadList[1].rstrip())
+					LevelSave2=int(LoadList[15].rstrip())
+					LevelSave3=int(LoadList[29].rstrip())
+					LevelSave4=int(LoadList[43].rstrip())
+					LevelSave5=int(LoadList[57].rstrip())
+					LevelSave6=int(LoadList[71].rstrip())
 
-					screen.blit(TextBar,(0,370))
-					screen.blit(TextBar,(0,390))
-					screen.blit(TextBar,(0,410))
+					SLevelSave1=str(LevelSave1)
+					SLevelSave2=str(LevelSave2)
+					SLevelSave3=str(LevelSave3)
+					SLevelSave4=str(LevelSave4)
+					SLevelSave5=str(LevelSave5)
+					SLevelSave6=str(LevelSave6)
 
-					screen.blit(LoadingTextSurf,(0,390))
+					if LevelSave1==0:
+						Save1Status='Save slot 1, new game'
+					else:
+						Save1Status='Save slot 1, level: '+SLevelSave1
+					if LevelSave2==0:
+						Save2Status='Save slot 2, new game'
+					else:
+						Save2Status='Save slot 2, level: '+SLevelSave2
+					if LevelSave3==0:
+						Save3Status='Save slot 3, new game'
+					else:
+						Save3Status='Save slot 3, level: '+SLevelSave3
+					if LevelSave4==0:
+						Save4Status='Save slot 4, new game'
+					else:
+						Save4Status='Save slot 4, level: '+SLevelSave4
+					if LevelSave5==0:
+						Save5Status='Save slot 5, new game'
+					else:
+						Save5Status='Save slot 5, level: '+SLevelSave5
+					if LevelSave6==0:
+						Save6Status='Save slot 6, new game'
+					else:
+						Save6Status='Save slot 6, level: '+SLevelSave6
+
+					Save1Text = myfont.render(Save1Status, False, green)
+					Save2Text = myfont.render(Save2Status, False, green)
+					Save3Text = myfont.render(Save3Status, False, green)
+					Save4Text = myfont.render(Save4Status, False, green)
+					Save5Text = myfont.render(Save5Status, False, green)
+					Save6Text = myfont.render(Save6Status, False, green)
+					Status = myfont.render('Select a save slot or press ESC to quit', False, yellow)
+
+					screen.blit(Save1Text,(0,50))
+					screen.blit(Save2Text,(0,100))
+					screen.blit(Save3Text,(0,150))
+					screen.blit(Save4Text,(0,200))
+					screen.blit(Save5Text,(0,250))
+					screen.blit(Save6Text,(0,300))
+					TextSurf = myfont.render(Text, False, green)
+					screen.blit(TextSurf,(0,0))
 					pygame.display.flip()
-					MakingAChoice=True
-					ConSwitch=0
-					while MakingAChoice:
+	
+					Selection=True
+					while Selection:
 						for event in pygame.event.get():
 							if event.type == pygame.KEYDOWN:
-								if event.key == pygame.K_s:
-									MakingAChoice=False
-									ConSwitch=1
-								if event.key == pygame.K_n:
-									ConSwitch=0
-									MakingAChoice=False
+								if event.key == pygame.K_KP1 or event.key == pygame.K_1:
+									SaveSlot=0
+									Selection=False
+								if event.key == pygame.K_KP2 or event.key == pygame.K_2:
+									SaveSlot=14
+									Selection=False
+								if event.key == pygame.K_KP3 or event.key == pygame.K_3:
+									SaveSlot=28
+									Selection=False
+								if event.key == pygame.K_KP4 or event.key == pygame.K_4:
+									SaveSlot=42
+									Selection=False
+								if event.key == pygame.K_KP5 or event.key == pygame.K_5:
+									SaveSlot=56
+									Selection=False
+								if event.key == pygame.K_KP6 or event.key == pygame.K_6:
+									SaveSlot=70
+									Selection=False
+					pygame.key.set_repeat(30,30)
+																												
+					MakingAChoice=True
 
-					LoadList[SaveSlot]=ConSwitch
+					LoadList[SaveSlot]=1
 					LoadList[SaveSlot+1]=Level
 					LoadList[SaveSlot+2]=PlayerWeapon
 					LoadList[SaveSlot+3]=PlayerArmor
