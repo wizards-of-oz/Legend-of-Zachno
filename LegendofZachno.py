@@ -3892,6 +3892,8 @@ while Level < LevelMax:
 			EnemiesMoved=True
 			
 		if NextLevel:
+			PlayerX=0
+			PlayerY=0
 			Level=Level+1
 			if Level < LevelMax:
 
