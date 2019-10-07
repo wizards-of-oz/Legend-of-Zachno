@@ -127,29 +127,12 @@ AcidPuddle=pygame.image.load('AcidPuddle.png')
 ElectricSpark=pygame.image.load('ElectricSpark.png')
 Explosion=pygame.image.load('Explosion.png')
 
-Bully=pygame.image.load('Bully.png')
-Peasant=pygame.image.load('Peasant.png')
-Soldier=pygame.image.load('Soldier.png')
-Trapper=pygame.image.load('Trapper.png')
-Apprentice=pygame.image.load('Apprentice.png')
-Battlemage=pygame.image.load('Battlemage.png')
-Knight=pygame.image.load('Knight.png')
-Warlock=pygame.image.load('Warlock.png')
-Strongman=pygame.image.load('Strongman.png')
-Heavy=pygame.image.load('Heavy.png')
-Spacewizard=pygame.image.load('Spacewizard.png')
-Tank=pygame.image.load('Tank.png')
-Spacemage=pygame.image.load('Spacemage.png')
-Heavyguard=pygame.image.load('Heavyguard.png')
-Vampirehero=pygame.image.load('Vampirehero.png')
-Lightningmage=pygame.image.load('Lightningmage.png')
-Stormking=pygame.image.load('Stormking.png')
-Berserker=pygame.image.load('Berserker.png')
-Rogue=pygame.image.load('Rogue.png')
-Paladin=pygame.image.load('Paladin.png')
-Archmage=pygame.image.load('Archmage.png')
-KingArthur=pygame.image.load('KingArthur.png')
 
+Soldier=pygame.image.load('Soldier.png')
+Rogue=pygame.image.load('Rogue.png')
+Amazon=pygame.image.load('Amazon.png')
+Wizard=pygame.image.load('Wizard.png')
+Knight=pygame.image.load('Knight.png')
 
 Chainmail=pygame.image.load('Chainmail.png')
 ChainmailSmall=pygame.image.load('ChainmailSmall.png')
@@ -301,50 +284,63 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=Plate
 	elif ObjectImage=='Gnome':
 		ScreenItem=Gnome
-	elif ObjectImage=='Bully':
-		ScreenItem=Bully
-	elif ObjectImage=='Peasant':
-		ScreenItem=Peasant
-	elif ObjectImage=='Soldier':
+	elif ObjectImage=='Benny':
 		ScreenItem=Soldier
+	elif ObjectImage=='Dave':
+		ScreenItem=Soldier
+	elif ObjectImage=='Watch':
+		ScreenItem=Soldier
+	elif ObjectImage=='Flame Soldier':
+		ScreenItem=Soldier
+	elif ObjectImage=='Berserker':
+		ScreenItem=Knight
 	elif ObjectImage=='Trapper':
-		ScreenItem=Trapper
-	elif ObjectImage=='Apprentice':
-		ScreenItem=Apprentice
-	elif ObjectImage=='Battlemage':
-		ScreenItem=Battlemage
+		ScreenItem=Rogue
+	elif ObjectImage=='Guard':
+		ScreenItem=Soldier
+	elif ObjectImage=='Grenadier':
+		ScreenItem=Soldier
 	elif ObjectImage=='Knight':
 		ScreenItem=Knight
+	elif ObjectImage=='Amazon':
+		ScreenItem=Amazon
+	elif ObjectImage=='Heavy Guard':
+		ScreenItem=Soldier
 	elif ObjectImage=='Warlock':
-		ScreenItem=Warlock
-	elif ObjectImage=='Strongman':
-		ScreenItem=Strongman
-	elif ObjectImage=='Heavy':
-		ScreenItem=Heavy
-	elif ObjectImage=='Spacewizard':
-		ScreenItem=Spacewizard
-	elif ObjectImage=='Tank':
-		ScreenItem=Tank
-	elif ObjectImage=='Spacemage':
-		ScreenItem=Spacemage
-	elif ObjectImage=='Heavyguard':
-		ScreenItem=Heavyguard
-	elif ObjectImage=='Vampirehero':
-		ScreenItem=Vampirehero
-	elif ObjectImage=='Lightningmage':
-		ScreenItem=Lightningmage
-	elif ObjectImage=='Stormking':
-		ScreenItem=Stormking
-	elif ObjectImage=='Berserker':
-		ScreenItem=Berserker
+		ScreenItem=Wizard
+	elif ObjectImage=='Hell Knight':
+		ScreenItem=Knight
+	elif ObjectImage=='Paladin':
+		ScreenItem=Knight
 	elif ObjectImage=='Rogue':
 		ScreenItem=Rogue
-	elif ObjectImage=='Paladin':
-		ScreenItem=Paladin
-	elif ObjectImage=='Archmage':
-		ScreenItem=Archmage
-	elif ObjectImage=='KingArthur':
-		ScreenItem=KingArthur
+	elif ObjectImage=='Blink Rogue':
+		ScreenItem=Rogue
+	elif ObjectImage=='Defender':
+		ScreenItem=Knight
+	elif ObjectImage=='Shield Maiden':
+		ScreenItem=Amazon
+	elif ObjectImage=='Greater Knight':
+		ScreenItem=Knight
+	elif ObjectImage=='Thunder Wizard':
+		ScreenItem=Wizard
+	elif ObjectImage=='Pyromancer Knight':
+		ScreenItem=Knight
+	elif ObjectImage=='Warlord':
+		ScreenItem=Knight
+	elif ObjectImage=='Vampire Queen':
+		ScreenItem=Amazon
+	elif ObjectImage=='Storm Mage':
+		ScreenItem=Wizard
+	elif ObjectImage=='Destroyer':
+		ScreenItem=Knight
+	elif ObjectImage=='Annihilator Knight':
+		ScreenItem=Knight
+	elif ObjectImage=='Lancelot':
+		ScreenItem=Knight
+	elif ObjectImage=='King Arthur':
+		ScreenItem=Knight
+	print(ObjectImage)
 	return(ScreenItem)
 
 def DoInventoryList():
@@ -399,19 +395,19 @@ def HeroScan(Labyrinth, HeroList):
 		HeroLife=int(HeroList[Counter+9])
 		HeroWeapon=str(HeroList[Counter+2])
 		HeroArmor=str(HeroList[Counter+3])
-		HeroAtt=str(HeroList[Counter+5])
+		HeroAtt=int(HeroList[Counter+5])
 		HeroDef=int(HeroList[Counter+6])
 		HeroMana=int(HeroList[Counter+10])
 		ObjectX=int(HeroList[Counter+13])
 		ObjectY=int(HeroList[Counter+14])
 		if HeroWeapon=='Dagger':
-			HeroAtt=HeroDef+4
+			HeroAtt=HeroAtt+4
 		elif HeroWeapon=='Mace':
-			HeroAtt=HeroDef+6
+			HeroAtt=HeroAtt+6
 		elif HeroWeapon=='Sword':
-			HeroAtt=HeroDef+8
+			HeroAtt=HeroAtt+8
 		elif HeroArmor=='Battleaxe':
-			HeroAtt=HeroDef+10
+			HeroAtt=HeroAtt+10
 
 		if HeroArmor=='WShield':
 			HeroDef=HeroDef+1
@@ -427,6 +423,8 @@ def HeroScan(Labyrinth, HeroList):
 		YDiff=ObjectY-PlayerY
 		if (-7 <= XDiff) and ( XDiff <= 7) and (-5 <= YDiff) and (YDiff <= 4):
 			HeroLifeList.append(HeroName)
+			HeroLifeList.append(HeroWeapon)
+			HeroLifeList.append(HeroArmor)
 			HeroLifeList.append(HeroAtt)
 			HeroLifeList.append(HeroDef)
 			HeroLifeList.append(HeroLife)
@@ -476,13 +474,40 @@ def DoScreen (Labyrinth, Level):
 	MaxCounter=len(HeroLifeList)
 	while Counter < MaxCounter:
 		HeroName=str(HeroLifeList[Counter])
-		HeroAtt=int(HeroLifeList[Counter+1])
-		HeroDef=int(HeroLifeList[Counter+2])
-		HeroLife=int(HeroLifeList[Counter+3])
-		HeroMana=int(HeroLifeList[Counter+4])
-		ObjectX=int(HeroLifeList[Counter+5])
-		ObjectY=int(HeroLifeList[Counter+6])
+		HeroWeapon=str(HeroLifeList[Counter+1])
+		HeroArmor=str(HeroLifeList[Counter+2])
+		HeroAtt=int(HeroLifeList[Counter+3])
+		HeroDef=int(HeroLifeList[Counter+4])
+		HeroLife=int(HeroLifeList[Counter+5])
+		HeroMana=int(HeroLifeList[Counter+6])
+		ObjectX=int(HeroLifeList[Counter+7])
+		ObjectY=int(HeroLifeList[Counter+8])
 		# calling GetScreenItem to get the right picture with the object name
+		ScreenX=((ObjectX+7)*80)
+		YConvert=ObjectY*-1
+		ScreenY=((YConvert+4)*80)
+
+		if HeroArmor=='Shield':
+			screen.blit(ShieldSmall, ((ScreenX+40), (ScreenY+20)))
+		elif HeroArmor=='WShield':
+			screen.blit(WShieldSmall, ((ScreenX+40), (ScreenY+20)))
+		elif HeroArmor=='TShield':
+			screen.blit(TShieldSmall, ((ScreenX+40), (ScreenY+20)))
+		elif HeroArmor=='Chainmail':
+			screen.blit(ChainmailSmall, ((ScreenX+20), (ScreenY+40)))
+		elif HeroArmor=='Plate':
+			screen.blit(PlateSmall, ((ScreenX+20), (ScreenY+40)))
+	
+		if HeroWeapon=='Dagger':
+			screen.blit(DaggerSmall, (ScreenX, ScreenY))
+		elif HeroWeapon=='Sword':
+			screen.blit(SwordSmall, (ScreenX, ScreenY))
+		elif HeroWeapon=='Mace':
+			screen.blit(MaceSmall, (ScreenX, ScreenY))
+		elif HeroWeapon=='Battleaxe':
+			screen.blit(BattleAxeSmall, (ScreenX, ScreenY))
+
+
 		if HeroDef >= PlayerAtt:
 			color=red
 		else:
@@ -504,7 +529,7 @@ def DoScreen (Labyrinth, Level):
 		screen.blit(HeroText1Surf, (ScreenX, ScreenY))
 		ScreenY=((YConvert+4)*80)+100
 		screen.blit(HeroText2Surf, (ScreenX, ScreenY))
-		Counter=Counter+7
+		Counter=Counter+9
 
 	
 
@@ -3650,12 +3675,12 @@ while Level < LevelMax:
 					screen.blit(Splash,(480,280))
 					screen.blit(TextBar,(0,780))
 					Text='Select a save slot to save current game...'
-					LevelSave1=int(LoadList[1].rstrip())
-					LevelSave2=int(LoadList[15].rstrip())
-					LevelSave3=int(LoadList[29].rstrip())
-					LevelSave4=int(LoadList[43].rstrip())
-					LevelSave5=int(LoadList[57].rstrip())
-					LevelSave6=int(LoadList[71].rstrip())
+					LevelSave1=int(LoadList[1])
+					LevelSave2=int(LoadList[15])
+					LevelSave3=int(LoadList[29])
+					LevelSave4=int(LoadList[43])
+					LevelSave5=int(LoadList[57])
+					LevelSave6=int(LoadList[71])
 
 					SLevelSave1=str(LevelSave1)
 					SLevelSave2=str(LevelSave2)
@@ -3882,7 +3907,7 @@ while Level < LevelMax:
 		SpellX=-200
 		SpellY=-200
 		PlayerLevel=PlayerAttack+PlayerDefence+PlayerLifeLevel+PlayerMagic
-		if PlayerLevel < 41:
+		if PlayerLevel < 61:
 			if PlayerXP >= PlayerLevel*2:
 				DoLevelUp()
 
