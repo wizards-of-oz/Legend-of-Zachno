@@ -406,7 +406,7 @@ def HeroScan(Labyrinth, HeroList):
 			HeroAtt=HeroAtt+6
 		elif HeroWeapon=='Sword':
 			HeroAtt=HeroAtt+8
-		elif HeroArmor=='Battleaxe':
+		elif HeroWeapon=='Battleaxe':
 			HeroAtt=HeroAtt+10
 
 		if HeroArmor=='WShield':
@@ -922,7 +922,7 @@ def BuyItem():
 				if event.key == pygame.K_RETURN:
 					MakingaChoice=False
 		DoScreen(Labyrinth, Level)
-	pygame.key.set_repeat(30,30)
+	pygame.key.set_repeat(30,50)
 
 	return
 
@@ -1043,7 +1043,7 @@ def SellItem():
 				if event.key == pygame.K_RETURN:
 					MakingaChoice=False
 			DoScreen(Labyrinth, Level)
-	pygame.key.set_repeat(30,30)
+	pygame.key.set_repeat(30,50)
 	return
 
 def DoGnome():
@@ -2384,7 +2384,7 @@ def DoSplash(LoadList):
 				if event.key == pygame.K_KP6 or event.key == pygame.K_6:
 					SaveSlot=70
 					Selection=False
-	pygame.key.set_repeat(30,30)
+	pygame.key.set_repeat(30,50)
 	return(SaveSlot)
 
 def DoExit():
@@ -3430,7 +3430,7 @@ Load.close()
 
 HeroList=list()
 InvList=list()
-pygame.key.set_repeat(30,30)
+pygame.key.set_repeat(30,50)
 LoadFile=open('Zachno.sav', 'r')
 LoadList=list(LoadFile)
 LoadFile.close()
@@ -3754,7 +3754,7 @@ while Level < LevelMax:
 								if event.key == pygame.K_KP6 or event.key == pygame.K_6:
 									SaveSlot=70
 									Selection=False
-					pygame.key.set_repeat(30,30)
+					pygame.key.set_repeat(30,50)
 																												
 					MakingAChoice=True
 
