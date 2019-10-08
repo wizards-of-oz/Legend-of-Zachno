@@ -24,7 +24,7 @@ None
 3
 Dagger
 SpikeTrap
-5
+4
 Watch
 Mace
 None
@@ -37,7 +37,7 @@ None
 3
 Mace
 Life
-6
+5
 Flame Soldier
 Sword
 None
@@ -50,7 +50,7 @@ Fire
 6
 Sword
 FireScroll
-7
+6
 Berserker
 Battleaxe
 WShield
@@ -63,7 +63,7 @@ None
 6
 BattleAxe
 WShield
-5
+4
 Trapper
 Dagger
 None
@@ -76,7 +76,7 @@ None
 3
 BearTrap
 SpikeTrap
-6
+4
 Guard
 Dagger
 None
@@ -89,7 +89,7 @@ None
 3
 AcidTrap
 Life
-7
+5
 Grenadier
 Dagger
 None
@@ -102,7 +102,7 @@ Fire
 9
 ElectroTrap
 FireScroll
-8
+6
 Knight
 Dagger
 WShield
@@ -115,7 +115,7 @@ None
 9
 Mine
 WShield
-7
+5
 Amazon
 Mace
 None
@@ -128,7 +128,7 @@ None
 3
 Life
 Life
-8
+6
 Heavy Guard
 Mace
 None
@@ -141,7 +141,7 @@ Fire
 12
 Mana
 FireScroll
-9
+8
 Knight
 Mace
 WShield
@@ -154,7 +154,7 @@ None
 12
 Mana
 WShield
-9
+10
 Warlock
 Sword
 None
@@ -167,7 +167,7 @@ Lightning
 30
 LightningScroll
 FireScroll
-10
+8
 Hell Knight
 Sword
 WShield
@@ -180,7 +180,7 @@ Fireball
 18
 FireballScroll
 WShield
-11
+15
 Paladin
 Battleaxe
 Plate
@@ -206,7 +206,7 @@ None
 6
 BearTrap
 BearTrap
-7
+5
 Rogue
 Fists
 None
@@ -219,7 +219,7 @@ None
 6
 AcidTrap
 Life
-8
+7
 Blink Rogue
 None
 None
@@ -232,7 +232,7 @@ Teleport
 12
 ElectroTrap
 TeleportScroll
-9
+7
 Defender
 Fists
 Shield
@@ -245,7 +245,7 @@ None
 12
 Mine
 Shield
-8
+7
 Shield Maiden
 Fists
 None
@@ -258,7 +258,7 @@ None
 6
 Life
 Life
-9
+7
 Blink Rogue
 None
 None
@@ -271,7 +271,7 @@ Teleport
 15
 Mana
 TeleportScroll
-10
+8
 Greater Knight
 Dagger
 Shield
@@ -284,7 +284,7 @@ None
 15
 Mana
 Shield
-10
+8
 Thunder Wizard
 None
 None
@@ -297,7 +297,7 @@ Lightning
 36
 LightningScroll
 TeleportScroll
-11
+9
 Pyromancer Knight
 Dagger
 Shield
@@ -310,7 +310,7 @@ Fireball
 21
 FireballScroll
 Shield
-12
+17
 Warlord
 Battleaxe
 Plate
@@ -323,7 +323,7 @@ None
 42
 Plate
 Shield
-9
+8
 Shield Maiden
 None
 None
@@ -336,7 +336,7 @@ None
 9
 Life
 Life
-10
+9
 Vampire Queen
 None
 None
@@ -362,7 +362,7 @@ None
 18
 Mine
 TShield
-11
+9
 Storm Mage
 None
 None
@@ -375,7 +375,7 @@ Lightning
 24
 LightningScroll
 DrainScroll
-12
+10
 Hell Knight
 Dagger
 TShield
@@ -388,7 +388,7 @@ Fireball
 24
 FireballScroll
 TShield
-13
+18
 Destroyer
 Battleaxe
 Plate
@@ -401,7 +401,7 @@ None
 45
 Plate
 TShield
-12
+9
 Storm Mage
 None
 None
@@ -427,7 +427,7 @@ Fireball
 45
 FireballScroll
 Chainmail
-14
+18
 Lancelot
 Battleaxe
 Plate
