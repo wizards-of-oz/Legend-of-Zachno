@@ -340,7 +340,6 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=Knight
 	elif ObjectImage=='King Arthur':
 		ScreenItem=Knight
-	print(ObjectImage)
 	return(ScreenItem)
 
 def DoInventoryList():
@@ -533,31 +532,6 @@ def DoScreen (Labyrinth, Level):
 
 	
 
-	SpellXDiff=SpellX-PlayerX
-	SpellYDiff=SpellY-PlayerY
-	ScreenX=(SpellXDiff+7)*80
-	YConvert=SpellYDiff*-1
-	ScreenY=(YConvert+4)*80
-	if Spell=='Fire':
-		ScreenItem=Flame
-	elif Spell=='Teleport':
-		ScreenItem=Wormhole
-	elif Spell=='Drain':
-		ScreenItem=Heart
-	elif Spell=='Lightning':
-		ScreenItem=Bolt
-	elif Spell=='Fireball':
-		ScreenItem=Blast
-	elif Spell=='BloodSpatter':
-		ScreenItem=BloodSpatter
-	elif Spell=='AcidPuddle':
-		ScreenItem=AcidPuddle
-	elif Spell=='ElectricSpark':
-		ScreenItem=ElectricSpark
-	elif Spell=='Explosion':
-		ScreenItem=Explosion
-
-	screen.blit(ScreenItem, (ScreenX, ScreenY))
 #	Xdiff=StairsX-PlayerX
 #	Ydiff=StairsY-PlayerY
 
@@ -692,6 +666,33 @@ def DoScreen (Labyrinth, Level):
 		screen.blit(MaceSmall, (560, 320))
 	elif PlayerWeapon=='Battleaxe':
 		screen.blit(BattleAxeSmall, (560, 320))
+
+	SpellXDiff=SpellX-PlayerX
+	SpellYDiff=SpellY-PlayerY
+	ScreenX=(SpellXDiff+7)*80
+	YConvert=SpellYDiff*-1
+	ScreenY=(YConvert+4)*80
+	if Spell=='Fire':
+		ScreenItem=Flame
+	elif Spell=='Teleport':
+		ScreenItem=Wormhole
+	elif Spell=='Drain':
+		ScreenItem=Heart
+	elif Spell=='Lightning':
+		ScreenItem=Bolt
+	elif Spell=='Fireball':
+		ScreenItem=Blast
+	elif Spell=='BloodSpatter':
+		ScreenItem=BloodSpatter
+	elif Spell=='AcidPuddle':
+		ScreenItem=AcidPuddle
+	elif Spell=='ElectricSpark':
+		ScreenItem=ElectricSpark
+	elif Spell=='Explosion':
+		ScreenItem=Explosion
+
+	screen.blit(ScreenItem, (ScreenX, ScreenY))
+
 
 	if Spacebar:
 		screen.blit(TextBar,(0,780))
