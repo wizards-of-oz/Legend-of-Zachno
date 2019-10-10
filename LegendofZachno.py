@@ -2185,7 +2185,7 @@ def PlaceGnome(Labyrinth):
 	GnomeYMin=-1*MapGen*9
 	GnomeYMax=MapGen*9
 	Number=0
-	NumberofGnomes=int(Level/4)
+	NumberofGnomes=int(Level/4)+1
 	while Number < NumberofGnomes: 
 		LookingForASpot=True
 		while LookingForASpot:
@@ -2748,9 +2748,9 @@ def DropItem(ItemCounter):
 	if InvList[ItemCounter].rstrip()=='Shield':
 		Object='Shield'
 	if InvList[ItemCounter].rstrip()=='WShield':
-		Object='Shield'
+		Object='WShield'
 	if InvList[ItemCounter].rstrip()=='TShield':
-		Object='Shield'
+		Object='TShield'
 	if InvList[ItemCounter].rstrip()=='Chainmail':
 		Object='Chainmail'
 	if InvList[ItemCounter].rstrip()=='Plate':
