@@ -394,6 +394,7 @@ def HeroScan(Labyrinth, HeroList):
 		HeroLife=int(HeroList[Counter+9])
 		HeroWeapon=str(HeroList[Counter+2])
 		HeroArmor=str(HeroList[Counter+3])
+		HeroSpell=str(HeroList[Counter+4])
 		HeroAtt=int(HeroList[Counter+5])
 		HeroDef=int(HeroList[Counter+6])
 		HeroMana=int(HeroList[Counter+10])
@@ -424,6 +425,7 @@ def HeroScan(Labyrinth, HeroList):
 			HeroLifeList.append(HeroName)
 			HeroLifeList.append(HeroWeapon)
 			HeroLifeList.append(HeroArmor)
+			HeroLifeList.append(HeroSpell)
 			HeroLifeList.append(HeroAtt)
 			HeroLifeList.append(HeroDef)
 			HeroLifeList.append(HeroLife)
@@ -475,12 +477,13 @@ def DoScreen (Labyrinth, Level):
 		HeroName=str(HeroLifeList[Counter])
 		HeroWeapon=str(HeroLifeList[Counter+1])
 		HeroArmor=str(HeroLifeList[Counter+2])
-		HeroAtt=int(HeroLifeList[Counter+3])
-		HeroDef=int(HeroLifeList[Counter+4])
-		HeroLife=int(HeroLifeList[Counter+5])
-		HeroMana=int(HeroLifeList[Counter+6])
-		ObjectX=int(HeroLifeList[Counter+7])
-		ObjectY=int(HeroLifeList[Counter+8])
+		HeroSpell=str(HeroLifeList[Counter+3])
+		HeroAtt=int(HeroLifeList[Counter+4])
+		HeroDef=int(HeroLifeList[Counter+5])
+		HeroLife=int(HeroLifeList[Counter+6])
+		HeroMana=int(HeroLifeList[Counter+7])
+		ObjectX=int(HeroLifeList[Counter+8])
+		ObjectY=int(HeroLifeList[Counter+9])
 		# calling GetScreenItem to get the right picture with the object name
 		ScreenX=((ObjectX+7)*80)
 		YConvert=ObjectY*-1
@@ -507,12 +510,17 @@ def DoScreen (Labyrinth, Level):
 			screen.blit(BattleAxeSmall, (ScreenX, ScreenY))
 
 
+		if HeroSpell == 'None':
+			Namecolor=green
+		else:
+			Namecolor=sky_blue
+
 		if HeroDef >= PlayerAtt:
 			color=red
 		else:
 			color=green
 		HeroNameText=str(HeroName)
-		HeroLifeTextSurf=myfont.render(HeroNameText, False, color)
+		HeroLifeTextSurf=myfont.render(HeroNameText, False, Namecolor)
 		HeroText1='Att:'+str(HeroAtt)+' Def:'+str(HeroDef)
 		HeroText1Surf=myfont.render(HeroText1, False, color)
 		HeroText2='Life:'+str(HeroLife)+' Mana:'+str(HeroMana)
@@ -528,7 +536,7 @@ def DoScreen (Labyrinth, Level):
 		screen.blit(HeroText1Surf, (ScreenX, ScreenY))
 		ScreenY=((YConvert+4)*80)+100
 		screen.blit(HeroText2Surf, (ScreenX, ScreenY))
-		Counter=Counter+9
+		Counter=Counter+10
 
 	
 
@@ -552,6 +560,9 @@ def DoScreen (Labyrinth, Level):
 	PlayerPosText = 'Position: '+str(PlayerX)+' '+str(PlayerY)
 	LabyrinthText='Size of map: '+str(Size)+' by '+str(Size)
 	GoldText='Player gold: '+str(Gold)
+
+	SlotText='Saveslot: '+str(int((SaveSlot+14)/14))
+	NumberOfEnemiesText='Enemies: '+str(int(len(HeroList)/15))
 
 	PlayerAttackText='Attack: '
 	PlayerDefenceText='Defence:'
@@ -639,10 +650,17 @@ def DoScreen (Labyrinth, Level):
 	PlayerPosTextSurf = myfont.render(PlayerPosText, False, green)
 	LabyrinthTextSurf = myfont.render(LabyrinthText, False, green)
 	GoldTextSurf = myfont.render(GoldText, False, green)
+
+	SlotTextSurf=myfont.render(SlotText, False, green)
+	NumberOfEnemiesTextSurf=myfont.render(NumberOfEnemiesText, False, green)
+
 	screen.blit(LevelTextSurf,(0,0))
 	screen.blit(PlayerPosTextSurf,(0,20))
 	screen.blit(LabyrinthTextSurf,(0,40))
 	screen.blit(GoldTextSurf,(0,60))
+	screen.blit(SlotTextSurf,(550,0))
+	screen.blit(NumberOfEnemiesTextSurf,(550,20))
+
 	#screen.blit(StairsPosTextSurf,(0,20))
 	# Placing the player picture in the middle of the screen
 
