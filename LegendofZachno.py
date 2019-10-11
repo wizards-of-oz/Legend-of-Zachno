@@ -345,43 +345,43 @@ def GetScreenItem(ObjectImage):
 def DoInventoryList():
 	if len(InvList) > 0:
 		ItemText='1> '+InvList[0].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, red)		
+		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
 		screen.blit(ItemTextSurf,(950,200))
 	if len(InvList) > 1:
 		ItemText='2> '+InvList[1].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, red)		
+		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
 		screen.blit(ItemTextSurf,(950,220))
 	if len(InvList) > 2:
 		ItemText='3> '+InvList[2].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, red)		
+		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
 		screen.blit(ItemTextSurf,(950,240))
 	if len(InvList) > 3:
 		ItemText='4> '+InvList[3].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, red)		
+		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
 		screen.blit(ItemTextSurf,(950,260))
 	if len(InvList) > 4:
 		ItemText='5> '+InvList[4].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, red)		
+		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
 		screen.blit(ItemTextSurf,(950,280))
 	if len(InvList) > 5:
 		ItemText='6> '+InvList[5].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, red)		
+		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
 		screen.blit(ItemTextSurf,(950,300))
 	if len(InvList) > 6:
 		ItemText='7> '+InvList[6].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, red)		
+		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
 		screen.blit(ItemTextSurf,(950,320))
 	if len(InvList) > 7:
 		ItemText='8> '+InvList[7].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, red)		
+		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
 		screen.blit(ItemTextSurf,(950,340))
 	if len(InvList) > 8:
 		ItemText='9> '+InvList[8].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, red)		
+		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
 		screen.blit(ItemTextSurf,(950,360))
 	if len(InvList) > 9:
 		ItemText='0> '+InvList[9].rstrip()
-		ItemTextSurf=myfont.render(ItemText, False, red)		
+		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
 		screen.blit(ItemTextSurf,(950,380))
 	return
 
@@ -611,8 +611,8 @@ def DoScreen (Labyrinth, Level):
 	PlayerDefenceNo=str(PlayerDefence)+Arm
 	PlayerLifeLevelNo=str(PlayerLifeLevel)
 	PlayerMagicNo=str(PlayerMagic)
-	PlayerLifeNo=str(PlayerLife)
-	PlayerManaNo=str(PlayerMana)
+	PlayerLifeNo=str(PlayerLife)+'/'+str(PlayerLifeLevel*10)
+	PlayerManaNo=str(PlayerMana)+'/'+str(PlayerMagic*5)
 
 	PlayerAttackNoSurf=myfont.render(PlayerAttackNo, False, green)
 	PlayerDefenceNoSurf=myfont.render(PlayerDefenceNo, False, green)
@@ -2338,27 +2338,27 @@ def DoSplash(LoadList):
 	if LevelSave1==0:
 		Save1Status='Save slot 1, new game'
 	else:
-		Save1Status='Save slot 1, level: '+SLevelSave1
+		Save1Status='Save slot 1, level: '+SLevelSave1+' Str: '+str(LoadList[5]).rstrip()+' Def: '+str(LoadList[6]).rstrip()+' Lif: '+str(LoadList[7]).rstrip()+' Mag: '+str(LoadList[8]).rstrip()
 	if LevelSave2==0:
 		Save2Status='Save slot 2, new game'
 	else:
-		Save2Status='Save slot 2, level: '+SLevelSave2
+		Save2Status='Save slot 2, level: '+SLevelSave2+' Str: '+str(LoadList[19]).rstrip()+' Def: '+str(LoadList[20]).rstrip()+' Lif: '+str(LoadList[21]).rstrip()+' Mag: '+str(LoadList[22]).rstrip()
 	if LevelSave3==0:
 		Save3Status='Save slot 3, new game'
 	else:
-		Save3Status='Save slot 3, level: '+SLevelSave3
+		Save3Status='Save slot 3, level: '+SLevelSave3+' Str: '+str(LoadList[33]).rstrip()+' Def: '+str(LoadList[34]).rstrip()+' Lif: '+str(LoadList[35]).rstrip()+' Mag: '+str(LoadList[36]).rstrip()
 	if LevelSave4==0:
 		Save4Status='Save slot 4, new game'
 	else:
-		Save4Status='Save slot 4, level: '+SLevelSave4
+		Save4Status='Save slot 4, level: '+SLevelSave4+' Str: '+str(LoadList[47]).rstrip()+' Def: '+str(LoadList[48]).rstrip()+' Lif: '+str(LoadList[49]).rstrip()+' Mag: '+str(LoadList[50]).rstrip()
 	if LevelSave5==0:
 		Save5Status='Save slot 5, new game'
 	else:
-		Save5Status='Save slot 5, level: '+SLevelSave5
+		Save5Status='Save slot 5, level: '+SLevelSave5+' Str: '+str(LoadList[61]).rstrip()+' Def: '+str(LoadList[62]).rstrip()+' Lif: '+str(LoadList[63]).rstrip()+' Mag: '+str(LoadList[64]).rstrip()
 	if LevelSave6==0:
 		Save6Status='Save slot 6, new game'
 	else:
-		Save6Status='Save slot 6, level: '+SLevelSave6
+		Save6Status='Save slot 6, level: '+SLevelSave6+' Str: '+str(LoadList[75]).rstrip()+' Def: '+str(LoadList[76]).rstrip()+' Lif: '+str(LoadList[77]).rstrip()+' Mag: '+str(LoadList[78]).rstrip()
 
 	Save1Text = myfont.render(Save1Status, False, green)
 	Save2Text = myfont.render(Save2Status, False, green)
