@@ -681,7 +681,8 @@ def DoScreen (Labyrinth, Level):
 	screen.blit(WoodTextSurf,(0,140))
 	screen.blit(IronTextSurf,(0,160))
 	screen.blit(SteelTextSurf,(0,180))
-	screen.blit(CraftTextSurf,(0,220))
+	if len(InvList) < 10:
+		screen.blit(CraftTextSurf,(0,220))
 
 	screen.blit(SlotTextSurf,(550,0))
 	screen.blit(NumberOfEnemiesTextSurf,(550,20))
@@ -3185,9 +3186,6 @@ def DoHeroCombat(Counter):
 		Spell='BloodSpatter'
 		SpellX=PlayerX
 		SpellY=PlayerY
-		if BreakChance >= random.randint(1,20):
-			Shatter.play()
-			PlayerArmor='None'
 		if PlayerLife < 1:
 			DeathScream.play()
 			screen.blit(Dead, (560, 320))
@@ -3197,8 +3195,9 @@ def DoHeroCombat(Counter):
 		pygame.display.flip()
 	else:
 		Bump.play()
-
-
+	if BreakChance >= random.randint(1,20):
+		Shatter.play()
+		PlayerArmor='None'
 	return
 
 def EnemyMove(EnemyDir, Counter):
