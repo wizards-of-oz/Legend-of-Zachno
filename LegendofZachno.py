@@ -1184,7 +1184,7 @@ def DoPlayerCombat(Counter):
 		Spell='BloodSpatter'
 		SpellX=HeroX
 		SpellY=HeroY
-		if BreakChance >= random.randint(1,20):
+		if BreakChance >= random.randint(1,40):
 			Shatter.play()
 			PlayerWeapon='Fists'
 	else:
