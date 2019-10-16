@@ -4073,19 +4073,19 @@ while Level < LevelMax:
 					if SaveSlot==0:
 						os.system('rm MapState1.sav')
 						MapSave=open('MapState1.sav', 'a')
-					elif SaveSlot==14:
+					elif SaveSlot==19:
 						os.system('rm MapState2.sav')
 						MapSave=open('MapState2.sav', 'a')
-					elif SaveSlot==28:
+					elif SaveSlot==38:
 						os.system('rm MapState3.sav')
 						MapSave=open('MapState3.sav', 'a')
-					elif SaveSlot==42:
+					elif SaveSlot==57:
 						os.system('rm MapState4.sav')
 						MapSave=open('MapState4.sav', 'a')
-					elif SaveSlot==56:
+					elif SaveSlot==76:
 						os.system('rm MapState5.sav')
 						MapSave=open('MapState5.sav', 'a')
-					elif SaveSlot==70:
+					elif SaveSlot==95:
 						os.system('rm MapState6.sav')
 						MapSave=open('MapState6.sav', 'a')
 
@@ -4104,19 +4104,19 @@ while Level < LevelMax:
 					if SaveSlot==0:
 						os.system('rm HeroState1.sav')
 						HeroSave=open('HeroState1.sav', 'a')
-					elif SaveSlot==14:
+					elif SaveSlot==19:
 						os.system('rm HeroState2.sav')
 						HeroSave=open('HeroState2.sav', 'a')
-					elif SaveSlot==28:
+					elif SaveSlot==38:
 						os.system('rm HeroState3.sav')
 						HeroSave=open('HeroState3.sav', 'a')
-					elif SaveSlot==42:
+					elif SaveSlot==57:
 						os.system('rm HeroState4.sav')
 						HeroSave=open('HeroState4.sav', 'a')
-					elif SaveSlot==56:
+					elif SaveSlot==76:
 						os.system('rm HeroState5.sav')
 						HeroSave=open('HeroState5.sav', 'a')
-					elif SaveSlot==70:
+					elif SaveSlot==95:
 						os.system('rm HeroState6.sav')
 						HeroSave=open('HeroState6.sav', 'a')
 
