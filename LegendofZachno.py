@@ -966,7 +966,7 @@ def BuyItem():
 						InvList.append('Fireball')
 				if event.key == pygame.K_RETURN:
 					MakingaChoice=False
-		DoScreen(Labyrinth, Level)
+			DoScreen(Labyrinth, Level)
 	pygame.key.set_repeat(30,50)
 
 	return
@@ -3590,6 +3590,13 @@ def DoCraftItem():
 			color=red
 		Text10Surf = myfont.render(Text10, False, color)
 
+		Text11='0> Lifepotion'
+		if BoneAmount > 2 and WoodAmount > 1:
+			color=green
+		else:
+			color=red
+		Text11Surf = myfont.render(Text11, False, color)
+
 		screen.blit(TextBar,(0,580))
 		screen.blit(TextBar,(0,600))
 		screen.blit(TextBar,(0,620))
@@ -3600,6 +3607,7 @@ def DoCraftItem():
 		screen.blit(TextBar,(0,720))
 		screen.blit(TextBar,(0,740))
 		screen.blit(TextBar,(0,760))
+		screen.blit(TextBar,(0,780))
 
 		screen.blit(Text1Surf,(0,580))
 		screen.blit(Text2Surf,(0,600))
@@ -3611,6 +3619,7 @@ def DoCraftItem():
 		screen.blit(Text8Surf,(0,720))
 		screen.blit(Text9Surf,(0,740))
 		screen.blit(Text10Surf,(0,760))
+		screen.blit(Text11Surf,(0,780))
 
 		pygame.display.flip()
 
@@ -3660,9 +3669,14 @@ def DoCraftItem():
 					if len(InvList) < 10:
 						SteelAmount=SteelAmount-10
 						InvList.append('Plate')
+				if event.key == pygame.K_0 and BoneAmount > 2 and WoodAmount > 1:
+					if len(InvList) < 10:
+						BoneAmount=BoneAmount-3
+						WoodAmount=WoodAmount-2
+						InvList.append('Lifepotion')
 				if event.key == pygame.K_RETURN:
 					MakingaChoice=False
-		DoScreen(Labyrinth, Level)
+			DoScreen(Labyrinth, Level)
 	pygame.key.set_repeat(30,50)
 	return
 
