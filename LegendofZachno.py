@@ -3302,7 +3302,7 @@ def EnemyMove(EnemyDir, Counter):
 					LabNumMax=len(Labyrinth)
 					HeroAttack=HeroAttack-5
 					HeroDefence=HeroDefence-5
-					HeroMagic=HeroMagic-5
+					HeroMana=HeroMana-5
 					HeroLife=HeroLife-15
 					SpellX=NewHeroX
 					SpellY=NewHeroY
@@ -3887,7 +3887,7 @@ while Level < LevelMax:
 	Running=True
 	Time.tic()
 	EnemiesMoved=False
-	Spacebar=False
+	Spacebar=True
 	while Running:
 		if EnemiesMoved:
 			Time.tic()
