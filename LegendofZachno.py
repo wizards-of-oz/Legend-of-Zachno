@@ -73,6 +73,7 @@ Trap = pygame.mixer.Sound('Trap.ogg')
 Sizzle = pygame.mixer.Sound('Sizzle.ogg')
 Boom = pygame.mixer.Sound('Boom.ogg')
 Shatter = pygame.mixer.Sound('Shatter.ogg')
+Tinkering = pygame.mixer.Sound('Tinkering.ogg')
 
 # Loading picture files into RAM
 Black=pygame.image.load('Black.png')
@@ -574,6 +575,7 @@ def DoScreen (Labyrinth, Level):
 
 	SlotText='Saveslot: '+str(int((SaveSlot+14)/14))
 	NumberOfEnemiesText='Enemies: '+str(int(len(HeroList)/15))
+	EscapeText='Press <esc> to quit game'
 
 	PlayerAttackText='Attack: '
 	PlayerDefenceText='Defence:'
@@ -671,6 +673,7 @@ def DoScreen (Labyrinth, Level):
 
 	SlotTextSurf=myfont.render(SlotText, False, green)
 	NumberOfEnemiesTextSurf=myfont.render(NumberOfEnemiesText, False, green)
+	EscapeTextSurf=myfont.render(EscapeText, False, green)
 
 	screen.blit(LevelTextSurf,(0,0))
 	screen.blit(PlayerPosTextSurf,(0,20))
@@ -686,6 +689,7 @@ def DoScreen (Labyrinth, Level):
 
 	screen.blit(SlotTextSurf,(550,0))
 	screen.blit(NumberOfEnemiesTextSurf,(550,20))
+	screen.blit(EscapeTextSurf,(550,40))
 
 	#screen.blit(StairsPosTextSurf,(0,20))
 	# Placing the player picture in the middle of the screen
@@ -936,35 +940,35 @@ def BuyItem():
 
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_1 and len(InvList) < 10:
+				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and len(InvList) < 10:
 					if Gold >= 12:
 						Gold=Gold-12
 						InvList.append('Lifepotion')
-				if event.key == pygame.K_2 and len(InvList) < 10:
+				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and len(InvList) < 10:
 					if Gold >= 16:
 						Gold=Gold-16
 						InvList.append('Manapotion')
-				if event.key == pygame.K_3 and len(InvList) < 10:
+				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and len(InvList) < 10:
 					if Gold >= 10:
 						Gold=Gold-10
 						InvList.append('Fire')
-				if event.key == pygame.K_4 and len(InvList) < 10:
+				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and len(InvList) < 10:
 					if Gold >= 12:
 						Gold=Gold-12
 						InvList.append('Teleport')
-				if event.key == pygame.K_5 and len(InvList) < 10:
+				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and len(InvList) < 10:
 					if Gold >= 14:
 						Gold=Gold-14
 						InvList.append('Drain')
-				if event.key == pygame.K_6 and len(InvList) < 10:
+				if (event.key == pygame.K_6 or event.key == pygame.K_KP6) and len(InvList) < 10:
 					if Gold >= 16:
 						Gold=Gold-16
 						InvList.append('Lightning')
-				if event.key == pygame.K_7 and len(InvList) < 10:
+				if (event.key == pygame.K_7 or event.key == pygame.K_KP7) and len(InvList) < 10:
 					if Gold >= 18:
 						Gold=Gold-18
 						InvList.append('Fireball')
-				if event.key == pygame.K_RETURN:
+				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
 					MakingaChoice=False
 			DoScreen(Labyrinth, Level)
 	pygame.key.set_repeat(30,50)
@@ -1055,37 +1059,37 @@ def SellItem():
 
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_1 and len(InvList) > 0:
+				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and len(InvList) > 0:
 					ItemCounter=0
 					GetGold(ItemCounter)
-				if event.key == pygame.K_2 and len(InvList) > 1:
+				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and len(InvList) > 1:
 					ItemCounter=1
 					GetGold(ItemCounter)
-				if event.key == pygame.K_3 and len(InvList) > 2:
+				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and len(InvList) > 2:
 					ItemCounter=2
 					GetGold(ItemCounter)
-				if event.key == pygame.K_4 and len(InvList) > 3:
+				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and len(InvList) > 3:
 					ItemCounter=3
 					GetGold(ItemCounter)
-				if event.key == pygame.K_5 and len(InvList) > 4:
+				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and len(InvList) > 4:
 					ItemCounter=4
 					GetGold(ItemCounter)
-				if event.key == pygame.K_6 and len(InvList) > 5:
+				if (event.key == pygame.K_6 or event.key == pygame.K_KP6) and len(InvList) > 5:
 					ItemCounter=5
 					GetGold(ItemCounter)
-				if event.key == pygame.K_7 and len(InvList) > 6:
+				if (event.key == pygame.K_7 or event.key == pygame.K_KP7) and len(InvList) > 6:
 					ItemCounter=6
 					GetGold(ItemCounter)
-				if event.key == pygame.K_8 and len(InvList) > 7:
+				if (event.key == pygame.K_8 or event.key == pygame.K_KP8) and len(InvList) > 7:
 					ItemCounter=7
 					GetGold(ItemCounter)
-				if event.key == pygame.K_9 and len(InvList) > 8:
+				if (event.key == pygame.K_9 or event.key == pygame.K_KP9) and len(InvList) > 8:
 					ItemCounter=8
 					GetGold(ItemCounter)
-				if event.key == pygame.K_0 and len(InvList) > 9:
+				if (event.key == pygame.K_0 or event.key == pygame.K_KP0) and len(InvList) > 9:
 					ItemCounter=9
 					GetGold(ItemCounter)
-				if event.key == pygame.K_RETURN:
+				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
 					MakingaChoice=False
 			DoScreen(Labyrinth, Level)
 	pygame.key.set_repeat(30,50)
@@ -1111,7 +1115,7 @@ def DoGnome():
 					BuyItem()
 				if event.key == pygame.K_s:
 					SellItem()
-				if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN:
+				if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
 					MakingAChoice=False
 	return
 
@@ -2509,17 +2513,54 @@ def DoVictory():
 	screen.blit(Black,(0,0))
 	screen.blit(Splash,(480,280))
 	screen.blit(TextBar,(0,780))
-	LoadingText='Congratulations on beating Legend of Zachno, keep current save (k) or reset save (r)...'
+	LoadingText='Congratulations on beating Legend of Zachno, press <enter> to keep the save, press <del> to reset...'
 	LoadingTextSurf = myfont.render(LoadingText, False, green)
 	screen.blit(LoadingTextSurf,(0,780))
 	pygame.display.flip()
-	wait()
+	MakingAChoice=True
+	while MakingAChoice:
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+					MakingAChoice=False
+				if event.key == pygame.K_DELETE:
+					LoadList[SaveSlot]=0
+					LoadList[SaveSlot+1]=0
+					LoadList[SaveSlot+2]='Fist'
+					LoadList[SaveSlot+3]='None'
+					LoadList[SaveSlot+4]=0
+					LoadList[SaveSlot+5]=2
+					LoadList[SaveSlot+6]=2
+					LoadList[SaveSlot+7]=2
+					LoadList[SaveSlot+8]=2
+					LoadList[SaveSlot+9]=20
+					LoadList[SaveSlot+10]=10
+					LoadList[SaveSlot+11]=0
+					LoadList[SaveSlot+12]=0
+					LoadList[SaveSlot+13]=0
+					LoadList[SaveSlot+14]=0
+					LoadList[SaveSlot+15]=0
+					LoadList[SaveSlot+16]=0
+					LoadList[SaveSlot+17]=0
+					LoadList[SaveSlot+18]=0
+					os.system('rm Zachno.sav')
+					Save=open('Zachno.sav', 'a')
+					PlayerCounter=0
+					MaxPlayerCounter=len(LoadList)
+					while PlayerCounter < MaxPlayerCounter:
+						SaveLine=str(LoadList[PlayerCounter]).rstrip()
+						Save.write(SaveLine)
+						if not PlayerCounter==MaxPlayerCounter-1:
+							Save.write('\n')
+						PlayerCounter=PlayerCounter+1
+					Save.close()
+					MakingAChoice=False
 	sys.exit()
 	return
 
 def DoItem(ItemCounter):
 	Item=InvList[ItemCounter].rstrip()
-	ChestText='Use '+Item+' <u> or drop '+Item+' <d>...'
+	ChestText='Press <enter> to use '+Item+' or <del> to drop...'
 	ChestTextSurf = myfont.render(ChestText, False, green)
 
 	screen.blit(TextBar,(0,370))
@@ -2532,10 +2573,10 @@ def DoItem(ItemCounter):
 	while MakingAChoice:
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_u:
+				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
 					UseItem(ItemCounter)
 					MakingAChoice=False
-				if event.key == pygame.K_d:
+				if event.key == pygame.K_DELETE:
 					DropItem(ItemCounter)
 					MakingAChoice=False
 
@@ -3625,56 +3666,66 @@ def DoCraftItem():
 
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_1 and LeatherAmount > 1 and BoneAmount > 0:
+				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and LeatherAmount > 1 and BoneAmount > 0:
 					if len(InvList) < 10:
 						LeatherAmount=LeatherAmount-2
 						BoneAmount=BoneAmount-1
 						InvList.append('Dagger')
-				if event.key == pygame.K_2 and LeatherAmount > 2 and WoodAmount > 0:
+						Tinkering.play()
+				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and LeatherAmount > 2 and WoodAmount > 0:
 					if len(InvList) < 10:
 						LeatherAmount=LeatherAmount-3
 						WoodAmount=WoodAmount-1
 						InvList.append('Mace')
-				if event.key == pygame.K_3 and LeatherAmount > 3 and IronAmount > 0:
+						Tinkering.play()
+				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and LeatherAmount > 3 and IronAmount > 0:
 					if len(InvList) < 10:
 						LeatherAmount=LeatherAmount-4
 						IronAmount=IronAmount-1
 						InvList.append('Sword')
-				if event.key == pygame.K_4 and LeatherAmount > 4 and SteelAmount > 0:
+						Tinkering.play()
+				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and LeatherAmount > 4 and SteelAmount > 0:
 					if len(InvList) < 10:
 						LeatherAmount=LeatherAmount-5
 						SteelAmount=SteelAmount-1
 						InvList.append('Battleaxe')
-				if event.key == pygame.K_5 and SteelAmount > 0 and LeatherAmount > 4:
+						Tinkering.play()
+				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and SteelAmount > 0 and LeatherAmount > 4:
 					if len(InvList) < 10:
 						SteelAmount=SteelAmount-1
 						LeatherAmount=LeatherAmount-5
 						InvList.append('WShield')
-				if event.key == pygame.K_6 and SteelAmount > 1 and BoneAmount > 4:
+						Tinkering.play()
+				if (event.key == pygame.K_6 or event.key == pygame.K_KP6) and SteelAmount > 1 and BoneAmount > 4:
 					if len(InvList) < 10:
 						SteelAmount=SteelAmount-2
 						BoneAmount=BoneAmount-5
 						InvList.append('Shield')
-				if event.key == pygame.K_7 and SteelAmount > 2 and WoodAmount > 4:
+						Tinkering.play()
+				if (event.key == pygame.K_7 or event.key == pygame.K_KP7) and SteelAmount > 2 and WoodAmount > 4:
 					if len(InvList) < 10:
 						SteelAmount=SteelAmount-3
 						WoodAmount=WoodAmount-5
 						InvList.append('TShield')
-				if event.key == pygame.K_8 and SteelAmount > 3 and IronAmount > 4:
+						Tinkering.play()
+				if (event.key == pygame.K_8 or event.key == pygame.K_KP8) and SteelAmount > 3 and IronAmount > 4:
 					if len(InvList) < 10:
 						SteelAmount=SteelAmount-4
 						IronAmount=IronAmount-5
 						InvList.append('Chainmail')
-				if event.key == pygame.K_9 and SteelAmount > 9:
+						Tinkering.play()
+				if (event.key == pygame.K_9 or event.key == pygame.K_KP9) and SteelAmount > 9:
 					if len(InvList) < 10:
 						SteelAmount=SteelAmount-10
 						InvList.append('Plate')
-				if event.key == pygame.K_0 and BoneAmount > 2 and WoodAmount > 1:
+						Tinkering.play()
+				if (event.key == pygame.K_0 or event.key == pygame.K_KP0) and BoneAmount > 2 and WoodAmount > 1:
 					if len(InvList) < 10:
 						BoneAmount=BoneAmount-3
 						WoodAmount=WoodAmount-2
 						InvList.append('Lifepotion')
-				if event.key == pygame.K_RETURN:
+						Tinkering.play()
+				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
 					MakingaChoice=False
 			DoScreen(Labyrinth, Level)
 	pygame.key.set_repeat(30,50)
@@ -3920,43 +3971,43 @@ while Level < LevelMax:
 				DoMovePlayer(PlayerX, PlayerY, Dir)
 				PlayerX=PlayerPos[0]
 				PlayerY=PlayerPos[1]
-			if pygame.key.get_pressed()[pygame.K_1] and len(InvList) > 0:
+			if (pygame.key.get_pressed()[pygame.K_1] or pygame.key.get_pressed()[pygame.K_KP1]) and len(InvList) > 0:
 				ItemCounter=0
 				DoItem(ItemCounter)
 				Spacebar=False
-			if pygame.key.get_pressed()[pygame.K_2] and len(InvList) > 1:
+			if (pygame.key.get_pressed()[pygame.K_2] or pygame.key.get_pressed()[pygame.K_KP2]) and len(InvList) > 1:
 				ItemCounter=1
 				DoItem(ItemCounter)
 				Spacebar=False
-			if pygame.key.get_pressed()[pygame.K_3] and len(InvList) > 2:
+			if (pygame.key.get_pressed()[pygame.K_3] or pygame.key.get_pressed()[pygame.K_KP3]) and len(InvList) > 2:
 				ItemCounter=2
 				DoItem(ItemCounter)
 				Spacebar=False
-			if pygame.key.get_pressed()[pygame.K_4] and len(InvList) > 3:
+			if (pygame.key.get_pressed()[pygame.K_4] or pygame.key.get_pressed()[pygame.K_KP4]) and len(InvList) > 3:
 				ItemCounter=3
 				DoItem(ItemCounter)
 				Spacebar=False
-			if pygame.key.get_pressed()[pygame.K_5] and len(InvList) > 4:
+			if (pygame.key.get_pressed()[pygame.K_5] or pygame.key.get_pressed()[pygame.K_KP5]) and len(InvList) > 4:
 				ItemCounter=4
 				DoItem(ItemCounter)
 				Spacebar=False
-			if pygame.key.get_pressed()[pygame.K_6] and len(InvList) > 5:
+			if (pygame.key.get_pressed()[pygame.K_6] or pygame.key.get_pressed()[pygame.K_KP6]) and len(InvList) > 5:
 				ItemCounter=5
 				DoItem(ItemCounter)
 				Spacebar=False
-			if pygame.key.get_pressed()[pygame.K_7] and len(InvList) > 6:
+			if (pygame.key.get_pressed()[pygame.K_7] or pygame.key.get_pressed()[pygame.K_KP7]) and len(InvList) > 6:
 				ItemCounter=6
 				DoItem(ItemCounter)
 				Spacebar=False
-			if pygame.key.get_pressed()[pygame.K_8] and len(InvList) > 7:
+			if (pygame.key.get_pressed()[pygame.K_8] or pygame.key.get_pressed()[pygame.K_KP8]) and len(InvList) > 7:
 				ItemCounter=7
 				DoItem(ItemCounter)
 				Spacebar=False
-			if pygame.key.get_pressed()[pygame.K_9] and len(InvList) > 8:
+			if (pygame.key.get_pressed()[pygame.K_9] or pygame.key.get_pressed()[pygame.K_KP9]) and len(InvList) > 8:
 				ItemCounter=8
 				DoItem(ItemCounter)
 				Spacebar=False
-			if pygame.key.get_pressed()[pygame.K_0] and len(InvList) > 9:
+			if (pygame.key.get_pressed()[pygame.K_0] or pygame.key.get_pressed()[pygame.K_KP0]) and len(InvList) > 9:
 				ItemCounter=9
 				DoItem(ItemCounter)
 				Spacebar=False
@@ -3969,7 +4020,7 @@ while Level < LevelMax:
 					screen.blit(Black,(0,0))
 					screen.blit(Splash,(480,280))
 					screen.blit(TextBar,(0,780))
-					Text='Select a save slot to save current game...'
+					Text='Select a save slot to save current game, currently playing save slot '+str(int((SaveSlot+14)/14))+'...'
 					LevelSave1=int(LoadList[1])
 					LevelSave2=int(LoadList[20])
 					LevelSave3=int(LoadList[39])
