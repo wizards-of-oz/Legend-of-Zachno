@@ -3607,11 +3607,11 @@ def DoCraftItem():
 
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
-				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and LeatherAmount > 1 and BoneAmount > 0:
+				if (event.key == pygame.K_1 or event.key == pygame.K_KP1):
 					DoCraftWeapon()
-				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and LeatherAmount > 2 and WoodAmount > 0:
+				if (event.key == pygame.K_2 or event.key == pygame.K_KP2):
 					DoCraftArmor()
-				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and LeatherAmount > 3 and IronAmount > 0:
+				if (event.key == pygame.K_3 or event.key == pygame.K_KP3):
 					DoCraftTrap()
 				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and LeatherAmount > 4 and SteelAmount > 0:
 					if len(InvList) < 10:
