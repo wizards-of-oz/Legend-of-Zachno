@@ -3613,7 +3613,7 @@ def DoCraftItem():
 					DoCraftArmor()
 				if (event.key == pygame.K_3 or event.key == pygame.K_KP3):
 					DoCraftTrap()
-				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and LeatherAmount > 4 and SteelAmount > 0:
+				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and BoneAmount > 2 and WoodAmount > 1:
 					if len(InvList) < 10:
 						BoneAmount=BoneAmount-3
 						WoodAmount=WoodAmount-2
