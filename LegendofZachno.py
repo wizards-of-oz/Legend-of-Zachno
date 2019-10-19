@@ -3573,7 +3573,69 @@ def DoCraftItem():
 	pygame.key.set_repeat()
 	MakingaChoice=True
 	while MakingaChoice:
-		Text1='Press item number to craft or <enter> to exit...'
+		Text1='Press category number or <enter> to exit...'
+		Text1Surf = myfont.render(Text1, False, green)
+		Text2='1> Weapons...'
+		Text2Surf = myfont.render(Text2, False, green)
+
+		Text3='2> Armor...'
+		Text3Surf = myfont.render(Text3, False, green)
+
+		Text4='3> Traps'
+		Text4Surf = myfont.render(Text4, False, green)
+
+		Text5='4> Lifepotion...'
+		if BoneAmount > 2 and WoodAmount > 1:
+			color=green
+		else:
+			color=red
+		Text5Surf = myfont.render(Text5, False, color)
+
+		screen.blit(TextBar,(0,580))
+		screen.blit(TextBar,(0,600))
+		screen.blit(TextBar,(0,620))
+		screen.blit(TextBar,(0,640))
+		screen.blit(TextBar,(0,660))
+
+		screen.blit(Text1Surf,(0,580))
+		screen.blit(Text2Surf,(0,600))
+		screen.blit(Text3Surf,(0,620))
+		screen.blit(Text4Surf,(0,640))
+		screen.blit(Text5Surf,(0,660))
+
+		pygame.display.flip()
+
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and LeatherAmount > 1 and BoneAmount > 0:
+					DoCraftWeapon()
+				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and LeatherAmount > 2 and WoodAmount > 0:
+					DoCraftArmor()
+				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and LeatherAmount > 3 and IronAmount > 0:
+					DoCraftTrap()
+				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and LeatherAmount > 4 and SteelAmount > 0:
+					if len(InvList) < 10:
+						BoneAmount=BoneAmount-3
+						WoodAmount=WoodAmount-2
+						InvList.append('Lifepotion')
+						Tinkering.play()
+				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+					MakingaChoice=False
+			DoScreen(Labyrinth, Level)
+	pygame.key.set_repeat(30,50)
+	return
+
+def DoCraftWeapon():
+	global LeatherAmount
+	global BoneAmount
+	global WoodAmount
+	global IronAmount
+	global SteelAmount
+	pygame.key.set_repeat()
+	DoScreen(Labyrinth, Level)
+	MakingaChoice=True
+	while MakingaChoice:
+		Text1='Press weapon number to craft or <enter> to exit...'
 		Text1Surf = myfont.render(Text1, False, green)
 		Text2='1> Dagger'
 		if LeatherAmount > 1 and BoneAmount > 0:
@@ -3603,71 +3665,18 @@ def DoCraftItem():
 			color=red
 		Text5Surf = myfont.render(Text5, False, color)
 
-		Text6='5> WShield'
-		if LeatherAmount > 4 and SteelAmount > 0:
-			color=green
-		else:
-			color=red
-		Text6Surf = myfont.render(Text6, False, color)
-
-		Text7='6> Shield'
-		if BoneAmount > 4 and SteelAmount > 1:
-			color=green
-		else:
-			color=red
-		Text7Surf = myfont.render(Text7, False, color)
-
-		Text8='7> TShield'
-		if WoodAmount > 4 and SteelAmount > 2:
-			color=green
-		else:
-			color=red
-		Text8Surf = myfont.render(Text8, False, color)
-
-		Text9='8> Chainmail'
-		if SteelAmount > 3 and IronAmount > 4:
-			color=green
-		else:
-			color=red
-		Text9Surf = myfont.render(Text9, False, color)
-
-		Text10='9> Plate'
-		if SteelAmount > 9:
-			color=green
-		else:
-			color=red
-		Text10Surf = myfont.render(Text10, False, color)
-
-		Text11='0> Lifepotion'
-		if BoneAmount > 2 and WoodAmount > 1:
-			color=green
-		else:
-			color=red
-		Text11Surf = myfont.render(Text11, False, color)
 
 		screen.blit(TextBar,(0,580))
 		screen.blit(TextBar,(0,600))
 		screen.blit(TextBar,(0,620))
 		screen.blit(TextBar,(0,640))
 		screen.blit(TextBar,(0,660))
-		screen.blit(TextBar,(0,680))
-		screen.blit(TextBar,(0,700))
-		screen.blit(TextBar,(0,720))
-		screen.blit(TextBar,(0,740))
-		screen.blit(TextBar,(0,760))
-		screen.blit(TextBar,(0,780))
 
 		screen.blit(Text1Surf,(0,580))
 		screen.blit(Text2Surf,(0,600))
 		screen.blit(Text3Surf,(0,620))
 		screen.blit(Text4Surf,(0,640))
 		screen.blit(Text5Surf,(0,660))
-		screen.blit(Text6Surf,(0,680))
-		screen.blit(Text7Surf,(0,700))
-		screen.blit(Text8Surf,(0,720))
-		screen.blit(Text9Surf,(0,740))
-		screen.blit(Text10Surf,(0,760))
-		screen.blit(Text11Surf,(0,780))
 
 		pygame.display.flip()
 
@@ -3697,43 +3706,211 @@ def DoCraftItem():
 						SteelAmount=SteelAmount-1
 						InvList.append('Battleaxe')
 						Tinkering.play()
-				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and SteelAmount > 0 and LeatherAmount > 4:
+				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+					return
+			DoScreen(Labyrinth, Level)
+	pygame.key.set_repeat(30,50)
+	return
+
+def DoCraftArmor():
+	global LeatherAmount
+	global BoneAmount
+	global WoodAmount
+	global IronAmount
+	global SteelAmount
+	pygame.key.set_repeat()
+	DoScreen(Labyrinth, Level)
+	MakingaChoice=True
+	while MakingaChoice:
+		Text1='Press armor number to craft or <enter> to exit...'
+		Text1Surf = myfont.render(Text1, False, green)
+
+		Text2='1> WShield'
+		if LeatherAmount > 4 and SteelAmount > 0:
+			color=green
+		else:
+			color=red
+		Text2Surf = myfont.render(Text2, False, color)
+
+		Text3='2> Shield'
+		if BoneAmount > 4 and SteelAmount > 1:
+			color=green
+		else:
+			color=red
+		Text3Surf = myfont.render(Text3, False, color)
+
+		Text4='3> TShield'
+		if WoodAmount > 4 and SteelAmount > 2:
+			color=green
+		else:
+			color=red
+		Text4Surf = myfont.render(Text4, False, color)
+
+		Text5='4> Chainmail'
+		if SteelAmount > 3 and IronAmount > 4:
+			color=green
+		else:
+			color=red
+		Text5Surf = myfont.render(Text5, False, color)
+
+		Text6='5> Plate'
+		if SteelAmount > 9:
+			color=green
+		else:
+			color=red
+		Text6Surf = myfont.render(Text6, False, color)
+
+
+		screen.blit(TextBar,(0,580))
+		screen.blit(TextBar,(0,600))
+		screen.blit(TextBar,(0,620))
+		screen.blit(TextBar,(0,640))
+		screen.blit(TextBar,(0,660))
+		screen.blit(TextBar,(0,680))
+
+		screen.blit(Text1Surf,(0,580))
+		screen.blit(Text2Surf,(0,600))
+		screen.blit(Text3Surf,(0,620))
+		screen.blit(Text4Surf,(0,640))
+		screen.blit(Text5Surf,(0,660))
+		screen.blit(Text6Surf,(0,680))
+
+		pygame.display.flip()
+
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and SteelAmount > 0 and LeatherAmount > 4:
 					if len(InvList) < 10:
 						SteelAmount=SteelAmount-1
 						LeatherAmount=LeatherAmount-5
 						InvList.append('WShield')
 						Tinkering.play()
-				if (event.key == pygame.K_6 or event.key == pygame.K_KP6) and SteelAmount > 1 and BoneAmount > 4:
+				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and SteelAmount > 1 and BoneAmount > 4:
 					if len(InvList) < 10:
 						SteelAmount=SteelAmount-2
 						BoneAmount=BoneAmount-5
 						InvList.append('Shield')
 						Tinkering.play()
-				if (event.key == pygame.K_7 or event.key == pygame.K_KP7) and SteelAmount > 2 and WoodAmount > 4:
+				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and SteelAmount > 2 and WoodAmount > 4:
 					if len(InvList) < 10:
 						SteelAmount=SteelAmount-3
 						WoodAmount=WoodAmount-5
 						InvList.append('TShield')
 						Tinkering.play()
-				if (event.key == pygame.K_8 or event.key == pygame.K_KP8) and SteelAmount > 3 and IronAmount > 4:
+				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and SteelAmount > 3 and IronAmount > 4:
 					if len(InvList) < 10:
 						SteelAmount=SteelAmount-4
 						IronAmount=IronAmount-5
 						InvList.append('Chainmail')
 						Tinkering.play()
-				if (event.key == pygame.K_9 or event.key == pygame.K_KP9) and SteelAmount > 9:
+				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and SteelAmount > 9:
 					if len(InvList) < 10:
 						SteelAmount=SteelAmount-10
 						InvList.append('Plate')
 						Tinkering.play()
-				if (event.key == pygame.K_0 or event.key == pygame.K_KP0) and BoneAmount > 2 and WoodAmount > 1:
+				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+					return
+			DoScreen(Labyrinth, Level)
+	pygame.key.set_repeat(30,50)
+	return
+
+def DoCraftTrap():
+	global LeatherAmount
+	global BoneAmount
+	global WoodAmount
+	global IronAmount
+	global SteelAmount
+	pygame.key.set_repeat()
+	DoScreen(Labyrinth, Level)
+	MakingaChoice=True
+	while MakingaChoice:
+		Text1='Press trap number to craft or <enter> to exit...'
+		Text1Surf = myfont.render(Text1, False, green)
+		Text2='1> Spiketrap'
+		if LeatherAmount > 1 and BoneAmount > 0:
+			color=green
+		else:
+			color=red
+		Text2Surf = myfont.render(Text2, False, color)
+
+		Text3='2> Beartrap'
+		if BoneAmount > 3:
+			color=green
+		else:
+			color=red
+		Text3Surf = myfont.render(Text3, False, color)
+
+		Text4='3> Acidtrap'
+		if BoneAmount > 2 and WoodAmount > 1:
+			color=green
+		else:
+			color=red
+		Text4Surf = myfont.render(Text4, False, color)
+
+		Text5='4> Electrotrap'
+		if BoneAmount > 3 and IronAmount > 1:
+			color=green
+		else:
+			color=red
+		Text5Surf = myfont.render(Text5, False, color)
+
+		Text6='5> Mine'
+		if BoneAmount > 4 and SteelAmount > 1:
+			color=green
+		else:
+			color=red
+		Text6Surf = myfont.render(Text6, False, color)
+
+
+		screen.blit(TextBar,(0,580))
+		screen.blit(TextBar,(0,600))
+		screen.blit(TextBar,(0,620))
+		screen.blit(TextBar,(0,640))
+		screen.blit(TextBar,(0,660))
+		screen.blit(TextBar,(0,680))
+
+		screen.blit(Text1Surf,(0,580))
+		screen.blit(Text2Surf,(0,600))
+		screen.blit(Text3Surf,(0,620))
+		screen.blit(Text4Surf,(0,640))
+		screen.blit(Text5Surf,(0,660))
+		screen.blit(Text6Surf,(0,680))
+
+		pygame.display.flip()
+
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and BoneAmount > 0 and LeatherAmount > 1:
+					if len(InvList) < 10:
+						BoneAmount=BoneAmount-1
+						LeatherAmount=LeatherAmount-2
+						InvList.append('Spiketrap')
+						Tinkering.play()
+				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and BoneAmount > 3:
+					if len(InvList) < 10:
+						BoneAmount=BoneAmount-3
+						InvList.append('Beartrap')
+						Tinkering.play()
+				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and BoneAmount > 2 and WoodAmount > 1:
 					if len(InvList) < 10:
 						BoneAmount=BoneAmount-3
 						WoodAmount=WoodAmount-2
-						InvList.append('Lifepotion')
+						InvList.append('Acidtrap')
+						Tinkering.play()
+				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and BoneAmount > 3 and IronAmount > 1:
+					if len(InvList) < 10:
+						BoneAmount=BoneAmount-4
+						IronAmount=IronAmount-2
+						InvList.append('Electrotrap')
+						Tinkering.play()
+				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and BoneAmount > 4 and SteelAmount > 1:
+					if len(InvList) < 10:
+						BoneAmount=BoneAmount-5
+						SteelAmount=SteelAmount-2
+						InvList.append('Mine')
 						Tinkering.play()
 				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
-					MakingaChoice=False
+					return
 			DoScreen(Labyrinth, Level)
 	pygame.key.set_repeat(30,50)
 	return
