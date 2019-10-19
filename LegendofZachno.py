@@ -695,6 +695,7 @@ def DoScreen (Labyrinth, Level):
 	# Placing the player picture in the middle of the screen
 
 	screen.blit(Player, (560, 320))
+	screen.blit(PlayerLifeNoSurf,(560,400))
 	if PlayerArmor=='Shield':
 		screen.blit(ShieldSmall, (600, 340))
 	elif PlayerArmor=='WShield':
@@ -2502,11 +2503,18 @@ def DoExit():
 	screen.blit(Black,(0,0))
 	screen.blit(Splash,(480,280))
 	screen.blit(TextBar,(0,780))
-	LoadingText='Game state saved next session will be in level '+str(Level)+' , press enter...'
+	LoadingText='Game state saved next session will be in level '+str(Level)+' , press <enter> to return to game or <esc> to quit...'
 	LoadingTextSurf = myfont.render(LoadingText, False, green)
 	screen.blit(LoadingTextSurf,(0,780))
 	pygame.display.flip()
-	wait()
+	MakingAChoice=True
+	while MakingAChoice:
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+					return
+				if event.key == pygame.K_ESCAPE:
+					sys.exit()
 	return
 
 def DoVictory():
@@ -2559,7 +2567,12 @@ def DoVictory():
 	return
 
 def DoItem(ItemCounter):
+	global Spell
 	Item=InvList[ItemCounter].rstrip()
+	if Item=='Fire' or Item=='Teleport' or Item=='Drain' or Item=='Lightning' or Item=='Fireball':
+		Spell=Item
+		DoSpell(ItemCounter)
+		return
 	ChestText='Press <enter> to use '+Item+' or <del> to drop...'
 	ChestTextSurf = myfont.render(ChestText, False, green)
 
@@ -2582,11 +2595,12 @@ def DoItem(ItemCounter):
 
 	return
 
-def DoSpell():
+def DoSpell(ItemCounter):
 	global PlayerX
 	global PlayerY
 	global PlayerLifeLevel
 	global PlayerLife
+	global PlayerMana
 	global PlayerXP
 	global Spell
 	global SpellX
@@ -2594,7 +2608,7 @@ def DoSpell():
 	global HeroList
 	DoScreen(Labyrinth, Level)
 	MapGen=int(Level/2)+1
-	SpellText='Press direction for '+Spell+' spell...'
+	SpellText='Press direction for '+Spell+' spell or <del> to drop...'
 	SpellTextSurf = myfont.render(SpellText, False, green)
 
 	screen.blit(TextBar,(0,740))
@@ -2619,6 +2633,46 @@ def DoSpell():
 				if event.key == pygame.K_LEFT:
 					SpellDir=4
 					MakingAChoice=False
+				if event.key == pygame.K_DELETE:
+					DropItem(ItemCounter)
+					return
+					MakingAChoice=False
+
+	if Spell=='Fire':
+		if PlayerMana >= 1:
+			PlayerMana=PlayerMana-1
+			del InvList[ItemCounter]
+		else:
+			Fail.play()
+			return
+	elif Spell=='Teleport':
+		if PlayerMana >= 2:
+			PlayerMana=PlayerMana-2
+			del InvList[ItemCounter]
+		else:
+			Fail.play()
+			return
+	elif Spell=='Drain':
+		if PlayerMana >= 3:
+			PlayerMana=PlayerMana-3
+			del InvList[ItemCounter]
+		else:
+			Fail.play()
+			return
+	elif Spell=='Lightning':
+		if PlayerMana >= 4:
+			PlayerMana=PlayerMana-4
+			del InvList[ItemCounter]
+		else:
+			Fail.play()
+			return
+	elif Spell=='Fireball':
+		if PlayerMana >= 5:
+			PlayerMana=PlayerMana-5
+			del InvList[ItemCounter]
+		else:
+			Fail.play()
+			return
 
 	SpellX=PlayerX
 	SpellY=PlayerY
@@ -2826,46 +2880,6 @@ def UseItem(ItemCounter):
 			PlayerMana=PlayerMagic*5
 		Mana.play()
 		del InvList[ItemCounter]
-	elif InvList[ItemCounter].rstrip()=='Fire':
-		if PlayerMana >= 1:
-			PlayerMana=PlayerMana-1
-			Spell='Fire'
-			DoSpell()
-			del InvList[ItemCounter]
-		else:
-			Fail.play()
-	elif InvList[ItemCounter].rstrip()=='Teleport':
-		if PlayerMana >= 2:
-			PlayerMana=PlayerMana-2
-			Spell='Teleport'
-			DoSpell()
-			del InvList[ItemCounter]
-		else:
-			Fail.play()
-	elif InvList[ItemCounter].rstrip()=='Drain':
-		if PlayerMana >= 3:
-			PlayerMana=PlayerMana-3
-			Spell='Drain'
-			DoSpell()
-			del InvList[ItemCounter]
-		else:
-			Fail.play()
-	elif InvList[ItemCounter].rstrip()=='Lightning':
-		if PlayerMana >= 4:
-			PlayerMana=PlayerMana-4
-			Spell='Lightning'
-			DoSpell()
-			del InvList[ItemCounter]
-		else:
-			Fail.play()
-	elif InvList[ItemCounter].rstrip()=='Fireball':
-		if PlayerMana >= 5:
-			PlayerMana=PlayerMana-5
-			Spell='Fireball'
-			DoSpell()
-			del InvList[ItemCounter]
-		else:
-			Fail.play()
 	return
 
 
@@ -3031,20 +3045,20 @@ def DoLevelUp():
 
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_1:
+				if event.key == pygame.K_1 or event.key == pygame.K_KP1:
 					PlayerAttack=PlayerAttack+1
 					PlayerXP=PlayerXP-(PlayerLevel*2)
 					MakingaChoice=False
-				if event.key == pygame.K_2:
+				if event.key == pygame.K_2 or event.key == pygame.K_KP2:
 					PlayerDefence=PlayerDefence+1
 					PlayerXP=PlayerXP-(PlayerLevel*2)
 					MakingaChoice=False
-				if event.key == pygame.K_3:
+				if event.key == pygame.K_3 or event.key == pygame.K_KP3:
 					PlayerLifeLevel=PlayerLifeLevel+1
 					PlayerLife=PlayerLifeLevel*10
 					PlayerXP=PlayerXP-(PlayerLevel*2)
 					MakingaChoice=False
-				if event.key == pygame.K_4:
+				if event.key == pygame.K_4 or event.key == pygame.K_KP4:
 					PlayerMagic=PlayerMagic+1
 					PlayerMana=PlayerMagic*5
 					PlayerXP=PlayerXP-(PlayerLevel*2)
@@ -3128,20 +3142,13 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 					TeleportYMax=MapGen*9
 					LookingForASpot=True
 					while LookingForASpot:
-						NoBlock=True
 						TeleportX=random.randint(TeleportXMin, TeleportXMax)
 						TeleportY=random.randint(TeleportYMin, TeleportYMax)
 		
-						if (TeleportX/9)==int(TeleportX/9):
-							NoBlock=False
-						if (TeleportY/9)==int(TeleportY/9):
-							NoBlock=False
-
-						if NoBlock:
-							FloorFound=False
-							CheckX=TeleportX
-							CheckY=TeleportY
-							FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+						FloorFound=False
+						CheckX=TeleportX
+						CheckY=TeleportY
+						FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
 						if FloorFound:
 							PlayerX=TeleportX
 							PlayerY=TeleportY
@@ -4066,7 +4073,7 @@ while Level < LevelMax:
 					Save4Text = myfont.render(Save4Status, False, green)
 					Save5Text = myfont.render(Save5Status, False, green)
 					Save6Text = myfont.render(Save6Status, False, green)
-					Status = myfont.render('Select a save slot or press ESC to quit', False, yellow)
+					Status = myfont.render('Select a save slot ...', False, yellow)
 
 					screen.blit(Save1Text,(0,50))
 					screen.blit(Save2Text,(0,100))
@@ -4252,7 +4259,7 @@ while Level < LevelMax:
 						InvCounter=InvCounter+1
 					InvSave.close()
 					DoExit()
-				sys.exit()
+
 		DoScreen(Labyrinth, Level)
 		SpellX=-200
 		SpellY=-200
