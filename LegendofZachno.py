@@ -2443,15 +2443,15 @@ def DoSplash(LoadList):
 	if LevelSave4==0:
 		Save4Status='Save slot 4, new game'
 	else:
-		Save4Status='Save slot 4, level: '+SLevelSave4+' Att: '+str(LoadList[57]).rstrip()+' Def: '+str(LoadList[58]).rstrip()+' Lif: '+str(LoadList[59]).rstrip()+' Mag: '+str(LoadList[60]).rstrip()
+		Save4Status='Save slot 4, level: '+SLevelSave4+' Att: '+str(LoadList[62]).rstrip()+' Def: '+str(LoadList[63]).rstrip()+' Lif: '+str(LoadList[64]).rstrip()+' Mag: '+str(LoadList[65]).rstrip()
 	if LevelSave5==0:
 		Save5Status='Save slot 5, new game'
 	else:
-		Save5Status='Save slot 5, level: '+SLevelSave5+' Att: '+str(LoadList[76]).rstrip()+' Def: '+str(LoadList[77]).rstrip()+' Lif: '+str(LoadList[78]).rstrip()+' Mag: '+str(LoadList[79]).rstrip()
+		Save5Status='Save slot 5, level: '+SLevelSave5+' Att: '+str(LoadList[81]).rstrip()+' Def: '+str(LoadList[82]).rstrip()+' Lif: '+str(LoadList[83]).rstrip()+' Mag: '+str(LoadList[84]).rstrip()
 	if LevelSave6==0:
 		Save6Status='Save slot 6, new game'
 	else:
-		Save6Status='Save slot 6, level: '+SLevelSave6+' Att: '+str(LoadList[95]).rstrip()+' Def: '+str(LoadList[96]).rstrip()+' Lif: '+str(LoadList[97]).rstrip()+' Mag: '+str(LoadList[98]).rstrip()
+		Save6Status='Save slot 6, level: '+SLevelSave6+' Att: '+str(LoadList[100]).rstrip()+' Def: '+str(LoadList[101]).rstrip()+' Lif: '+str(LoadList[102]).rstrip()+' Mag: '+str(LoadList[103]).rstrip()
 
 	Save1Text = myfont.render(Save1Status, False, green)
 	Save2Text = myfont.render(Save2Status, False, green)
