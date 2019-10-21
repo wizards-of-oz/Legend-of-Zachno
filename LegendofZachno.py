@@ -3581,10 +3581,10 @@ def DoCraftItem():
 		Text3='2> Armor...'
 		Text3Surf = myfont.render(Text3, False, green)
 
-		Text4='3> Traps'
+		Text4='3> Traps...'
 		Text4Surf = myfont.render(Text4, False, green)
 
-		Text5='4> Lifepotion...'
+		Text5='4> Lifepotion... (3 bone, 2 wood)'
 		if BoneAmount > 2 and WoodAmount > 1:
 			color=green
 		else:
@@ -3637,28 +3637,28 @@ def DoCraftWeapon():
 	while MakingaChoice:
 		Text1='Press weapon number to craft or <enter> to exit...'
 		Text1Surf = myfont.render(Text1, False, green)
-		Text2='1> Dagger'
+		Text2='1> Dagger (2 leather, 1 bone)'
 		if LeatherAmount > 1 and BoneAmount > 0:
 			color=green
 		else:
 			color=red
 		Text2Surf = myfont.render(Text2, False, color)
 
-		Text3='2> Mace'
+		Text3='2> Mace (3 leather, 1 wood)'
 		if LeatherAmount > 2 and WoodAmount > 0:
 			color=green
 		else:
 			color=red
 		Text3Surf = myfont.render(Text3, False, color)
 
-		Text4='3> Sword'
+		Text4='3> Sword (4 leather, 1 iron)'
 		if LeatherAmount > 3 and IronAmount > 0:
 			color=green
 		else:
 			color=red
 		Text4Surf = myfont.render(Text4, False, color)
 
-		Text5='4> Battleaxe'
+		Text5='4> Battleaxe (5 leather, 1 steel)'
 		if LeatherAmount > 4 and SteelAmount > 0:
 			color=green
 		else:
@@ -3725,35 +3725,35 @@ def DoCraftArmor():
 		Text1='Press armor number to craft or <enter> to exit...'
 		Text1Surf = myfont.render(Text1, False, green)
 
-		Text2='1> WShield'
+		Text2='1> WShield (5 leather, 1 steel)'
 		if LeatherAmount > 4 and SteelAmount > 0:
 			color=green
 		else:
 			color=red
 		Text2Surf = myfont.render(Text2, False, color)
 
-		Text3='2> Shield'
+		Text3='2> Shield (5 bone, 2 steel)'
 		if BoneAmount > 4 and SteelAmount > 1:
 			color=green
 		else:
 			color=red
 		Text3Surf = myfont.render(Text3, False, color)
 
-		Text4='3> TShield'
+		Text4='3> TShield (5 wood, 3 steel)'
 		if WoodAmount > 4 and SteelAmount > 2:
 			color=green
 		else:
 			color=red
 		Text4Surf = myfont.render(Text4, False, color)
 
-		Text5='4> Chainmail'
+		Text5='4> Chainmail (5 iron, 4 steel)'
 		if SteelAmount > 3 and IronAmount > 4:
 			color=green
 		else:
 			color=red
 		Text5Surf = myfont.render(Text5, False, color)
 
-		Text6='5> Plate'
+		Text6='5> Plate (10 steel)'
 		if SteelAmount > 9:
 			color=green
 		else:
@@ -3826,35 +3826,35 @@ def DoCraftTrap():
 	while MakingaChoice:
 		Text1='Press trap number to craft or <enter> to exit...'
 		Text1Surf = myfont.render(Text1, False, green)
-		Text2='1> Spiketrap'
+		Text2='1> Spiketrap (2 leather, 1 bone)'
 		if LeatherAmount > 1 and BoneAmount > 0:
 			color=green
 		else:
 			color=red
 		Text2Surf = myfont.render(Text2, False, color)
 
-		Text3='2> Beartrap'
+		Text3='2> Beartrap (4 bone)'
 		if BoneAmount > 3:
 			color=green
 		else:
 			color=red
 		Text3Surf = myfont.render(Text3, False, color)
 
-		Text4='3> Acidtrap'
+		Text4='3> Acidtrap (3 bone, 2 wood)'
 		if BoneAmount > 2 and WoodAmount > 1:
 			color=green
 		else:
 			color=red
 		Text4Surf = myfont.render(Text4, False, color)
 
-		Text5='4> Electrotrap'
+		Text5='4> Electrotrap (4 bone, 2 iron)'
 		if BoneAmount > 3 and IronAmount > 1:
 			color=green
 		else:
 			color=red
 		Text5Surf = myfont.render(Text5, False, color)
 
-		Text6='5> Mine'
+		Text6='5> Mine (5 bone, 2 steel)'
 		if BoneAmount > 4 and SteelAmount > 1:
 			color=green
 		else:
