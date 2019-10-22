@@ -2488,13 +2488,13 @@ def DoSplash(LoadList):
 					SaveSlot=38
 					Selection=False
 				if event.key == pygame.K_KP4 or event.key == pygame.K_4:
-					SaveSlot=52
+					SaveSlot=57
 					Selection=False
 				if event.key == pygame.K_KP5 or event.key == pygame.K_5:
-					SaveSlot=71
+					SaveSlot=76
 					Selection=False
 				if event.key == pygame.K_KP6 or event.key == pygame.K_6:
-					SaveSlot=90
+					SaveSlot=95
 					Selection=False
 	pygame.key.set_repeat(30,50)
 	return(SaveSlot)
@@ -3935,7 +3935,7 @@ PlayerX=0
 PlayerY=0
 PlayerXP=0
 
-PlayerLevel=PlayerAttack+PlayerDefence+PlayerMagic
+PlayerLevel=PlayerAttack+PlayerDefence+PlayerLifeLevel+PlayerMagic
 
 Spell='Fire'
 SpellX=-200
