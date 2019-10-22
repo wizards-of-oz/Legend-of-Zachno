@@ -573,7 +573,7 @@ def DoScreen (Labyrinth, Level):
 	SteelText='Steel: '+str(SteelAmount)
 	CraftText='Press <c> to craft items'
 
-	SlotText='Saveslot: '+str(int((SaveSlot+14)/14))
+	SlotText='Saveslot: '+str(int((SaveSlot+19)/19))
 	NumberOfEnemiesText='Enemies: '+str(int(len(HeroList)/15))
 	EscapeText='Press <esc> to quit game'
 
@@ -2710,13 +2710,13 @@ def DoSpell(ItemCounter):
 					FreeFlight=False
 					if Spell=='Fire':
 						Fire.play()
-						HeroAttack=HeroAttack-1
+						HeroAttack=HeroAttack-2
 						if HeroAttack < 0:
 							HeroAttack=0
 						HeroList[HeroCounter+5]=HeroAttack
 						HeroLife=HeroLife-4
 					if Spell=='Teleport':
-						HeroDefence=HeroDefence-2
+						HeroDefence=HeroDefence-4
 						if HeroDefence < 0:
 							HeroDefence=0
 						HeroList[HeroCounter+6]=HeroDefence
@@ -2754,12 +2754,15 @@ def DoSpell(ItemCounter):
 					if Spell=='Lightning':
 						Lightning.play()
 						HeroLife=HeroLife-16
-						HeroMana=HeroMana-4
+						HeroMana=HeroMana-8
 						HeroList[HeroCounter+10]=HeroMana
 					if Spell=='Fireball':
 						Fireball.play()
 						HeroLife=HeroLife-20
-
+						HeroDefence=HeroDefence-10
+						if HeroDefence < 0:
+							HeroDefence=0
+						HeroList[HeroCounter+6]=HeroDefence
 					if HeroLife < 1:
 						DeathScream.play()
 						PlayerXP=PlayerXP+HeroLevel
@@ -3314,7 +3317,7 @@ def EnemyMove(EnemyDir, Counter):
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
 					LabNumMax=len(Labyrinth)
-					HeroDefence=HeroDefence-4
+					HeroDefence=HeroDefence-3
 					if HeroDefence < 0:
 						HeroDefence=0
 					HeroLife=HeroLife-6
@@ -3328,6 +3331,8 @@ def EnemyMove(EnemyDir, Counter):
 					del Labyrinth[LabNum]
 					LabNumMax=len(Labyrinth)
 					HeroLife=HeroLife-9
+					HeroLifeLevel=HeroLifeLevel+5
+					HeroList[Counter+7]=HeroLifeLevel
 					SpellX=NewHeroX
 					SpellY=NewHeroY
 					Spell='AcidPuddle'
@@ -3337,7 +3342,7 @@ def EnemyMove(EnemyDir, Counter):
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
 					LabNumMax=len(Labyrinth)
-					HeroMana=HeroMana-8
+					HeroMana=HeroMana-6
 					HeroLife=HeroLife-12
 					SpellX=NewHeroX
 					SpellY=NewHeroY
