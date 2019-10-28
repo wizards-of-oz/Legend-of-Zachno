@@ -905,19 +905,47 @@ def BuyItem():
 		Text1='Press item number to buy or <enter> to cancel... Your gold: '+str(Gold)
 		Text1Surf = myfont.render(Text1, False, green)
 		Text2='1> 12 gold: Lifepotion'
-		Text2Surf = myfont.render(Text2, False, green)
+		if Gold > 11:
+			color=green
+		else:
+			color=red
+		Text2Surf = myfont.render(Text2, False, color)
 		Text3='2> 16 gold: Manapotion'
-		Text3Surf = myfont.render(Text3, False, green)
+		if Gold > 15:
+			color=green
+		else:
+			color=red
+		Text3Surf = myfont.render(Text3, False, color)
 		Text4='3> 10 gold: Fire'
-		Text4Surf = myfont.render(Text4, False, green)
+		if Gold > 9:
+			color=green
+		else:
+			color=red
+		Text4Surf = myfont.render(Text4, False, color)
 		Text5='4> 12 gold: Teleport'
-		Text5Surf = myfont.render(Text5, False, green)
+		if Gold > 11:
+			color=green
+		else:
+			color=red
+		Text5Surf = myfont.render(Text5, False, color)
 		Text6='5> 14 gold: Drain'
-		Text6Surf = myfont.render(Text6, False, green)
+		if Gold > 13:
+			color=green
+		else:
+			color=red
+		Text6Surf = myfont.render(Text6, False, color)
 		Text7='6> 16 gold: Lightning'
-		Text7Surf = myfont.render(Text7, False, green)
+		if Gold > 15:
+			color=green
+		else:
+			color=red
+		Text7Surf = myfont.render(Text7, False, color)
 		Text8='7> 18 gold: Fireball'
-		Text8Surf = myfont.render(Text8, False, green)
+		if Gold > 17:
+			color=green
+		else:
+			color=red
+		Text8Surf = myfont.render(Text8, False, color)
 
 		screen.blit(TextBar,(0,620))
 		screen.blit(TextBar,(0,640))
