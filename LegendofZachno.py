@@ -3995,16 +3995,15 @@ LoadFile.close()
 SaveSlot=DoSplash(LoadList)
 Level=int(LoadList[SaveSlot+1])
 ConSwitch=int(LoadList[SaveSlot])
+Wall=WallR
 if Level > 4:
 	Wall=WallY
-elif Level > 8:
+if Level > 8:
 	Wall=WallG
-elif Level > 12:
+if Level > 12:
 	Wall=WallB
-elif Level > 16:
+if Level > 16:
 	Wall=WallP
-else:
-	Wall=WallR
 
 if Level > 0:
 	if ConSwitch==0:
@@ -4598,16 +4597,15 @@ while Level < LevelMax:
 			if Level < LevelMax:
 				Rooms=0
 				MaxRooms=0
+				Wall=WallR
 				if Level > 4:
 					Wall=WallY
-				elif Level > 8:
+				if Level > 8:
 					Wall=WallG
-				elif Level > 12:
+				if Level > 12:
 					Wall=WallB
-				elif Level > 16:
+				if Level > 16:
 					Wall=WallP
-				else:
-					Wall=WallR
 
 				del Labyrinth[:]
 				GenerateLabyrinth()
