@@ -79,8 +79,12 @@ Tinkering = pygame.mixer.Sound('Tinkering.ogg')
 Black=pygame.image.load('Black.png')
 Loading=pygame.image.load('Loading.png')
 Floor=pygame.image.load('newFloor.PNG')
+WallR=pygame.image.load('WallR.PNG')
+WallY=pygame.image.load('WallY.PNG')
+WallG=pygame.image.load('WallG.PNG')
+WallB=pygame.image.load('WallB.PNG')
+WallP=pygame.image.load('WallP.PNG')
 Stairs=pygame.image.load('newStairs.PNG')
-Wall=pygame.image.load('newWall.PNG')
 Player=pygame.image.load('newMonster.PNG')
 TextBar=pygame.image.load('TextBar.png')
 Splash=pygame.image.load('Splash.png')
@@ -575,6 +579,7 @@ def DoScreen (Labyrinth, Level):
 
 	SlotText='Saveslot: '+str(int((SaveSlot+19)/19))
 	NumberOfEnemiesText='Enemies: '+str(int(len(HeroList)/15))
+	ExperienceText='Experience: '+str(PlayerXP)+'/'+str(PlayerLevel*2)
 	EscapeText='Press <esc> to quit game'
 
 	PlayerAttackText='Attack: '
@@ -673,6 +678,7 @@ def DoScreen (Labyrinth, Level):
 
 	SlotTextSurf=myfont.render(SlotText, False, green)
 	NumberOfEnemiesTextSurf=myfont.render(NumberOfEnemiesText, False, green)
+	ExperienceTextSurf=myfont.render(ExperienceText, False, green)
 	EscapeTextSurf=myfont.render(EscapeText, False, green)
 
 	screen.blit(LevelTextSurf,(0,0))
@@ -689,7 +695,8 @@ def DoScreen (Labyrinth, Level):
 
 	screen.blit(SlotTextSurf,(550,0))
 	screen.blit(NumberOfEnemiesTextSurf,(550,20))
-	screen.blit(EscapeTextSurf,(550,40))
+	screen.blit(ExperienceTextSurf,(550,40))
+	screen.blit(EscapeTextSurf,(550,60))
 
 	#screen.blit(StairsPosTextSurf,(0,20))
 	# Placing the player picture in the middle of the screen
@@ -3988,6 +3995,17 @@ LoadFile.close()
 SaveSlot=DoSplash(LoadList)
 Level=int(LoadList[SaveSlot+1])
 ConSwitch=int(LoadList[SaveSlot])
+if Level > 4:
+	Wall=WallY
+elif Level > 8:
+	Wall=WallG
+elif Level > 12:
+	Wall=WallB
+elif Level > 16:
+	Wall=WallP
+else:
+	Wall=WallR
+
 if Level > 0:
 	if ConSwitch==0:
 		if Level > 0 and Level < LevelMax:
@@ -4580,6 +4598,17 @@ while Level < LevelMax:
 			if Level < LevelMax:
 				Rooms=0
 				MaxRooms=0
+				if Level > 4:
+					Wall=WallY
+				elif Level > 8:
+					Wall=WallG
+				elif Level > 12:
+					Wall=WallB
+				elif Level > 16:
+					Wall=WallP
+				else:
+					Wall=WallR
+
 				del Labyrinth[:]
 				GenerateLabyrinth()
 				CheckNextRoom(Labyrinth, RoomPos)
