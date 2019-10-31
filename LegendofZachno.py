@@ -479,6 +479,19 @@ def DoScreen (Labyrinth, Level):
 		PlayerAtt=PlayerAttack+10
 	else:
 		PlayerAtt=PlayerAttack
+	
+	if PlayerArmor=='WShield':
+		PlayerDef=PlayerDefence+1
+	elif PlayerArmor=='Shield':
+		PlayerDef=PlayerDefence+2
+	elif PlayerArmor=='TShield':
+		PlayerDef=PlayerDefence+3
+	elif PlayerArmor=='Chainmail':
+		PlayerDef=PlayerDefence+4
+	elif PlayerArmor=='Plate':
+		PlayerDef=PlayerDefence+5
+	else:
+		PlayerDef=PlayerDefence
 
 	Counter=0
 	MaxCounter=len(HeroLifeList)
@@ -526,8 +539,11 @@ def DoScreen (Labyrinth, Level):
 
 		if HeroDef >= PlayerAtt:
 			color=red
+		elif HeroAtt > PlayerDef:
+			color=orange
 		else:
 			color=green
+
 		HeroNameText=str(HeroName)
 		HeroLifeTextSurf=myfont.render(HeroNameText, False, Namecolor)
 		HeroText1='Att:'+str(HeroAtt)+' Def:'+str(HeroDef)
@@ -579,7 +595,10 @@ def DoScreen (Labyrinth, Level):
 
 	SlotText='Saveslot: '+str(int((SaveSlot+19)/19))
 	NumberOfEnemiesText='Enemies: '+str(int(len(HeroList)/15))
-	ExperienceText='Experience: '+str(PlayerXP)+'/'+str(PlayerLevel*2)
+	if PlayerLevel < 61:
+		ExperienceText='Experience: '+str(PlayerXP)+'/'+str(PlayerLevel*2)
+	else:
+		ExperienceText='Experience: Reached maximum level'
 	EscapeText='Press <esc> to quit game'
 
 	PlayerAttackText='Attack: '
