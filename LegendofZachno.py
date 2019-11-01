@@ -3308,6 +3308,7 @@ def DoHeroCombat(Counter):
 def EnemyMove(EnemyDir, Counter):
 	global PlayerX
 	global PlayerY
+	global PlayerXP
 	global Labyrinth
 	global HeroList
 	global Spell
@@ -3417,6 +3418,7 @@ def EnemyMove(EnemyDir, Counter):
 					Boom.play()
 			LabNum=LabNum+3
 		if HeroLife < 1:
+			PlayerXP=PlayerXP+HeroLevel
 			Chance=random.randint(1,2)
 			if Chance==1:
 				if not HeroDropItemOne=='None':
