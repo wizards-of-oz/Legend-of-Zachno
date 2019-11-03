@@ -593,7 +593,7 @@ def DoScreen (Labyrinth, Level):
 	SteelText='Steel: '+str(SteelAmount)
 	CraftText='Press <c> to craft items'
 
-	SlotText='Saveslot: '+str(int((SaveSlot+19)/19))
+	SlotText='Saveslot: '+str(int((SaveSlot+20)/20))+' '+PlayerType
 	NumberOfEnemiesText='Enemies: '+str(int(len(HeroList)/15))
 	if PlayerLevel < 61:
 		ExperienceText='Experience: '+str(PlayerXP)+'/'+str(PlayerLevel*2)
@@ -2469,11 +2469,11 @@ def DoSplash(LoadList):
 	screen.blit(TextBar,(0,780))
 	Text='Select a save slot...'
 	LevelSave1=int(LoadList[1].rstrip())
-	LevelSave2=int(LoadList[20].rstrip())
-	LevelSave3=int(LoadList[39].rstrip())
-	LevelSave4=int(LoadList[58].rstrip())
-	LevelSave5=int(LoadList[77].rstrip())
-	LevelSave6=int(LoadList[96].rstrip())
+	LevelSave2=int(LoadList[21].rstrip())
+	LevelSave3=int(LoadList[41].rstrip())
+	LevelSave4=int(LoadList[61].rstrip())
+	LevelSave5=int(LoadList[81].rstrip())
+	LevelSave6=int(LoadList[101].rstrip())
 
 	SLevelSave1=str(LevelSave1)
 	SLevelSave2=str(LevelSave2)
@@ -2485,27 +2485,27 @@ def DoSplash(LoadList):
 	if LevelSave1==0:
 		Save1Status='Save slot 1, new game'
 	else:
-		Save1Status='Save slot 1, level: '+SLevelSave1+' Att: '+str(LoadList[5]).rstrip()+' Def: '+str(LoadList[6]).rstrip()+' Lif: '+str(LoadList[7]).rstrip()+' Mag: '+str(LoadList[8]).rstrip()
+		Save1Status='Save slot 1, level: '+SLevelSave1+' '+str(LoadList[2]).rstrip()
 	if LevelSave2==0:
 		Save2Status='Save slot 2, new game'
 	else:
-		Save2Status='Save slot 2, level: '+SLevelSave2+' Att: '+str(LoadList[24]).rstrip()+' Def: '+str(LoadList[25]).rstrip()+' Lif: '+str(LoadList[26]).rstrip()+' Mag: '+str(LoadList[27]).rstrip()
+		Save2Status='Save slot 2, level: '+SLevelSave2+' '+str(LoadList[22]).rstrip()
 	if LevelSave3==0:
 		Save3Status='Save slot 3, new game'
 	else:
-		Save3Status='Save slot 3, level: '+SLevelSave3+' Att: '+str(LoadList[43]).rstrip()+' Def: '+str(LoadList[44]).rstrip()+' Lif: '+str(LoadList[45]).rstrip()+' Mag: '+str(LoadList[46]).rstrip()
+		Save3Status='Save slot 3, level: '+SLevelSave3+' '+str(LoadList[42]).rstrip()
 	if LevelSave4==0:
 		Save4Status='Save slot 4, new game'
 	else:
-		Save4Status='Save slot 4, level: '+SLevelSave4+' Att: '+str(LoadList[62]).rstrip()+' Def: '+str(LoadList[63]).rstrip()+' Lif: '+str(LoadList[64]).rstrip()+' Mag: '+str(LoadList[65]).rstrip()
+		Save4Status='Save slot 4, level: '+SLevelSave4+' '+str(LoadList[62]).rstrip()
 	if LevelSave5==0:
 		Save5Status='Save slot 5, new game'
 	else:
-		Save5Status='Save slot 5, level: '+SLevelSave5+' Att: '+str(LoadList[81]).rstrip()+' Def: '+str(LoadList[82]).rstrip()+' Lif: '+str(LoadList[83]).rstrip()+' Mag: '+str(LoadList[84]).rstrip()
+		Save5Status='Save slot 5, level: '+SLevelSave5+' '+str(LoadList[82]).rstrip()
 	if LevelSave6==0:
 		Save6Status='Save slot 6, new game'
 	else:
-		Save6Status='Save slot 6, level: '+SLevelSave6+' Att: '+str(LoadList[100]).rstrip()+' Def: '+str(LoadList[101]).rstrip()+' Lif: '+str(LoadList[102]).rstrip()+' Mag: '+str(LoadList[103]).rstrip()
+		Save6Status='Save slot 6, level: '+SLevelSave6+' '+str(LoadList[102]).rstrip()
 
 	Save1Text = myfont.render(Save1Status, False, green)
 	Save2Text = myfont.render(Save2Status, False, green)
@@ -2536,19 +2536,19 @@ def DoSplash(LoadList):
 					SaveSlot=0
 					Selection=False
 				if event.key == pygame.K_KP2 or event.key == pygame.K_2:
-					SaveSlot=19
+					SaveSlot=20
 					Selection=False
 				if event.key == pygame.K_KP3 or event.key == pygame.K_3:
-					SaveSlot=38
+					SaveSlot=40
 					Selection=False
 				if event.key == pygame.K_KP4 or event.key == pygame.K_4:
-					SaveSlot=57
+					SaveSlot=60
 					Selection=False
 				if event.key == pygame.K_KP5 or event.key == pygame.K_5:
-					SaveSlot=76
+					SaveSlot=80
 					Selection=False
 				if event.key == pygame.K_KP6 or event.key == pygame.K_6:
-					SaveSlot=95
+					SaveSlot=100
 					Selection=False
 	pygame.key.set_repeat(30,50)
 	return(SaveSlot)
@@ -2588,16 +2588,16 @@ def DoVictory():
 				if event.key == pygame.K_DELETE:
 					LoadList[SaveSlot]=0
 					LoadList[SaveSlot+1]=0
-					LoadList[SaveSlot+2]='Fist'
-					LoadList[SaveSlot+3]='None'
-					LoadList[SaveSlot+4]=0
-					LoadList[SaveSlot+5]=2
+					LoadList[SaveSlot+2]='None'
+					LoadList[SaveSlot+3]='Fist'
+					LoadList[SaveSlot+4]='None'
+					LoadList[SaveSlot+5]=0
 					LoadList[SaveSlot+6]=2
 					LoadList[SaveSlot+7]=2
 					LoadList[SaveSlot+8]=2
-					LoadList[SaveSlot+9]=20
-					LoadList[SaveSlot+10]=10
-					LoadList[SaveSlot+11]=0
+					LoadList[SaveSlot+9]=2
+					LoadList[SaveSlot+10]=20
+					LoadList[SaveSlot+11]=10
 					LoadList[SaveSlot+12]=0
 					LoadList[SaveSlot+13]=0
 					LoadList[SaveSlot+14]=0
@@ -2605,6 +2605,7 @@ def DoVictory():
 					LoadList[SaveSlot+16]=0
 					LoadList[SaveSlot+17]=0
 					LoadList[SaveSlot+18]=0
+					LoadList[SaveSlot+19]=0
 					os.system('rm Zachno.sav')
 					Save=open('Zachno.sav', 'a')
 					PlayerCounter=0
@@ -3064,6 +3065,7 @@ def PlaceHeroes(Labyrinth, Level):
 	return
 
 def DoLevelUp():
+	global PlayerType
 	global PlayerAttack
 	global PlayerDefence
 	global PlayerLifeLevel
@@ -3073,54 +3075,61 @@ def DoLevelUp():
 	global PlayerXP
 	PlayerLevel=PlayerAttack+PlayerDefence+PlayerLifeLevel+PlayerMagic
 	Applause.play()
-	MakingaChoice=True
-	while MakingaChoice:
-		Text1='Press number to level attribute...'
-		Text1Surf = myfont.render(Text1, False, green)
-		Text2='1> Attack: '+str(PlayerAttack)
-		Text2Surf = myfont.render(Text2, False, green)
-		Text3='2> Defence: '+str(PlayerDefence)
-		Text3Surf = myfont.render(Text3, False, green)
-		Text4='3> Health:'+str(PlayerLifeLevel)
-		Text4Surf = myfont.render(Text4, False, green)
-		Text5='4> Magic:'+str(PlayerMagic)
-		Text5Surf = myfont.render(Text5, False, green)
+	Text1='You leveled up, press <enter>...!'
+	Text1Surf = myfont.render(Text1, False, green)
 
-		screen.blit(TextBar,(0,620))
-		screen.blit(TextBar,(0,640))
-		screen.blit(TextBar,(0,660))
-		screen.blit(TextBar,(0,680))
-		screen.blit(TextBar,(0,700))
+	screen.blit(TextBar,(0,620))
+	screen.blit(Text1Surf,(0,620))
+	pygame.display.flip()
 
-		screen.blit(Text1Surf,(0,620))
-		screen.blit(Text2Surf,(0,640))
-		screen.blit(Text3Surf,(0,660))
-		screen.blit(Text4Surf,(0,680))
-		screen.blit(Text5Surf,(0,700))
+	if PlayerType=='Warrior':
+		PlayerAttack=PlayerAttack+1
+		PlayerDefence=int(PlayerAttack/3)
+		if PlayerDefence<2:
+			PlayerDefence=2
+		PlayerLifeLevel=int(PlayerAttack/2)
+		if PlayerLifeLevel<2:
+			PlayerLifeLevel=2
+		PlayerMagic=int(PlayerAttack/4)
+		if PlayerMagic<2:
+			PlayerMagic=2
+	elif PlayerType=='Tank':
+		PlayerDefence=PlayerDefence+1
+		PlayerAttack=int(PlayerDefence/3)
+		if PlayerAttack<2:
+			PlayerAttack=2
+		PlayerLifeLevel=int(PlayerDefence/2)
+		if PlayerLifeLevel<2:
+			PlayerLifeLevel=2
+		PlayerMagic=int(PlayerDefence/4)
+		if PlayerMagic<2:
+			PlayerMagic=2
+	elif PlayerType=='Rogue':
+		PlayerLifeLevel=PlayerLifeLevel+1
+		PlayerAttack=int(PlayerLifeLevel/3)
+		if PlayerAttack<2:
+			PlayerAttack=2
+		PlayerDefence=int(PlayerLifeLevel/2)
+		if PlayerDefence<2:
+			PlayerDefence=2
+		PlayerMagic=int(PlayerLifeLevel/4)
+		if PlayerMagic<2:
+			PlayerMagic=2
+	elif PlayerType=='Mage':
+		PlayerMagic=PlayerMagic+1
+		PlayerAttack=int(PlayerMagic/4)
+		if PlayerAttack<2:
+			PlayerAttack=2
+		PlayerDefence=int(PlayerMagic/2)
+		if PlayerDefence<2:
+			PlayerDefence=2
+		PlayerLifeLevel=int(PlayerMagic/3)
+		if PlayerLifeLevel<2:
+			PlayerLifeLevel=2
 
-		pygame.display.flip()
-
-		for event in pygame.event.get():
-			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_1 or event.key == pygame.K_KP1:
-					PlayerAttack=PlayerAttack+1
-					PlayerXP=PlayerXP-(PlayerLevel*2)
-					MakingaChoice=False
-				if event.key == pygame.K_2 or event.key == pygame.K_KP2:
-					PlayerDefence=PlayerDefence+1
-					PlayerXP=PlayerXP-(PlayerLevel*2)
-					MakingaChoice=False
-				if event.key == pygame.K_3 or event.key == pygame.K_KP3:
-					PlayerLifeLevel=PlayerLifeLevel+1
-					PlayerLife=PlayerLifeLevel*10
-					PlayerXP=PlayerXP-(PlayerLevel*2)
-					MakingaChoice=False
-				if event.key == pygame.K_4 or event.key == pygame.K_KP4:
-					PlayerMagic=PlayerMagic+1
-					PlayerMana=PlayerMagic*5
-					PlayerXP=PlayerXP-(PlayerLevel*2)
-					MakingaChoice=False
-		DoScreen(Labyrinth, Level)
+	PlayerLife=PlayerLifeLevel*10
+	PlayerMana=PlayerMagic*5
+	wait()
 	return
 
 def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
@@ -3626,6 +3635,7 @@ def DoEnemies():
 	return
 
 def DoCraftItem():
+	global PlayerType
 	global LeatherAmount
 	global BoneAmount
 	global WoodAmount
@@ -3637,44 +3647,67 @@ def DoCraftItem():
 		Text1='Press category number or <enter> to exit...'
 		Text1Surf = myfont.render(Text1, False, green)
 		Text2='1> Weapons...'
-		Text2Surf = myfont.render(Text2, False, green)
+		if PlayerType=='Warrior' or PlayerType=='Tank':
+			color=green
+		else:
+			color=red
+		Text2Surf = myfont.render(Text2, False, color)
 
 		Text3='2> Armor...'
-		Text3Surf = myfont.render(Text3, False, green)
+		if PlayerType=='Warrior' or PlayerType=='Tank':
+			color=green
+		else:
+			color=red
+		Text3Surf = myfont.render(Text3, False, color)
 
 		Text4='3> Traps...'
-		Text4Surf = myfont.render(Text4, False, green)
+		if PlayerType=='Rogue' or PlayerType=='Mage':
+			color=green
+		else:
+			color=red
+		Text4Surf = myfont.render(Text4, False, color)
 
-		Text5='4> Lifepotion... (3 bone, 2 wood)'
-		if BoneAmount > 2 and WoodAmount > 1:
+		Text5='4> Spells...'
+		if PlayerType=='Rogue' or PlayerType=='Mage':
 			color=green
 		else:
 			color=red
 		Text5Surf = myfont.render(Text5, False, color)
+
+		Text6='5> Lifepotion...'
+		if BoneAmount > 2 and WoodAmount > 1:
+			color=green
+		else:
+			color=red
+		Text6Surf = myfont.render(Text6, False, color)
 
 		screen.blit(TextBar,(0,580))
 		screen.blit(TextBar,(0,600))
 		screen.blit(TextBar,(0,620))
 		screen.blit(TextBar,(0,640))
 		screen.blit(TextBar,(0,660))
+		screen.blit(TextBar,(0,680))
 
 		screen.blit(Text1Surf,(0,580))
 		screen.blit(Text2Surf,(0,600))
 		screen.blit(Text3Surf,(0,620))
 		screen.blit(Text4Surf,(0,640))
 		screen.blit(Text5Surf,(0,660))
+		screen.blit(Text6Surf,(0,680))
 
 		pygame.display.flip()
 
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
-				if (event.key == pygame.K_1 or event.key == pygame.K_KP1):
+				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and (PlayerType=='Warrior' or PlayerType=='Tank'):
 					DoCraftWeapon()
-				if (event.key == pygame.K_2 or event.key == pygame.K_KP2):
+				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and (PlayerType=='Warrior' or PlayerType=='Tank'):
 					DoCraftArmor()
-				if (event.key == pygame.K_3 or event.key == pygame.K_KP3):
+				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and (PlayerType=='Rogue' or PlayerType=='Mage'):
 					DoCraftTrap()
-				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and BoneAmount > 2 and WoodAmount > 1:
+				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and (PlayerType=='Rogue' or PlayerType=='Mage'):
+					DoCraftSpell()
+				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and BoneAmount > 2 and WoodAmount > 1:
 					if len(InvList) < 10:
 						BoneAmount=BoneAmount-3
 						WoodAmount=WoodAmount-2
@@ -3976,6 +4009,156 @@ def DoCraftTrap():
 	pygame.key.set_repeat(30,50)
 	return
 
+def DoCraftSpell():
+	global LeatherAmount
+	global BoneAmount
+	global WoodAmount
+	global IronAmount
+	global SteelAmount
+	pygame.key.set_repeat()
+	DoScreen(Labyrinth, Level)
+	MakingaChoice=True
+	while MakingaChoice:
+		Text1='Press spell number to craft or <enter> to exit...'
+		Text1Surf = myfont.render(Text1, False, green)
+		Text2='1> Fire spell (4 leather, 1 iron)'
+		if LeatherAmount > 3 and IronAmount > 0:
+			color=green
+		else:
+			color=red
+		Text2Surf = myfont.render(Text2, False, color)
+
+		Text3='2> Teleport spell (4 bone, 2 iron)'
+		if BoneAmount > 3 and IronAmount > 1:
+			color=green
+		else:
+			color=red
+		Text3Surf = myfont.render(Text3, False, color)
+
+		Text4='3> Drain spell (4 wood, 3 iron)'
+		if WoodAmount > 3 and IronAmount > 2:
+			color=green
+		else:
+			color=red
+		Text4Surf = myfont.render(Text4, False, color)
+
+		Text5='4> Lightning spell (8 iron)'
+		if IronAmount > 7:
+			color=green
+		else:
+			color=red
+		Text5Surf = myfont.render(Text5, False, color)
+
+		Text6='5> Fireball spell (5 iron, 4 steel)'
+		if IronAmount > 4 and SteelAmount > 3:
+			color=green
+		else:
+			color=red
+		Text6Surf = myfont.render(Text6, False, color)
+
+
+		screen.blit(TextBar,(0,580))
+		screen.blit(TextBar,(0,600))
+		screen.blit(TextBar,(0,620))
+		screen.blit(TextBar,(0,640))
+		screen.blit(TextBar,(0,660))
+		screen.blit(TextBar,(0,680))
+
+		screen.blit(Text1Surf,(0,580))
+		screen.blit(Text2Surf,(0,600))
+		screen.blit(Text3Surf,(0,620))
+		screen.blit(Text4Surf,(0,640))
+		screen.blit(Text5Surf,(0,660))
+		screen.blit(Text6Surf,(0,680))
+
+		pygame.display.flip()
+
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and LeatherAmount > 3 and IronAmount > 0:
+					if len(InvList) < 10:
+						LeatherAmount=LeatherAmount-4
+						IronAmount=IronAmount-1
+						InvList.append('Fire')
+						Tinkering.play()
+				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and BoneAmount > 3 and IronAmount > 1:
+					if len(InvList) < 10:
+						BoneAmount=BoneAmount-4
+						IronAmount=IronAmount-2
+						InvList.append('Teleport')
+						Tinkering.play()
+				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and WoodAmount > 3 and IronAmount > 2:
+					if len(InvList) < 10:
+						WoodAmount=WoodAmount-4
+						IronAmount=IronAmount-3
+						InvList.append('Drain')
+						Tinkering.play()
+				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and IronAmount > 7:
+					if len(InvList) < 10:
+						IronAmount=IronAmount-8
+						InvList.append('Lightning')
+						Tinkering.play()
+				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and IronAmount > 4 and SteelAmount > 3:
+					if len(InvList) < 10:
+						IronAmount=IronAmount-5
+						SteelAmount=SteelAmount-4
+						InvList.append('Fireball')
+						Tinkering.play()
+				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+					return
+			DoScreen(Labyrinth, Level)
+	pygame.key.set_repeat(30,50)
+	return
+
+
+def DoSelectClass():
+	pygame.key.set_repeat()
+	Text1='Select class to play with:'
+	Text2='1> Warrior'
+	Text3='2> Tank'
+	Text4='3> Rogue'
+	Text5='4: Mage'
+
+	Text1Surf = myfont.render(Text1, False, green)
+	Text2Surf = myfont.render(Text2, False, green)
+	Text3Surf = myfont.render(Text3, False, green)
+	Text4Surf = myfont.render(Text4, False, green)
+	Text5Surf = myfont.render(Text5, False, green)
+
+	screen.blit(TextBar,(0,580))
+	screen.blit(TextBar,(0,600))
+	screen.blit(TextBar,(0,620))
+	screen.blit(TextBar,(0,640))
+	screen.blit(TextBar,(0,660))
+
+	screen.blit(Text1Surf,(0,580))
+	screen.blit(Text2Surf,(0,600))
+	screen.blit(Text3Surf,(0,620))
+	screen.blit(Text4Surf,(0,640))
+	screen.blit(Text5Surf,(0,660))
+
+	pygame.display.flip()
+
+	MakingAChoice=True
+	while MakingAChoice:
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				if (event.key == pygame.K_1 or event.key == pygame.K_KP1):
+					PlayerType='Warrior'
+					MakingAChoice=False
+				if (event.key == pygame.K_2 or event.key == pygame.K_KP2):
+					PlayerType='Tank'
+					MakingAChoice=False
+				if (event.key == pygame.K_3 or event.key == pygame.K_KP3):
+					PlayerType='Rogue'
+					MakingAChoice=False
+				if (event.key == pygame.K_4 or event.key == pygame.K_KP4):
+					PlayerType='Mage'
+					MakingAChoice=False
+	pygame.key.set_repeat(30,50)
+	return(PlayerType)
+
+
 # Main loop
 PlayerWeapon='Fists'
 PlayerArmor='None'
@@ -4015,6 +4198,9 @@ LoadFile.close()
 
 SaveSlot=DoSplash(LoadList)
 Level=int(LoadList[SaveSlot+1])
+if Level==0:
+	PlayerType=DoSelectClass()
+
 ConSwitch=int(LoadList[SaveSlot])
 Wall=WallR
 if Level > 4:
@@ -4029,21 +4215,22 @@ if Level > 16:
 if Level > 0:
 	if ConSwitch==0:
 		if Level > 0 and Level < LevelMax:
-			PlayerWeapon=LoadList[SaveSlot+2].rstrip()
-			PlayerArmor=LoadList[SaveSlot+3].rstrip()
-			Gold=int(LoadList[SaveSlot+4])
-			PlayerAttack=int(LoadList[SaveSlot+5])
-			PlayerDefence=int(LoadList[SaveSlot+6])
-			PlayerLifeLevel=int(LoadList[SaveSlot+7])
-			PlayerMagic=int(LoadList[SaveSlot+8])
-			PlayerLife=int(LoadList[SaveSlot+9])
-			PlayerMana=int(LoadList[SaveSlot+10])
-			PlayerXP=int(LoadList[SaveSlot+11])
-			LeatherAmount=int(LoadList[SaveSlot+12])
-			BoneAmount=int(LoadList[SaveSlot+13])
-			WoodAmount=int(LoadList[SaveSlot+14])
-			IronAmount=int(LoadList[SaveSlot+15])
-			SteelAmount=int(LoadList[SaveSlot+16])
+			PlayerType=LoadList[SaveSlot+2].rstrip()
+			PlayerWeapon=LoadList[SaveSlot+3].rstrip()
+			PlayerArmor=LoadList[SaveSlot+4].rstrip()
+			Gold=int(LoadList[SaveSlot+5])
+			PlayerAttack=int(LoadList[SaveSlot+6])
+			PlayerDefence=int(LoadList[SaveSlot+7])
+			PlayerLifeLevel=int(LoadList[SaveSlot+8])
+			PlayerMagic=int(LoadList[SaveSlot+9])
+			PlayerLife=int(LoadList[SaveSlot+10])
+			PlayerMana=int(LoadList[SaveSlot+11])
+			PlayerXP=int(LoadList[SaveSlot+12])
+			LeatherAmount=int(LoadList[SaveSlot+13])
+			BoneAmount=int(LoadList[SaveSlot+14])
+			WoodAmount=int(LoadList[SaveSlot+15])
+			IronAmount=int(LoadList[SaveSlot+16])
+			SteelAmount=int(LoadList[SaveSlot+17])
 			PlayerX=0
 			PlayerY=0
 			PlayerLevel=PlayerAttack+PlayerDefence+PlayerLifeLevel+PlayerMagic
@@ -4051,15 +4238,15 @@ if Level > 0:
 			Rooms=0
 			if SaveSlot==0:
 				LoadInv=open('Inventory1.sav', 'r')
-			elif SaveSlot==19:
+			elif SaveSlot==20:
 				LoadInv=open('Inventory2.sav', 'r')
-			elif SaveSlot==38:
+			elif SaveSlot==40:
 				LoadInv=open('Inventory3.sav', 'r')
-			elif SaveSlot==57:
+			elif SaveSlot==60:
 				LoadInv=open('Inventory4.sav', 'r')
-			elif SaveSlot==76:
+			elif SaveSlot==80:
 				LoadInv=open('Inventory5.sav', 'r')
-			elif SaveSlot==95:
+			elif SaveSlot==100:
 				LoadInv=open('Inventory6.sav', 'r')
 
 			InvList=list(LoadInv)
@@ -4076,50 +4263,51 @@ if Level > 0:
 			Ping.play()
 	else:
 		del Labyrinth[:]
-		PlayerWeapon=LoadList[SaveSlot+2].rstrip()
-		PlayerArmor=LoadList[SaveSlot+3].rstrip()
-		Gold=int(LoadList[SaveSlot+4])		
-		PlayerAttack=int(LoadList[SaveSlot+5])
-		PlayerDefence=int(LoadList[SaveSlot+6])
-		PlayerLifeLevel=int(LoadList[SaveSlot+7])
-		PlayerMagic=int(LoadList[SaveSlot+8])
-		PlayerLife=int(LoadList[SaveSlot+9])
-		PlayerMana=int(LoadList[SaveSlot+10])
-		PlayerXP=int(LoadList[SaveSlot+11])
-		LeatherAmount=int(LoadList[SaveSlot+12])
-		BoneAmount=int(LoadList[SaveSlot+13])
-		WoodAmount=int(LoadList[SaveSlot+14])
-		IronAmount=int(LoadList[SaveSlot+15])
-		SteelAmount=int(LoadList[SaveSlot+16])
-		PlayerX=int(LoadList[SaveSlot+17])
-		PlayerY=int(LoadList[SaveSlot+18])
+		PlayerType=LoadList[SaveSlot+2].rstrip()
+		PlayerWeapon=LoadList[SaveSlot+3].rstrip()
+		PlayerArmor=LoadList[SaveSlot+4].rstrip()
+		Gold=int(LoadList[SaveSlot+5])		
+		PlayerAttack=int(LoadList[SaveSlot+6])
+		PlayerDefence=int(LoadList[SaveSlot+7])
+		PlayerLifeLevel=int(LoadList[SaveSlot+8])
+		PlayerMagic=int(LoadList[SaveSlot+9])
+		PlayerLife=int(LoadList[SaveSlot+10])
+		PlayerMana=int(LoadList[SaveSlot+11])
+		PlayerXP=int(LoadList[SaveSlot+12])
+		LeatherAmount=int(LoadList[SaveSlot+13])
+		BoneAmount=int(LoadList[SaveSlot+14])
+		WoodAmount=int(LoadList[SaveSlot+15])
+		IronAmount=int(LoadList[SaveSlot+16])
+		SteelAmount=int(LoadList[SaveSlot+17])
+		PlayerX=int(LoadList[SaveSlot+18])
+		PlayerY=int(LoadList[SaveSlot+19])
 		PlayerLevel=PlayerAttack+PlayerDefence+PlayerLifeLevel+PlayerMagic
 		if SaveSlot==0:
 			LoadInv=open('Inventory1.sav', 'r')
-		elif SaveSlot==19:
+		elif SaveSlot==20:
 			LoadInv=open('Inventory2.sav', 'r')
-		elif SaveSlot==38:
+		elif SaveSlot==40:
 			LoadInv=open('Inventory3.sav', 'r')
-		elif SaveSlot==57:
+		elif SaveSlot==60:
 			LoadInv=open('Inventory4.sav', 'r')
-		elif SaveSlot==76:
+		elif SaveSlot==80:
 			LoadInv=open('Inventory5.sav', 'r')
-		elif SaveSlot==95:
+		elif SaveSlot==100:
 			LoadInv=open('Inventory6.sav', 'r')
 
 		InvList=list(LoadInv)
 		LoadInv.close()
 		if SaveSlot==0:
 			LoadMap=open('MapState1.sav', 'r')
-		elif SaveSlot==19:
+		elif SaveSlot==20:
 			LoadMap=open('MapState2.sav', 'r')
-		elif SaveSlot==38:
+		elif SaveSlot==40:
 			LoadMap=open('MapState3.sav', 'r')
-		elif SaveSlot==57:
+		elif SaveSlot==60:
 			LoadMap=open('MapState4.sav', 'r')
-		elif SaveSlot==76:
+		elif SaveSlot==80:
 			LoadMap=open('MapState5.sav', 'r')
-		elif SaveSlot==95:
+		elif SaveSlot==100:
 			LoadMap=open('MapState6.sav', 'r')
 
 		LabyrinthState=list(LoadMap)
@@ -4140,15 +4328,15 @@ if Level > 0:
 
 		if SaveSlot==0:
 			HeroLoad=open('HeroState1.sav', 'r')
-		elif SaveSlot==19:
+		elif SaveSlot==20:
 			HeroLoad=open('HeroState2.sav', 'r')
-		elif SaveSlot==38:
+		elif SaveSlot==40:
 			HeroLoad=open('HeroState3.sav', 'r')
-		elif SaveSlot==57:
+		elif SaveSlot==60:
 			HeroLoad=open('HeroState4.sav', 'r')
-		elif SaveSlot==76:
+		elif SaveSlot==80:
 			HeroLoad=open('HeroState5.sav', 'r')
-		elif SaveSlot==95:
+		elif SaveSlot==100:
 			HeroLoad=open('HeroState6.sav', 'r')
 
 		HeroSave=list(HeroLoad)
@@ -4275,13 +4463,13 @@ while Level < LevelMax:
 					screen.blit(Black,(0,0))
 					screen.blit(Splash,(480,280))
 					screen.blit(TextBar,(0,780))
-					Text='Select a save slot to save current game, currently playing save slot '+str(int((SaveSlot+14)/14))+'...'
+					Text='Select a save slot to save current game, currently playing save slot '+str(int((SaveSlot+20)/20))+' as a '+PlayerType+'...'
 					LevelSave1=int(LoadList[1])
-					LevelSave2=int(LoadList[20])
-					LevelSave3=int(LoadList[39])
-					LevelSave4=int(LoadList[58])
-					LevelSave5=int(LoadList[77])
-					LevelSave6=int(LoadList[96])
+					LevelSave2=int(LoadList[21])
+					LevelSave3=int(LoadList[41])
+					LevelSave4=int(LoadList[61])
+					LevelSave5=int(LoadList[81])
+					LevelSave6=int(LoadList[101])
 
 					SLevelSave1=str(LevelSave1)
 					SLevelSave2=str(LevelSave2)
@@ -4341,19 +4529,19 @@ while Level < LevelMax:
 									SaveSlot=0
 									Selection=False
 								if event.key == pygame.K_KP2 or event.key == pygame.K_2:
-									SaveSlot=19
+									SaveSlot=20
 									Selection=False
 								if event.key == pygame.K_KP3 or event.key == pygame.K_3:
-									SaveSlot=38
+									SaveSlot=40
 									Selection=False
 								if event.key == pygame.K_KP4 or event.key == pygame.K_4:
-									SaveSlot=57
+									SaveSlot=60
 									Selection=False
 								if event.key == pygame.K_KP5 or event.key == pygame.K_5:
-									SaveSlot=76
+									SaveSlot=80
 									Selection=False
 								if event.key == pygame.K_KP6 or event.key == pygame.K_6:
-									SaveSlot=95
+									SaveSlot=100
 									Selection=False
 					pygame.key.set_repeat(30,50)
 																												
@@ -4361,23 +4549,24 @@ while Level < LevelMax:
 
 					LoadList[SaveSlot]=1
 					LoadList[SaveSlot+1]=Level
-					LoadList[SaveSlot+2]=PlayerWeapon
-					LoadList[SaveSlot+3]=PlayerArmor
-					LoadList[SaveSlot+4]=Gold
-					LoadList[SaveSlot+5]=PlayerAttack
-					LoadList[SaveSlot+6]=PlayerDefence
-					LoadList[SaveSlot+7]=PlayerLifeLevel
-					LoadList[SaveSlot+8]=PlayerMagic
-					LoadList[SaveSlot+9]=PlayerLife
-					LoadList[SaveSlot+10]=PlayerMana
-					LoadList[SaveSlot+11]=PlayerXP
-					LoadList[SaveSlot+12]=LeatherAmount
-					LoadList[SaveSlot+13]=BoneAmount
-					LoadList[SaveSlot+14]=WoodAmount
-					LoadList[SaveSlot+15]=IronAmount
-					LoadList[SaveSlot+16]=SteelAmount
-					LoadList[SaveSlot+17]=PlayerX
-					LoadList[SaveSlot+18]=PlayerY
+					LoadList[SaveSlot+2]=PlayerType
+					LoadList[SaveSlot+3]=PlayerWeapon
+					LoadList[SaveSlot+4]=PlayerArmor
+					LoadList[SaveSlot+5]=Gold
+					LoadList[SaveSlot+6]=PlayerAttack
+					LoadList[SaveSlot+7]=PlayerDefence
+					LoadList[SaveSlot+8]=PlayerLifeLevel
+					LoadList[SaveSlot+9]=PlayerMagic
+					LoadList[SaveSlot+10]=PlayerLife
+					LoadList[SaveSlot+11]=PlayerMana
+					LoadList[SaveSlot+12]=PlayerXP
+					LoadList[SaveSlot+13]=LeatherAmount
+					LoadList[SaveSlot+14]=BoneAmount
+					LoadList[SaveSlot+15]=WoodAmount
+					LoadList[SaveSlot+16]=IronAmount
+					LoadList[SaveSlot+17]=SteelAmount
+					LoadList[SaveSlot+18]=PlayerX
+					LoadList[SaveSlot+19]=PlayerY
 					os.system('rm Zachno.sav')
 					Save=open('Zachno.sav', 'a')
 					PlayerCounter=0
@@ -4393,19 +4582,19 @@ while Level < LevelMax:
 					if SaveSlot==0:
 						os.system('rm MapState1.sav')
 						MapSave=open('MapState1.sav', 'a')
-					elif SaveSlot==19:
+					elif SaveSlot==20:
 						os.system('rm MapState2.sav')
 						MapSave=open('MapState2.sav', 'a')
-					elif SaveSlot==38:
+					elif SaveSlot==40:
 						os.system('rm MapState3.sav')
 						MapSave=open('MapState3.sav', 'a')
-					elif SaveSlot==57:
+					elif SaveSlot==60:
 						os.system('rm MapState4.sav')
 						MapSave=open('MapState4.sav', 'a')
-					elif SaveSlot==76:
+					elif SaveSlot==80:
 						os.system('rm MapState5.sav')
 						MapSave=open('MapState5.sav', 'a')
-					elif SaveSlot==95:
+					elif SaveSlot==100:
 						os.system('rm MapState6.sav')
 						MapSave=open('MapState6.sav', 'a')
 
@@ -4424,19 +4613,19 @@ while Level < LevelMax:
 					if SaveSlot==0:
 						os.system('rm HeroState1.sav')
 						HeroSave=open('HeroState1.sav', 'a')
-					elif SaveSlot==19:
+					elif SaveSlot==20:
 						os.system('rm HeroState2.sav')
 						HeroSave=open('HeroState2.sav', 'a')
-					elif SaveSlot==38:
+					elif SaveSlot==40:
 						os.system('rm HeroState3.sav')
 						HeroSave=open('HeroState3.sav', 'a')
-					elif SaveSlot==57:
+					elif SaveSlot==60:
 						os.system('rm HeroState4.sav')
 						HeroSave=open('HeroState4.sav', 'a')
-					elif SaveSlot==76:
+					elif SaveSlot==80:
 						os.system('rm HeroState5.sav')
 						HeroSave=open('HeroState5.sav', 'a')
-					elif SaveSlot==95:
+					elif SaveSlot==100:
 						os.system('rm HeroState6.sav')
 						HeroSave=open('HeroState6.sav', 'a')
 
@@ -4481,19 +4670,19 @@ while Level < LevelMax:
 					if SaveSlot==0:
 						os.system('rm Inventory1.sav')
 						InvSave=open('Inventory1.sav', 'a')
-					elif SaveSlot==19:
+					elif SaveSlot==20:
 						os.system('rm Inventory2.sav')
 						InvSave=open('Inventory2.sav', 'a')
-					elif SaveSlot==38:
+					elif SaveSlot==40:
 						os.system('rm Inventory3.sav')
 						InvSave=open('Inventory3.sav', 'a')
-					elif SaveSlot==57:
+					elif SaveSlot==60:
 						os.system('rm Inventory4.sav')
 						InvSave=open('Inventory4.sav', 'a')
-					elif SaveSlot==76:
+					elif SaveSlot==80:
 						os.system('rm Inventory5.sav')
 						InvSave=open('Inventory5.sav', 'a')
-					elif SaveSlot==95:
+					elif SaveSlot==100:
 						os.system('rm Inventory6.sav')
 						InvSave=open('Inventory6.sav', 'a')
 
@@ -4528,23 +4717,24 @@ while Level < LevelMax:
 			if Level < LevelMax:
 				LoadList[SaveSlot]=0
 				LoadList[SaveSlot+1]=Level
-				LoadList[SaveSlot+2]=PlayerWeapon
-				LoadList[SaveSlot+3]=PlayerArmor
-				LoadList[SaveSlot+4]=Gold
-				LoadList[SaveSlot+5]=PlayerAttack
-				LoadList[SaveSlot+6]=PlayerDefence
-				LoadList[SaveSlot+7]=PlayerLifeLevel
-				LoadList[SaveSlot+8]=PlayerMagic
-				LoadList[SaveSlot+9]=PlayerLife
-				LoadList[SaveSlot+10]=PlayerMana
-				LoadList[SaveSlot+11]=PlayerXP
-				LoadList[SaveSlot+12]=LeatherAmount
-				LoadList[SaveSlot+13]=BoneAmount
-				LoadList[SaveSlot+14]=WoodAmount
-				LoadList[SaveSlot+15]=IronAmount
-				LoadList[SaveSlot+16]=SteelAmount
-				LoadList[SaveSlot+17]=0
+				LoadList[SaveSlot+2]=PlayerType
+				LoadList[SaveSlot+3]=PlayerWeapon
+				LoadList[SaveSlot+4]=PlayerArmor
+				LoadList[SaveSlot+5]=Gold
+				LoadList[SaveSlot+6]=PlayerAttack
+				LoadList[SaveSlot+7]=PlayerDefence
+				LoadList[SaveSlot+8]=PlayerLifeLevel
+				LoadList[SaveSlot+9]=PlayerMagic
+				LoadList[SaveSlot+10]=PlayerLife
+				LoadList[SaveSlot+11]=PlayerMana
+				LoadList[SaveSlot+12]=PlayerXP
+				LoadList[SaveSlot+13]=LeatherAmount
+				LoadList[SaveSlot+14]=BoneAmount
+				LoadList[SaveSlot+15]=WoodAmount
+				LoadList[SaveSlot+16]=IronAmount
+				LoadList[SaveSlot+17]=SteelAmount
 				LoadList[SaveSlot+18]=0
+				LoadList[SaveSlot+19]=0
 				os.system('rm Zachno.sav')
 				Save=open('Zachno.sav', 'a')
 				PlayerCounter=0
@@ -4560,19 +4750,19 @@ while Level < LevelMax:
 				if SaveSlot==0:
 					os.system('rm Inventory1.sav')
 					InvSave=open('Inventory1.sav', 'a')
-				elif SaveSlot==19:
+				elif SaveSlot==20:
 					os.system('rm Inventory2.sav')
 					InvSave=open('Inventory2.sav', 'a')
-				elif SaveSlot==38:
+				elif SaveSlot==40:
 					os.system('rm Inventory3.sav')
 					InvSave=open('Inventory3.sav', 'a')
-				elif SaveSlot==57:
+				elif SaveSlot==60:
 					os.system('rm Inventory4.sav')
 					InvSave=open('Inventory4.sav', 'a')
-				elif SaveSlot==76:
+				elif SaveSlot==80:
 					os.system('rm Inventory5.sav')
 					InvSave=open('Inventory5.sav', 'a')
-				elif SaveSlot==95:
+				elif SaveSlot==100:
 					os.system('rm Inventory6.sav')
 					InvSave=open('Inventory6.sav', 'a')
 
