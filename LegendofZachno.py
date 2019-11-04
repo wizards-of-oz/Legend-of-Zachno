@@ -596,7 +596,7 @@ def DoScreen (Labyrinth, Level):
 	SlotText='Saveslot: '+str(int((SaveSlot+20)/20))+' '+PlayerType
 	NumberOfEnemiesText='Enemies: '+str(int(len(HeroList)/15))
 	if PlayerLevel < 61:
-		ExperienceText='Experience: '+str(PlayerXP)+'/'+str(PlayerLevel*2)
+		ExperienceText='Experience: '+str(PlayerXP)+'/'+str(PlayerLevel*3)
 	else:
 		ExperienceText='Experience: Reached maximum level'
 	EscapeText='Press <esc> to quit game'
@@ -4702,8 +4702,8 @@ while Level < LevelMax:
 		SpellY=-200
 		PlayerLevel=PlayerAttack+PlayerDefence+PlayerLifeLevel+PlayerMagic
 		if PlayerLevel < 61:
-			if PlayerXP >= PlayerLevel*2:
-				XPNeeded=PlayerLevel*2
+			if PlayerXP >= PlayerLevel*3:
+				XPNeeded=PlayerLevel*3
 				PlayerXP=PlayerXP-XPNeeded
 				DoLevelUp()
 
