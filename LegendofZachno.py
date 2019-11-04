@@ -4703,6 +4703,8 @@ while Level < LevelMax:
 		PlayerLevel=PlayerAttack+PlayerDefence+PlayerLifeLevel+PlayerMagic
 		if PlayerLevel < 61:
 			if PlayerXP >= PlayerLevel*2:
+				XPNeeded=PlayerLevel*2
+				PlayerXP=PlayerXP-XPNeeded
 				DoLevelUp()
 
 		SpentTime=Time.tocvalue()
