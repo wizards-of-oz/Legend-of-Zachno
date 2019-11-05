@@ -74,6 +74,10 @@ Sizzle = pygame.mixer.Sound('Sizzle.ogg')
 Boom = pygame.mixer.Sound('Boom.ogg')
 Shatter = pygame.mixer.Sound('Shatter.ogg')
 Tinkering = pygame.mixer.Sound('Tinkering.ogg')
+Pour = pygame.mixer.Sound('Pour.ogg')
+Writing = pygame.mixer.Sound('Writing.ogg')
+Trade = pygame.mixer.Sound('Trade.ogg')
+
 
 # Loading picture files into RAM
 Black=pygame.image.load('Black.png')
@@ -998,30 +1002,37 @@ def BuyItem():
 				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and len(InvList) < 10:
 					if Gold >= 12:
 						Gold=Gold-12
+						Trade.play()
 						InvList.append('Lifepotion')
 				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and len(InvList) < 10:
 					if Gold >= 16:
 						Gold=Gold-16
+						Trade.play()
 						InvList.append('Manapotion')
 				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and len(InvList) < 10:
 					if Gold >= 10:
 						Gold=Gold-10
+						Trade.play()
 						InvList.append('Fire')
 				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and len(InvList) < 10:
 					if Gold >= 12:
 						Gold=Gold-12
+						Trade.play()
 						InvList.append('Teleport')
 				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and len(InvList) < 10:
 					if Gold >= 14:
 						Gold=Gold-14
+						Trade.play()
 						InvList.append('Drain')
 				if (event.key == pygame.K_6 or event.key == pygame.K_KP6) and len(InvList) < 10:
 					if Gold >= 16:
 						Gold=Gold-16
+						Trade.play()
 						InvList.append('Lightning')
 				if (event.key == pygame.K_7 or event.key == pygame.K_KP7) and len(InvList) < 10:
 					if Gold >= 18:
 						Gold=Gold-18
+						Trade.play()
 						InvList.append('Fireball')
 				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
 					MakingaChoice=False
@@ -1032,6 +1043,7 @@ def BuyItem():
 
 def GetGold(ItemCounter):
 	global Gold
+	Trade.play()
 	if InvList[ItemCounter].rstrip()=='Mace':
 		Gold=Gold+3
 		del InvList[ItemCounter]
@@ -3654,7 +3666,7 @@ def DoCraftItem():
 		Text2Surf = myfont.render(Text2, False, color)
 
 		Text3='2> Armor...'
-		if PlayerType=='Warrior' or PlayerType=='Tank':
+		if PlayerType=='Warrior' or PlayerType=='Tank'or PlayerType=='Rogue':
 			color=green
 		else:
 			color=red
@@ -3668,7 +3680,7 @@ def DoCraftItem():
 		Text4Surf = myfont.render(Text4, False, color)
 
 		Text5='4> Spells...'
-		if PlayerType=='Rogue' or PlayerType=='Mage':
+		if PlayerType=='Mage':
 			color=green
 		else:
 			color=red
@@ -3701,18 +3713,18 @@ def DoCraftItem():
 			if event.type == pygame.KEYDOWN:
 				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and (PlayerType=='Warrior' or PlayerType=='Tank'):
 					DoCraftWeapon()
-				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and (PlayerType=='Warrior' or PlayerType=='Tank'):
+				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and (PlayerType=='Warrior' or PlayerType=='Tank' or PlayerType=='Rogue'):
 					DoCraftArmor()
 				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and (PlayerType=='Rogue' or PlayerType=='Mage'):
 					DoCraftTrap()
-				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and (PlayerType=='Rogue' or PlayerType=='Mage'):
+				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and PlayerType=='Mage':
 					DoCraftSpell()
 				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and BoneAmount > 2 and WoodAmount > 1:
 					if len(InvList) < 10:
 						BoneAmount=BoneAmount-3
 						WoodAmount=WoodAmount-2
 						InvList.append('Lifepotion')
-						Tinkering.play()
+						Pour.play()
 				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
 					MakingaChoice=False
 			DoScreen(Labyrinth, Level)
@@ -3731,29 +3743,29 @@ def DoCraftWeapon():
 	while MakingaChoice:
 		Text1='Press weapon number to craft or <enter> to exit...'
 		Text1Surf = myfont.render(Text1, False, green)
-		Text2='1> Dagger (2 leather, 1 bone)'
-		if LeatherAmount > 1 and BoneAmount > 0:
+		Text2='1> Dagger (2 leather, 2 bone)'
+		if LeatherAmount > 1 and BoneAmount > 1:
 			color=green
 		else:
 			color=red
 		Text2Surf = myfont.render(Text2, False, color)
 
-		Text3='2> Mace (3 leather, 1 wood)'
-		if LeatherAmount > 2 and WoodAmount > 0:
+		Text3='2> Mace (3 leather, 2 wood)'
+		if LeatherAmount > 2 and WoodAmount > 1:
 			color=green
 		else:
 			color=red
 		Text3Surf = myfont.render(Text3, False, color)
 
-		Text4='3> Sword (4 leather, 1 iron)'
-		if LeatherAmount > 3 and IronAmount > 0:
+		Text4='3> Sword (3 leather, 2 iron)'
+		if LeatherAmount > 2 and IronAmount > 1:
 			color=green
 		else:
 			color=red
 		Text4Surf = myfont.render(Text4, False, color)
 
-		Text5='4> Battleaxe (5 leather, 1 steel)'
-		if LeatherAmount > 4 and SteelAmount > 0:
+		Text5='4> Battleaxe (4 leather, 2 steel)'
+		if LeatherAmount > 3 and SteelAmount > 1:
 			color=green
 		else:
 			color=red
@@ -3776,28 +3788,28 @@ def DoCraftWeapon():
 
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
-				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and LeatherAmount > 1 and BoneAmount > 0:
+				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and LeatherAmount > 1 and BoneAmount > 1:
 					if len(InvList) < 10:
 						LeatherAmount=LeatherAmount-2
-						BoneAmount=BoneAmount-1
+						BoneAmount=BoneAmount-2
 						InvList.append('Dagger')
 						Tinkering.play()
-				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and LeatherAmount > 2 and WoodAmount > 0:
+				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and LeatherAmount > 2 and WoodAmount > 1:
 					if len(InvList) < 10:
 						LeatherAmount=LeatherAmount-3
-						WoodAmount=WoodAmount-1
+						WoodAmount=WoodAmount-2
 						InvList.append('Mace')
 						Tinkering.play()
-				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and LeatherAmount > 3 and IronAmount > 0:
+				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and LeatherAmount > 2 and IronAmount > 1:
 					if len(InvList) < 10:
-						LeatherAmount=LeatherAmount-4
-						IronAmount=IronAmount-1
+						LeatherAmount=LeatherAmount-3
+						IronAmount=IronAmount-2
 						InvList.append('Sword')
 						Tinkering.play()
-				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and LeatherAmount > 4 and SteelAmount > 0:
+				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and LeatherAmount > 3 and SteelAmount > 1:
 					if len(InvList) < 10:
-						LeatherAmount=LeatherAmount-5
-						SteelAmount=SteelAmount-1
+						LeatherAmount=LeatherAmount-4
+						SteelAmount=SteelAmount-2
 						InvList.append('Battleaxe')
 						Tinkering.play()
 				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
@@ -3819,36 +3831,36 @@ def DoCraftArmor():
 		Text1='Press armor number to craft or <enter> to exit...'
 		Text1Surf = myfont.render(Text1, False, green)
 
-		Text2='1> WShield (5 leather, 1 steel)'
-		if LeatherAmount > 4 and SteelAmount > 0:
+		Text2='1> WShield (4 leather, 2 steel)'
+		if LeatherAmount > 3 and SteelAmount > 1:
 			color=green
 		else:
 			color=red
 		Text2Surf = myfont.render(Text2, False, color)
 
-		Text3='2> Shield (5 bone, 2 steel)'
-		if BoneAmount > 4 and SteelAmount > 1:
+		Text3='2> Shield (4 bone, 2 steel)'
+		if BoneAmount > 3 and SteelAmount > 1:
 			color=green
 		else:
 			color=red
 		Text3Surf = myfont.render(Text3, False, color)
 
-		Text4='3> TShield (5 wood, 3 steel)'
-		if WoodAmount > 4 and SteelAmount > 2:
+		Text4='3> TShield (4 wood, 3 steel)'
+		if WoodAmount > 3 and SteelAmount > 2:
 			color=green
 		else:
 			color=red
 		Text4Surf = myfont.render(Text4, False, color)
 
-		Text5='4> Chainmail (5 iron, 4 steel)'
-		if SteelAmount > 3 and IronAmount > 4:
+		Text5='4> Chainmail (4 iron, 3 steel)'
+		if SteelAmount > 2 and IronAmount > 3:
 			color=green
 		else:
 			color=red
 		Text5Surf = myfont.render(Text5, False, color)
 
-		Text6='5> Plate (10 steel)'
-		if SteelAmount > 9:
+		Text6='5> Plate (8 steel)'
+		if SteelAmount > 7:
 			color=green
 		else:
 			color=red
@@ -3873,33 +3885,33 @@ def DoCraftArmor():
 
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
-				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and SteelAmount > 0 and LeatherAmount > 4:
-					if len(InvList) < 10:
-						SteelAmount=SteelAmount-1
-						LeatherAmount=LeatherAmount-5
-						InvList.append('WShield')
-						Tinkering.play()
-				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and SteelAmount > 1 and BoneAmount > 4:
+				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and SteelAmount > 1 and LeatherAmount > 3:
 					if len(InvList) < 10:
 						SteelAmount=SteelAmount-2
-						BoneAmount=BoneAmount-5
+						LeatherAmount=LeatherAmount-4
+						InvList.append('WShield')
+						Tinkering.play()
+				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and SteelAmount > 1 and BoneAmount > 3:
+					if len(InvList) < 10:
+						SteelAmount=SteelAmount-2
+						BoneAmount=BoneAmount-4
 						InvList.append('Shield')
 						Tinkering.play()
-				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and SteelAmount > 2 and WoodAmount > 4:
+				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and SteelAmount > 2 and WoodAmount > 3:
 					if len(InvList) < 10:
 						SteelAmount=SteelAmount-3
-						WoodAmount=WoodAmount-5
+						WoodAmount=WoodAmount-4
 						InvList.append('TShield')
 						Tinkering.play()
-				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and SteelAmount > 3 and IronAmount > 4:
+				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and SteelAmount > 2 and IronAmount > 3:
 					if len(InvList) < 10:
-						SteelAmount=SteelAmount-4
-						IronAmount=IronAmount-5
+						SteelAmount=SteelAmount-3
+						IronAmount=IronAmount-4
 						InvList.append('Chainmail')
 						Tinkering.play()
-				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and SteelAmount > 9:
-					if len(InvList) < 10:
-						SteelAmount=SteelAmount-10
+				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and SteelAmount > 7:
+					if len(InvList) < 8:
+						SteelAmount=SteelAmount-8
 						InvList.append('Plate')
 						Tinkering.play()
 				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
@@ -3920,8 +3932,8 @@ def DoCraftTrap():
 	while MakingaChoice:
 		Text1='Press trap number to craft or <enter> to exit...'
 		Text1Surf = myfont.render(Text1, False, green)
-		Text2='1> Spiketrap (2 leather, 1 bone)'
-		if LeatherAmount > 1 and BoneAmount > 0:
+		Text2='1> Spiketrap (2 leather, 2 bone)'
+		if LeatherAmount > 1 and BoneAmount > 1:
 			color=green
 		else:
 			color=red
@@ -3941,15 +3953,15 @@ def DoCraftTrap():
 			color=red
 		Text4Surf = myfont.render(Text4, False, color)
 
-		Text5='4> Electrotrap (4 bone, 2 iron)'
+		Text5='4> Electrotrap (3 bone, 2 iron)'
 		if BoneAmount > 3 and IronAmount > 1:
 			color=green
 		else:
 			color=red
 		Text5Surf = myfont.render(Text5, False, color)
 
-		Text6='5> Mine (5 bone, 2 steel)'
-		if BoneAmount > 4 and SteelAmount > 1:
+		Text6='5> Mine (4 bone, 2 steel)'
+		if BoneAmount > 3 and SteelAmount > 1:
 			color=green
 		else:
 			color=red
@@ -3974,9 +3986,9 @@ def DoCraftTrap():
 
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
-				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and BoneAmount > 0 and LeatherAmount > 1:
+				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and BoneAmount > 1 and LeatherAmount > 1:
 					if len(InvList) < 10:
-						BoneAmount=BoneAmount-1
+						BoneAmount=BoneAmount-2
 						LeatherAmount=LeatherAmount-2
 						InvList.append('Spiketrap')
 						Tinkering.play()
@@ -3991,15 +4003,15 @@ def DoCraftTrap():
 						WoodAmount=WoodAmount-2
 						InvList.append('Acidtrap')
 						Tinkering.play()
-				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and BoneAmount > 3 and IronAmount > 1:
+				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and BoneAmount > 2 and IronAmount > 1:
 					if len(InvList) < 10:
-						BoneAmount=BoneAmount-4
+						BoneAmount=BoneAmount-3
 						IronAmount=IronAmount-2
 						InvList.append('Electrotrap')
 						Tinkering.play()
-				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and BoneAmount > 4 and SteelAmount > 1:
+				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and BoneAmount > 3 and SteelAmount > 1:
 					if len(InvList) < 10:
-						BoneAmount=BoneAmount-5
+						BoneAmount=BoneAmount-4
 						SteelAmount=SteelAmount-2
 						InvList.append('Mine')
 						Tinkering.play()
@@ -4021,36 +4033,36 @@ def DoCraftSpell():
 	while MakingaChoice:
 		Text1='Press spell number to craft or <enter> to exit...'
 		Text1Surf = myfont.render(Text1, False, green)
-		Text2='1> Fire spell (4 leather, 1 iron)'
-		if LeatherAmount > 3 and IronAmount > 0:
+		Text2='1> Fire spell (3 leather, 2 iron)'
+		if LeatherAmount > 2 and IronAmount > 1:
 			color=green
 		else:
 			color=red
 		Text2Surf = myfont.render(Text2, False, color)
 
-		Text3='2> Teleport spell (4 bone, 2 iron)'
-		if BoneAmount > 3 and IronAmount > 1:
+		Text3='2> Teleport spell 3 bone, 2 iron)'
+		if BoneAmount > 2 and IronAmount > 1:
 			color=green
 		else:
 			color=red
 		Text3Surf = myfont.render(Text3, False, color)
 
-		Text4='3> Drain spell (4 wood, 3 iron)'
-		if WoodAmount > 3 and IronAmount > 2:
+		Text4='3> Drain spell (3 wood, 3 iron)'
+		if WoodAmount > 2 and IronAmount > 2:
 			color=green
 		else:
 			color=red
 		Text4Surf = myfont.render(Text4, False, color)
 
-		Text5='4> Lightning spell (8 iron)'
-		if IronAmount > 7:
+		Text5='4> Lightning spell (6 iron)'
+		if IronAmount > 5:
 			color=green
 		else:
 			color=red
 		Text5Surf = myfont.render(Text5, False, color)
 
-		Text6='5> Fireball spell (5 iron, 4 steel)'
-		if IronAmount > 4 and SteelAmount > 3:
+		Text6='5> Fireball spell (4 iron, 3 steel)'
+		if IronAmount > 3 and SteelAmount > 2:
 			color=green
 		else:
 			color=red
@@ -4075,35 +4087,35 @@ def DoCraftSpell():
 
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
-				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and LeatherAmount > 3 and IronAmount > 0:
+				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and LeatherAmount > 2 and IronAmount > 1:
 					if len(InvList) < 10:
-						LeatherAmount=LeatherAmount-4
-						IronAmount=IronAmount-1
+						LeatherAmount=LeatherAmount-3
+						IronAmount=IronAmount-2
 						InvList.append('Fire')
-						Tinkering.play()
-				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and BoneAmount > 3 and IronAmount > 1:
+						Writing.play()
+				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and BoneAmount > 2 and IronAmount > 1:
 					if len(InvList) < 10:
-						BoneAmount=BoneAmount-4
+						BoneAmount=BoneAmount-3
 						IronAmount=IronAmount-2
 						InvList.append('Teleport')
-						Tinkering.play()
-				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and WoodAmount > 3 and IronAmount > 2:
+						Writing.play()
+				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and WoodAmount > 2 and IronAmount > 2:
 					if len(InvList) < 10:
-						WoodAmount=WoodAmount-4
+						WoodAmount=WoodAmount-3
 						IronAmount=IronAmount-3
 						InvList.append('Drain')
-						Tinkering.play()
-				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and IronAmount > 7:
+						Writing.play()
+				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and IronAmount > 5:
 					if len(InvList) < 10:
-						IronAmount=IronAmount-8
+						IronAmount=IronAmount-6
 						InvList.append('Lightning')
-						Tinkering.play()
-				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and IronAmount > 4 and SteelAmount > 3:
+						Writing.play()
+				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and IronAmount > 3 and SteelAmount > 2:
 					if len(InvList) < 10:
-						IronAmount=IronAmount-5
-						SteelAmount=SteelAmount-4
+						IronAmount=IronAmount-4
+						SteelAmount=SteelAmount-3
 						InvList.append('Fireball')
-						Tinkering.play()
+						Writing.play()
 				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
 					return
 			DoScreen(Labyrinth, Level)
