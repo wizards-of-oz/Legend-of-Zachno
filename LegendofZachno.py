@@ -3910,7 +3910,7 @@ def DoCraftArmor():
 						InvList.append('Chainmail')
 						Tinkering.play()
 				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and SteelAmount > 7:
-					if len(InvList) < 8:
+					if len(InvList) < 10:
 						SteelAmount=SteelAmount-8
 						InvList.append('Plate')
 						Tinkering.play()
@@ -4129,7 +4129,7 @@ def DoSelectClass():
 	Text2='1> Warrior'
 	Text3='2> Tank'
 	Text4='3> Rogue'
-	Text5='4: Mage'
+	Text5='4> Mage'
 
 	Text1Surf = myfont.render(Text1, False, green)
 	Text2Surf = myfont.render(Text2, False, green)
