@@ -3096,10 +3096,10 @@ def DoLevelUp():
 
 	if PlayerType=='Warrior':
 		PlayerAttack=PlayerAttack+1
-		PlayerDefence=int(PlayerAttack/3)
+		PlayerDefence=int(PlayerAttack/2)
 		if PlayerDefence<2:
 			PlayerDefence=2
-		PlayerLifeLevel=int(PlayerAttack/2)
+		PlayerLifeLevel=int(PlayerAttack/3)
 		if PlayerLifeLevel<2:
 			PlayerLifeLevel=2
 		PlayerMagic=int(PlayerAttack/4)
@@ -3107,10 +3107,10 @@ def DoLevelUp():
 			PlayerMagic=2
 	elif PlayerType=='Tank':
 		PlayerDefence=PlayerDefence+1
-		PlayerAttack=int(PlayerDefence/3)
+		PlayerAttack=int(PlayerDefence/2)
 		if PlayerAttack<2:
 			PlayerAttack=2
-		PlayerLifeLevel=int(PlayerDefence/2)
+		PlayerLifeLevel=int(PlayerDefence/3)
 		if PlayerLifeLevel<2:
 			PlayerLifeLevel=2
 		PlayerMagic=int(PlayerDefence/4)
@@ -3118,10 +3118,10 @@ def DoLevelUp():
 			PlayerMagic=2
 	elif PlayerType=='Rogue':
 		PlayerLifeLevel=PlayerLifeLevel+1
-		PlayerAttack=int(PlayerLifeLevel/3)
+		PlayerAttack=int(PlayerLifeLevel/2)
 		if PlayerAttack<2:
 			PlayerAttack=2
-		PlayerDefence=int(PlayerLifeLevel/2)
+		PlayerDefence=int(PlayerLifeLevel/3)
 		if PlayerDefence<2:
 			PlayerDefence=2
 		PlayerMagic=int(PlayerLifeLevel/4)
@@ -3129,13 +3129,13 @@ def DoLevelUp():
 			PlayerMagic=2
 	elif PlayerType=='Mage':
 		PlayerMagic=PlayerMagic+1
-		PlayerAttack=int(PlayerMagic/4)
+		PlayerAttack=int(PlayerMagic/2)
 		if PlayerAttack<2:
 			PlayerAttack=2
-		PlayerDefence=int(PlayerMagic/2)
+		PlayerDefence=int(PlayerMagic/3)
 		if PlayerDefence<2:
 			PlayerDefence=2
-		PlayerLifeLevel=int(PlayerMagic/3)
+		PlayerLifeLevel=int(PlayerMagic/4)
 		if PlayerLifeLevel<2:
 			PlayerLifeLevel=2
 
@@ -3659,28 +3659,28 @@ def DoCraftItem():
 		Text1='Press category number or <enter> to exit...'
 		Text1Surf = myfont.render(Text1, False, green)
 		Text2='1> Weapons...'
-		if PlayerType=='Warrior' or PlayerType=='Tank':
+		if PlayerType=='Warrior' or PlayerType=='Mage':
 			color=green
 		else:
 			color=red
 		Text2Surf = myfont.render(Text2, False, color)
 
 		Text3='2> Armor...'
-		if PlayerType=='Warrior' or PlayerType=='Tank'or PlayerType=='Rogue':
+		if PlayerType=='Warrior' or PlayerType=='Tank':
 			color=green
 		else:
 			color=red
 		Text3Surf = myfont.render(Text3, False, color)
 
 		Text4='3> Traps...'
-		if PlayerType=='Rogue' or PlayerType=='Mage':
+		if PlayerType=='Rogue' or PlayerType=='Tank':
 			color=green
 		else:
 			color=red
 		Text4Surf = myfont.render(Text4, False, color)
 
 		Text5='4> Spells...'
-		if PlayerType=='Mage':
+		if PlayerType=='Mage'or PlayerType=='Tank':
 			color=green
 		else:
 			color=red
@@ -3711,13 +3711,13 @@ def DoCraftItem():
 
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
-				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and (PlayerType=='Warrior' or PlayerType=='Tank'):
+				if (event.key == pygame.K_1 or event.key == pygame.K_KP1) and (PlayerType=='Warrior' or PlayerType=='Mage'):
 					DoCraftWeapon()
-				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and (PlayerType=='Warrior' or PlayerType=='Tank' or PlayerType=='Rogue'):
+				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and (PlayerType=='Warrior' or PlayerType=='Tank'):
 					DoCraftArmor()
-				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and (PlayerType=='Rogue' or PlayerType=='Mage'):
+				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and (PlayerType=='Rogue' or PlayerType=='Tank'):
 					DoCraftTrap()
-				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and PlayerType=='Mage':
+				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and (PlayerType=='Mage'or PlayerType=='Rogue'):
 					DoCraftSpell()
 				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and BoneAmount > 2 and WoodAmount > 1:
 					if len(InvList) < 10:
