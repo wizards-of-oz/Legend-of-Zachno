@@ -585,7 +585,7 @@ def DoScreen (Labyrinth, Level):
 	else:
 		Size=(MapGen*2*9)+9
 
-	LevelText = 'Level: '+str(Level)
+	LevelText = 'Floor: '+str(Level-20)
 	PlayerPosText = 'Position: '+str(PlayerX)+' '+str(PlayerY)
 	LabyrinthText='Size of map: '+str(Size)+' by '+str(Size)
 	GoldText='Player gold: '+str(Gold)
@@ -2487,37 +2487,37 @@ def DoSplash(LoadList):
 	LevelSave5=int(LoadList[81].rstrip())
 	LevelSave6=int(LoadList[101].rstrip())
 
-	SLevelSave1=str(LevelSave1)
-	SLevelSave2=str(LevelSave2)
-	SLevelSave3=str(LevelSave3)
-	SLevelSave4=str(LevelSave4)
-	SLevelSave5=str(LevelSave5)
-	SLevelSave6=str(LevelSave6)
+	SLevelSave1=str(LevelSave1-20)
+	SLevelSave2=str(LevelSave2-20)
+	SLevelSave3=str(LevelSave3-20)
+	SLevelSave4=str(LevelSave4-20)
+	SLevelSave5=str(LevelSave5-20)
+	SLevelSave6=str(LevelSave6-20)
 
 	if LevelSave1==0:
 		Save1Status='Save slot 1, new game'
 	else:
-		Save1Status='Save slot 1, level: '+SLevelSave1+' '+str(LoadList[2]).rstrip()
+		Save1Status='Save slot 1, floor: '+SLevelSave1+' '+str(LoadList[2]).rstrip()
 	if LevelSave2==0:
 		Save2Status='Save slot 2, new game'
 	else:
-		Save2Status='Save slot 2, level: '+SLevelSave2+' '+str(LoadList[22]).rstrip()
+		Save2Status='Save slot 2, floor: '+SLevelSave2+' '+str(LoadList[22]).rstrip()
 	if LevelSave3==0:
 		Save3Status='Save slot 3, new game'
 	else:
-		Save3Status='Save slot 3, level: '+SLevelSave3+' '+str(LoadList[42]).rstrip()
+		Save3Status='Save slot 3, floor: '+SLevelSave3+' '+str(LoadList[42]).rstrip()
 	if LevelSave4==0:
 		Save4Status='Save slot 4, new game'
 	else:
-		Save4Status='Save slot 4, level: '+SLevelSave4+' '+str(LoadList[62]).rstrip()
+		Save4Status='Save slot 4, floor: '+SLevelSave4+' '+str(LoadList[62]).rstrip()
 	if LevelSave5==0:
 		Save5Status='Save slot 5, new game'
 	else:
-		Save5Status='Save slot 5, level: '+SLevelSave5+' '+str(LoadList[82]).rstrip()
+		Save5Status='Save slot 5, floor: '+SLevelSave5+' '+str(LoadList[82]).rstrip()
 	if LevelSave6==0:
 		Save6Status='Save slot 6, new game'
 	else:
-		Save6Status='Save slot 6, level: '+SLevelSave6+' '+str(LoadList[102]).rstrip()
+		Save6Status='Save slot 6, floor: '+SLevelSave6+' '+str(LoadList[102]).rstrip()
 
 	Save1Text = myfont.render(Save1Status, False, green)
 	Save2Text = myfont.render(Save2Status, False, green)
@@ -4483,37 +4483,37 @@ while Level < LevelMax:
 					LevelSave5=int(LoadList[81])
 					LevelSave6=int(LoadList[101])
 
-					SLevelSave1=str(LevelSave1)
-					SLevelSave2=str(LevelSave2)
-					SLevelSave3=str(LevelSave3)
-					SLevelSave4=str(LevelSave4)
-					SLevelSave5=str(LevelSave5)
-					SLevelSave6=str(LevelSave6)
+					SLevelSave1=str(LevelSave1-20)
+					SLevelSave2=str(LevelSave2-20)
+					SLevelSave3=str(LevelSave3-20)
+					SLevelSave4=str(LevelSave4-20)
+					SLevelSave5=str(LevelSave5-20)
+					SLevelSave6=str(LevelSave6-20)
 
 					if LevelSave1==0:
 						Save1Status='Save slot 1, new game'
 					else:
-						Save1Status='Save slot 1, level: '+SLevelSave1
+						Save1Status='Save slot 1, floor: '+SLevelSave1
 					if LevelSave2==0:
 						Save2Status='Save slot 2, new game'
 					else:
-						Save2Status='Save slot 2, level: '+SLevelSave2
+						Save2Status='Save slot 2, floor: '+SLevelSave2
 					if LevelSave3==0:
 						Save3Status='Save slot 3, new game'
 					else:
-						Save3Status='Save slot 3, level: '+SLevelSave3
+						Save3Status='Save slot 3, floor: '+SLevelSave3
 					if LevelSave4==0:
 						Save4Status='Save slot 4, new game'
 					else:
-						Save4Status='Save slot 4, level: '+SLevelSave4
+						Save4Status='Save slot 4, floor: '+SLevelSave4
 					if LevelSave5==0:
 						Save5Status='Save slot 5, new game'
 					else:
-						Save5Status='Save slot 5, level: '+SLevelSave5
+						Save5Status='Save slot 5, floor: '+SLevelSave5
 					if LevelSave6==0:
 						Save6Status='Save slot 6, new game'
 					else:
-						Save6Status='Save slot 6, level: '+SLevelSave6
+						Save6Status='Save slot 6, floor: '+SLevelSave6
 
 					Save1Text = myfont.render(Save1Status, False, green)
 					Save2Text = myfont.render(Save2Status, False, green)
