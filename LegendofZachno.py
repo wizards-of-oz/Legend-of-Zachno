@@ -522,9 +522,9 @@ def DoScreen (Labyrinth, Level):
 		elif HeroArmor=='TShield':
 			screen.blit(TShieldSmall, ((ScreenX+40), (ScreenY+20)))
 		elif HeroArmor=='Chainmail':
-			screen.blit(ChainmailSmall, ((ScreenX+20), (ScreenY+40)))
+			screen.blit(ChainmailSmall, ((ScreenX+20), (ScreenY+30)))
 		elif HeroArmor=='Plate':
-			screen.blit(PlateSmall, ((ScreenX+20), (ScreenY+40)))
+			screen.blit(PlateSmall, ((ScreenX+20), (ScreenY+30)))
 	
 		if HeroWeapon=='Dagger':
 			screen.blit(DaggerSmall, (ScreenX, ScreenY))
@@ -542,18 +542,23 @@ def DoScreen (Labyrinth, Level):
 			Namecolor=sky_blue
 
 		if HeroDef >= PlayerAtt:
-			color=red
-		elif HeroAtt > PlayerDef:
-			color=orange
+			defcolor=red
 		else:
-			color=green
+			defcolor=green
+
+		if HeroAtt > PlayerDef:
+			attcolor=red
+		else:
+			attcolor=green
 
 		HeroNameText=str(HeroName)
 		HeroLifeTextSurf=myfont.render(HeroNameText, False, Namecolor)
-		HeroText1='Att:'+str(HeroAtt)+' Def:'+str(HeroDef)
-		HeroText1Surf=myfont.render(HeroText1, False, color)
+		HeroTextatt='Att:'+str(HeroAtt)
+		HeroTextattSurf=myfont.render(HeroTextatt, False, attcolor)
+		HeroTextdef='Def:'+str(HeroDef)
+		HeroTextdefSurf=myfont.render(HeroTextdef, False, defcolor)
 		HeroText2='Life:'+str(HeroLife)+' Mana:'+str(HeroMana)
-		HeroText2Surf=myfont.render(HeroText2, False, color)
+		HeroText2Surf=myfont.render(HeroText2, False, green)
 
 		# Translating x and y coordinates from VisualList into actual pixel coordinatesd
 		ScreenX=(ObjectX+7)*80
@@ -562,7 +567,9 @@ def DoScreen (Labyrinth, Level):
 		# Placing the item on screen
 		screen.blit(HeroLifeTextSurf, (ScreenX, ScreenY))
 		ScreenY=((YConvert+4)*80)+80
-		screen.blit(HeroText1Surf, (ScreenX, ScreenY))
+		screen.blit(HeroTextattSurf, (ScreenX, ScreenY))
+		ScreenXDef=ScreenX+70
+		screen.blit(HeroTextdefSurf, (ScreenXDef, ScreenY))
 		ScreenY=((YConvert+4)*80)+100
 		screen.blit(HeroText2Surf, (ScreenX, ScreenY))
 		Counter=Counter+10
@@ -733,9 +740,9 @@ def DoScreen (Labyrinth, Level):
 	elif PlayerArmor=='TShield':
 		screen.blit(TShieldSmall, (600, 340))
 	elif PlayerArmor=='Chainmail':
-		screen.blit(ChainmailSmall, (580, 360))
+		screen.blit(ChainmailSmall, (580, 350))
 	elif PlayerArmor=='Plate':
-		screen.blit(PlateSmall, (580, 360))
+		screen.blit(PlateSmall, (580, 350))
 
 	if PlayerWeapon=='Dagger':
 		screen.blit(DaggerSmall, (560, 320))
@@ -3680,7 +3687,7 @@ def DoCraftItem():
 		Text4Surf = myfont.render(Text4, False, color)
 
 		Text5='4> Spells...'
-		if PlayerType=='Mage'or PlayerType=='Tank':
+		if PlayerType=='Mage'or PlayerType=='Rogue':
 			color=green
 		else:
 			color=red
