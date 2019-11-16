@@ -3611,7 +3611,9 @@ def DoEnemies():
 		YDiff=HeroY-PlayerY
 		TreshHold=10-HeroAttack
 		SpellChance=random.randint(1,2)
-		EnemyScan=int((HeroLevel+5)/2)
+		EnemyScan=HeroLevel
+		if EnemyScan < 5:
+			EnemyScan=5
 		if (-1*EnemyScan <= XDiff) and ( XDiff <= EnemyScan) and (-1*EnemyScan <= YDiff) and (YDiff <= EnemyScan):
 			if HeroLife > (HeroLifeLevel*TreshHold):
 				if HeroX==PlayerX or HeroY==PlayerY:
