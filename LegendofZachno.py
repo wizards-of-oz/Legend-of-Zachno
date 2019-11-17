@@ -2591,6 +2591,7 @@ def DoExit():
 	return
 
 def DoVictory():
+	Applause.play()
 	screen.blit(Black,(0,0))
 	screen.blit(Splash,(480,280))
 	screen.blit(TextBar,(0,780))
