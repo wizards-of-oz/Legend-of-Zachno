@@ -218,15 +218,15 @@ def VisualScan(Labyrinth, HeroList):
 	Counter=0
 	while Counter<MaxCounter:
 		Object=str(HeroList[Counter+1])
-		ObjectX=int(HeroList[Counter+13])
-		ObjectY=int(HeroList[Counter+14])
+		ObjectX=int(HeroList[Counter+14])
+		ObjectY=int(HeroList[Counter+15])
 		XDiff=ObjectX-PlayerX
 		YDiff=ObjectY-PlayerY
 		if (-7 <= XDiff) and ( XDiff <= 7) and (-5 <= YDiff) and (YDiff <= 4):
 			VisualList.append(Object)
 			VisualList.append(XDiff)
 			VisualList.append(YDiff)
-		Counter=Counter+15
+		Counter=Counter+16
 	return(VisualList)
 
 # Translates items in game array to pictures
@@ -411,8 +411,8 @@ def HeroScan(Labyrinth, HeroList):
 		HeroAtt=int(HeroList[Counter+5])
 		HeroDef=int(HeroList[Counter+6])
 		HeroMana=int(HeroList[Counter+10])
-		ObjectX=int(HeroList[Counter+13])
-		ObjectY=int(HeroList[Counter+14])
+		ObjectX=int(HeroList[Counter+14])
+		ObjectY=int(HeroList[Counter+15])
 		if HeroWeapon=='Dagger':
 			HeroAtt=HeroAtt+4
 		elif HeroWeapon=='Mace':
@@ -445,7 +445,7 @@ def HeroScan(Labyrinth, HeroList):
 			HeroLifeList.append(HeroMana)
 			HeroLifeList.append(XDiff)
 			HeroLifeList.append(YDiff)
-		Counter=Counter+15
+		Counter=Counter+16
 	return(HeroLifeList)
 
 # Display function
@@ -522,9 +522,9 @@ def DoScreen (Labyrinth, Level):
 		elif HeroArmor=='TShield':
 			screen.blit(TShieldSmall, ((ScreenX+40), (ScreenY+20)))
 		elif HeroArmor=='Chainmail':
-			screen.blit(ChainmailSmall, ((ScreenX+20), (ScreenY+30)))
+			screen.blit(ChainmailSmall, ((ScreenX+20), (ScreenY+20)))
 		elif HeroArmor=='Plate':
-			screen.blit(PlateSmall, ((ScreenX+20), (ScreenY+30)))
+			screen.blit(PlateSmall, ((ScreenX+20), (ScreenY+20)))
 	
 		if HeroWeapon=='Dagger':
 			screen.blit(DaggerSmall, (ScreenX, ScreenY))
@@ -1214,8 +1214,9 @@ def DoPlayerCombat(Counter):
 	HeroLife=int(HeroList[Counter+9])
 	DropItemOne=str(HeroList[Counter+11])
 	DropItemTwo=str(HeroList[Counter+12])
-	HeroX=int(HeroList[Counter+13])
-	HeroY=int(HeroList[Counter+14])
+	DropItemThree=str(HeroList[Counter+13])
+	HeroX=int(HeroList[Counter+14])
+	HeroY=int(HeroList[Counter+15])
 
 	BreakChance=0
 	if HeroArmor=='WShield':
@@ -1271,7 +1272,7 @@ def DoPlayerCombat(Counter):
 	if HeroLife < 1:
 		DeathScream.play()
 		PlayerXP=PlayerXP+HeroLevel
-		Chance=random.randint(1,2)
+		Chance=random.randint(1,3)
 		if Chance==1:
 			if DropItemOne != 'None':
 				Labyrinth.append(DropItemOne)
@@ -1282,6 +1283,12 @@ def DoPlayerCombat(Counter):
 				Labyrinth.append(DropItemTwo)
 				Labyrinth.append(HeroX)
 				Labyrinth.append(HeroY)
+		if Chance==3:
+			if DropItemTwo != 'None':
+				Labyrinth.append(DropItemThree)
+				Labyrinth.append(HeroX)
+				Labyrinth.append(HeroY)
+		del HeroList[Counter]
 		del HeroList[Counter]
 		del HeroList[Counter]
 		del HeroList[Counter]
@@ -1593,13 +1600,13 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 	Counter=0
 	MaxCounter=len(HeroList)
 	while Counter < MaxCounter:
-		HeroX=int(HeroList[Counter+13])
-		HeroY=int(HeroList[Counter+14])
+		HeroX=int(HeroList[Counter+14])
+		HeroY=int(HeroList[Counter+15])
 		if HeroX == NewX and HeroY == NewY:
 			DoPlayerCombat(Counter)
 			MaxCounter=len(HeroList)
 			Collision=True
-		Counter=Counter+15
+		Counter=Counter+16
 	return(Collision)
 
 # Creates a list of all room positions in current level
@@ -2779,8 +2786,9 @@ def DoSpell(ItemCounter):
 				HeroMana=int(HeroList[HeroCounter+10])
 				DropItemOne=str(HeroList[HeroCounter+11])
 				DropItemTwo=str(HeroList[HeroCounter+12])
-				HeroX=int(HeroList[HeroCounter+13])
-				HeroY=int(HeroList[HeroCounter+14])
+				DropItemThree=str(HeroList[HeroCounter+13])
+				HeroX=int(HeroList[HeroCounter+14])
+				HeroY=int(HeroList[HeroCounter+15])
 				if HeroX==SpellX and HeroY==SpellY:
 					FreeFlight=False
 					if Spell=='Fire':
@@ -2841,7 +2849,7 @@ def DoSpell(ItemCounter):
 					if HeroLife < 1:
 						DeathScream.play()
 						PlayerXP=PlayerXP+HeroLevel
-						Chance=random.randint(1,2)
+						Chance=random.randint(1,3)
 						if Chance==1:
 							if DropItemOne != 'None':
 								Labyrinth.append(DropItemOne)
@@ -2852,6 +2860,12 @@ def DoSpell(ItemCounter):
 								Labyrinth.append(DropItemTwo)
 								Labyrinth.append(HeroX)
 								Labyrinth.append(HeroY)
+						if Chance==2:
+							if DropItemThree != 'None':
+								Labyrinth.append(DropItemThree)
+								Labyrinth.append(HeroX)
+								Labyrinth.append(HeroY)
+						del HeroList[HeroCounter]
 						del HeroList[HeroCounter]
 						del HeroList[HeroCounter]
 						del HeroList[HeroCounter]
@@ -2870,7 +2884,7 @@ def DoSpell(ItemCounter):
 						HeroCounterMax=len(HeroList)
 					else:
 						HeroList[HeroCounter+9]=HeroLife
-				HeroCounter=HeroCounter+15
+				HeroCounter=HeroCounter+16
 		else:
 			FreeFlight=False
 	SpellX=-200
@@ -3034,6 +3048,7 @@ def PlaceHeroes(Labyrinth, Level):
 		HeroMana=int(ListofHeroes[Counter+10])
 		HeroDropItemOne=ListofHeroes[Counter+11].rstrip()
 		HeroDropItemTwo=ListofHeroes[Counter+12].rstrip()
+		HeroDropItemThree=ListofHeroes[Counter+13].rstrip()
 		Number=1
 		MaxNumber=int(Level/HeroLevel)
 		while Number <= MaxNumber:
@@ -3071,6 +3086,7 @@ def PlaceHeroes(Labyrinth, Level):
 						HeroList.append(HeroMana)
 						HeroList.append(HeroDropItemOne)
 						HeroList.append(HeroDropItemTwo)
+						HeroList.append(HeroDropItemThree)
 						HeroList.append(HeroX)
 						HeroList.append(HeroY)
 						LookingForASpot=False
@@ -3081,7 +3097,7 @@ def PlaceHeroes(Labyrinth, Level):
 			pygame.display.flip()
 
 			Number=Number+1
-		Counter=Counter+13
+		Counter=Counter+14
 	return
 
 def DoLevelUp():
@@ -3329,7 +3345,7 @@ def DoHeroCombat(Counter):
 		pygame.display.flip()
 	else:
 		Bump.play()
-	if BreakChance >= random.randint(1,20):
+	if BreakChance >= random.randint(1,40):
 		Shatter.play()
 		PlayerArmor='None'
 	return
@@ -3358,8 +3374,9 @@ def EnemyMove(EnemyDir, Counter):
 	HeroMana=int(HeroList[Counter+10])
 	HeroDropItemOne=HeroList[Counter+11].rstrip()
 	HeroDropItemTwo=HeroList[Counter+12].rstrip()
-	HeroX=HeroList[Counter+13]
-	HeroY=HeroList[Counter+14]
+	HeroDropItemThree=HeroList[Counter+13].rstrip()
+	HeroX=HeroList[Counter+14]
+	HeroY=HeroList[Counter+15]
 
 	if EnemyDir==8:
 		NewHeroX=HeroX
@@ -3448,17 +3465,24 @@ def EnemyMove(EnemyDir, Counter):
 			LabNum=LabNum+3
 		if HeroLife < 1:
 			PlayerXP=PlayerXP+HeroLevel
-			Chance=random.randint(1,2)
+			Chance=random.randint(1,3)
 			if Chance==1:
 				if not HeroDropItemOne=='None':
 					Labyrinth.append(HeroDropItemOne)
 					Labyrinth.append(HeroX)
 					Labyrinth.append(HeroY)
-			else:
+			if Chance==2:
 				if not HeroDropItemTwo=='None':
 					Labyrinth.append(HeroDropItemTwo)
 					Labyrinth.append(HeroX)
 					Labyrinth.append(HeroY)
+			if Chance==3:
+				if not HeroDropItemTwo=='None':
+					Labyrinth.append(HeroDropItemThree)
+					Labyrinth.append(HeroX)
+					Labyrinth.append(HeroY)
+
+			del HeroList[Counter]
 			del HeroList[Counter]
 			del HeroList[Counter]
 			del HeroList[Counter]
@@ -3488,8 +3512,8 @@ def EnemyMove(EnemyDir, Counter):
 		NoEnemy=True
 		NoEnemy=CheckEnemy(HeroList, CheckX, CheckY)
 		if FoundFloor and NoEnemy:
-			HeroList[Counter+13]=NewHeroX
-			HeroList[Counter+14]=NewHeroY
+			HeroList[Counter+14]=NewHeroX
+			HeroList[Counter+15]=NewHeroY
 			EnemyWalk.play()
 		else:
 			Blocked=True
@@ -3498,8 +3522,8 @@ def EnemyMove(EnemyDir, Counter):
 def HeroHunts(Counter):
 	global PlayerX
 	global PlayerY
-	HeroX=HeroList[Counter+13]
-	HeroY=HeroList[Counter+14]
+	HeroX=HeroList[Counter+14]
+	HeroY=HeroList[Counter+15]
 	XDist=(HeroX-PlayerX)**2
 	YDist=(HeroY-PlayerY)**2
 	Blocked=False
@@ -3537,8 +3561,8 @@ def HeroHunts(Counter):
 def HeroFlees(Counter):
 	global PlayerX
 	global PlayerY
-	HeroX=HeroList[Counter+13]
-	HeroY=HeroList[Counter+14]
+	HeroX=HeroList[Counter+14]
+	HeroY=HeroList[Counter+15]
 	XDist=(HeroX-PlayerX)**2
 	YDist=(HeroY-PlayerY)**2
 	Blocked=False
@@ -3580,12 +3604,12 @@ def CheckEnemy(HeroList, CheckX, CheckY):
 	NoEnemy=True
 	while Counter < MaxCounter:
 		HeroName=HeroList[Counter+1].rstrip()
-		HeroX=HeroList[Counter+13]
-		HeroY=HeroList[Counter+14]
+		HeroX=HeroList[Counter+14]
+		HeroY=HeroList[Counter+15]
 		if CheckX==HeroX and CheckY==HeroY:
 			if not HeroName=='':
 				NoEnemy=False
-		Counter = Counter+15
+		Counter = Counter+16
 	return(NoEnemy)
 
 def DoEnemies():
@@ -3606,8 +3630,9 @@ def DoEnemies():
 		HeroMana=int(HeroList[Counter+10])
 		HeroDropItemOne=HeroList[Counter+11].rstrip()
 		HeroDropItemTwo=HeroList[Counter+12].rstrip()
-		HeroX=HeroList[Counter+13]
-		HeroY=HeroList[Counter+14]
+		HeroDropItemThree=HeroList[Counter+13].rstrip()
+		HeroX=HeroList[Counter+14]
+		HeroY=HeroList[Counter+15]
 		XDiff=HeroX-PlayerX
 		YDiff=HeroY-PlayerY
 		TreshHold=10-HeroAttack
@@ -3653,7 +3678,7 @@ def DoEnemies():
 			else:
 				HeroFlees(Counter)
 				MaxCounter=len(HeroList)
-		Counter=Counter+15
+		Counter=Counter+16
 	return
 
 def DoCraftItem():
@@ -4379,8 +4404,9 @@ if Level > 0:
 			HeroMana=int(HeroSave[HeroCounter+10])
 			HeroDropItemOne=str(HeroSave[HeroCounter+11]).rstrip()
 			HeroDropItemTwo=str(HeroSave[HeroCounter+12]).rstrip()
-			HeroX=int(HeroSave[HeroCounter+13])
-			HeroY=int(HeroSave[HeroCounter+14])
+			HeroDropItemThree=str(HeroSave[HeroCounter+13]).rstrip()
+			HeroX=int(HeroSave[HeroCounter+14])
+			HeroY=int(HeroSave[HeroCounter+15])
 			HeroList.append(HeroLevel)
 			HeroList.append(HeroName)
 			HeroList.append(HeroWeapon)
@@ -4394,9 +4420,10 @@ if Level > 0:
 			HeroList.append(HeroMana)
 			HeroList.append(HeroDropItemOne)
 			HeroList.append(HeroDropItemTwo)
+			HeroList.append(HeroDropItemThree)
 			HeroList.append(HeroX)
 			HeroList.append(HeroY)
-			HeroCounter=HeroCounter+15
+			HeroCounter=HeroCounter+16
 
 while Level < LevelMax:
 	DoScreen(Labyrinth, Level)
@@ -4667,8 +4694,9 @@ while Level < LevelMax:
 						HeroMana=str(HeroList[HeroCounter+10])+'\n'
 						HeroDropItemOne=str(HeroList[HeroCounter+11])+'\n'
 						HeroDropItemTwo=str(HeroList[HeroCounter+12])+'\n'
-						HeroX=str(HeroList[HeroCounter+13])+'\n'
-						HeroY=str(HeroList[HeroCounter+14])
+						HeroDropItemThree=str(HeroList[HeroCounter+13])+'\n'
+						HeroX=str(HeroList[HeroCounter+14])+'\n'
+						HeroY=str(HeroList[HeroCounter+15])
 						HeroSave.write(HeroLevel)
 						HeroSave.write(HeroName)
 						HeroSave.write(HeroWeapon)
@@ -4682,11 +4710,12 @@ while Level < LevelMax:
 						HeroSave.write(HeroMana)
 						HeroSave.write(HeroDropItemOne)
 						HeroSave.write(HeroDropItemTwo)
+						HeroSave.write(HeroDropItemThree)
 						HeroSave.write(HeroX)
 						HeroSave.write(HeroY)
 						if not HeroCounter==HeroCounterMax-1:
 							HeroSave.write('\n')
-						HeroCounter=HeroCounter+15
+						HeroCounter=HeroCounter+16
 					HeroSave.close()
 
 					if SaveSlot==0:

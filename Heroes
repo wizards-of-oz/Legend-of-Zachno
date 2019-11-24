@@ -11,6 +11,7 @@ None
 3
 None
 None
+None
 4
 Dave
 Dagger
@@ -22,6 +23,7 @@ None
 1
 10
 3
+None
 Dagger
 SpikeTrap
 4
@@ -35,6 +37,7 @@ None
 1
 20
 3
+None
 Mace
 Life
 5
@@ -48,6 +51,7 @@ Fire
 2
 10
 6
+None
 Sword
 FireScroll
 6
@@ -61,6 +65,7 @@ None
 2
 20
 6
+None
 BattleAxe
 WShield
 4
@@ -74,6 +79,7 @@ None
 1
 10
 3
+Dagger
 BearTrap
 SpikeTrap
 4
@@ -87,6 +93,7 @@ None
 1
 30
 3
+Dagger
 AcidTrap
 Life
 5
@@ -100,6 +107,7 @@ Fire
 3
 10
 9
+Dagger
 ElectroTrap
 FireScroll
 6
@@ -113,6 +121,7 @@ None
 3
 30
 9
+Dagger
 Mine
 WShield
 5
@@ -126,6 +135,7 @@ None
 1
 80
 3
+Mace
 Life
 Life
 6
@@ -139,6 +149,7 @@ Fire
 4
 50
 12
+Mace
 Mana
 FireScroll
 8
@@ -152,6 +163,7 @@ None
 4
 60
 12
+Mace
 Mana
 WShield
 10
@@ -165,6 +177,7 @@ Lightning
 10
 10
 30
+Sword
 LightningScroll
 FireScroll
 8
@@ -178,6 +191,7 @@ Fireball
 6
 50
 18
+Sword
 FireballScroll
 WShield
 15
@@ -191,6 +205,7 @@ None
 12
 120
 36
+Battleaxe
 Plate
 WShield
 6
@@ -206,6 +221,7 @@ None
 6
 BearTrap
 BearTrap
+BearTrap
 5
 Rogue
 Fists
@@ -217,6 +233,7 @@ None
 2
 40
 6
+BearTrap
 AcidTrap
 Life
 7
@@ -230,6 +247,7 @@ Teleport
 4
 20
 12
+BearTrap
 ElectroTrap
 TeleportScroll
 7
@@ -243,6 +261,7 @@ None
 4
 40
 12
+BearTrap
 Mine
 Shield
 7
@@ -256,6 +275,7 @@ None
 2
 100
 6
+AcidTrap
 Life
 Life
 7
@@ -269,6 +289,7 @@ Teleport
 5
 60
 15
+AcidTrap
 Mana
 TeleportScroll
 8
@@ -282,6 +303,7 @@ None
 5
 70
 15
+AcidTrap
 Mana
 Shield
 8
@@ -295,6 +317,7 @@ Lightning
 12
 20
 36
+ElectroTrap
 LightningScroll
 TeleportScroll
 9
@@ -308,6 +331,7 @@ Fireball
 7
 50
 21
+ElectroTrap
 FireballScroll
 Shield
 17
@@ -321,6 +345,7 @@ None
 14
 140
 42
+Mine
 Plate
 Shield
 8
@@ -336,6 +361,7 @@ None
 9
 Life
 Life
+Life
 9
 Vampire Queen
 Fists
@@ -347,6 +373,7 @@ Drain
 6
 140
 18
+Life
 Mana
 DrainScroll
 11
@@ -360,6 +387,7 @@ None
 6
 150
 18
+Life
 Mine
 TShield
 9
@@ -372,7 +400,8 @@ Lightning
 8
 14
 80
-24
+42
+ElectroTrap
 LightningScroll
 DrainScroll
 10
@@ -386,6 +415,7 @@ Fireball
 8
 90
 24
+ElectroTrap
 FireballScroll
 TShield
 18
@@ -399,6 +429,7 @@ None
 15
 100
 45
+Mine
 Plate
 TShield
 9
@@ -414,6 +445,7 @@ Lightning
 45
 LightningScroll
 LightningScroll
+LightningScroll
 13
 Annihilator Knight
 Mace
@@ -425,6 +457,7 @@ Fireball
 15
 80
 45
+LightningScroll
 FireballScroll
 Chainmail
 18
@@ -438,6 +471,7 @@ None
 10
 140
 30
+FireballScroll
 Plate
 Chainmail
 20
@@ -451,5 +485,6 @@ None
 15
 150
 45
+Plate
 Plate
 Plate
