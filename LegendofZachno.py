@@ -2825,8 +2825,8 @@ def DoSpell(ItemCounter):
 								CheckY=TeleportY
 								FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
 								if FloorFound:
-									HeroList[HeroCounter+13]=TeleportX
-									HeroList[HeroCounter+14]=TeleportY
+									HeroList[HeroCounter+14]=TeleportX
+									HeroList[HeroCounter+15]=TeleportY
 									LookingForASpot=False
 					if Spell=='Drain':
 						Steal.play()
@@ -2860,7 +2860,7 @@ def DoSpell(ItemCounter):
 								Labyrinth.append(DropItemTwo)
 								Labyrinth.append(HeroX)
 								Labyrinth.append(HeroY)
-						if Chance==2:
+						if Chance==3:
 							if DropItemThree != 'None':
 								Labyrinth.append(DropItemThree)
 								Labyrinth.append(HeroX)
