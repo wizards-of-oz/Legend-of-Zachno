@@ -2682,6 +2682,7 @@ def DoSpell(ItemCounter):
 	global PlayerY
 	global PlayerLifeLevel
 	global PlayerLife
+	global PlayerMagic
 	global PlayerMana
 	global PlayerXP
 	global Spell
@@ -2797,7 +2798,7 @@ def DoSpell(ItemCounter):
 						if HeroAttack < 0:
 							HeroAttack=0
 						HeroList[HeroCounter+5]=HeroAttack
-						HeroLife=HeroLife-4
+						HeroLife=HeroLife-(4+PlayerMagic)
 					if Spell=='Teleport':
 						HeroDefence=HeroDefence-4
 						if HeroDefence < 0:
@@ -2833,15 +2834,15 @@ def DoSpell(ItemCounter):
 						PlayerLife=PlayerLife+12
 						if PlayerLife > (PlayerLifeLevel*10):
 							PlayerLife = (PlayerLifeLevel*10)
-						HeroLife=HeroLife-12
+						HeroLife=HeroLife-(12+PlayerMagic)
 					if Spell=='Lightning':
 						Lightning.play()
-						HeroLife=HeroLife-16
+						HeroLife=HeroLife-(16+PlayerMagic)
 						HeroMana=HeroMana-8
 						HeroList[HeroCounter+10]=HeroMana
 					if Spell=='Fireball':
 						Fireball.play()
-						HeroLife=HeroLife-20
+						HeroLife=HeroLife-(20+PlayerMagic)
 						HeroDefence=HeroDefence-10
 						if HeroDefence < 0:
 							HeroDefence=0
