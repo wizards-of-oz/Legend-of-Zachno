@@ -118,6 +118,9 @@ TShieldSmall=pygame.image.load('TShieldSmall.png')
 WShield=pygame.image.load('WShield.png')
 TShield=pygame.image.load('TShield.png')
 Dead=pygame.image.load('Dead.png')
+CursorKeys=pygame.image.load('CursorKeys.png')
+NumberKeys=pygame.image.load('NumberKeys.png')
+EscapeKey=pygame.image.load('EscapeKey.png')
 
 SpikeTrap=pygame.image.load('SpikeTrap.png')
 AcidTrap=pygame.image.load('AcidTrap.png')
@@ -610,7 +613,7 @@ def DoScreen (Labyrinth, Level):
 		ExperienceText='Experience: '+str(PlayerXP)+'/'+str(PlayerLevel*3)
 	else:
 		ExperienceText='Experience: Reached maximum level'
-	EscapeText='Press <esc> to quit game'
+	EscapeText='<esc> quit game, <h> help'
 
 	PlayerAttackText='Attack: '
 	PlayerDefenceText='Defence:'
@@ -2579,6 +2582,54 @@ def DoSplash(LoadList):
 	pygame.key.set_repeat(30,50)
 	return(SaveSlot)
 
+def DoHelp():
+	pygame.key.set_repeat()
+	screen.blit(Black,(0,0))
+	screen.blit(CursorKeys,(0,0))
+	screen.blit(NumberKeys,(0,200))
+	screen.blit(EscapeKey,(0,400))
+
+	MoveText='Cursor keys move Zachno'
+	MoveText2='walking over or bumping into things picks up/activates/starts combat'
+	InventoryText='Number keys operate inventory'
+	InventoryText2='Weapons/armor will be equiped, spells and items will be used'
+	EscapeText='Escape quits the game'
+	EscapeText2='You will be asked to save and given the option to continue'
+	SpacebarText='A tap on the spacebar pauses the game'
+	SpacebarText2='While paused you can still use items, the game will then unpause'
+	EnemyText='Enemies with green names only fight, those with blue names can also cast spells'
+	PauseText='Press <enter> to return to game'
+
+	MoveTextSurf = myfont.render(MoveText, False, green)
+	MoveText2Surf = myfont.render(MoveText2, False, green)
+	screen.blit(MoveTextSurf,(100,0))
+	screen.blit(MoveText2Surf,(100,20))
+
+	InventoryTextSurf = myfont.render(InventoryText, False, green)
+	InventoryText2Surf = myfont.render(InventoryText2, False, green)
+	screen.blit(InventoryTextSurf,(100,200))
+	screen.blit(InventoryText2Surf,(100,220))
+
+	EscapeTextSurf = myfont.render(EscapeText, False, green)
+	EscapeText2Surf = myfont.render(EscapeText2, False, green)
+	screen.blit(EscapeTextSurf,(100,400))
+	screen.blit(EscapeText2Surf,(100,420))
+
+	SpacebarTextSurf = myfont.render(SpacebarText, False, green)
+	SpacebarText2Surf = myfont.render(SpacebarText2, False, green)
+	screen.blit(SpacebarTextSurf,(0,520))
+	screen.blit(SpacebarText2Surf,(0,540))
+
+	EnemyTextSurf = myfont.render(EnemyText, False, green)
+	screen.blit(EnemyTextSurf,(0,600))
+
+	PauseTextSurf = myfont.render(PauseText, False, green)
+	screen.blit(PauseTextSurf,(0,780))
+
+	pygame.display.flip()
+	wait()	
+	return
+
 def DoExit():
 	screen.blit(Black,(0,0))
 	screen.blit(Splash,(480,280))
@@ -4444,6 +4495,9 @@ while Level < LevelMax:
 					Spacebar=True
 #			if pygame.key.get_pressed()[pygame.K_RETURN]:
 #				Spacebar=False
+			if pygame.key.get_pressed()[pygame.K_h]:
+				DoHelp()
+				Spacebar=True
 			if pygame.key.get_pressed()[pygame.K_UP] and Spacebar==False:
 				Dir=8
 				DoMovePlayer(PlayerX, PlayerY, Dir)
