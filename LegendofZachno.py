@@ -2,7 +2,6 @@
 import pygame
 import sys
 import random
-import os
 import math
 from pytictoc import TicToc
 
@@ -920,6 +919,7 @@ def DoChest(NewX, NewY):
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_y:
+					OpeningChest.play()
 					DoGetItem()
 					Counter=0
 					MaxCounter=len(Labyrinth)
@@ -930,7 +930,6 @@ def DoChest(NewX, NewY):
 						if ObjectX==NewX and ObjectY==NewY:
 							if Object=='ChestClosed':
 								Labyrinth[Counter]='ChestOpen'
-								OpeningChest.play()
 						Counter=Counter+3
 					MakingAChoice=False
 				if event.key == pygame.K_n:
@@ -2628,6 +2627,7 @@ def DoHelp():
 
 	pygame.display.flip()
 	wait()	
+	pygame.key.set_repeat(30,50)
 	return
 
 def DoExit():
@@ -3183,24 +3183,24 @@ def DoLevelUp():
 			PlayerMagic=2
 	elif PlayerType=='Tank':
 		PlayerDefence=PlayerDefence+1
-		PlayerAttack=int(PlayerDefence/2)
+		PlayerAttack=int(PlayerDefence/4)
 		if PlayerAttack<2:
 			PlayerAttack=2
-		PlayerLifeLevel=int(PlayerDefence/3)
+		PlayerLifeLevel=int(PlayerDefence/2)
 		if PlayerLifeLevel<2:
 			PlayerLifeLevel=2
-		PlayerMagic=int(PlayerDefence/4)
+		PlayerMagic=int(PlayerDefence/3)
 		if PlayerMagic<2:
 			PlayerMagic=2
 	elif PlayerType=='Rogue':
 		PlayerLifeLevel=PlayerLifeLevel+1
-		PlayerAttack=int(PlayerLifeLevel/2)
+		PlayerAttack=int(PlayerLifeLevel/3)
 		if PlayerAttack<2:
 			PlayerAttack=2
-		PlayerDefence=int(PlayerLifeLevel/3)
+		PlayerDefence=int(PlayerLifeLevel/4)
 		if PlayerDefence<2:
 			PlayerDefence=2
-		PlayerMagic=int(PlayerLifeLevel/4)
+		PlayerMagic=int(PlayerLifeLevel/2)
 		if PlayerMagic<2:
 			PlayerMagic=2
 	elif PlayerType=='Mage':
