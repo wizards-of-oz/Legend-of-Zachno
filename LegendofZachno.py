@@ -1,8 +1,7 @@
 # Import necessary modules
 import pygame
-import sys
-import random
-import math
+from random import randint
+import os
 from pytictoc import TicToc
 
 # Initializing the pygame components i use 
@@ -43,6 +42,7 @@ coffee_brown =((200,190,140))
 moon_glow = ((235,245,255))
 
 # Loading soundfiles into RAM in variables so i can use the .play() command
+Screwdriver = pygame.mixer.Sound('Screwdriver.ogg')
 Walk = pygame.mixer.Sound('Walk.ogg')
 EnemyWalk = pygame.mixer.Sound('EnemyWalk.ogg')
 Bump = pygame.mixer.Sound('Bump.ogg')
@@ -819,7 +819,7 @@ def DoMovePlayer(PlayerX, PlayerY, Dir):
 
 def DoGetItem():
 	global Gold
-	ItemNo=random.randint(1,26)
+	ItemNo=randint(1,26)
 	if ItemNo==1:
 		Item='Dagger'
 		InvList.append(Item)
@@ -1265,7 +1265,7 @@ def DoPlayerCombat(Counter):
 		Spell='BloodSpatter'
 		SpellX=HeroX
 		SpellY=HeroY
-		if BreakChance >= random.randint(1,40):
+		if BreakChance >= randint(1,40):
 			Shatter.play()
 			PlayerWeapon='Fists'
 	else:
@@ -1274,7 +1274,7 @@ def DoPlayerCombat(Counter):
 	if HeroLife < 1:
 		DeathScream.play()
 		PlayerXP=PlayerXP+HeroLevel
-		Chance=random.randint(1,3)
+		Chance=randint(1,3)
 		if Chance==1:
 			if DropItemOne != 'None':
 				Labyrinth.append(DropItemOne)
@@ -1634,7 +1634,7 @@ def GenerateRoomPos(Level):
 		while XCounterMin <= XCounterMax:
 			TunnelSwitch=0
 			MaxRooms=MaxRooms+2
-			RoomSize=random.randint(1, 4)
+			RoomSize=randint(1, 4)
 			RoomX=XCounterMin*9
 			RoomY=YCounterMin*9
 			RoomPos.append(RoomSize)
@@ -2087,7 +2087,7 @@ def GetPercentage(Rooms, MaxRooms):
 	return(Percentage)
 
 def CheckTargetRoom(TargetX, TargetY, RoomSize, RoomPos):
-	TunnelWidth=random.randint(0,1)
+	TunnelWidth=randint(0,1)
 	if RoomSize==1:
 		TunnelWidth=0
 	Counter=0
@@ -2123,14 +2123,14 @@ def GenerateRooms(RoomPos):
 		screen.blit(LoadingTextSurf,(0,780))
 		screen.blit(PercentageTextSurf,(0,0))
 		pygame.display.flip()
-		NumberofExits=random.randint(1, 4)
+		NumberofExits=randint(1, 4)
 		ExitCounter=0
 		ExitUp=False
 		ExitRight=False
 		ExitDown=False
 		ExitLeft=False
 		while ExitCounter < NumberofExits:
-			ExitDir=random.randint(1, 4)
+			ExitDir=randint(1, 4)
 			if ExitDir==1:
 				if RoomCenterY < (MapGen*9):
 					if ExitUp==False:
@@ -2335,8 +2335,8 @@ def PlaceStairs(Labyrinth):
 	LookingForASpot=True
 	while LookingForASpot:
 		NoBlock=True
-		StairsX=random.randint(StairsXMin, StairsXMax)
-		StairsY=random.randint(StairsYMin, StairsYMax)
+		StairsX=randint(StairsXMin, StairsXMax)
+		StairsY=randint(StairsYMin, StairsYMax)
 
 		if (StairsX/9)==int(StairsX/9):
 			NoBlock=False
@@ -2381,8 +2381,8 @@ def PlaceGnome(Labyrinth):
 		LookingForASpot=True
 		while LookingForASpot:
 			NoBlock=True
-			GnomeX=random.randint(GnomeXMin, GnomeXMax)
-			GnomeY=random.randint(GnomeYMin, GnomeYMax)
+			GnomeX=randint(GnomeXMin, GnomeXMax)
+			GnomeY=randint(GnomeYMin, GnomeYMax)
 
 			if (GnomeX/9)==int(GnomeX/9):
 				NoBlock=False
@@ -2422,7 +2422,7 @@ def PlaceDecorations():
 		screen.blit(TextBar,(0,780))
 		screen.blit(LoadingTextSurf,(0,780))
 		pygame.display.flip()
-		DecNo=random.randint(1,6)
+		DecNo=randint(1,6)
 		if DecNo==1:
 			Decoration='Leather'
 		if DecNo==2:
@@ -2447,8 +2447,8 @@ def PlaceDecorations():
 		LookingForASpot=True
 		while LookingForASpot:
 			NoBlock=True
-			DecX=random.randint(DecXMin, DecXMax)
-			DecY=random.randint(DecYMin, DecYMax)
+			DecX=randint(DecXMin, DecXMax)
+			DecY=randint(DecYMin, DecYMax)
 
 			if (DecX/9)==int(DecX/9):
 				NoBlock=False
@@ -2631,6 +2631,7 @@ def DoHelp():
 	return
 
 def DoExit():
+	pygame.key.set_repeat()
 	screen.blit(Black,(0,0))
 	screen.blit(Splash,(480,280))
 	screen.blit(TextBar,(0,780))
@@ -2643,9 +2644,10 @@ def DoExit():
 		for event in pygame.event.get():
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+					pygame.key.set_repeat(30,50)
 					return
 				if event.key == pygame.K_ESCAPE:
-					sys.exit()
+					exit()
 	return
 
 def DoVictory():
@@ -2696,7 +2698,7 @@ def DoVictory():
 						PlayerCounter=PlayerCounter+1
 					Save.close()
 					MakingAChoice=False
-	sys.exit()
+	exit()
 	return
 
 def DoItem(ItemCounter):
@@ -2863,8 +2865,8 @@ def DoSpell(ItemCounter):
 						LookingForASpot=True
 						while LookingForASpot:
 							NoBlock=True
-							TeleportX=random.randint(TeleportXMin, TeleportXMax)
-							TeleportY=random.randint(TeleportYMin, TeleportYMax)
+							TeleportX=randint(TeleportXMin, TeleportXMax)
+							TeleportY=randint(TeleportYMin, TeleportYMax)
 			
 							if (TeleportX/9)==int(TeleportX/9):
 								NoBlock=False
@@ -2901,7 +2903,7 @@ def DoSpell(ItemCounter):
 					if HeroLife < 1:
 						DeathScream.play()
 						PlayerXP=PlayerXP+HeroLevel
-						Chance=random.randint(1,3)
+						Chance=randint(1,3)
 						if Chance==1:
 							if DropItemOne != 'None':
 								Labyrinth.append(DropItemOne)
@@ -3111,8 +3113,8 @@ def PlaceHeroes(Labyrinth, Level):
 			LookingForASpot=True
 			while LookingForASpot:
 				NoBlock=True
-				HeroX=random.randint(HeroXMin, HeroXMax)
-				HeroY=random.randint(HeroYMin, HeroYMax)
+				HeroX=randint(HeroXMin, HeroXMax)
+				HeroY=randint(HeroYMin, HeroYMax)
 
 				if (HeroX/9)==int(HeroX/9):
 					NoBlock=False
@@ -3296,8 +3298,8 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 					TeleportYMax=MapGen*9
 					LookingForASpot=True
 					while LookingForASpot:
-						TeleportX=random.randint(TeleportXMin, TeleportXMax)
-						TeleportY=random.randint(TeleportYMin, TeleportYMax)
+						TeleportX=randint(TeleportXMin, TeleportXMax)
+						TeleportY=randint(TeleportYMin, TeleportYMax)
 		
 						FloorFound=False
 						CheckX=TeleportX
@@ -3322,7 +3324,7 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 					screen.blit(Dead, (560, 320))
 					pygame.display.flip()
 					wait()
-					sys.exit()
+					exit()
 		else:
 			FreeFlight=False
 	SpellX=-200
@@ -3393,11 +3395,11 @@ def DoHeroCombat(Counter):
 			screen.blit(Dead, (560, 320))
 			pygame.display.flip()
 			wait()
-			sys.exit()
+			exit()
 		pygame.display.flip()
 	else:
 		Bump.play()
-	if BreakChance >= random.randint(1,40):
+	if BreakChance >= randint(1,40):
 		Shatter.play()
 		PlayerArmor='None'
 	return
@@ -3517,7 +3519,7 @@ def EnemyMove(EnemyDir, Counter):
 			LabNum=LabNum+3
 		if HeroLife < 1:
 			PlayerXP=PlayerXP+HeroLevel
-			Chance=random.randint(1,3)
+			Chance=randint(1,3)
 			if Chance==1:
 				if not HeroDropItemOne=='None':
 					Labyrinth.append(HeroDropItemOne)
@@ -3688,7 +3690,7 @@ def DoEnemies():
 		XDiff=HeroX-PlayerX
 		YDiff=HeroY-PlayerY
 		TreshHold=10-HeroAttack
-		SpellChance=random.randint(1,2)
+		SpellChance=randint(1,2)
 		EnemyScan=HeroLevel
 		if EnemyScan < 5:
 			EnemyScan=5
@@ -4078,30 +4080,30 @@ def DoCraftTrap():
 						BoneAmount=BoneAmount-2
 						LeatherAmount=LeatherAmount-2
 						InvList.append('Spiketrap')
-						Tinkering.play()
+						Screwdriver.play()
 				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and BoneAmount > 3:
 					if len(InvList) < 10:
 						BoneAmount=BoneAmount-3
 						InvList.append('Beartrap')
-						Tinkering.play()
+						Screwdriver.play()
 				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and BoneAmount > 2 and WoodAmount > 1:
 					if len(InvList) < 10:
 						BoneAmount=BoneAmount-3
 						WoodAmount=WoodAmount-2
 						InvList.append('Acidtrap')
-						Tinkering.play()
+						Screwdriver.play()
 				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and BoneAmount > 2 and IronAmount > 1:
 					if len(InvList) < 10:
 						BoneAmount=BoneAmount-3
 						IronAmount=IronAmount-2
 						InvList.append('Electrotrap')
-						Tinkering.play()
+						Screwdriver.play()
 				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and BoneAmount > 3 and SteelAmount > 1:
 					if len(InvList) < 10:
 						BoneAmount=BoneAmount-4
 						SteelAmount=SteelAmount-2
 						InvList.append('Mine')
-						Tinkering.play()
+						Screwdriver.play()
 				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
 					return
 			DoScreen(Labyrinth, Level)
@@ -4563,94 +4565,6 @@ while Level < LevelMax:
 				Spacebar=False
 			if pygame.key.get_pressed()[pygame.K_ESCAPE]:
 				if Level > 0:
-					pygame.key.set_repeat()
-					screen.blit(Black,(0,0))
-					screen.blit(Splash,(480,280))
-					screen.blit(TextBar,(0,780))
-					Text='Select a save slot to save current game, currently playing save slot '+str(int((SaveSlot+20)/20))+' as a '+PlayerType+'...'
-					LevelSave1=int(LoadList[1])
-					LevelSave2=int(LoadList[21])
-					LevelSave3=int(LoadList[41])
-					LevelSave4=int(LoadList[61])
-					LevelSave5=int(LoadList[81])
-					LevelSave6=int(LoadList[101])
-
-					SLevelSave1=str(LevelSave1-20)
-					SLevelSave2=str(LevelSave2-20)
-					SLevelSave3=str(LevelSave3-20)
-					SLevelSave4=str(LevelSave4-20)
-					SLevelSave5=str(LevelSave5-20)
-					SLevelSave6=str(LevelSave6-20)
-
-					if LevelSave1==0:
-						Save1Status='Save slot 1, new game'
-					else:
-						Save1Status='Save slot 1, floor: '+SLevelSave1
-					if LevelSave2==0:
-						Save2Status='Save slot 2, new game'
-					else:
-						Save2Status='Save slot 2, floor: '+SLevelSave2
-					if LevelSave3==0:
-						Save3Status='Save slot 3, new game'
-					else:
-						Save3Status='Save slot 3, floor: '+SLevelSave3
-					if LevelSave4==0:
-						Save4Status='Save slot 4, new game'
-					else:
-						Save4Status='Save slot 4, floor: '+SLevelSave4
-					if LevelSave5==0:
-						Save5Status='Save slot 5, new game'
-					else:
-						Save5Status='Save slot 5, floor: '+SLevelSave5
-					if LevelSave6==0:
-						Save6Status='Save slot 6, new game'
-					else:
-						Save6Status='Save slot 6, floor: '+SLevelSave6
-
-					Save1Text = myfont.render(Save1Status, False, green)
-					Save2Text = myfont.render(Save2Status, False, green)
-					Save3Text = myfont.render(Save3Status, False, green)
-					Save4Text = myfont.render(Save4Status, False, green)
-					Save5Text = myfont.render(Save5Status, False, green)
-					Save6Text = myfont.render(Save6Status, False, green)
-					Status = myfont.render('Select a save slot ...', False, yellow)
-
-					screen.blit(Save1Text,(0,50))
-					screen.blit(Save2Text,(0,100))
-					screen.blit(Save3Text,(0,150))
-					screen.blit(Save4Text,(0,200))
-					screen.blit(Save5Text,(0,250))
-					screen.blit(Save6Text,(0,300))
-					TextSurf = myfont.render(Text, False, green)
-					screen.blit(TextSurf,(0,0))
-					pygame.display.flip()
-	
-					Selection=True
-					while Selection:
-						for event in pygame.event.get():
-							if event.type == pygame.KEYDOWN:
-								if event.key == pygame.K_KP1 or event.key == pygame.K_1:
-									SaveSlot=0
-									Selection=False
-								if event.key == pygame.K_KP2 or event.key == pygame.K_2:
-									SaveSlot=20
-									Selection=False
-								if event.key == pygame.K_KP3 or event.key == pygame.K_3:
-									SaveSlot=40
-									Selection=False
-								if event.key == pygame.K_KP4 or event.key == pygame.K_4:
-									SaveSlot=60
-									Selection=False
-								if event.key == pygame.K_KP5 or event.key == pygame.K_5:
-									SaveSlot=80
-									Selection=False
-								if event.key == pygame.K_KP6 or event.key == pygame.K_6:
-									SaveSlot=100
-									Selection=False
-					pygame.key.set_repeat(30,50)
-																												
-					MakingAChoice=True
-
 					LoadList[SaveSlot]=1
 					LoadList[SaveSlot+1]=Level
 					LoadList[SaveSlot+2]=PlayerType
@@ -4900,7 +4814,7 @@ while Level < LevelMax:
 								MakingAChoice=False
 							if event.key == pygame.K_n:
 								DoExit()
-								sys.exit()
+								exit()
 
 				LoadingText='Cooking level '+str(Level)+'...'
 				LoadingTextSurf = myfont.render(LoadingText, False, green)
@@ -4938,4 +4852,4 @@ while Level < LevelMax:
 				DoVictory()
 
 wait()
-sys.exit()
+exit()
