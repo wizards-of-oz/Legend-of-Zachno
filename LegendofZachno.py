@@ -134,6 +134,11 @@ Wormhole=pygame.image.load('Wormhole.png')
 Heart=pygame.image.load('Heart.png')
 Bolt=pygame.image.load('Bolt.png')
 Blast=pygame.image.load('Blast.png')
+Disarm=pygame.image.load('Disarm.png')
+Destroy=pygame.image.load('Destroy.png')
+Steal=pygame.image.load('Steal.png')
+Disrupt=pygame.image.load('Disrupt.png')
+Nullify=pygame.image.load('Nullify.png')
 Gnome=pygame.image.load('Gnome.png')
 BloodSpatter=pygame.image.load('BloodSpatter.png')
 AcidPuddle=pygame.image.load('AcidPuddle.png')
@@ -146,6 +151,11 @@ Rogue=pygame.image.load('Rogue.png')
 Amazon=pygame.image.load('Amazon.png')
 Wizard=pygame.image.load('Wizard.png')
 Knight=pygame.image.load('Knight.png')
+Imp=pygame.image.load('Imp.png')
+Micha=pygame.image.load('Micha.png')
+Mariska=pygame.image.load('Mariska.png')
+Maarten=pygame.image.load('Maarten.png')
+Zachary=pygame.image.load('Zachary.png')
 
 Chainmail=pygame.image.load('Chainmail.png')
 ChainmailSmall=pygame.image.load('ChainmailSmall.png')
@@ -355,6 +365,16 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=Knight
 	elif ObjectImage=='King Arthur':
 		ScreenItem=Knight
+	elif ObjectImage=='Imp':
+		ScreenItem=Imp
+	elif ObjectImage=='Micha':
+		ScreenItem=Micha
+	elif ObjectImage=='Mariska':
+		ScreenItem=Mariska
+	elif ObjectImage=='Maarten':
+		ScreenItem=Maarten
+	elif ObjectImage=='Zachary':
+		ScreenItem=Zachary
 	return(ScreenItem)
 
 def DoInventoryList():
@@ -770,6 +790,16 @@ def DoScreen (Labyrinth, Level):
 		ScreenItem=Bolt
 	elif Spell=='Fireball':
 		ScreenItem=Blast
+	elif Spell=='Disarm':
+		ScreenItem=Disarm
+	elif Spell=='Destroy':
+		ScreenItem=Destroy
+	elif Spell=='Steal':
+		ScreenItem=Steal
+	elif Spell=='Disrupt':
+		ScreenItem=Disrupt
+	elif Spell=='Nullify':
+		ScreenItem=Nullify
 	elif Spell=='BloodSpatter':
 		ScreenItem=BloodSpatter
 	elif Spell=='AcidPuddle':
@@ -2772,8 +2802,7 @@ def DoSpell(ItemCounter):
 				if event.key == pygame.K_DELETE:
 					DropItem(ItemCounter)
 					return
-					MakingAChoice=False
-
+				
 	if Spell=='Fire':
 		if PlayerMana >= 1:
 			PlayerMana=PlayerMana-1
@@ -3152,6 +3181,206 @@ def PlaceHeroes(Labyrinth, Level):
 
 			Number=Number+1
 		Counter=Counter+14
+	if Level == 4:
+		LookingForASpot=True
+		while LookingForASpot:
+			NoBlock=True
+			HeroX=randint(HeroXMin, HeroXMax)
+			HeroY=randint(HeroYMin, HeroYMax)
+
+			if (HeroX/9)==int(HeroX/9):
+				NoBlock=False
+			if (HeroY/9)==int(HeroY/9):
+				NoBlock=False
+
+			if NoBlock:
+				FloorFound=False
+				CheckX=HeroX
+				CheckY=HeroY
+				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+				if FloorFound:
+					HeroList.append('3')
+					HeroList.append('Imp')
+					HeroList.append('Fists')
+					HeroList.append('None')
+					HeroList.append('Disarm')
+					HeroList.append('6')
+					HeroList.append('1')
+					HeroList.append('1')
+					HeroList.append('1')
+					HeroList.append('10')
+					HeroList.append('3')
+					HeroList.append('None')
+					HeroList.append('None')
+					HeroList.append('None')
+					HeroList.append(HeroX)
+					HeroList.append(HeroY)
+					LookingForASpot=False
+		LoadingText='Placing Imp...'
+		LoadingTextSurf = myfont.render(LoadingText, False, green)
+		screen.blit(TextBar,(0,780))
+		screen.blit(LoadingTextSurf,(0,780))
+		pygame.display.flip()
+	if Level == 8:
+		LookingForASpot=True
+		while LookingForASpot:
+			NoBlock=True
+			HeroX=randint(HeroXMin, HeroXMax)
+			HeroY=randint(HeroYMin, HeroYMax)
+
+			if (HeroX/9)==int(HeroX/9):
+				NoBlock=False
+			if (HeroY/9)==int(HeroY/9):
+				NoBlock=False
+
+			if NoBlock:
+				FloorFound=False
+				CheckX=HeroX
+				CheckY=HeroY
+				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+				if FloorFound:
+					HeroList.append('6')
+					HeroList.append('Micha')
+					HeroList.append('Fists')
+					HeroList.append('None')
+					HeroList.append('Destroy')
+					HeroList.append('2')
+					HeroList.append('12')
+					HeroList.append('2')
+					HeroList.append('2')
+					HeroList.append('20')
+					HeroList.append('6')
+					HeroList.append('BearTrap')
+					HeroList.append('BearTrap')
+					HeroList.append('BearTrap')
+					HeroList.append(HeroX)
+					HeroList.append(HeroY)
+					LookingForASpot=False
+		LoadingText='Placing Micha...'
+		LoadingTextSurf = myfont.render(LoadingText, False, green)
+		screen.blit(TextBar,(0,780))
+		screen.blit(LoadingTextSurf,(0,780))
+		pygame.display.flip()
+	if Level == 12:
+		LookingForASpot=True
+		while LookingForASpot:
+			NoBlock=True
+			HeroX=randint(HeroXMin, HeroXMax)
+			HeroY=randint(HeroYMin, HeroYMax)
+
+			if (HeroX/9)==int(HeroX/9):
+				NoBlock=False
+			if (HeroY/9)==int(HeroY/9):
+				NoBlock=False
+
+			if NoBlock:
+				FloorFound=False
+				CheckX=HeroX
+				CheckY=HeroY
+				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+				if FloorFound:
+					HeroList.append('8')
+					HeroList.append('Mariska')
+					HeroList.append('Fists')
+					HeroList.append('None')
+					HeroList.append('Steal')
+					HeroList.append('3')
+					HeroList.append('3')
+					HeroList.append('15')
+					HeroList.append('3')
+					HeroList.append('150')
+					HeroList.append('9')
+					HeroList.append('Life')
+					HeroList.append('Life')
+					HeroList.append('Life')
+					HeroList.append(HeroX)
+					HeroList.append(HeroY)
+					LookingForASpot=False
+		LoadingText='Placing Mariska...'
+		LoadingTextSurf = myfont.render(LoadingText, False, green)
+		screen.blit(TextBar,(0,780))
+		screen.blit(LoadingTextSurf,(0,780))
+		pygame.display.flip()
+	if Level == 16:
+		LookingForASpot=True
+		while LookingForASpot:
+			NoBlock=True
+			HeroX=randint(HeroXMin, HeroXMax)
+			HeroY=randint(HeroYMin, HeroYMax)
+
+			if (HeroX/9)==int(HeroX/9):
+				NoBlock=False
+			if (HeroY/9)==int(HeroY/9):
+				NoBlock=False
+
+			if NoBlock:
+				FloorFound=False
+				CheckX=HeroX
+				CheckY=HeroY
+				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+				if FloorFound:
+					HeroList.append('9')
+					HeroList.append('Maarten')
+					HeroList.append('Fists')
+					HeroList.append('None')
+					HeroList.append('Disrupt')
+					HeroList.append('4')
+					HeroList.append('4')
+					HeroList.append('4')
+					HeroList.append('15')
+					HeroList.append('40')
+					HeroList.append('45')
+					HeroList.append('LightningScroll')
+					HeroList.append('LightningScroll')
+					HeroList.append('LightningScroll')
+					HeroList.append(HeroX)
+					HeroList.append(HeroY)
+					LookingForASpot=False
+		LoadingText='Placing Maarten...'
+		LoadingTextSurf = myfont.render(LoadingText, False, green)
+		screen.blit(TextBar,(0,780))
+		screen.blit(LoadingTextSurf,(0,780))
+		pygame.display.flip()
+	if Level == 20:
+		LookingForASpot=True
+		while LookingForASpot:
+			NoBlock=True
+			HeroX=randint(HeroXMin, HeroXMax)
+			HeroY=randint(HeroYMin, HeroYMax)
+
+			if (HeroX/9)==int(HeroX/9):
+				NoBlock=False
+			if (HeroY/9)==int(HeroY/9):
+				NoBlock=False
+
+			if NoBlock:
+				FloorFound=False
+				CheckX=HeroX
+				CheckY=HeroY
+				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+				if FloorFound:
+					HeroList.append('20')
+					HeroList.append('Zachary')
+					HeroList.append('Fists')
+					HeroList.append('None')
+					HeroList.append('Nullify')
+					HeroList.append('15')
+					HeroList.append('15')
+					HeroList.append('15')
+					HeroList.append('15')
+					HeroList.append('150')
+					HeroList.append('45')
+					HeroList.append('Plate')
+					HeroList.append('Plate')
+					HeroList.append('Plate')
+					HeroList.append(HeroX)
+					HeroList.append(HeroY)
+					LookingForASpot=False
+		LoadingText='Placing Zachary...'
+		LoadingTextSurf = myfont.render(LoadingText, False, green)
+		screen.blit(TextBar,(0,780))
+		screen.blit(LoadingTextSurf,(0,780))
+		pygame.display.flip()
 	return
 
 def DoLevelUp():
@@ -3174,46 +3403,46 @@ def DoLevelUp():
 
 	if PlayerType=='Warrior':
 		PlayerAttack=PlayerAttack+1
-		PlayerDefence=int(PlayerAttack/2)
+		PlayerDefence=int((PlayerAttack*2)/3)
 		if PlayerDefence<2:
 			PlayerDefence=2
-		PlayerLifeLevel=int(PlayerAttack/3)
+		PlayerLifeLevel=int((PlayerAttack*4)/9)
 		if PlayerLifeLevel<2:
 			PlayerLifeLevel=2
-		PlayerMagic=int(PlayerAttack/4)
+		PlayerMagic=int((PlayerAttack*8)/27)
 		if PlayerMagic<2:
 			PlayerMagic=2
 	elif PlayerType=='Tank':
 		PlayerDefence=PlayerDefence+1
-		PlayerAttack=int(PlayerDefence/4)
+		PlayerAttack=int((PlayerDefence*8)/27)
 		if PlayerAttack<2:
 			PlayerAttack=2
-		PlayerLifeLevel=int(PlayerDefence/2)
+		PlayerLifeLevel=int((PlayerDefence*2)/3)
 		if PlayerLifeLevel<2:
 			PlayerLifeLevel=2
-		PlayerMagic=int(PlayerDefence/3)
+		PlayerMagic=int((PlayerDefence*4)/9)
 		if PlayerMagic<2:
 			PlayerMagic=2
 	elif PlayerType=='Rogue':
 		PlayerLifeLevel=PlayerLifeLevel+1
-		PlayerAttack=int(PlayerLifeLevel/3)
+		PlayerAttack=int((PlayerLifeLevel*4)/9)
 		if PlayerAttack<2:
 			PlayerAttack=2
-		PlayerDefence=int(PlayerLifeLevel/4)
+		PlayerDefence=int((PlayerLifeLevel*8)/27)
 		if PlayerDefence<2:
 			PlayerDefence=2
-		PlayerMagic=int(PlayerLifeLevel/2)
+		PlayerMagic=int((PlayerLifeLevel*2)/3)
 		if PlayerMagic<2:
 			PlayerMagic=2
 	elif PlayerType=='Mage':
 		PlayerMagic=PlayerMagic+1
-		PlayerAttack=int(PlayerMagic/2)
+		PlayerAttack=int((PlayerMagic*2)/3)
 		if PlayerAttack<2:
 			PlayerAttack=2
-		PlayerDefence=int(PlayerMagic/3)
+		PlayerDefence=int((PlayerMagic*4)/9)
 		if PlayerDefence<2:
 			PlayerDefence=2
-		PlayerLifeLevel=int(PlayerMagic/4)
+		PlayerLifeLevel=int((PlayerMagic*8)/27)
 		if PlayerLifeLevel<2:
 			PlayerLifeLevel=2
 
@@ -3226,6 +3455,9 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 	global PlayerX
 	global PlayerY
 	global PlayerLifeLevel
+	global PlayerWeapon
+	global PlayerArmor
+	global PlayerMana
 	global PlayerLife
 	global PlayerXP
 	global Spell
@@ -3271,6 +3503,31 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 		HeroMana=HeroMana-5
 		HeroList[Counter+10]=HeroMana
 		Fireball.play()
+	if Spell=='Disarm':
+		HeroMana=int(HeroList[Counter+10])
+		HeroMana=HeroMana-1
+		HeroList[Counter+10]=HeroMana
+		Shatter.play()
+	if Spell=='Destroy':
+		HeroMana=int(HeroList[Counter+10])
+		HeroMana=HeroMana-2
+		HeroList[Counter+10]=HeroMana
+		Shatter.play()
+	if Spell=='Steal':
+		HeroMana=int(HeroList[Counter+10])
+		HeroMana=HeroMana-3
+		HeroList[Counter+10]=HeroMana
+		Grab.play()
+	if Spell=='Disrupt':
+		HeroMana=int(HeroList[Counter+10])
+		HeroMana=HeroMana-4
+		HeroList[Counter+10]=HeroMana
+		Mana.play()
+	if Spell=='Nullify':
+		HeroMana=int(HeroList[Counter+10])
+		HeroMana=HeroMana-5
+		HeroList[Counter+10]=HeroMana
+		Shatter.play()
 	while FreeFlight:
 		if SpellDir==1:
 			SpellY=SpellY+1
@@ -3318,7 +3575,18 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 					PlayerLife=PlayerLife-16
 				if Spell=='Fireball':
 					PlayerLife=PlayerLife-20
-
+				if Spell=='Disarm':
+					PlayerWeapon='Fists'
+				if Spell=='Destroy':
+					PlayerArmor='None'
+				if Spell=='Steal':
+					HeroList[Counter+2]=PlayerWeapon
+					PlayerWeapon='Fists'
+				if Spell=='Disrupt':
+					PlayerMana=PlayerMana-16
+				if Spell=='Nullify':
+					PlayerWeapon='Fists'
+					PlayerArmor='None'
 				if PlayerLife < 1:
 					DeathScream.play()
 					screen.blit(Dead, (560, 320))
@@ -3722,6 +3990,16 @@ def DoEnemies():
 					elif HeroSpell == 'Lightning' and HeroMana > 3 and SpellChance==1 and FloorFound:
 						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
 					elif HeroSpell == 'Fireball' and HeroMana > 4 and SpellChance==1 and FloorFound:
+						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+					elif HeroSpell == 'Disarm' and HeroMana > 0 and SpellChance==1 and FloorFound:
+						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+					elif HeroSpell == 'Destroy' and HeroMana > 1 and SpellChance==1 and FloorFound:
+						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+					elif HeroSpell == 'Steal' and HeroMana > 2 and SpellChance==1 and FloorFound:
+						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+					elif HeroSpell == 'Disrupt' and HeroMana > 3 and SpellChance==1 and FloorFound:
+						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+					elif HeroSpell == 'Nullify' and HeroMana > 4 and SpellChance==1 and FloorFound:
 						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
 					else:
 						HeroHunts(Counter)
