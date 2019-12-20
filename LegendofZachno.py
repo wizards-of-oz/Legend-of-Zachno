@@ -136,7 +136,7 @@ Bolt=pygame.image.load('Bolt.png')
 Blast=pygame.image.load('Blast.png')
 Disarm=pygame.image.load('Disarm.png')
 Destroy=pygame.image.load('Destroy.png')
-Steal=pygame.image.load('Steal.png')
+Get=pygame.image.load('Steal.png')
 Disrupt=pygame.image.load('Disrupt.png')
 Nullify=pygame.image.load('Nullify.png')
 Gnome=pygame.image.load('Gnome.png')
@@ -795,7 +795,7 @@ def DoScreen (Labyrinth, Level):
 	elif Spell=='Destroy':
 		ScreenItem=Destroy
 	elif Spell=='Steal':
-		ScreenItem=Steal
+		ScreenItem=Get
 	elif Spell=='Disrupt':
 		ScreenItem=Disrupt
 	elif Spell=='Nullify':
@@ -2571,7 +2571,7 @@ def DoSplash(LoadList):
 	Save4Text = myfont.render(Save4Status, False, green)
 	Save5Text = myfont.render(Save5Status, False, green)
 	Save6Text = myfont.render(Save6Status, False, green)
-	Status = myfont.render('Select a save slot or press ESC to quit', False, yellow)
+	
 
 	screen.blit(Save1Text,(0,50))
 	screen.blit(Save2Text,(0,100))
@@ -2580,10 +2580,7 @@ def DoSplash(LoadList):
 	screen.blit(Save5Text,(0,250))
 	screen.blit(Save6Text,(0,300))
 	TextSurf = myfont.render(Text, False, green)
-	LoadingText='Welcome to Legend of Zachno, press enter...'
-	LoadingTextSurf = myfont.render(LoadingText, False, green)
 	screen.blit(TextSurf,(0,0))
-	screen.blit(LoadingTextSurf,(0,780))
 	pygame.display.flip()
 	
 	Selection=True
@@ -2665,7 +2662,7 @@ def DoExit():
 	screen.blit(Black,(0,0))
 	screen.blit(Splash,(480,280))
 	screen.blit(TextBar,(0,780))
-	LoadingText='Game state saved next session will be in level '+str(Level)+' , press <enter> to return to game or <esc> to quit...'
+	LoadingText='Game state saved next session will be at floor '+str(Level-20)+' as '+PlayerType+', press <enter> to return to game or <esc> to quit...'
 	LoadingTextSurf = myfont.render(LoadingText, False, green)
 	screen.blit(LoadingTextSurf,(0,780))
 	pygame.display.flip()
@@ -3199,17 +3196,17 @@ def PlaceHeroes(Labyrinth, Level):
 				CheckY=HeroY
 				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
 				if FloorFound:
-					HeroList.append('3')
+					HeroList.append('4')
 					HeroList.append('Imp')
 					HeroList.append('Fists')
 					HeroList.append('None')
 					HeroList.append('Disarm')
-					HeroList.append('6')
-					HeroList.append('1')
-					HeroList.append('1')
-					HeroList.append('1')
-					HeroList.append('10')
 					HeroList.append('3')
+					HeroList.append('3')
+					HeroList.append('3')
+					HeroList.append('3')
+					HeroList.append('30')
+					HeroList.append('9')
 					HeroList.append('None')
 					HeroList.append('None')
 					HeroList.append('None')
@@ -3239,17 +3236,17 @@ def PlaceHeroes(Labyrinth, Level):
 				CheckY=HeroY
 				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
 				if FloorFound:
-					HeroList.append('6')
+					HeroList.append('8')
 					HeroList.append('Micha')
 					HeroList.append('Fists')
 					HeroList.append('None')
 					HeroList.append('Destroy')
-					HeroList.append('2')
-					HeroList.append('12')
-					HeroList.append('2')
-					HeroList.append('2')
-					HeroList.append('20')
 					HeroList.append('6')
+					HeroList.append('6')
+					HeroList.append('6')
+					HeroList.append('6')
+					HeroList.append('60')
+					HeroList.append('18')
 					HeroList.append('BearTrap')
 					HeroList.append('BearTrap')
 					HeroList.append('BearTrap')
@@ -3279,17 +3276,17 @@ def PlaceHeroes(Labyrinth, Level):
 				CheckY=HeroY
 				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
 				if FloorFound:
-					HeroList.append('8')
+					HeroList.append('12')
 					HeroList.append('Mariska')
 					HeroList.append('Fists')
 					HeroList.append('None')
 					HeroList.append('Steal')
-					HeroList.append('3')
-					HeroList.append('3')
-					HeroList.append('15')
-					HeroList.append('3')
-					HeroList.append('150')
 					HeroList.append('9')
+					HeroList.append('9')
+					HeroList.append('9')
+					HeroList.append('9')
+					HeroList.append('90')
+					HeroList.append('27')
 					HeroList.append('Life')
 					HeroList.append('Life')
 					HeroList.append('Life')
@@ -3319,17 +3316,17 @@ def PlaceHeroes(Labyrinth, Level):
 				CheckY=HeroY
 				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
 				if FloorFound:
-					HeroList.append('9')
+					HeroList.append('16')
 					HeroList.append('Maarten')
 					HeroList.append('Fists')
 					HeroList.append('None')
 					HeroList.append('Disrupt')
-					HeroList.append('4')
-					HeroList.append('4')
-					HeroList.append('4')
-					HeroList.append('15')
-					HeroList.append('40')
-					HeroList.append('45')
+					HeroList.append('12')
+					HeroList.append('12')
+					HeroList.append('12')
+					HeroList.append('12')
+					HeroList.append('120')
+					HeroList.append('36')
 					HeroList.append('LightningScroll')
 					HeroList.append('LightningScroll')
 					HeroList.append('LightningScroll')
@@ -3507,12 +3504,12 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 		HeroMana=int(HeroList[Counter+10])
 		HeroMana=HeroMana-1
 		HeroList[Counter+10]=HeroMana
-		Shatter.play()
+		Mana.play()
 	if Spell=='Destroy':
 		HeroMana=int(HeroList[Counter+10])
 		HeroMana=HeroMana-2
 		HeroList[Counter+10]=HeroMana
-		Shatter.play()
+		Mana.play()
 	if Spell=='Steal':
 		HeroMana=int(HeroList[Counter+10])
 		HeroMana=HeroMana-3
@@ -3527,7 +3524,7 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 		HeroMana=int(HeroList[Counter+10])
 		HeroMana=HeroMana-5
 		HeroList[Counter+10]=HeroMana
-		Shatter.play()
+		Mana.play()
 	while FreeFlight:
 		if SpellDir==1:
 			SpellY=SpellY+1
@@ -3579,14 +3576,17 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 					PlayerWeapon='Fists'
 				if Spell=='Destroy':
 					PlayerArmor='None'
+					Shatter.play()
 				if Spell=='Steal':
-					HeroList[Counter+2]=PlayerWeapon
+					if not PlayerWeapon=='Fists':
+						HeroList[Counter+2]=PlayerWeapon
 					PlayerWeapon='Fists'
 				if Spell=='Disrupt':
 					PlayerMana=PlayerMana-16
 				if Spell=='Nullify':
 					PlayerWeapon='Fists'
 					PlayerArmor='None'
+					Shatter.play()
 				if PlayerLife < 1:
 					DeathScream.play()
 					screen.blit(Dead, (560, 320))
