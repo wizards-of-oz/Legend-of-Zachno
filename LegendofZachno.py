@@ -2750,17 +2750,17 @@ def DoVictory():
 				if event.key == pygame.K_DELETE:
 					LoadList[SaveSlot]=0
 					LoadList[SaveSlot+1]=0
-					LoadList[SaveSlot+2]='None'
-					LoadList[SaveSlot+3]='Fist'
-					LoadList[SaveSlot+4]='None'
-					LoadList[SaveSlot+5]=0
-					LoadList[SaveSlot+6]=2
+					LoadList[SaveSlot+2]=0
+					LoadList[SaveSlot+3]='None'
+					LoadList[SaveSlot+4]='Fist'
+					LoadList[SaveSlot+5]='None'
+					LoadList[SaveSlot+6]=0
 					LoadList[SaveSlot+7]=2
 					LoadList[SaveSlot+8]=2
 					LoadList[SaveSlot+9]=2
-					LoadList[SaveSlot+10]=20
-					LoadList[SaveSlot+11]=10
-					LoadList[SaveSlot+12]=0
+					LoadList[SaveSlot+10]=2
+					LoadList[SaveSlot+11]=20
+					LoadList[SaveSlot+12]=10
 					LoadList[SaveSlot+13]=0
 					LoadList[SaveSlot+14]=0
 					LoadList[SaveSlot+15]=0
@@ -2768,6 +2768,7 @@ def DoVictory():
 					LoadList[SaveSlot+17]=0
 					LoadList[SaveSlot+18]=0
 					LoadList[SaveSlot+19]=0
+					LoadList[SaveSlot+20]=0
 					os.system('rm Zachno.sav')
 					Save=open('Zachno.sav', 'a')
 					PlayerCounter=0
