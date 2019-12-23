@@ -88,6 +88,7 @@ WallG=pygame.image.load('WallG.PNG')
 WallB=pygame.image.load('WallB.PNG')
 WallP=pygame.image.load('WallP.PNG')
 Stairs=pygame.image.load('newStairs.PNG')
+Key=pygame.image.load('Key.png')
 Player=pygame.image.load('newMonster.PNG')
 TextBar=pygame.image.load('TextBar.png')
 Splash=pygame.image.load('Splash.png')
@@ -249,6 +250,8 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=Floor
 	elif ObjectImage=='Stairs':
 		ScreenItem=Stairs
+	elif ObjectImage=='Key':
+		ScreenItem=Key
 	elif ObjectImage=='Leather':
 		ScreenItem=Leather
 	elif ObjectImage=='Skull':
@@ -381,43 +384,47 @@ def DoInventoryList():
 	if len(InvList) > 0:
 		ItemText='1> '+InvList[0].rstrip()
 		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
-		screen.blit(ItemTextSurf,(950,200))
+		screen.blit(ItemTextSurf,(950,220))
 	if len(InvList) > 1:
 		ItemText='2> '+InvList[1].rstrip()
 		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
-		screen.blit(ItemTextSurf,(950,220))
+		screen.blit(ItemTextSurf,(950,240))
 	if len(InvList) > 2:
 		ItemText='3> '+InvList[2].rstrip()
 		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
-		screen.blit(ItemTextSurf,(950,240))
+		screen.blit(ItemTextSurf,(950,260))
 	if len(InvList) > 3:
 		ItemText='4> '+InvList[3].rstrip()
 		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
-		screen.blit(ItemTextSurf,(950,260))
+		screen.blit(ItemTextSurf,(950,280))
 	if len(InvList) > 4:
 		ItemText='5> '+InvList[4].rstrip()
 		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
-		screen.blit(ItemTextSurf,(950,280))
+		screen.blit(ItemTextSurf,(950,300))
 	if len(InvList) > 5:
 		ItemText='6> '+InvList[5].rstrip()
 		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
-		screen.blit(ItemTextSurf,(950,300))
+		screen.blit(ItemTextSurf,(950,320))
 	if len(InvList) > 6:
 		ItemText='7> '+InvList[6].rstrip()
 		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
-		screen.blit(ItemTextSurf,(950,320))
+		screen.blit(ItemTextSurf,(950,340))
 	if len(InvList) > 7:
 		ItemText='8> '+InvList[7].rstrip()
 		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
-		screen.blit(ItemTextSurf,(950,340))
+		screen.blit(ItemTextSurf,(950,360))
 	if len(InvList) > 8:
 		ItemText='9> '+InvList[8].rstrip()
 		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
-		screen.blit(ItemTextSurf,(950,360))
+		screen.blit(ItemTextSurf,(950,380))
 	if len(InvList) > 9:
 		ItemText='0> '+InvList[9].rstrip()
 		ItemTextSurf=myfont.render(ItemText, False, sky_blue)		
-		screen.blit(ItemTextSurf,(950,380))
+		screen.blit(ItemTextSurf,(950,400))
+	if HasKey:
+		KeyText='Has key to next level'
+		KeyTextSurf=myfont.render(KeyText, False, sky_blue)		
+		screen.blit(KeyTextSurf,(950,200))
 	return
 
 def HeroScan(Labyrinth, HeroList):
@@ -473,6 +480,7 @@ def HeroScan(Labyrinth, HeroList):
 # Display function
 def DoScreen (Labyrinth, Level):
 	# Calling VisualScan to fill VisualList
+	global HasKey
 	global PlayerLife
 	global Spacebar
 	VisualScan(Labyrinth, HeroList)
@@ -1344,6 +1352,7 @@ def DoPlayerCombat(Counter):
 def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 	global PlayerX
 	global PlayerY
+	global HasKey
 	global NextLevel
 	global LeatherAmount
 	global BoneAmount
@@ -1367,13 +1376,25 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				break
 			# If the object is a stair the stairwalking sound will be played and NextLevel will be set to True
 			if Object == 'Stairs':
-				PlayerX=NewX
-				PlayerY=NewY
-				DoScreen(Labyrinth, Level)
-				StairsUp.play()
-				NextLevel=True
-				Collision=False
+				if HasKey:
+					PlayerX=NewX
+					PlayerY=NewY
+					DoScreen(Labyrinth, Level)
+					StairsUp.play()
+					NextLevel=True
+					Collision=False
+				else:
+					Collision=True
+					Bump.play()
 			if Object == 'Floor':
+				Collision=False
+			if Object == 'Key':
+				Grab.play()
+				HasKey=True
+				del Labyrinth[Counter]
+				del Labyrinth[Counter]
+				del Labyrinth[Counter]
+				MaxCounter=len(Labyrinth)
 				Collision=False
 			if Object == 'ChestClosed':
 				if len(InvList) < 10:
@@ -2393,6 +2414,40 @@ def PlaceStairs(Labyrinth):
 					Counter=Counter+3
 	return
 
+def PlaceKey(Labyrinth):
+	LoadingText='Placing key for stairs...'
+	LoadingTextSurf = myfont.render(LoadingText, False, green)
+	screen.blit(TextBar,(0,780))
+	screen.blit(LoadingTextSurf,(0,780))
+	pygame.display.flip()
+
+	KeyXMin=-1*MapGen*9
+	KeyXMax=MapGen*9
+	KeyYMin=-1*MapGen*9
+	KeyYMax=MapGen*9
+	LookingForASpot=True
+	while LookingForASpot:
+		NoBlock=True
+		KeyX=randint(KeyXMin, KeyXMax)
+		KeyY=randint(KeyYMin, KeyYMax)
+
+		if (KeyX/9)==int(KeyX/9):
+			NoBlock=False
+		if (KeyY/9)==int(KeyY/9):
+			NoBlock=False
+
+		if NoBlock:
+			FloorFound=False
+			CheckX=KeyX
+			CheckY=KeyY
+			FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+			if FloorFound:
+				LookingForASpot=False
+				Labyrinth.append('Key')
+				Labyrinth.append(CheckX)
+				Labyrinth.append(CheckY)
+	return
+
 def PlaceGnome(Labyrinth):
 	global Level
 	LoadingText='Placing Gome...'
@@ -2527,11 +2582,11 @@ def DoSplash(LoadList):
 	screen.blit(TextBar,(0,780))
 	Text='Select a save slot...'
 	LevelSave1=int(LoadList[1].rstrip())
-	LevelSave2=int(LoadList[21].rstrip())
-	LevelSave3=int(LoadList[41].rstrip())
-	LevelSave4=int(LoadList[61].rstrip())
-	LevelSave5=int(LoadList[81].rstrip())
-	LevelSave6=int(LoadList[101].rstrip())
+	LevelSave2=int(LoadList[22].rstrip())
+	LevelSave3=int(LoadList[43].rstrip())
+	LevelSave4=int(LoadList[64].rstrip())
+	LevelSave5=int(LoadList[85].rstrip())
+	LevelSave6=int(LoadList[106].rstrip())
 
 	SLevelSave1=str(LevelSave1-20)
 	SLevelSave2=str(LevelSave2-20)
@@ -2543,27 +2598,27 @@ def DoSplash(LoadList):
 	if LevelSave1==0:
 		Save1Status='Save slot 1, new game'
 	else:
-		Save1Status='Save slot 1, floor: '+SLevelSave1+' '+str(LoadList[2]).rstrip()
+		Save1Status='Save slot 1, floor: '+SLevelSave1+' '+str(LoadList[3]).rstrip()
 	if LevelSave2==0:
 		Save2Status='Save slot 2, new game'
 	else:
-		Save2Status='Save slot 2, floor: '+SLevelSave2+' '+str(LoadList[22]).rstrip()
+		Save2Status='Save slot 2, floor: '+SLevelSave2+' '+str(LoadList[24]).rstrip()
 	if LevelSave3==0:
 		Save3Status='Save slot 3, new game'
 	else:
-		Save3Status='Save slot 3, floor: '+SLevelSave3+' '+str(LoadList[42]).rstrip()
+		Save3Status='Save slot 3, floor: '+SLevelSave3+' '+str(LoadList[45]).rstrip()
 	if LevelSave4==0:
 		Save4Status='Save slot 4, new game'
 	else:
-		Save4Status='Save slot 4, floor: '+SLevelSave4+' '+str(LoadList[62]).rstrip()
+		Save4Status='Save slot 4, floor: '+SLevelSave4+' '+str(LoadList[66]).rstrip()
 	if LevelSave5==0:
 		Save5Status='Save slot 5, new game'
 	else:
-		Save5Status='Save slot 5, floor: '+SLevelSave5+' '+str(LoadList[82]).rstrip()
+		Save5Status='Save slot 5, floor: '+SLevelSave5+' '+str(LoadList[87]).rstrip()
 	if LevelSave6==0:
 		Save6Status='Save slot 6, new game'
 	else:
-		Save6Status='Save slot 6, floor: '+SLevelSave6+' '+str(LoadList[102]).rstrip()
+		Save6Status='Save slot 6, floor: '+SLevelSave6+' '+str(LoadList[108]).rstrip()
 
 	Save1Text = myfont.render(Save1Status, False, green)
 	Save2Text = myfont.render(Save2Status, False, green)
@@ -2591,19 +2646,19 @@ def DoSplash(LoadList):
 					SaveSlot=0
 					Selection=False
 				if event.key == pygame.K_KP2 or event.key == pygame.K_2:
-					SaveSlot=20
+					SaveSlot=21
 					Selection=False
 				if event.key == pygame.K_KP3 or event.key == pygame.K_3:
-					SaveSlot=40
+					SaveSlot=42
 					Selection=False
 				if event.key == pygame.K_KP4 or event.key == pygame.K_4:
-					SaveSlot=60
+					SaveSlot=63
 					Selection=False
 				if event.key == pygame.K_KP5 or event.key == pygame.K_5:
-					SaveSlot=80
+					SaveSlot=84
 					Selection=False
 				if event.key == pygame.K_KP6 or event.key == pygame.K_6:
-					SaveSlot=100
+					SaveSlot=105
 					Selection=False
 	pygame.key.set_repeat(30,50)
 	return(SaveSlot)
@@ -4539,6 +4594,7 @@ def DoSelectClass():
 
 
 # Main loop
+HasKey=True
 PlayerWeapon='Fists'
 PlayerArmor='None'
 Gold=0
@@ -4594,22 +4650,23 @@ if Level > 16:
 if Level > 0:
 	if ConSwitch==0:
 		if Level > 0 and Level < LevelMax:
-			PlayerType=LoadList[SaveSlot+2].rstrip()
-			PlayerWeapon=LoadList[SaveSlot+3].rstrip()
-			PlayerArmor=LoadList[SaveSlot+4].rstrip()
-			Gold=int(LoadList[SaveSlot+5])
-			PlayerAttack=int(LoadList[SaveSlot+6])
-			PlayerDefence=int(LoadList[SaveSlot+7])
-			PlayerLifeLevel=int(LoadList[SaveSlot+8])
-			PlayerMagic=int(LoadList[SaveSlot+9])
-			PlayerLife=int(LoadList[SaveSlot+10])
-			PlayerMana=int(LoadList[SaveSlot+11])
-			PlayerXP=int(LoadList[SaveSlot+12])
-			LeatherAmount=int(LoadList[SaveSlot+13])
-			BoneAmount=int(LoadList[SaveSlot+14])
-			WoodAmount=int(LoadList[SaveSlot+15])
-			IronAmount=int(LoadList[SaveSlot+16])
-			SteelAmount=int(LoadList[SaveSlot+17])
+			HasKey=False
+			PlayerType=LoadList[SaveSlot+3].rstrip()
+			PlayerWeapon=LoadList[SaveSlot+4].rstrip()
+			PlayerArmor=LoadList[SaveSlot+5].rstrip()
+			Gold=int(LoadList[SaveSlot+6])
+			PlayerAttack=int(LoadList[SaveSlot+7])
+			PlayerDefence=int(LoadList[SaveSlot+8])
+			PlayerLifeLevel=int(LoadList[SaveSlot+9])
+			PlayerMagic=int(LoadList[SaveSlot+10])
+			PlayerLife=int(LoadList[SaveSlot+11])
+			PlayerMana=int(LoadList[SaveSlot+12])
+			PlayerXP=int(LoadList[SaveSlot+13])
+			LeatherAmount=int(LoadList[SaveSlot+14])
+			BoneAmount=int(LoadList[SaveSlot+15])
+			WoodAmount=int(LoadList[SaveSlot+16])
+			IronAmount=int(LoadList[SaveSlot+17])
+			SteelAmount=int(LoadList[SaveSlot+18])
 			PlayerX=0
 			PlayerY=0
 			PlayerLevel=PlayerAttack+PlayerDefence+PlayerLifeLevel+PlayerMagic
@@ -4617,15 +4674,15 @@ if Level > 0:
 			Rooms=0
 			if SaveSlot==0:
 				LoadInv=open('Inventory1.sav', 'r')
-			elif SaveSlot==20:
+			elif SaveSlot==21:
 				LoadInv=open('Inventory2.sav', 'r')
-			elif SaveSlot==40:
+			elif SaveSlot==42:
 				LoadInv=open('Inventory3.sav', 'r')
-			elif SaveSlot==60:
+			elif SaveSlot==63:
 				LoadInv=open('Inventory4.sav', 'r')
-			elif SaveSlot==80:
+			elif SaveSlot==84:
 				LoadInv=open('Inventory5.sav', 'r')
-			elif SaveSlot==100:
+			elif SaveSlot==105:
 				LoadInv=open('Inventory6.sav', 'r')
 
 			InvList=list(LoadInv)
@@ -4636,57 +4693,63 @@ if Level > 0:
 			GenerateLabyrinth()
 			CheckNextRoom(Labyrinth, RoomPos)
 			PlaceStairs(Labyrinth)
+			PlaceKey(Labyrinth)
 			PlaceDecorations()
 			PlaceGnome(Labyrinth)
 			PlaceHeroes(Labyrinth, Level)
 			Ping.play()
 	else:
 		del Labyrinth[:]
-		PlayerType=LoadList[SaveSlot+2].rstrip()
-		PlayerWeapon=LoadList[SaveSlot+3].rstrip()
-		PlayerArmor=LoadList[SaveSlot+4].rstrip()
-		Gold=int(LoadList[SaveSlot+5])		
-		PlayerAttack=int(LoadList[SaveSlot+6])
-		PlayerDefence=int(LoadList[SaveSlot+7])
-		PlayerLifeLevel=int(LoadList[SaveSlot+8])
-		PlayerMagic=int(LoadList[SaveSlot+9])
-		PlayerLife=int(LoadList[SaveSlot+10])
-		PlayerMana=int(LoadList[SaveSlot+11])
-		PlayerXP=int(LoadList[SaveSlot+12])
-		LeatherAmount=int(LoadList[SaveSlot+13])
-		BoneAmount=int(LoadList[SaveSlot+14])
-		WoodAmount=int(LoadList[SaveSlot+15])
-		IronAmount=int(LoadList[SaveSlot+16])
-		SteelAmount=int(LoadList[SaveSlot+17])
-		PlayerX=int(LoadList[SaveSlot+18])
-		PlayerY=int(LoadList[SaveSlot+19])
+		KeySwitch=int(LoadList[SaveSlot+2].rstrip())
+		if KeySwitch==0:
+			HasKey=False
+		else:
+			HasKey=True
+		PlayerType=LoadList[SaveSlot+3].rstrip()
+		PlayerWeapon=LoadList[SaveSlot+4].rstrip()
+		PlayerArmor=LoadList[SaveSlot+5].rstrip()
+		Gold=int(LoadList[SaveSlot+6])		
+		PlayerAttack=int(LoadList[SaveSlot+7])
+		PlayerDefence=int(LoadList[SaveSlot+8])
+		PlayerLifeLevel=int(LoadList[SaveSlot+9])
+		PlayerMagic=int(LoadList[SaveSlot+10])
+		PlayerLife=int(LoadList[SaveSlot+11])
+		PlayerMana=int(LoadList[SaveSlot+12])
+		PlayerXP=int(LoadList[SaveSlot+13])
+		LeatherAmount=int(LoadList[SaveSlot+14])
+		BoneAmount=int(LoadList[SaveSlot+15])
+		WoodAmount=int(LoadList[SaveSlot+16])
+		IronAmount=int(LoadList[SaveSlot+17])
+		SteelAmount=int(LoadList[SaveSlot+18])
+		PlayerX=int(LoadList[SaveSlot+19])
+		PlayerY=int(LoadList[SaveSlot+20])
 		PlayerLevel=PlayerAttack+PlayerDefence+PlayerLifeLevel+PlayerMagic
 		if SaveSlot==0:
 			LoadInv=open('Inventory1.sav', 'r')
-		elif SaveSlot==20:
+		elif SaveSlot==21:
 			LoadInv=open('Inventory2.sav', 'r')
-		elif SaveSlot==40:
+		elif SaveSlot==42:
 			LoadInv=open('Inventory3.sav', 'r')
-		elif SaveSlot==60:
+		elif SaveSlot==63:
 			LoadInv=open('Inventory4.sav', 'r')
-		elif SaveSlot==80:
+		elif SaveSlot==84:
 			LoadInv=open('Inventory5.sav', 'r')
-		elif SaveSlot==100:
+		elif SaveSlot==105:
 			LoadInv=open('Inventory6.sav', 'r')
 
 		InvList=list(LoadInv)
 		LoadInv.close()
 		if SaveSlot==0:
 			LoadMap=open('MapState1.sav', 'r')
-		elif SaveSlot==20:
+		elif SaveSlot==21:
 			LoadMap=open('MapState2.sav', 'r')
-		elif SaveSlot==40:
+		elif SaveSlot==42:
 			LoadMap=open('MapState3.sav', 'r')
-		elif SaveSlot==60:
+		elif SaveSlot==63:
 			LoadMap=open('MapState4.sav', 'r')
-		elif SaveSlot==80:
+		elif SaveSlot==84:
 			LoadMap=open('MapState5.sav', 'r')
-		elif SaveSlot==100:
+		elif SaveSlot==105:
 			LoadMap=open('MapState6.sav', 'r')
 
 		LabyrinthState=list(LoadMap)
@@ -4707,15 +4770,15 @@ if Level > 0:
 
 		if SaveSlot==0:
 			HeroLoad=open('HeroState1.sav', 'r')
-		elif SaveSlot==20:
+		elif SaveSlot==21:
 			HeroLoad=open('HeroState2.sav', 'r')
-		elif SaveSlot==40:
+		elif SaveSlot==42:
 			HeroLoad=open('HeroState3.sav', 'r')
-		elif SaveSlot==60:
+		elif SaveSlot==63:
 			HeroLoad=open('HeroState4.sav', 'r')
-		elif SaveSlot==80:
+		elif SaveSlot==84:
 			HeroLoad=open('HeroState5.sav', 'r')
-		elif SaveSlot==100:
+		elif SaveSlot==105:
 			HeroLoad=open('HeroState6.sav', 'r')
 
 		HeroSave=list(HeroLoad)
@@ -4845,24 +4908,28 @@ while Level < LevelMax:
 				if Level > 0:
 					LoadList[SaveSlot]=1
 					LoadList[SaveSlot+1]=Level
-					LoadList[SaveSlot+2]=PlayerType
-					LoadList[SaveSlot+3]=PlayerWeapon
-					LoadList[SaveSlot+4]=PlayerArmor
-					LoadList[SaveSlot+5]=Gold
-					LoadList[SaveSlot+6]=PlayerAttack
-					LoadList[SaveSlot+7]=PlayerDefence
-					LoadList[SaveSlot+8]=PlayerLifeLevel
-					LoadList[SaveSlot+9]=PlayerMagic
-					LoadList[SaveSlot+10]=PlayerLife
-					LoadList[SaveSlot+11]=PlayerMana
-					LoadList[SaveSlot+12]=PlayerXP
-					LoadList[SaveSlot+13]=LeatherAmount
-					LoadList[SaveSlot+14]=BoneAmount
-					LoadList[SaveSlot+15]=WoodAmount
-					LoadList[SaveSlot+16]=IronAmount
-					LoadList[SaveSlot+17]=SteelAmount
-					LoadList[SaveSlot+18]=PlayerX
-					LoadList[SaveSlot+19]=PlayerY
+					if HasKey:
+						LoadList[SaveSlot+2]=1
+					else:
+						LoadList[SaveSlot+2]=0
+					LoadList[SaveSlot+3]=PlayerType
+					LoadList[SaveSlot+4]=PlayerWeapon
+					LoadList[SaveSlot+5]=PlayerArmor
+					LoadList[SaveSlot+6]=Gold
+					LoadList[SaveSlot+7]=PlayerAttack
+					LoadList[SaveSlot+8]=PlayerDefence
+					LoadList[SaveSlot+9]=PlayerLifeLevel
+					LoadList[SaveSlot+10]=PlayerMagic
+					LoadList[SaveSlot+11]=PlayerLife
+					LoadList[SaveSlot+12]=PlayerMana
+					LoadList[SaveSlot+13]=PlayerXP
+					LoadList[SaveSlot+14]=LeatherAmount
+					LoadList[SaveSlot+15]=BoneAmount
+					LoadList[SaveSlot+16]=WoodAmount
+					LoadList[SaveSlot+17]=IronAmount
+					LoadList[SaveSlot+18]=SteelAmount
+					LoadList[SaveSlot+19]=PlayerX
+					LoadList[SaveSlot+20]=PlayerY
 					os.system('rm Zachno.sav')
 					Save=open('Zachno.sav', 'a')
 					PlayerCounter=0
@@ -4878,19 +4945,19 @@ while Level < LevelMax:
 					if SaveSlot==0:
 						os.system('rm MapState1.sav')
 						MapSave=open('MapState1.sav', 'a')
-					elif SaveSlot==20:
+					elif SaveSlot==21:
 						os.system('rm MapState2.sav')
 						MapSave=open('MapState2.sav', 'a')
-					elif SaveSlot==40:
+					elif SaveSlot==42:
 						os.system('rm MapState3.sav')
 						MapSave=open('MapState3.sav', 'a')
-					elif SaveSlot==60:
+					elif SaveSlot==63:
 						os.system('rm MapState4.sav')
 						MapSave=open('MapState4.sav', 'a')
-					elif SaveSlot==80:
+					elif SaveSlot==84:
 						os.system('rm MapState5.sav')
 						MapSave=open('MapState5.sav', 'a')
-					elif SaveSlot==100:
+					elif SaveSlot==105:
 						os.system('rm MapState6.sav')
 						MapSave=open('MapState6.sav', 'a')
 
@@ -4909,19 +4976,19 @@ while Level < LevelMax:
 					if SaveSlot==0:
 						os.system('rm HeroState1.sav')
 						HeroSave=open('HeroState1.sav', 'a')
-					elif SaveSlot==20:
+					elif SaveSlot==21:
 						os.system('rm HeroState2.sav')
 						HeroSave=open('HeroState2.sav', 'a')
-					elif SaveSlot==40:
+					elif SaveSlot==42:
 						os.system('rm HeroState3.sav')
 						HeroSave=open('HeroState3.sav', 'a')
-					elif SaveSlot==60:
+					elif SaveSlot==63:
 						os.system('rm HeroState4.sav')
 						HeroSave=open('HeroState4.sav', 'a')
-					elif SaveSlot==80:
+					elif SaveSlot==84:
 						os.system('rm HeroState5.sav')
 						HeroSave=open('HeroState5.sav', 'a')
-					elif SaveSlot==100:
+					elif SaveSlot==105:
 						os.system('rm HeroState6.sav')
 						HeroSave=open('HeroState6.sav', 'a')
 
@@ -4968,19 +5035,19 @@ while Level < LevelMax:
 					if SaveSlot==0:
 						os.system('rm Inventory1.sav')
 						InvSave=open('Inventory1.sav', 'a')
-					elif SaveSlot==20:
+					elif SaveSlot==21:
 						os.system('rm Inventory2.sav')
 						InvSave=open('Inventory2.sav', 'a')
-					elif SaveSlot==40:
+					elif SaveSlot==42:
 						os.system('rm Inventory3.sav')
 						InvSave=open('Inventory3.sav', 'a')
-					elif SaveSlot==60:
+					elif SaveSlot==63:
 						os.system('rm Inventory4.sav')
 						InvSave=open('Inventory4.sav', 'a')
-					elif SaveSlot==80:
+					elif SaveSlot==84:
 						os.system('rm Inventory5.sav')
 						InvSave=open('Inventory5.sav', 'a')
-					elif SaveSlot==100:
+					elif SaveSlot==105:
 						os.system('rm Inventory6.sav')
 						InvSave=open('Inventory6.sav', 'a')
 
@@ -5011,30 +5078,32 @@ while Level < LevelMax:
 			EnemiesMoved=True
 			
 		if NextLevel:
+			HasKey=False
 			PlayerX=0
 			PlayerY=0
 			Level=Level+1
 			if Level < LevelMax:
 				LoadList[SaveSlot]=0
 				LoadList[SaveSlot+1]=Level
-				LoadList[SaveSlot+2]=PlayerType
-				LoadList[SaveSlot+3]=PlayerWeapon
-				LoadList[SaveSlot+4]=PlayerArmor
-				LoadList[SaveSlot+5]=Gold
-				LoadList[SaveSlot+6]=PlayerAttack
-				LoadList[SaveSlot+7]=PlayerDefence
-				LoadList[SaveSlot+8]=PlayerLifeLevel
-				LoadList[SaveSlot+9]=PlayerMagic
-				LoadList[SaveSlot+10]=PlayerLife
-				LoadList[SaveSlot+11]=PlayerMana
-				LoadList[SaveSlot+12]=PlayerXP
-				LoadList[SaveSlot+13]=LeatherAmount
-				LoadList[SaveSlot+14]=BoneAmount
-				LoadList[SaveSlot+15]=WoodAmount
-				LoadList[SaveSlot+16]=IronAmount
-				LoadList[SaveSlot+17]=SteelAmount
-				LoadList[SaveSlot+18]=0
+				LoadList[SaveSlot+2]=0
+				LoadList[SaveSlot+3]=PlayerType
+				LoadList[SaveSlot+4]=PlayerWeapon
+				LoadList[SaveSlot+5]=PlayerArmor
+				LoadList[SaveSlot+6]=Gold
+				LoadList[SaveSlot+7]=PlayerAttack
+				LoadList[SaveSlot+8]=PlayerDefence
+				LoadList[SaveSlot+9]=PlayerLifeLevel
+				LoadList[SaveSlot+10]=PlayerMagic
+				LoadList[SaveSlot+11]=PlayerLife
+				LoadList[SaveSlot+12]=PlayerMana
+				LoadList[SaveSlot+13]=PlayerXP
+				LoadList[SaveSlot+14]=LeatherAmount
+				LoadList[SaveSlot+15]=BoneAmount
+				LoadList[SaveSlot+16]=WoodAmount
+				LoadList[SaveSlot+17]=IronAmount
+				LoadList[SaveSlot+18]=SteelAmount
 				LoadList[SaveSlot+19]=0
+				LoadList[SaveSlot+20]=0
 				os.system('rm Zachno.sav')
 				Save=open('Zachno.sav', 'a')
 				PlayerCounter=0
@@ -5050,19 +5119,19 @@ while Level < LevelMax:
 				if SaveSlot==0:
 					os.system('rm Inventory1.sav')
 					InvSave=open('Inventory1.sav', 'a')
-				elif SaveSlot==20:
+				elif SaveSlot==21:
 					os.system('rm Inventory2.sav')
 					InvSave=open('Inventory2.sav', 'a')
-				elif SaveSlot==40:
+				elif SaveSlot==42:
 					os.system('rm Inventory3.sav')
 					InvSave=open('Inventory3.sav', 'a')
-				elif SaveSlot==60:
+				elif SaveSlot==63:
 					os.system('rm Inventory4.sav')
 					InvSave=open('Inventory4.sav', 'a')
-				elif SaveSlot==80:
+				elif SaveSlot==84:
 					os.system('rm Inventory5.sav')
 					InvSave=open('Inventory5.sav', 'a')
-				elif SaveSlot==100:
+				elif SaveSlot==105:
 					os.system('rm Inventory6.sav')
 					InvSave=open('Inventory6.sav', 'a')
 
@@ -5122,6 +5191,7 @@ while Level < LevelMax:
 				GenerateLabyrinth()
 				CheckNextRoom(Labyrinth, RoomPos)
 				PlaceStairs(Labyrinth)
+				PlaceKey(Labyrinth)
 				PlaceDecorations()
 				PlaceGnome(Labyrinth)
 				PlaceHeroes(Labyrinth, Level)
