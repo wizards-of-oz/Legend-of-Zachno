@@ -423,7 +423,7 @@ def DoInventoryList():
 		screen.blit(ItemTextSurf,(950,400))
 	if HasKey:
 		KeyText='Has key to next level'
-		KeyTextSurf=myfont.render(KeyText, False, sky_blue)		
+		KeyTextSurf=myfont.render(KeyText, False, green)		
 		screen.blit(KeyTextSurf,(950,200))
 	return
 
@@ -481,6 +481,8 @@ def HeroScan(Labyrinth, HeroList):
 def DoScreen (Labyrinth, Level):
 	# Calling VisualScan to fill VisualList
 	global HasKey
+	global StairsX
+	global StairsY
 	global PlayerLife
 	global Spacebar
 	VisualScan(Labyrinth, HeroList)
@@ -604,18 +606,6 @@ def DoScreen (Labyrinth, Level):
 		screen.blit(HeroText2Surf, (ScreenX, ScreenY))
 		Counter=Counter+10
 
-	
-
-#	Xdiff=StairsX-PlayerX
-#	Ydiff=StairsY-PlayerY
-
-#	if (Xdiff==0) and (Ydiff==0):
-#		StairDistance=0
-#	else:
-#		StairDistance=int(math.sqrt((Xdiff**2+Ydiff**2)))
-
-
-	# Preparing and 'blitting' text on the game screen
 	MapGen=int(Level/2)+1
 	if Level==0:
 		Size=7
@@ -623,7 +613,10 @@ def DoScreen (Labyrinth, Level):
 		Size=(MapGen*2*9)+9
 
 	LevelText = 'Floor: '+str(Level-20)
-	PlayerPosText = 'Position: '+str(PlayerX)+' '+str(PlayerY)
+	if HasKey:
+		PlayerPosText = 'Stairs at: '+str(StairsX-PlayerX)+' '+str(StairsY-PlayerY)
+	else:
+		PlayerPosText = 'Player position: '+str(PlayerX)+' '+str(PlayerY)
 	LabyrinthText='Size of map: '+str(Size)+' by '+str(Size)
 	GoldText='Player gold: '+str(Gold)
 
@@ -633,6 +626,7 @@ def DoScreen (Labyrinth, Level):
 	IronText='Iron: '+str(IronAmount)
 	SteelText='Steel: '+str(SteelAmount)
 	CraftText='Press <c> to craft items'
+
 
 	SlotText='Saveslot: '+str(int((SaveSlot+20)/20))+' '+PlayerType
 	NumberOfEnemiesText='Enemies: '+str(int(len(HeroList)/15))
