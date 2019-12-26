@@ -88,6 +88,7 @@ WallG=pygame.image.load('WallG.PNG')
 WallB=pygame.image.load('WallB.PNG')
 WallP=pygame.image.load('WallP.PNG')
 Stairs=pygame.image.load('newStairs.PNG')
+Locked=pygame.image.load('Locked.png')
 Key=pygame.image.load('Key.png')
 Player=pygame.image.load('newMonster.PNG')
 TextBar=pygame.image.load('TextBar.png')
@@ -244,12 +245,16 @@ def VisualScan(Labyrinth, HeroList):
 
 # Translates items in game array to pictures
 def GetScreenItem(ObjectImage):
+	global HasKey
 	if ObjectImage=='Wall':
 		ScreenItem=Wall
 	elif ObjectImage=='Floor':
 		ScreenItem=Floor
 	elif ObjectImage=='Stairs':
-		ScreenItem=Stairs
+		if HasKey:
+			ScreenItem=Stairs
+		else:
+			ScreenItem=Locked
 	elif ObjectImage=='Key':
 		ScreenItem=Key
 	elif ObjectImage=='Leather':
@@ -615,8 +620,10 @@ def DoScreen (Labyrinth, Level):
 	LevelText = 'Floor: '+str(Level-20)
 	if HasKey:
 		PlayerPosText = 'Stairs at: '+str(StairsX-PlayerX)+' '+str(StairsY-PlayerY)
+		PlayerPosTextSurf = myfont.render(PlayerPosText, False, sky_blue)
 	else:
 		PlayerPosText = 'Player position: '+str(PlayerX)+' '+str(PlayerY)
+		PlayerPosTextSurf = myfont.render(PlayerPosText, False, green)
 	LabyrinthText='Size of map: '+str(Size)+' by '+str(Size)
 	GoldText='Player gold: '+str(Gold)
 
@@ -634,7 +641,7 @@ def DoScreen (Labyrinth, Level):
 		ExperienceText='Experience: '+str(PlayerXP)+'/'+str(PlayerLevel*3)
 	else:
 		ExperienceText='Experience: Reached maximum level'
-	EscapeText='<esc> quit game, <h> help'
+	EscapeText='<esc> quit/save game, <h> help'
 
 	PlayerAttackText='Attack: '
 	PlayerDefenceText='Defence:'
@@ -719,7 +726,6 @@ def DoScreen (Labyrinth, Level):
 	screen.blit(PlayerArmorTextSurf,(1100,160))
 
 	LevelTextSurf=myfont.render(LevelText, 1, green)
-	PlayerPosTextSurf = myfont.render(PlayerPosText, False, green)
 	LabyrinthTextSurf = myfont.render(LabyrinthText, False, green)
 	GoldTextSurf = myfont.render(GoldText, False, green)
 
@@ -2658,6 +2664,7 @@ def DoSplash(LoadList):
 	return(SaveSlot)
 
 def DoHelp():
+	global PlayerMagic
 	pygame.key.set_repeat()
 	screen.blit(Black,(0,0))
 	screen.blit(CursorKeys,(0,0))
@@ -2673,7 +2680,7 @@ def DoHelp():
 	SpacebarText='A tap on the spacebar pauses the game'
 	SpacebarText2='While paused you can still use items, the game will then unpause'
 	EnemyText='Enemies with green names only fight, those with blue names can also cast spells'
-	PauseText='Press <enter> to return to game'
+	PauseText='Press <enter>'
 
 	MoveTextSurf = myfont.render(MoveText, False, green)
 	MoveText2Surf = myfont.render(MoveText2, False, green)
@@ -2703,6 +2710,114 @@ def DoHelp():
 
 	pygame.display.flip()
 	wait()	
+
+	screen.blit(Black,(0,0))
+
+	screen.blit(ChestClosed,(0,0))
+	ChestText='When you have less than 10 items in your inventory, bump into chest to receive an item'
+	ChestTextSurf = myfont.render(ChestText, False, green)
+	screen.blit(ChestTextSurf,(90,0))
+
+	ResourcesText='Resources for crafting:'
+	ResourcesTextSurf = myfont.render(ResourcesText, False, green)
+	screen.blit(ResourcesTextSurf,(0,90))
+	screen.blit(Leather,(0,120))
+	screen.blit(Skull,(0,210))
+	screen.blit(Wood,(0,300))
+	screen.blit(Iron,(0,390))
+	screen.blit(Steel,(0,480))
+	LeatherText='Main resource for crafting weapons, only Warriors and Mages can craft weapons'
+	LeatherTextSurf = myfont.render(LeatherText, False, green)
+	screen.blit(LeatherTextSurf,(90,120))
+	BoneText='Main resource for crafting traps, only Tanks and Rogues can craft traps'
+	BoneTextSurf = myfont.render(BoneText, False, green)
+	screen.blit(BoneTextSurf,(90,210))
+	WoodText='Main resource for crafting lifepotions, all can craft lifepotions'
+	WoodTextSurf = myfont.render(WoodText, False, green)
+	screen.blit(WoodTextSurf,(90,300))
+	IronText='Main resource for crafting spells, only Rogues and Mages can craft spells'
+	IronTextSurf = myfont.render(IronText, False, green)
+	screen.blit(IronTextSurf,(90,390))
+	SteelText='Main resource for crafting armor, only Warriors and Tanks can craft armor'
+	SteelTextSurf = myfont.render(SteelText, False, green)
+	screen.blit(SteelTextSurf,(90,480))
+
+	screen.blit(Key,(0,570))
+	KeyText='Find the key and the stairs will be open and position will be shown'
+	KeyTextSurf = myfont.render(KeyText, False, green)
+	screen.blit(KeyTextSurf,(90,570))
+
+	
+	screen.blit(PauseTextSurf,(0,780))
+
+	pygame.display.flip()
+	wait()	
+
+	screen.blit(Black,(0,0))
+
+	screen.blit(SpikeTrap,(0,0))
+	screen.blit(BearTrap,(0,90))
+	screen.blit(AcidTrap,(0,180))
+	screen.blit(ElectroTrap,(0,270))
+	screen.blit(Mine,(0,360))
+
+	SpikeText='Spike trap does 3 damage and lowers enemy attack by 2'
+	BearText='Bear trap does 6 damage and lowers enemy defence by 3'
+	AcidText='Acid trap does 9 damage and scares enemy'
+	ElectroText='Electro trap does 12 damage and lowers enemy mana by 6'
+	MineText='Mine does 15 damage and lowers enemy attack, defence and mana by 5'
+
+	SpikeTextSurf = myfont.render(SpikeText, False, green)
+	BearTextSurf = myfont.render(BearText, False, green)
+	AcidTextSurf = myfont.render(AcidText, False, green)
+	ElectroTextSurf = myfont.render(ElectroText, False, green)
+	MineTextSurf = myfont.render(MineText, False, green)
+
+	screen.blit(SpikeTextSurf,(90,0))
+	screen.blit(BearTextSurf,(90,90))
+	screen.blit(AcidTextSurf,(90,180))
+	screen.blit(ElectroTextSurf,(90,270))
+	screen.blit(MineTextSurf,(90,360))
+
+	screen.blit(PauseTextSurf,(0,780))
+
+	pygame.display.flip()
+	wait()	
+
+	screen.blit(Black,(0,0))
+
+	screen.blit(Flame,(0,0))
+	screen.blit(Wormhole,(0,90))
+	screen.blit(Heart,(0,180))
+	screen.blit(Bolt,(0,270))
+	screen.blit(Blast,(0,360))
+
+	FireText='Fire spell does '+str(4+PlayerMagic)+' damage and lowers enemy attack by 2'
+	TeleportText='Teleport spell teleports enemy to random location and lowers defence by 4'
+	DrainText='Drain spell Steals '+str(12+PlayerMagic)+' life from the enemy'
+	LightningText='Lightning spell does '+str(16+PlayerMagic)+' damage and lowers enemy mana by 8'
+	FireballText='Fireball spell does '+str(20+PlayerMagic)+' damage and lowers enemy defence by 10'
+
+	ReturnToGameText='Press <enter> to return to game'
+	ReturnToGameTextSurf = myfont.render(ReturnToGameText, False, green)
+
+	FireTextSurf = myfont.render(FireText, False, green)
+	TeleportTextSurf = myfont.render(TeleportText, False, green)
+	DrainTextSurf = myfont.render(DrainText, False, green)
+	LightningTextSurf = myfont.render(LightningText, False, green)
+	FireballTextSurf = myfont.render(FireballText, False, green)
+
+	screen.blit(FireTextSurf,(90,0))
+	screen.blit(TeleportTextSurf,(90,90))
+	screen.blit(DrainTextSurf,(90,180))
+	screen.blit(LightningTextSurf,(90,270))
+	screen.blit(FireballTextSurf,(90,360))
+
+	screen.blit(ReturnToGameTextSurf,(0,780))
+
+	pygame.display.flip()
+	wait()	
+
 	pygame.key.set_repeat(30,50)
 	return
 
