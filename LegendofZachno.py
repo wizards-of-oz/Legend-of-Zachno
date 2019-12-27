@@ -1,4 +1,6 @@
 # Import necessary modules
+import os
+import sys
 import pygame
 from random import randint
 import os
@@ -2838,7 +2840,7 @@ def DoExit():
 					pygame.key.set_repeat(30,50)
 					return
 				if event.key == pygame.K_ESCAPE:
-					exit()
+					sys.exit()
 	return
 
 def DoVictory():
@@ -2878,7 +2880,7 @@ def DoVictory():
 					LoadList[SaveSlot+18]=0
 					LoadList[SaveSlot+19]=0
 					LoadList[SaveSlot+20]=0
-					os.system('rm Zachno.sav')
+					os.remove('Zachno.sav')
 					Save=open('Zachno.sav', 'a')
 					PlayerCounter=0
 					MaxPlayerCounter=len(LoadList)
@@ -2890,7 +2892,7 @@ def DoVictory():
 						PlayerCounter=PlayerCounter+1
 					Save.close()
 					MakingAChoice=False
-	exit()
+	sys.exit()
 	return
 
 def DoItem(ItemCounter):
@@ -3757,7 +3759,7 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 					screen.blit(Dead, (560, 320))
 					pygame.display.flip()
 					wait()
-					exit()
+					sys.exit()
 		else:
 			FreeFlight=False
 	SpellX=-200
@@ -3828,7 +3830,7 @@ def DoHeroCombat(Counter):
 			screen.blit(Dead, (560, 320))
 			pygame.display.flip()
 			wait()
-			exit()
+			sys.exit()
 		pygame.display.flip()
 	else:
 		Bump.play()
@@ -5040,7 +5042,7 @@ while Level < LevelMax:
 					LoadList[SaveSlot+18]=SteelAmount
 					LoadList[SaveSlot+19]=PlayerX
 					LoadList[SaveSlot+20]=PlayerY
-					os.system('rm Zachno.sav')
+					os.remove('Zachno.sav')
 					Save=open('Zachno.sav', 'a')
 					PlayerCounter=0
 					MaxPlayerCounter=len(LoadList)
@@ -5053,22 +5055,22 @@ while Level < LevelMax:
 					Save.close()
 
 					if SaveSlot==0:
-						os.system('rm MapState1.sav')
+						os.remove('MapState1.sav')
 						MapSave=open('MapState1.sav', 'a')
 					elif SaveSlot==21:
-						os.system('rm MapState2.sav')
+						os.remove('MapState2.sav')
 						MapSave=open('MapState2.sav', 'a')
 					elif SaveSlot==42:
-						os.system('rm MapState3.sav')
+						os.remove('MapState3.sav')
 						MapSave=open('MapState3.sav', 'a')
 					elif SaveSlot==63:
-						os.system('rm MapState4.sav')
+						os.remove('MapState4.sav')
 						MapSave=open('MapState4.sav', 'a')
 					elif SaveSlot==84:
-						os.system('rm MapState5.sav')
+						os.remove('MapState5.sav')
 						MapSave=open('MapState5.sav', 'a')
 					elif SaveSlot==105:
-						os.system('rm MapState6.sav')
+						os.remove('MapState6.sav')
 						MapSave=open('MapState6.sav', 'a')
 
 					LabCounter=0
@@ -5084,22 +5086,22 @@ while Level < LevelMax:
 					MapSave.close()
 
 					if SaveSlot==0:
-						os.system('rm HeroState1.sav')
+						os.remove('HeroState1.sav')
 						HeroSave=open('HeroState1.sav', 'a')
 					elif SaveSlot==21:
-						os.system('rm HeroState2.sav')
+						os.remove('HeroState2.sav')
 						HeroSave=open('HeroState2.sav', 'a')
 					elif SaveSlot==42:
-						os.system('rm HeroState3.sav')
+						os.remove('HeroState3.sav')
 						HeroSave=open('HeroState3.sav', 'a')
 					elif SaveSlot==63:
-						os.system('rm HeroState4.sav')
+						os.remove('HeroState4.sav')
 						HeroSave=open('HeroState4.sav', 'a')
 					elif SaveSlot==84:
-						os.system('rm HeroState5.sav')
+						os.remove('HeroState5.sav')
 						HeroSave=open('HeroState5.sav', 'a')
 					elif SaveSlot==105:
-						os.system('rm HeroState6.sav')
+						os.remove('HeroState6.sav')
 						HeroSave=open('HeroState6.sav', 'a')
 
 					HeroCounter=0
@@ -5143,22 +5145,22 @@ while Level < LevelMax:
 					HeroSave.close()
 
 					if SaveSlot==0:
-						os.system('rm Inventory1.sav')
+						os.remove('Inventory1.sav')
 						InvSave=open('Inventory1.sav', 'a')
 					elif SaveSlot==21:
-						os.system('rm Inventory2.sav')
+						os.remove('Inventory2.sav')
 						InvSave=open('Inventory2.sav', 'a')
 					elif SaveSlot==42:
-						os.system('rm Inventory3.sav')
+						os.remove('Inventory3.sav')
 						InvSave=open('Inventory3.sav', 'a')
 					elif SaveSlot==63:
-						os.system('rm Inventory4.sav')
+						os.remove('Inventory4.sav')
 						InvSave=open('Inventory4.sav', 'a')
 					elif SaveSlot==84:
-						os.system('rm Inventory5.sav')
+						os.remove('Inventory5.sav')
 						InvSave=open('Inventory5.sav', 'a')
 					elif SaveSlot==105:
-						os.system('rm Inventory6.sav')
+						os.remove('Inventory6.sav')
 						InvSave=open('Inventory6.sav', 'a')
 
 					InvCounter=0
@@ -5214,7 +5216,7 @@ while Level < LevelMax:
 				LoadList[SaveSlot+18]=SteelAmount
 				LoadList[SaveSlot+19]=0
 				LoadList[SaveSlot+20]=0
-				os.system('rm Zachno.sav')
+				os.remove('Zachno.sav')
 				Save=open('Zachno.sav', 'a')
 				PlayerCounter=0
 				MaxPlayerCounter=len(LoadList)
@@ -5227,22 +5229,22 @@ while Level < LevelMax:
 				Save.close()
 		
 				if SaveSlot==0:
-					os.system('rm Inventory1.sav')
+					os.remove('Inventory1.sav')
 					InvSave=open('Inventory1.sav', 'a')
 				elif SaveSlot==21:
-					os.system('rm Inventory2.sav')
+					os.remove('Inventory2.sav')
 					InvSave=open('Inventory2.sav', 'a')
 				elif SaveSlot==42:
-					os.system('rm Inventory3.sav')
+					os.remove('Inventory3.sav')
 					InvSave=open('Inventory3.sav', 'a')
 				elif SaveSlot==63:
-					os.system('rm Inventory4.sav')
+					os.remove('Inventory4.sav')
 					InvSave=open('Inventory4.sav', 'a')
 				elif SaveSlot==84:
-					os.system('rm Inventory5.sav')
+					os.remove('Inventory5.sav')
 					InvSave=open('Inventory5.sav', 'a')
 				elif SaveSlot==105:
-					os.system('rm Inventory6.sav')
+					os.remove('Inventory6.sav')
 					InvSave=open('Inventory6.sav', 'a')
 
 				InvCounter=0
@@ -5271,7 +5273,7 @@ while Level < LevelMax:
 								MakingAChoice=False
 							if event.key == pygame.K_n:
 								DoExit()
-								exit()
+								sys.exit()
 
 				LoadingText='Cooking level '+str(Level)+'...'
 				LoadingTextSurf = myfont.render(LoadingText, False, green)
@@ -5310,4 +5312,4 @@ while Level < LevelMax:
 				DoVictory()
 
 wait()
-exit()
+sys.exit()
