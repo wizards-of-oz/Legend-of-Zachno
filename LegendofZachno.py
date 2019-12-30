@@ -3750,6 +3750,8 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 					PlayerWeapon='Fists'
 				if Spell=='Disrupt':
 					PlayerMana=PlayerMana-16
+					if PlayerMana < 0:
+						PlayerMana=0
 				if Spell=='Nullify':
 					PlayerWeapon='Fists'
 					PlayerArmor='None'
@@ -4221,7 +4223,7 @@ def DoCraftItem():
 		Text5Surf = myfont.render(Text5, False, color)
 
 		Text6='5> Lifepotion...'
-		if BoneAmount > 2 and WoodAmount > 1:
+		if WoodAmount > 4:
 			color=green
 		else:
 			color=red
@@ -4253,10 +4255,9 @@ def DoCraftItem():
 					DoCraftTrap()
 				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and (PlayerType=='Mage'or PlayerType=='Rogue'):
 					DoCraftSpell()
-				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and BoneAmount > 2 and WoodAmount > 1:
+				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and WoodAmount > 4:
 					if len(InvList) < 10:
-						BoneAmount=BoneAmount-3
-						WoodAmount=WoodAmount-2
+						WoodAmount=WoodAmount-5
 						InvList.append('Lifepotion')
 						Pour.play()
 				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
