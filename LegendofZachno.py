@@ -1,5 +1,6 @@
 # Import necessary modules
 import os
+import math
 import sys
 import pygame
 from random import randint
@@ -3272,6 +3273,15 @@ def DropItem(ItemCounter):
 	del InvList[ItemCounter]
 	return
 
+def PlayerDistance (HeroX, HeroY, PlayerX, PlayerY):
+	XDiff=PlayerX-HeroX
+	YDiff=PlayerY-HeroY
+	if (XDiff==0) and (YDiff==0):
+		PlayerDist=0
+	else:
+		PlayerDist=math.sqrt((XDiff**2+YDiff**2))
+	return (PlayerDist)
+
 def PlaceHeroes(Labyrinth, Level):
 	global HeroList
 	del HeroList[:]
@@ -4128,10 +4138,9 @@ def DoEnemies():
 		YDiff=HeroY-PlayerY
 		TreshHold=10-HeroAttack
 		SpellChance=randint(1,2)
-		EnemyScan=HeroLevel
-		if EnemyScan < 5:
-			EnemyScan=5
-		if (-1*EnemyScan <= XDiff) and ( XDiff <= EnemyScan) and (-1*EnemyScan <= YDiff) and (YDiff <= EnemyScan):
+		EnemyScan=2*HeroLevel
+		PDist=PlayerDistance (HeroX, HeroY, PlayerX, PlayerY)
+		if PDist < EnemyScan:
 			if HeroLife > (HeroLifeLevel*TreshHold):
 				if HeroX==PlayerX or HeroY==PlayerY:
 					if HeroY < PlayerY:
@@ -4150,26 +4159,30 @@ def DoEnemies():
 						CheckY=HeroY
 					FloorFound=False
 					FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
-					if HeroSpell == 'Fire' and HeroMana > 0 and SpellChance==1 and FloorFound:
-						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
-					elif HeroSpell == 'Teleport' and HeroMana > 1 and SpellChance==1 and FloorFound:
-						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
-					elif HeroSpell == 'Drain' and HeroMana > 2 and SpellChance==1 and FloorFound:
-						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
-					elif HeroSpell == 'Lightning' and HeroMana > 3 and SpellChance==1 and FloorFound:
-						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
-					elif HeroSpell == 'Fireball' and HeroMana > 4 and SpellChance==1 and FloorFound:
-						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
-					elif HeroSpell == 'Disarm' and HeroMana > 0 and SpellChance==1 and FloorFound:
-						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
-					elif HeroSpell == 'Destroy' and HeroMana > 1 and SpellChance==1 and FloorFound:
-						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
-					elif HeroSpell == 'Steal' and HeroMana > 2 and SpellChance==1 and FloorFound:
-						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
-					elif HeroSpell == 'Disrupt' and HeroMana > 3 and SpellChance==1 and FloorFound:
-						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
-					elif HeroSpell == 'Nullify' and HeroMana > 4 and SpellChance==1 and FloorFound:
-						DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+					if PDist < 13:
+						if HeroSpell == 'Fire' and HeroMana > 0 and SpellChance==1 and FloorFound:
+							DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+						elif HeroSpell == 'Teleport' and HeroMana > 1 and SpellChance==1 and FloorFound:
+							DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+						elif HeroSpell == 'Drain' and HeroMana > 2 and SpellChance==1 and FloorFound:
+							DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+						elif HeroSpell == 'Lightning' and HeroMana > 3 and SpellChance==1 and FloorFound:
+							DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+						elif HeroSpell == 'Fireball' and HeroMana > 4 and SpellChance==1 and FloorFound:
+							DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+						elif HeroSpell == 'Disarm' and HeroMana > 0 and SpellChance==1 and FloorFound:
+							DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+						elif HeroSpell == 'Destroy' and HeroMana > 1 and SpellChance==1 and FloorFound:
+							DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+						elif HeroSpell == 'Steal' and HeroMana > 2 and SpellChance==1 and FloorFound:
+							DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+						elif HeroSpell == 'Disrupt' and HeroMana > 3 and SpellChance==1 and FloorFound:
+							DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+						elif HeroSpell == 'Nullify' and HeroMana > 4 and SpellChance==1 and FloorFound:
+							DoHeroSpell(HeroX, HeroY, HeroSpell, Counter)
+						else:
+							HeroHunts(Counter)
+							MaxCounter=len(HeroList)
 					else:
 						HeroHunts(Counter)
 						MaxCounter=len(HeroList)
