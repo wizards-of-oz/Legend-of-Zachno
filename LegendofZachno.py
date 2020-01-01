@@ -79,7 +79,7 @@ Tinkering = pygame.mixer.Sound('Tinkering.ogg')
 Pour = pygame.mixer.Sound('Pour.ogg')
 Writing = pygame.mixer.Sound('Writing.ogg')
 Trade = pygame.mixer.Sound('Trade.ogg')
-
+Pause = pygame.mixer.Sound('Pause.ogg')
 
 # Loading picture files into RAM
 Black=pygame.image.load('Black.png')
@@ -4962,6 +4962,7 @@ while Level < LevelMax:
 					Spacebar=False
 				else:
 					Spacebar=True
+					Pause.play()
 #			if pygame.key.get_pressed()[pygame.K_RETURN]:
 #				Spacebar=False
 			if pygame.key.get_pressed()[pygame.K_h]:
