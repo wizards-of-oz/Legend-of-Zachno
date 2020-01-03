@@ -2795,11 +2795,11 @@ def DoHelp():
 	screen.blit(Bolt,(0,270))
 	screen.blit(Blast,(0,360))
 
-	FireText='Fire spell does '+str(4+PlayerMagic)+' damage and lowers enemy attack by 2'
-	TeleportText='Teleport spell teleports enemy to random location and lowers defence by 4'
+	FireText='Fire spell does '+str(4+PlayerMagic)+' damage and lowers enemy attack by '+str(int((4+PlayerMagic)/2))
+	TeleportText='Teleport spell teleports enemy to random location and lowers defence by '+str(int((8+PlayerMagic)/2))
 	DrainText='Drain spell Steals '+str(12+PlayerMagic)+' life from the enemy'
-	LightningText='Lightning spell does '+str(16+PlayerMagic)+' damage and lowers enemy mana by 8'
-	FireballText='Fireball spell does '+str(20+PlayerMagic)+' damage and lowers enemy defence by 10'
+	LightningText='Lightning spell does '+str(16+PlayerMagic)+' damage and lowers enemy mana by '+str(int((16+PlayerMagic)/2))
+	FireballText='Fireball spell does '+str(20+PlayerMagic)+' damage and lowers enemy defence by '+str(int((20+PlayerMagic)/2))
 
 	ReturnToGameText='Press <enter> to return to game'
 	ReturnToGameTextSurf = myfont.render(ReturnToGameText, False, green)
@@ -3041,13 +3041,13 @@ def DoSpell(ItemCounter):
 					FreeFlight=False
 					if Spell=='Fire':
 						Fire.play()
-						HeroAttack=HeroAttack-2
+						HeroAttack=HeroAttack-int((4+PlayerMagic)/2)
 						if HeroAttack < 0:
 							HeroAttack=0
 						HeroList[HeroCounter+5]=HeroAttack
 						HeroLife=HeroLife-(4+PlayerMagic)
 					if Spell=='Teleport':
-						HeroDefence=HeroDefence-4
+						HeroDefence=HeroDefence-int((8+PlayerMagic)/2)
 						if HeroDefence < 0:
 							HeroDefence=0
 						HeroList[HeroCounter+6]=HeroDefence
@@ -3078,19 +3078,22 @@ def DoSpell(ItemCounter):
 									LookingForASpot=False
 					if Spell=='Drain':
 						Steal.play()
-						PlayerLife=PlayerLife+12
+						LifeGained=12+PlayerMagic
+						if LifeGained > HeroLife:
+							LifeGained = HeroLife
+						PlayerLife=PlayerLife+LifeGained
 						if PlayerLife > (PlayerLifeLevel*10):
 							PlayerLife = (PlayerLifeLevel*10)
 						HeroLife=HeroLife-(12+PlayerMagic)
 					if Spell=='Lightning':
 						Lightning.play()
 						HeroLife=HeroLife-(16+PlayerMagic)
-						HeroMana=HeroMana-8
+						HeroMana=HeroMana-int((16+PlayerMagic)/2)
 						HeroList[HeroCounter+10]=HeroMana
 					if Spell=='Fireball':
 						Fireball.play()
 						HeroLife=HeroLife-(20+PlayerMagic)
-						HeroDefence=HeroDefence-10
+						HeroDefence=HeroDefence-int((20+PlayerMagic)/2)
 						if HeroDefence < 0:
 							HeroDefence=0
 						HeroList[HeroCounter+6]=HeroDefence
