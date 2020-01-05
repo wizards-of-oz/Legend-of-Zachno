@@ -4771,7 +4771,7 @@ def DoActiveSpells(ActiveSpells):
 					Shatter.play()
 					PlayerWeapon='Fists'
 				if ActiveSpell=='Destroy':
-					Fire.play()
+					Shatter.play()
 					PlayerArmor='None'
 				if ActiveSpell=='Steal':
 					Grab.play()
@@ -4790,7 +4790,7 @@ def DoActiveSpells(ActiveSpells):
 					if PlayerMana < 0:
 						PlayerMana=0
 				if ActiveSpell=='Nullify':
-					Break.play()
+					Shatter.play()
 					PlayerWeapon='Fists'
 					PlayerArmor='None'
 				del ActiveSpells[Counter]
