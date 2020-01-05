@@ -5327,7 +5327,7 @@ while Level < LevelMax:
 		if PlayerLife < 1:
 			DeathScream.play()
 			screen.blit(Dead, (560, 320))
-			pygame,display.flip()
+			pygame.display.flip()
 			wait()
 			sys.exit()
 
