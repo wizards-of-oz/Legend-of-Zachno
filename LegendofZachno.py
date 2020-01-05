@@ -4760,7 +4760,7 @@ def DoActiveSpells(ActiveSpells):
 				Blast.play()
 				PlayerLife=PlayerLife-20
 			if ActiveSpell=='Disarm':
-				Break.play()
+				Shatter.play()
 				PlayerWeapon='Fists'
 			if ActiveSpell=='Destroy':
 				Fire.play()
