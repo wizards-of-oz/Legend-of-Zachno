@@ -12,7 +12,7 @@ None
 None
 None
 None
-4
+3
 Dave
 Dagger
 None
@@ -40,7 +40,7 @@ None
 None
 Mace
 Life
-5
+4
 Flame Soldier
 Sword
 None
@@ -138,7 +138,7 @@ None
 Mace
 Life
 Life
-6
+5
 Heavy Guard
 Mace
 None
@@ -152,7 +152,7 @@ Fire
 Mace
 Mana
 FireScroll
-8
+7
 Knight
 Mace
 WShield
@@ -166,7 +166,7 @@ None
 Mace
 Mana
 WShield
-10
+6
 Warlock
 Sword
 None
@@ -222,7 +222,7 @@ None
 BearTrap
 BearTrap
 BearTrap
-5
+6
 Rogue
 Fists
 None
@@ -236,7 +236,7 @@ None
 BearTrap
 AcidTrap
 Life
-7
+6
 Blink Rogue
 Fists
 None
@@ -250,7 +250,7 @@ Teleport
 BearTrap
 ElectroTrap
 TeleportScroll
-7
+8
 Defender
 Fists
 Shield
@@ -264,7 +264,7 @@ None
 BearTrap
 Mine
 Shield
-7
+6
 Shield Maiden
 Fists
 None
@@ -278,7 +278,7 @@ None
 AcidTrap
 Life
 Life
-7
+6
 Blink Rogue
 Fists
 None
@@ -320,7 +320,7 @@ Lightning
 ElectroTrap
 LightningScroll
 TeleportScroll
-9
+8
 Pyromancer Knight
 Dagger
 Shield
@@ -362,7 +362,7 @@ None
 Life
 Life
 Life
-9
+8
 Vampire Queen
 Fists
 None
