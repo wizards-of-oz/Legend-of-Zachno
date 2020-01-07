@@ -4,7 +4,6 @@ import math
 import sys
 import pygame
 from random import randint
-import os
 from pytictoc import TicToc
 
 # Initializing the pygame components i use 
@@ -4689,7 +4688,7 @@ def DoSelectClass():
 	pygame.key.set_repeat(30,50)
 	return(PlayerType)
 
-def DoActiveSpells(ActiveSpells):
+def DoActiveSpells(ActiveSpells, MapGen):
 	global PlayerX
 	global PlayerY
 	global PlayerWeapon
@@ -4699,7 +4698,7 @@ def DoActiveSpells(ActiveSpells):
 	global PlayerLife
 	global PlayerMana
 	global PlayerXP
-
+	
 	MaxCounter=len(ActiveSpells)
 	Counter=0
 	while Counter < MaxCounter:
@@ -4765,7 +4764,7 @@ def DoActiveSpells(ActiveSpells):
 					Lightning.play()
 					PlayerLife=PlayerLife-16
 				if ActiveSpell=='Fireball':
-					Blast.play()
+					Fireball.play()
 					PlayerLife=PlayerLife-20
 				if ActiveSpell=='Disarm':
 					Shatter.play()
@@ -4809,24 +4808,24 @@ def DoActiveSpells(ActiveSpells):
 
 		Counter=Counter+4
 
-		return
+	return
 
-	def DoHealClosestHero(PlayerX, PlayerY, HeroList):
-		Proximity=1000
-		MaxCounter=len(HeroList)
-		Counter=0
-		while Counter < MaxCounter:
-			HeroX=int(HeroList[Counter+14])
-			HeroY=int(HeroList[Counter+15])
-			PDist=PlayerDistance(HeroX, HeroY, PlayerX, PlayerY)
-			if PDist < Proximity:
-				Proximity=PDist
-				ClosestEnemy=Counter
-			Counter=Counter+16
-		HeroLife=int(HeroList[ClosestEnemy+9])
-		HeroLife=HeroLife+12
-		HeroList[ClosestEnemy+9]=HeroLife
-		return
+def DoHealClosestHero(PlayerX, PlayerY, HeroList):
+	Proximity=1000
+	MaxCounter=len(HeroList)
+	Counter=0
+	while Counter < MaxCounter:
+		HeroX=int(HeroList[Counter+14])
+		HeroY=int(HeroList[Counter+15])
+		PDist=PlayerDistance(HeroX, HeroY, PlayerX, PlayerY)
+		if PDist < Proximity:
+			Proximity=PDist
+			ClosestEnemy=Counter
+		Counter=Counter+16
+	HeroLife=int(HeroList[ClosestEnemy+9])
+	HeroLife=HeroLife+12
+	HeroList[ClosestEnemy+9]=HeroLife
+	return
 
 
 # Main loop
@@ -4870,6 +4869,7 @@ LoadFile.close()
 
 SaveSlot=DoSplash(LoadList)
 Level=int(LoadList[SaveSlot+1])
+MapGen=int(Level/2)+1
 if Level==0:
 	PlayerType=DoSelectClass()
 
@@ -5188,22 +5188,34 @@ while Level < LevelMax:
 					Save.close()
 
 					if SaveSlot==0:
-						os.remove('MapState1.sav')
+						FileExists=os.path.isfile('MapState1.sav')
+						if FileExists:
+							os.remove('MapState1.sav')
 						MapSave=open('MapState1.sav', 'a')
 					elif SaveSlot==21:
-						os.remove('MapState2.sav')
+						FileExists=os.path.isfile('MapState2.sav')
+						if FileExists:
+							os.remove('MapState2.sav')
 						MapSave=open('MapState2.sav', 'a')
 					elif SaveSlot==42:
-						os.remove('MapState3.sav')
+						FileExists=os.path.isfile('MapState3.sav')
+						if FileExists:
+							os.remove('MapState3.sav')
 						MapSave=open('MapState3.sav', 'a')
 					elif SaveSlot==63:
-						os.remove('MapState4.sav')
+						FileExists=os.path.isfile('MapState4.sav')
+						if FileExists:
+							os.remove('MapState4.sav')
 						MapSave=open('MapState4.sav', 'a')
 					elif SaveSlot==84:
-						os.remove('MapState5.sav')
+						FileExists=os.path.isfile('MapState5.sav')
+						if FileExists:
+							os.remove('MapState5.sav')
 						MapSave=open('MapState5.sav', 'a')
 					elif SaveSlot==105:
-						os.remove('MapState6.sav')
+						FileExists=os.path.isfile('MapState6.sav')
+						if FileExists:
+							os.remove('MapState6.sav')
 						MapSave=open('MapState6.sav', 'a')
 
 					LabCounter=0
@@ -5219,22 +5231,34 @@ while Level < LevelMax:
 					MapSave.close()
 
 					if SaveSlot==0:
-						os.remove('HeroState1.sav')
+						FileExists=os.path.isfile('HeroState1.sav')
+						if FileExists:
+							os.remove('HeroState1.sav')
 						HeroSave=open('HeroState1.sav', 'a')
 					elif SaveSlot==21:
-						os.remove('HeroState2.sav')
+						FileExists=os.path.isfile('HeroState2.sav')
+						if FileExists:
+							os.remove('HeroState2.sav')
 						HeroSave=open('HeroState2.sav', 'a')
 					elif SaveSlot==42:
-						os.remove('HeroState3.sav')
+						FileExists=os.path.isfile('HeroState3.sav')
+						if FileExists:
+							os.remove('HeroState3.sav')
 						HeroSave=open('HeroState3.sav', 'a')
 					elif SaveSlot==63:
-						os.remove('HeroState4.sav')
+						FileExists=os.path.isfile('HeroState4.sav')
+						if FileExists:
+							os.remove('HeroState4.sav')
 						HeroSave=open('HeroState4.sav', 'a')
 					elif SaveSlot==84:
-						os.remove('HeroState5.sav')
+						FileExists=os.path.isfile('HeroState5.sav')
+						if FileExists:
+							os.remove('HeroState5.sav')
 						HeroSave=open('HeroState5.sav', 'a')
 					elif SaveSlot==105:
-						os.remove('HeroState6.sav')
+						FileExists=os.path.isfile('HeroState6.sav')
+						if FileExists:
+							os.remove('HeroState6.sav')
 						HeroSave=open('HeroState6.sav', 'a')
 
 					HeroCounter=0
@@ -5278,22 +5302,34 @@ while Level < LevelMax:
 					HeroSave.close()
 
 					if SaveSlot==0:
-						os.remove('Inventory1.sav')
+						FileExists=os.path.isfile('Inventory1.sav')
+						if FileExists:
+							os.remove('Inventory1.sav')
 						InvSave=open('Inventory1.sav', 'a')
 					elif SaveSlot==21:
-						os.remove('Inventory2.sav')
+						FileExists=os.path.isfile('Inventory2.sav')
+						if FileExists:
+							os.remove('Inventory2.sav')
 						InvSave=open('Inventory2.sav', 'a')
 					elif SaveSlot==42:
-						os.remove('Inventory3.sav')
+						FileExists=os.path.isfile('Inventory3.sav')
+						if FileExists:
+							os.remove('Inventory3.sav')
 						InvSave=open('Inventory3.sav', 'a')
 					elif SaveSlot==63:
-						os.remove('Inventory4.sav')
+						FileExists=os.path.isfile('Inventory4.sav')
+						if FileExists:
+							os.remove('Inventory4.sav')
 						InvSave=open('Inventory4.sav', 'a')
 					elif SaveSlot==84:
-						os.remove('Inventory5.sav')
+						FileExists=os.path.isfile('Inventory5.sav')
+						if FileExists:
+							os.remove('Inventory5.sav')
 						InvSave=open('Inventory5.sav', 'a')
 					elif SaveSlot==105:
-						os.remove('Inventory6.sav')
+						FileExists=os.path.isfile('Inventory6.sav')
+						if FileExists:
+							os.remove('Inventory6.sav')
 						InvSave=open('Inventory6.sav', 'a')
 
 					InvCounter=0
@@ -5324,7 +5360,7 @@ while Level < LevelMax:
 
 		SpentTimeSpells=SpellTime.tocvalue()
 		if SpentTimeSpells > 0.1 and Spacebar==False:
-			DoActiveSpells(ActiveSpells)
+			DoActiveSpells(ActiveSpells, MapGen)
 			SpellsDone=True
 
 		if PlayerLife < 1:
@@ -5374,22 +5410,34 @@ while Level < LevelMax:
 				Save.close()
 		
 				if SaveSlot==0:
-					os.remove('Inventory1.sav')
+					FileExists=os.path.isfile('Inventory1.sav')
+					if FileExists:
+						os.remove('Inventory1.sav')
 					InvSave=open('Inventory1.sav', 'a')
 				elif SaveSlot==21:
-					os.remove('Inventory2.sav')
+					FileExists=os.path.isfile('Inventory2.sav')
+					if FileExists:
+						os.remove('Inventory2.sav')
 					InvSave=open('Inventory2.sav', 'a')
 				elif SaveSlot==42:
-					os.remove('Inventory3.sav')
+					FileExists=os.path.isfile('Inventory3.sav')
+					if FileExists:
+						os.remove('Inventory3.sav')
 					InvSave=open('Inventory3.sav', 'a')
 				elif SaveSlot==63:
-					os.remove('Inventory4.sav')
+					FileExists=os.path.isfile('Inventory4.sav')
+					if FileExists:
+						os.remove('Inventory4.sav')
 					InvSave=open('Inventory4.sav', 'a')
 				elif SaveSlot==84:
-					os.remove('Inventory5.sav')
+					FileExists=os.path.isfile('Inventory5.sav')
+					if FileExists:
+						os.remove('Inventory5.sav')
 					InvSave=open('Inventory5.sav', 'a')
 				elif SaveSlot==105:
-					os.remove('Inventory6.sav')
+					FileExists=os.path.isfile('Inventory6.sav')
+					if FileExists:
+						os.remove('Inventory6.sav')
 					InvSave=open('Inventory6.sav', 'a')
 
 				InvCounter=0
