@@ -248,15 +248,16 @@ def VisualScan(Labyrinth, HeroList, ActiveSpells):
 	Counter=0
 	while Counter < MaxCounter:
 		Object=str(ActiveSpells[Counter])
-		ObjectX=int(ActiveSpells[Counter+2])
-		ObjectY=int(ActiveSpells[Counter+3])
+		ObjectX=int(ActiveSpells[Counter+3])
+		ObjectY=int(ActiveSpells[Counter+4])
+		print(ActiveSpells)
 		XDiff=ObjectX-PlayerX
 		YDiff=ObjectY-PlayerY
 		if (-7 <= XDiff) and ( XDiff <= 7) and (-5 <= YDiff) and (YDiff <= 4):
 			VisualList.append(Object)
 			VisualList.append(XDiff)
 			VisualList.append(YDiff)
-		Counter=Counter+4
+		Counter=Counter+5
 	return(VisualList)
 
 # Translates items in game array to pictures
@@ -526,6 +527,9 @@ def DoScreen (Labyrinth, Level):
 	global StairsY
 	global PlayerLife
 	global Spacebar
+	global Spell
+	global SpellX
+	global SpellY
 	VisualScan(Labyrinth, HeroList, ActiveSpells)
 	HeroScan(Labyrinth, HeroList)
 	Counter=0
@@ -1700,11 +1704,11 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 	MaxCounter=len(ActiveSpells)
 	while Counter < MaxCounter:
 		SpellHit=str(ActiveSpells[Counter])
-		ASpellX=int(ActiveSpells[Counter+2])
-		ASpellY=int(ActiveSpells[Counter+3])
+		ASpellX=int(ActiveSpells[Counter+3])
+		ASpellY=int(ActiveSpells[Counter+4])
 		ResolveHeroSpell(SpellHit, Counter)
 		MaxCounter=len(ActiveSpells)
-		Counter=Counter+4
+		Counter=Counter+5
 	return(Collision)
 
 # Creates a list of all room positions in current level
@@ -2975,9 +2979,6 @@ def DoSpell(ItemCounter):
 	global PlayerMagic
 	global PlayerMana
 	global PlayerXP
-	global Spell
-	global SpellX
-	global SpellY
 	global HeroList
 	DoScreen(Labyrinth, Level)
 	MapGen=int(Level/2)+1
@@ -3012,6 +3013,7 @@ def DoSpell(ItemCounter):
 				
 	if Spell=='Fire':
 		if PlayerMana >= 1:
+			Fire.play()
 			PlayerMana=PlayerMana-1
 			del InvList[ItemCounter]
 		else:
@@ -3019,6 +3021,7 @@ def DoSpell(ItemCounter):
 			return
 	elif Spell=='Teleport':
 		if PlayerMana >= 2:
+			Teleport.play()
 			PlayerMana=PlayerMana-2
 			del InvList[ItemCounter]
 		else:
@@ -3026,6 +3029,7 @@ def DoSpell(ItemCounter):
 			return
 	elif Spell=='Drain':
 		if PlayerMana >= 3:
+			Steal.play()
 			PlayerMana=PlayerMana-3
 			del InvList[ItemCounter]
 		else:
@@ -3033,6 +3037,7 @@ def DoSpell(ItemCounter):
 			return
 	elif Spell=='Lightning':
 		if PlayerMana >= 4:
+			Lightning.play()
 			PlayerMana=PlayerMana-4
 			del InvList[ItemCounter]
 		else:
@@ -3040,6 +3045,7 @@ def DoSpell(ItemCounter):
 			return
 	elif Spell=='Fireball':
 		if PlayerMana >= 5:
+			Fireball.play()
 			PlayerMana=PlayerMana-5
 			del InvList[ItemCounter]
 		else:
@@ -3048,140 +3054,24 @@ def DoSpell(ItemCounter):
 
 	SpellX=PlayerX
 	SpellY=PlayerY
-	FreeFlight=True
-	while FreeFlight:
-		if SpellDir==1:
-			SpellY=SpellY+1
-		elif SpellDir==2:
-			SpellX=SpellX+1
-		elif SpellDir==3:
-			SpellY=SpellY-1
-		elif SpellDir==4:
-			SpellX=SpellX-1
+	if SpellDir==1:
+		SpellY=SpellY+1
+	elif SpellDir==2:
+		SpellX=SpellX+1
+	elif SpellDir==3:
+		SpellY=SpellY-1
+	elif SpellDir==4:
+		SpellX=SpellX-1
 		
-		DoScreen(Labyrinth, Level)
-
-		CheckX=SpellX
-		CheckY=SpellY
-		FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
-		if FloorFound:
-			HeroCounter=0
-			HeroCounterMax=len(HeroList)
-			while HeroCounter < HeroCounterMax:
-				HeroLevel=int(HeroList[HeroCounter])
-				HeroArmor=str(HeroList[HeroCounter+3])
-				HeroAttack=int(HeroList[HeroCounter+5])
-				HeroDefence=int(HeroList[HeroCounter+6])
-				HeroLife=int(HeroList[HeroCounter+9])
-				HeroMana=int(HeroList[HeroCounter+10])
-				DropItemOne=str(HeroList[HeroCounter+11])
-				DropItemTwo=str(HeroList[HeroCounter+12])
-				DropItemThree=str(HeroList[HeroCounter+13])
-				HeroX=int(HeroList[HeroCounter+14])
-				HeroY=int(HeroList[HeroCounter+15])
-				if HeroX==SpellX and HeroY==SpellY:
-					FreeFlight=False
-					if Spell=='Fire':
-						Fire.play()
-						HeroAttack=HeroAttack-int((4+PlayerMagic)/2)
-						if HeroAttack < 0:
-							HeroAttack=0
-						HeroList[HeroCounter+5]=HeroAttack
-						HeroLife=HeroLife-(4+PlayerMagic)
-					if Spell=='Teleport':
-						HeroDefence=HeroDefence-int((8+PlayerMagic)/2)
-						if HeroDefence < 0:
-							HeroDefence=0
-						HeroList[HeroCounter+6]=HeroDefence
-						Teleport.play()
-						TeleportXMin=-1*MapGen*9
-						TeleportXMax=MapGen*9
-						TeleportYMin=-1*MapGen*9
-						TeleportYMax=MapGen*9
-						LookingForASpot=True
-						while LookingForASpot:
-							NoBlock=True
-							TeleportX=randint(TeleportXMin, TeleportXMax)
-							TeleportY=randint(TeleportYMin, TeleportYMax)
-			
-							if (TeleportX/9)==int(TeleportX/9):
-								NoBlock=False
-							if (TeleportY/9)==int(TeleportY/9):
-								NoBlock=False
-
-							if NoBlock:
-								FloorFound=False
-								CheckX=TeleportX
-								CheckY=TeleportY
-								FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
-								if FloorFound:
-									HeroList[HeroCounter+14]=TeleportX
-									HeroList[HeroCounter+15]=TeleportY
-									LookingForASpot=False
-					if Spell=='Drain':
-						Steal.play()
-						LifeGained=12+PlayerMagic
-						if LifeGained > HeroLife:
-							LifeGained = HeroLife
-						PlayerLife=PlayerLife+LifeGained
-						if PlayerLife > (PlayerLifeLevel*10):
-							PlayerLife = (PlayerLifeLevel*10)
-						HeroLife=HeroLife-(12+PlayerMagic)
-					if Spell=='Lightning':
-						Lightning.play()
-						HeroLife=HeroLife-(16+PlayerMagic)
-						HeroMana=HeroMana-int((16+PlayerMagic)/2)
-						HeroList[HeroCounter+10]=HeroMana
-					if Spell=='Fireball':
-						Fireball.play()
-						HeroLife=HeroLife-(20+PlayerMagic)
-						HeroDefence=HeroDefence-int((20+PlayerMagic)/2)
-						if HeroDefence < 0:
-							HeroDefence=0
-						HeroList[HeroCounter+6]=HeroDefence
-					if HeroLife < 1:
-						DeathScream.play()
-						PlayerXP=PlayerXP+HeroLevel
-						Chance=randint(1,3)
-						if Chance==1:
-							if DropItemOne != 'None':
-								Labyrinth.append(DropItemOne)
-								Labyrinth.append(HeroX)
-								Labyrinth.append(HeroY)
-						if Chance==2:
-							if DropItemTwo != 'None':
-								Labyrinth.append(DropItemTwo)
-								Labyrinth.append(HeroX)
-								Labyrinth.append(HeroY)
-						if Chance==3:
-							if DropItemThree != 'None':
-								Labyrinth.append(DropItemThree)
-								Labyrinth.append(HeroX)
-								Labyrinth.append(HeroY)
-						del HeroList[HeroCounter]
-						del HeroList[HeroCounter]
-						del HeroList[HeroCounter]
-						del HeroList[HeroCounter]
-						del HeroList[HeroCounter]
-						del HeroList[HeroCounter]
-						del HeroList[HeroCounter]
-						del HeroList[HeroCounter]
-						del HeroList[HeroCounter]
-						del HeroList[HeroCounter]
-						del HeroList[HeroCounter]
-						del HeroList[HeroCounter]
-						del HeroList[HeroCounter]
-						del HeroList[HeroCounter]
-						del HeroList[HeroCounter]
-						del HeroList[HeroCounter]
-						HeroCounterMax=len(HeroList)
-					else:
-						HeroList[HeroCounter+9]=HeroLife
-				HeroCounter=HeroCounter+16
-		else:
-			FreeFlight=False
-	SpellX=-200
-	SpellY=-200
+	CheckX=SpellX
+	CheckY=SpellY
+	FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+	if FloorFound:
+		ActiveSpells.append(Spell)
+		ActiveSpells.append('Player')
+		ActiveSpells.append(SpellDir)
+		ActiveSpells.append(SpellX)
+		ActiveSpells.append(SpellY)
 	return
 
 def UseItem(ItemCounter):
@@ -3749,6 +3639,7 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 		Mana.play()
 	
 	ActiveSpells.append(Spell)
+	ActiveSpells.append('Hero')
 	ActiveSpells.append(SpellDir)
 	ActiveSpells.append(HeroX)
 	ActiveSpells.append(HeroY)
@@ -4712,9 +4603,10 @@ def DoActiveSpells(ActiveSpells, MapGen):
 	Counter=0
 	while Counter < MaxCounter:
 		ActiveSpell=str(ActiveSpells[Counter])
-		SpellDir=int(ActiveSpells[Counter+1])
-		SpellX=int(ActiveSpells[Counter+2])
-		SpellY=int(ActiveSpells[Counter+3])
+		Owner=str(ActiveSpells[Counter+1])
+		SpellDir=int(ActiveSpells[Counter+2])
+		SpellX=int(ActiveSpells[Counter+3])
+		SpellY=int(ActiveSpells[Counter+4])
 		if SpellDir==1:
 			NextX=SpellX
 			NextY=SpellY+1
@@ -4728,26 +4620,43 @@ def DoActiveSpells(ActiveSpells, MapGen):
 			NextX=SpellX-1
 			NextY=SpellY
 
-		CheckX=NextX
-		CheckY=NextY
-		FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
-		if FloorFound:
-			ActiveSpells[Counter+2]=NextX
-			ActiveSpells[Counter+3]=NextY
+		MaxHeroCounter=len(HeroList)
+		HeroCounter=0
 
-			if NextX==PlayerX and NextY==PlayerY:
-				ResolveHeroSpell(ActiveSpell, Counter)
+		while HeroCounter < MaxHeroCounter:
+			HeroX=int(HeroList[HeroCounter+14])
+			HeroY=int(HeroList[HeroCounter+15])
+			if NextX==HeroX and NextY==HeroY:
+				DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter)
+				MaxHeroCounter=len(HeroList)
 				MaxCounter=len(ActiveSpells)
-		
-		else:
-			del ActiveSpells[Counter]
-			del ActiveSpells[Counter]
-			del ActiveSpells[Counter]
-			del ActiveSpells[Counter]
+				Counter=Counter-5
+				if Counter < 0:
+					Counter=0
+			HeroCounter=HeroCounter+16
+
+
+		if NextX==PlayerX and NextY==PlayerY and Owner=='Hero':
+			ResolveHeroSpell(ActiveSpell, Counter)
 			MaxCounter=len(ActiveSpells)
 
+		MaxCounter=len(ActiveSpells)
+		if Counter < MaxCounter:
+			CheckX=NextX
+			CheckY=NextY
+			FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+			if FloorFound:
+				ActiveSpells[Counter+3]=NextX
+				ActiveSpells[Counter+4]=NextY
+			else:
+				del ActiveSpells[Counter]
+				del ActiveSpells[Counter]
+				del ActiveSpells[Counter]
+				del ActiveSpells[Counter]
+				del ActiveSpells[Counter]
+				MaxCounter=len(ActiveSpells)
 
-		Counter=Counter+4
+		Counter=Counter+5
 
 	return
 
@@ -4761,11 +4670,20 @@ def ResolveHeroSpell(ActiveSpell, Counter):
 	global PlayerLife
 	global PlayerMana
 	global PlayerXP
+	global Spell
+	global SpellX
+	global SpellY
 	if ActiveSpell=='Fire':
 		Fire.play()
 		PlayerLife=PlayerLife-4
+		Spell=ActiveSpell
+		SpellX=PlayerX
+		SpellY=PlayerY
 	if ActiveSpell=='Teleport':
 		Teleport.play()
+		Spell=ActiveSpell
+		SpellX=PlayerX
+		SpellY=PlayerY
 		TeleportXMin=-1*MapGen*9
 		TeleportXMax=MapGen*9
 		TeleportYMin=-1*MapGen*9
@@ -4792,22 +4710,40 @@ def ResolveHeroSpell(ActiveSpell, Counter):
 					LookingForASpot=False
 	if ActiveSpell=='Drain':
 		Steal.play()
+		Spell=ActiveSpell
+		SpellX=PlayerX
+		SpellY=PlayerY
 		PlayerLife=PlayerLife-12
 		DoHealClosestHero(PlayerX, PlayerY, HeroList)
 	if ActiveSpell=='Lightning':
 		Lightning.play()
+		Spell='ElectricSpark'
+		SpellX=PlayerX
+		SpellY=PlayerY
 		PlayerLife=PlayerLife-16
 	if ActiveSpell=='Fireball':
 		Fireball.play()
+		Spell='Explosion'
+		SpellX=PlayerX
+		SpellY=PlayerY
 		PlayerLife=PlayerLife-20
 	if ActiveSpell=='Disarm':
 		Shatter.play()
+		Spell=ActiveSpell
+		SpellX=PlayerX
+		SpellY=PlayerY
 		PlayerWeapon='Fists'
 	if ActiveSpell=='Destroy':
 		Shatter.play()
 		PlayerArmor='None'
+		Spell=ActiveSpell
+		SpellX=PlayerX
+		SpellY=PlayerY
 	if ActiveSpell=='Steal':
 		Grab.play()
+		Spell=ActiveSpell
+		SpellX=PlayerX
+		SpellY=PlayerY
 		GrabbedWeapon=PlayerWeapon
 		PlayerWeapon='Fists'
 		MaxHeroCounter=len(HeroList)
@@ -4819,13 +4755,230 @@ def ResolveHeroSpell(ActiveSpell, Counter):
 			HeroCounter=HeroCounter+16
 	if ActiveSpell=='Disrupt':
 		Mana.play()
+		Spell=ActiveSpell
+		SpellX=PlayerX
+		SpellY=PlayerY
 		PlayerMana=PlayerMana-16
 		if PlayerMana < 0:
 			PlayerMana=0
 	if ActiveSpell=='Nullify':
 		Shatter.play()
+		Spell=ActiveSpell
+		SpellX=PlayerX
+		SpellY=PlayerY
 		PlayerWeapon='Fists'
 		PlayerArmor='None'
+	del ActiveSpells[Counter]
+	del ActiveSpells[Counter]
+	del ActiveSpells[Counter]
+	del ActiveSpells[Counter]
+	del ActiveSpells[Counter]
+	return
+
+def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
+	global PlayerX
+	global PlayerY
+	global PlayerWeapon
+	global PlayerArmor
+	global PlayerDefence
+	global PlayerLifeLevel
+	global PlayerLife
+	global PlayerMana
+	global PlayerXP
+	global Spell
+	global SpellX
+	global SpellY
+	HeroLevel=int(HeroList[HeroCounter])
+	HeroName=HeroList[HeroCounter+1].rstrip()
+	HeroWeapon=HeroList[HeroCounter+2].rstrip()
+	HeroArmor=HeroList[HeroCounter+3].rstrip()
+	HeroSpell=HeroList[HeroCounter+4].rstrip()
+	HeroAttack=int(HeroList[HeroCounter+5])
+	HeroDefence=int(HeroList[HeroCounter+6])
+	HeroLifeLevel=int(HeroList[HeroCounter+7])
+	HeroMagic=int(HeroList[HeroCounter+8])
+	HeroLife=int(HeroList[HeroCounter+9])
+	HeroMana=int(HeroList[HeroCounter+10])
+	HeroDropItemOne=HeroList[HeroCounter+11].rstrip()
+	HeroDropItemTwo=HeroList[HeroCounter+12].rstrip()
+	HeroDropItemThree=HeroList[HeroCounter+13].rstrip()
+	HeroX=int(HeroList[HeroCounter+14])
+	HeroY=int(HeroList[HeroCounter+15])
+	
+	print(HeroName, ' hit by ', ActiveSpell)
+
+	if Spell=='Fire':
+		Fire.play()
+		if Owner=='Player':
+			HeroLife=HeroLife-(4+PlayerMagic)
+			HeroAttack=HeroAttack-int((4+PlayerMagic)/2)
+		else:
+			HeroLife=HeroLife-4
+			HeroAttack=HeroAttack-2
+		if HeroAttack < 0:
+			HeroAttack=0
+		Spell=ActiveSpell
+		SpellX=PlayerX
+		SpellY=PlayerY
+		HeroList[HeroCounter+5]=HeroAttack
+	if Spell=='Teleport':
+		if Owner=='Player':
+			HeroDefence=HeroDefence-int((8+PlayerMagic)/2)
+		else:
+			HeroDefence=HeroDefence-4
+		if HeroDefence < 0:
+			HeroDefence=0
+		Spell=ActiveSpell
+		SpellX=PlayerX
+		SpellY=PlayerY
+		HeroList[HeroCounter+6]=HeroDefence
+		Teleport.play()
+		TeleportXMin=-1*MapGen*9
+		TeleportXMax=MapGen*9
+		TeleportYMin=-1*MapGen*9
+		TeleportYMax=MapGen*9
+		LookingForASpot=True
+		while LookingForASpot:
+			NoBlock=True
+			TeleportX=randint(TeleportXMin, TeleportXMax)
+			TeleportY=randint(TeleportYMin, TeleportYMax)
+	
+			if (TeleportX/9)==int(TeleportX/9):
+				NoBlock=False
+			if (TeleportY/9)==int(TeleportY/9):
+				NoBlock=False
+
+			if NoBlock:
+				FloorFound=False
+				CheckX=TeleportX
+				CheckY=TeleportY
+				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+				if FloorFound:
+					HeroList[HeroCounter+14]=TeleportX
+					HeroList[HeroCounter+15]=TeleportY
+					LookingForASpot=False
+	if Spell=='Drain':
+		Steal.play()
+		Spell=ActiveSpell
+		SpellX=PlayerX
+		SpellY=PlayerY
+		if Owner=='Player':
+			LifeGained=12+PlayerMagic
+			if LifeGained > HeroLife:
+				LifeGained = HeroLife
+			PlayerLife=PlayerLife+LifeGained
+			if PlayerLife > (PlayerLifeLevel*10):
+				PlayerLife = (PlayerLifeLevel*10)
+			HeroLife=HeroLife-(12+PlayerMagic)
+		else:
+			HeroLife=HeroLife-12
+	if Spell=='Lightning':
+		Lightning.play()
+		if Owner=='Player':
+			HeroLife=HeroLife-(16+PlayerMagic)
+			HeroMana=HeroMana-int((16+PlayerMagic)/2)
+		else:
+			HeroLife=HeroLife-16
+			HeroMana=HeroMana-8
+		if HeroMana < 0:
+			HeroMana = 0
+		Spell='ElectricSpark'
+		SpellX=PlayerX
+		SpellY=PlayerY
+		HeroList[HeroCounter+10]=HeroMana
+	if Spell=='Fireball':
+		Fireball.play()
+		if Owner=='Player':
+			HeroLife=HeroLife-(20+PlayerMagic)
+			HeroDefence=HeroDefence-int((20+PlayerMagic)/2)
+		else:
+			HeroLife=HeroLife-20
+			HeroDefence=HeroDefence-10
+		if HeroDefence < 0:
+			HeroDefence=0
+		Spell='Explosion'
+		SpellX=PlayerX
+		SpellY=PlayerY
+		HeroList[HeroCounter+6]=HeroDefence
+	if Spell=='Disarm':
+		Shatter.play()
+		HeroWeapon='Fists'
+		Spell=ActiveSpell
+		SpellX=PlayerX
+		SpellY=PlayerY
+		HeroList[HeroCounter+2]=HeroWeapon
+	if Spell=='Destroy':
+		Shatter.play()
+		Spell=ActiveSpell
+		SpellX=PlayerX
+		SpellY=PlayerY
+		HeroArmor='None'
+		HeroList[HeroCounter+3]=HeroArmor
+	if Spell=='Steal':
+		Shatter.play()
+		Spell=ActiveSpell
+		SpellX=PlayerX
+		SpellY=PlayerY
+		HeroWeapon='Fists'
+		HeroList[HeroCounter+2]=HeroWeapon
+	if Spell=='Disrupt':
+		Mana.play()
+		HeroMana=HeroMana-16
+		if HeroMana < 0:
+			HeroMana=0
+		Spell=ActiveSpell
+		SpellX=PlayerX
+		SpellY=PlayerY
+		HeroList[HeroCounter+10]=HeroMana
+	if Spell=='Nullify':
+		Shatter.play()
+		HeroWeapon='Fists'
+		HeroArmor='None'
+		Spell=ActiveSpell
+		SpellX=PlayerX
+		SpellY=PlayerY
+		HeroList[HeroCounter+2]=HeroWeapon
+		HeroList[HeroCounter+3]=HeroArmor
+
+	if HeroLife < 1:
+		DeathScream.play()
+		PlayerXP=PlayerXP+HeroLevel
+		Chance=randint(1,3)
+		if Chance==1:
+			if HeroDropItemOne != 'None':
+				Labyrinth.append(HeroDropItemOne)
+				Labyrinth.append(HeroX)
+				Labyrinth.append(HeroY)
+		if Chance==2:
+			if HeroDropItemTwo != 'None':
+				Labyrinth.append(HeroDropItemTwo)
+				Labyrinth.append(HeroX)
+				Labyrinth.append(HeroY)
+		if Chance==3:
+			if HeroDropItemThree != 'None':
+				Labyrinth.append(HeroDropItemThree)
+				Labyrinth.append(HeroX)
+				Labyrinth.append(HeroY)
+		del HeroList[HeroCounter]
+		del HeroList[HeroCounter]
+		del HeroList[HeroCounter]
+		del HeroList[HeroCounter]
+		del HeroList[HeroCounter]
+		del HeroList[HeroCounter]
+		del HeroList[HeroCounter]
+		del HeroList[HeroCounter]
+		del HeroList[HeroCounter]
+		del HeroList[HeroCounter]
+		del HeroList[HeroCounter]
+		del HeroList[HeroCounter]
+		del HeroList[HeroCounter]
+		del HeroList[HeroCounter]
+		del HeroList[HeroCounter]
+		del HeroList[HeroCounter]
+		HeroCounterMax=len(HeroList)
+	else:
+		HeroList[HeroCounter+9]=HeroLife
+	del ActiveSpells[Counter]
 	del ActiveSpells[Counter]
 	del ActiveSpells[Counter]
 	del ActiveSpells[Counter]
