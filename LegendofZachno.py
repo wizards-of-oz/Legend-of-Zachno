@@ -1696,6 +1696,15 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 			MaxCounter=len(HeroList)
 			Collision=True
 		Counter=Counter+16
+	Counter=0
+	MaxCounter=len(ActiveSpells)
+	while Counter < MaxCounter:
+		SpellHit=str(ActiveSpells[Counter])
+		ASpellX=int(ActiveSpells[Counter+2])
+		ASpellY=int(ActiveSpells[Counter+3])
+		ResolveHeroSpell(SpellHit, Counter)
+		MaxCounter=len(ActiveSpells)
+		Counter=Counter+4
 	return(Collision)
 
 # Creates a list of all room positions in current level
@@ -4727,75 +4736,7 @@ def DoActiveSpells(ActiveSpells, MapGen):
 			ActiveSpells[Counter+3]=NextY
 
 			if NextX==PlayerX and NextY==PlayerY:
-				if ActiveSpell=='Fire':
-					Fire.play()
-					PlayerLife=PlayerLife-4
-				if ActiveSpell=='Teleport':
-					Teleport.play()
-					TeleportXMin=-1*MapGen*9
-					TeleportXMax=MapGen*9
-					TeleportYMin=-1*MapGen*9
-					TeleportYMax=MapGen*9
-					LookingForASpot=True
-					while LookingForASpot:
-						NoBlock=True
-						TeleportX=randint(TeleportXMin, TeleportXMax)
-						TeleportY=randint(TeleportYMin, TeleportYMax)
-			
-						if (TeleportX/9)==int(TeleportX/9):
-							NoBlock=False
-						if (TeleportY/9)==int(TeleportY/9):
-							NoBlock=False
-
-						if NoBlock:
-							FloorFound=False
-							CheckX=TeleportX
-							CheckY=TeleportY
-							FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
-							if FloorFound:
-								PlayerX=TeleportX
-								PlayerY=TeleportY
-								LookingForASpot=False
-				if ActiveSpell=='Drain':
-					Steal.play()
-					PlayerLife=PlayerLife-12
-					DoHealClosestHero(PlayerX, PlayerY, HeroList)
-				if ActiveSpell=='Lightning':
-					Lightning.play()
-					PlayerLife=PlayerLife-16
-				if ActiveSpell=='Fireball':
-					Fireball.play()
-					PlayerLife=PlayerLife-20
-				if ActiveSpell=='Disarm':
-					Shatter.play()
-					PlayerWeapon='Fists'
-				if ActiveSpell=='Destroy':
-					Shatter.play()
-					PlayerArmor='None'
-				if ActiveSpell=='Steal':
-					Grab.play()
-					GrabbedWeapon=PlayerWeapon
-					PlayerWeapon='Fists'
-					MaxHeroCounter=len(HeroList)
-					HeroCounter=0
-					while HeroCounter < MaxHeroCounter:
-						HeroName=str(HeroList[HeroCounter+1])
-						if HeroName=='Mariska':
-							HeroList[HeroCounter+2]=GrabbedWeapon
-						HeroCounter=HeroCounter+16
-				if ActiveSpell=='Disrupt':
-					Mana.play()
-					PlayerMana=PlayerMana-16
-					if PlayerMana < 0:
-						PlayerMana=0
-				if ActiveSpell=='Nullify':
-					Shatter.play()
-					PlayerWeapon='Fists'
-					PlayerArmor='None'
-				del ActiveSpells[Counter]
-				del ActiveSpells[Counter]
-				del ActiveSpells[Counter]
-				del ActiveSpells[Counter]
+				ResolveHeroSpell(ActiveSpell, Counter)
 				MaxCounter=len(ActiveSpells)
 		
 		else:
@@ -4808,6 +4749,87 @@ def DoActiveSpells(ActiveSpells, MapGen):
 
 		Counter=Counter+4
 
+	return
+
+def ResolveHeroSpell(ActiveSpell, Counter):
+	global PlayerX
+	global PlayerY
+	global PlayerWeapon
+	global PlayerArmor
+	global PlayerDefence
+	global PlayerLifeLevel
+	global PlayerLife
+	global PlayerMana
+	global PlayerXP
+	if ActiveSpell=='Fire':
+		Fire.play()
+		PlayerLife=PlayerLife-4
+	if ActiveSpell=='Teleport':
+		Teleport.play()
+		TeleportXMin=-1*MapGen*9
+		TeleportXMax=MapGen*9
+		TeleportYMin=-1*MapGen*9
+		TeleportYMax=MapGen*9
+		LookingForASpot=True
+		while LookingForASpot:
+			NoBlock=True
+			TeleportX=randint(TeleportXMin, TeleportXMax)
+			TeleportY=randint(TeleportYMin, TeleportYMax)
+			
+			if (TeleportX/9)==int(TeleportX/9):
+				NoBlock=False
+			if (TeleportY/9)==int(TeleportY/9):
+				NoBlock=False
+
+			if NoBlock:
+				FloorFound=False
+				CheckX=TeleportX
+				CheckY=TeleportY
+				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+				if FloorFound:
+					PlayerX=TeleportX
+					PlayerY=TeleportY
+					LookingForASpot=False
+	if ActiveSpell=='Drain':
+		Steal.play()
+		PlayerLife=PlayerLife-12
+		DoHealClosestHero(PlayerX, PlayerY, HeroList)
+	if ActiveSpell=='Lightning':
+		Lightning.play()
+		PlayerLife=PlayerLife-16
+	if ActiveSpell=='Fireball':
+		Fireball.play()
+		PlayerLife=PlayerLife-20
+	if ActiveSpell=='Disarm':
+		Shatter.play()
+		PlayerWeapon='Fists'
+	if ActiveSpell=='Destroy':
+		Shatter.play()
+		PlayerArmor='None'
+	if ActiveSpell=='Steal':
+		Grab.play()
+		GrabbedWeapon=PlayerWeapon
+		PlayerWeapon='Fists'
+		MaxHeroCounter=len(HeroList)
+		HeroCounter=0
+		while HeroCounter < MaxHeroCounter:
+			HeroName=str(HeroList[HeroCounter+1])
+			if HeroName=='Mariska':
+				HeroList[HeroCounter+2]=GrabbedWeapon
+			HeroCounter=HeroCounter+16
+	if ActiveSpell=='Disrupt':
+		Mana.play()
+		PlayerMana=PlayerMana-16
+		if PlayerMana < 0:
+			PlayerMana=0
+	if ActiveSpell=='Nullify':
+		Shatter.play()
+		PlayerWeapon='Fists'
+		PlayerArmor='None'
+	del ActiveSpells[Counter]
+	del ActiveSpells[Counter]
+	del ActiveSpells[Counter]
+	del ActiveSpells[Counter]
 	return
 
 def DoHealClosestHero(PlayerX, PlayerY, HeroList):
