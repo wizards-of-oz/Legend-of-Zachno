@@ -4616,6 +4616,7 @@ def DoActiveSpells(ActiveSpells, MapGen):
 		SpellDir=int(ActiveSpells[Counter+2])
 		SpellX=int(ActiveSpells[Counter+3])
 		SpellY=int(ActiveSpells[Counter+4])
+		SpellTravelling=True
 		if SpellDir==1:
 			NextX=SpellX
 			NextY=SpellY+1
@@ -4629,41 +4630,39 @@ def DoActiveSpells(ActiveSpells, MapGen):
 			NextX=SpellX-1
 			NextY=SpellY
 
-		MaxHeroCounter=len(HeroList)
-		HeroCounter=0
-
-		while HeroCounter < MaxHeroCounter:
-			HeroX=int(HeroList[HeroCounter+14])
-			HeroY=int(HeroList[HeroCounter+15])
-			if NextX==HeroX and NextY==HeroY:
-				DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter)
-				MaxHeroCounter=len(HeroList)
-				MaxCounter=len(ActiveSpells)
-				Counter=Counter-5
-				if Counter < 0:
-					Counter=0
-			HeroCounter=HeroCounter+16
-
-
-		if NextX==PlayerX and NextY==PlayerY and Owner=='Hero':
-			ResolveHeroSpell(ActiveSpell, Counter)
+		CheckX=NextX
+		CheckY=NextY
+		FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+		if FloorFound:
+			ActiveSpells[Counter+3]=NextX
+			ActiveSpells[Counter+4]=NextY
+		else:
+			SpellTravelling=False
+			del ActiveSpells[Counter]
+			del ActiveSpells[Counter]
+			del ActiveSpells[Counter]
+			del ActiveSpells[Counter]
+			del ActiveSpells[Counter]
 			MaxCounter=len(ActiveSpells)
 
-		MaxCounter=len(ActiveSpells)
-		if Counter < MaxCounter:
-			CheckX=NextX
-			CheckY=NextY
-			FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
-			if FloorFound:
-				ActiveSpells[Counter+3]=NextX
-				ActiveSpells[Counter+4]=NextY
-			else:
-				del ActiveSpells[Counter]
-				del ActiveSpells[Counter]
-				del ActiveSpells[Counter]
-				del ActiveSpells[Counter]
-				del ActiveSpells[Counter]
+		if Counter < MaxCounter and SpellTravelling:
+			MaxHeroCounter=len(HeroList)
+			HeroCounter=0
+			while HeroCounter < MaxHeroCounter:
+				HeroX=int(HeroList[HeroCounter+14])
+				HeroY=int(HeroList[HeroCounter+15])
+				if NextX==HeroX and NextY==HeroY:
+					DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter)
+					MaxHeroCounter=len(HeroList)
+					MaxCounter=len(ActiveSpells)
+					SpellTravelling=False
+				HeroCounter=HeroCounter+16
+
+		if Counter < MaxCounter and SpellTravelling:
+			if NextX==PlayerX and NextY==PlayerY and Owner=='Hero':
+				ResolveHeroSpell(ActiveSpell, Counter)
 				MaxCounter=len(ActiveSpells)
+				SpellTravelling=False
 
 		Counter=Counter+5
 
@@ -4682,6 +4681,7 @@ def ResolveHeroSpell(ActiveSpell, Counter):
 	global Spell
 	global SpellX
 	global SpellY
+	print('Player hit by', ActiveSpell)
 	if ActiveSpell=='Fire':
 		Fire.play()
 		PlayerLife=PlayerLife-4
