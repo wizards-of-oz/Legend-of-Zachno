@@ -149,6 +149,8 @@ BloodSpatter=pygame.image.load('BloodSpatter.png')
 AcidPuddle=pygame.image.load('AcidPuddle.png')
 ElectricSpark=pygame.image.load('ElectricSpark.png')
 Explosion=pygame.image.load('Explosion.png')
+BlackHole=pygame.image.load('BlackHole.png')
+BloodDrop=pygame.image.load('BloodDrop.png')
 
 
 Soldier=pygame.image.load('Soldier.png')
@@ -856,6 +858,11 @@ def DoScreen (Labyrinth, Level):
 		ScreenItem=ElectricSpark
 	elif Spell=='Explosion':
 		ScreenItem=Explosion
+	elif Spell=='BlackHole':
+		ScreenItem=BlackHole
+	elif Spell=='BloodDrop':
+		ScreenItem=BloodDrop
+
 
 	screen.blit(ScreenItem, (ScreenX, ScreenY))
 
@@ -4681,7 +4688,7 @@ def ResolveHeroSpell(ActiveSpell, Counter):
 		SpellY=PlayerY
 	if ActiveSpell=='Teleport':
 		Teleport.play()
-		Spell=ActiveSpell
+		Spell='BlackHole'
 		SpellX=PlayerX
 		SpellY=PlayerY
 		TeleportXMin=-1*MapGen*9
@@ -4710,7 +4717,7 @@ def ResolveHeroSpell(ActiveSpell, Counter):
 					LookingForASpot=False
 	if ActiveSpell=='Drain':
 		Steal.play()
-		Spell=ActiveSpell
+		Spell='BloodDrop'
 		SpellX=PlayerX
 		SpellY=PlayerY
 		PlayerLife=PlayerLife-12
@@ -4828,7 +4835,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 			HeroDefence=HeroDefence-4
 		if HeroDefence < 0:
 			HeroDefence=0
-		Spell=ActiveSpell
+		Spell='BlackHole'
 		SpellX=HeroX
 		SpellY=HeroY
 		HeroList[HeroCounter+6]=HeroDefence
@@ -4859,7 +4866,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 					LookingForASpot=False
 	if Spell=='Drain':
 		Steal.play()
-		Spell=ActiveSpell
+		Spell='BloodDrop'
 		SpellX=HeroX
 		SpellY=HeroY
 		if Owner=='Player':
