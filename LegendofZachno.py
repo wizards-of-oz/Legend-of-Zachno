@@ -4818,8 +4818,8 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		if HeroAttack < 0:
 			HeroAttack=0
 		Spell=ActiveSpell
-		SpellX=PlayerX
-		SpellY=PlayerY
+		SpellX=HeroX
+		SpellY=HeroY
 		HeroList[HeroCounter+5]=HeroAttack
 	if Spell=='Teleport':
 		if Owner=='Player':
@@ -4829,8 +4829,8 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		if HeroDefence < 0:
 			HeroDefence=0
 		Spell=ActiveSpell
-		SpellX=PlayerX
-		SpellY=PlayerY
+		SpellX=HeroX
+		SpellY=HeroY
 		HeroList[HeroCounter+6]=HeroDefence
 		Teleport.play()
 		TeleportXMin=-1*MapGen*9
@@ -4860,8 +4860,8 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 	if Spell=='Drain':
 		Steal.play()
 		Spell=ActiveSpell
-		SpellX=PlayerX
-		SpellY=PlayerY
+		SpellX=HeroX
+		SpellY=HeroY
 		if Owner=='Player':
 			LifeGained=12+PlayerMagic
 			if LifeGained > HeroLife:
@@ -4883,8 +4883,8 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		if HeroMana < 0:
 			HeroMana = 0
 		Spell='ElectricSpark'
-		SpellX=PlayerX
-		SpellY=PlayerY
+		SpellX=HeroX
+		SpellY=HeroY
 		HeroList[HeroCounter+10]=HeroMana
 	if Spell=='Fireball':
 		Fireball.play()
@@ -4897,28 +4897,28 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		if HeroDefence < 0:
 			HeroDefence=0
 		Spell='Explosion'
-		SpellX=PlayerX
-		SpellY=PlayerY
+		SpellX=HeroX
+		SpellY=HeroY
 		HeroList[HeroCounter+6]=HeroDefence
 	if Spell=='Disarm':
 		Shatter.play()
 		HeroWeapon='Fists'
 		Spell=ActiveSpell
-		SpellX=PlayerX
-		SpellY=PlayerY
+		SpellX=HeroX
+		SpellY=HeroY
 		HeroList[HeroCounter+2]=HeroWeapon
 	if Spell=='Destroy':
 		Shatter.play()
 		Spell=ActiveSpell
-		SpellX=PlayerX
-		SpellY=PlayerY
+		SpellX=HeroX
+		SpellY=HeroY
 		HeroArmor='None'
 		HeroList[HeroCounter+3]=HeroArmor
 	if Spell=='Steal':
 		Shatter.play()
 		Spell=ActiveSpell
-		SpellX=PlayerX
-		SpellY=PlayerY
+		SpellX=HeroX
+		SpellY=HeroY
 		HeroWeapon='Fists'
 		HeroList[HeroCounter+2]=HeroWeapon
 	if Spell=='Disrupt':
@@ -4927,16 +4927,16 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		if HeroMana < 0:
 			HeroMana=0
 		Spell=ActiveSpell
-		SpellX=PlayerX
-		SpellY=PlayerY
+		SpellX=HeroX
+		SpellY=HeroY
 		HeroList[HeroCounter+10]=HeroMana
 	if Spell=='Nullify':
 		Shatter.play()
 		HeroWeapon='Fists'
 		HeroArmor='None'
 		Spell=ActiveSpell
-		SpellX=PlayerX
-		SpellY=PlayerY
+		SpellX=HeroX
+		SpellY=HeroY
 		HeroList[HeroCounter+2]=HeroWeapon
 		HeroList[HeroCounter+3]=HeroArmor
 
