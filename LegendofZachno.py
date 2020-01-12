@@ -1711,10 +1711,12 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 	MaxCounter=len(ActiveSpells)
 	while Counter < MaxCounter:
 		SpellHit=str(ActiveSpells[Counter])
+		Owner=str(ActiveSpells[Counter+1])
 		ASpellX=int(ActiveSpells[Counter+3])
 		ASpellY=int(ActiveSpells[Counter+4])
-		ResolveHeroSpell(SpellHit, Counter)
-		MaxCounter=len(ActiveSpells)
+		if Owner=='Hero':
+			ResolveHeroSpell(SpellHit, Counter)
+			MaxCounter=len(ActiveSpells)
 		Counter=Counter+5
 	return(Collision)
 
