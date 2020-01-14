@@ -1,3 +1,5 @@
+#!/bin/python3
+
 # Import necessary modules
 import os
 import math
@@ -252,7 +254,6 @@ def VisualScan(Labyrinth, HeroList, ActiveSpells):
 		Object=str(ActiveSpells[Counter])
 		ObjectX=int(ActiveSpells[Counter+3])
 		ObjectY=int(ActiveSpells[Counter+4])
-		print(ActiveSpells)
 		XDiff=ObjectX-PlayerX
 		YDiff=ObjectY-PlayerY
 		if (-7 <= XDiff) and ( XDiff <= 7) and (-5 <= YDiff) and (YDiff <= 4):
@@ -975,7 +976,7 @@ def DoGetItem():
 		Item='bag of 10 gold'
 		Gold=Gold+10
 
-
+	print('Player takes', Item, 'from chest')
 
 	ChestText='You received a '+Item+', press enter...'
 	ChestTextSurf = myfont.render(ChestText, False, green)
@@ -1296,6 +1297,7 @@ def DoPlayerCombat(Counter):
 	global SpellY
 
 	HeroLevel=int(HeroList[Counter])
+	HeroName=str(HeroList[Counter+1])
 	HeroArmor=str(HeroList[Counter+3])
 	HeroDefence=int(HeroList[Counter+6])
 	HeroLife=int(HeroList[Counter+9])
@@ -1350,13 +1352,16 @@ def DoPlayerCombat(Counter):
 		Spell='BloodSpatter'
 		SpellX=HeroX
 		SpellY=HeroY
+		print('Player hits', HeroName, 'with', PlayerWeapon)
 		if BreakChance >= randint(1,40):
 			Shatter.play()
+			print(PlayerWeapon, 'breaks')
 			PlayerWeapon='Fists'
 	else:
 		Bump.play()
 
 	if HeroLife < 1:
+		print(HeroName, 'killed by player')
 		DeathScream.play()
 		PlayerXP=PlayerXP+HeroLevel
 		Chance=randint(1,3)
@@ -1365,16 +1370,19 @@ def DoPlayerCombat(Counter):
 				Labyrinth.append(DropItemOne)
 				Labyrinth.append(HeroX)
 				Labyrinth.append(HeroY)
+				print(HeroName, 'drops', DropItemOne)
 		if Chance==2:
 			if DropItemTwo != 'None':
 				Labyrinth.append(DropItemTwo)
 				Labyrinth.append(HeroX)
 				Labyrinth.append(HeroY)
+				print(HeroName, 'drops', DropItemTwo)
 		if Chance==3:
 			if DropItemTwo != 'None':
 				Labyrinth.append(DropItemThree)
 				Labyrinth.append(HeroX)
 				Labyrinth.append(HeroY)
+				print(HeroName, 'drops', DropItemThree)
 		del HeroList[Counter]
 		del HeroList[Counter]
 		del HeroList[Counter]
@@ -1391,6 +1399,7 @@ def DoPlayerCombat(Counter):
 		del HeroList[Counter]
 		del HeroList[Counter]
 		del HeroList[Counter]
+		print()
 	else:
 		HeroList[Counter+9]=HeroLife
 	return
@@ -1437,6 +1446,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 			if Object == 'Key':
 				Grab.play()
+				print('Player picks up key')
 				HasKey=True
 				del Labyrinth[Counter]
 				del Labyrinth[Counter]
@@ -1466,6 +1476,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Dagger')
+					print('Player picks up Dagger')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1475,6 +1486,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Mace')
+					print('Player picks up Mace')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1484,6 +1496,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Sword')
+					print('Player picks up Sword')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1493,6 +1506,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Battleaxe')
+					print('Player picks up Battleaxe')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1502,6 +1516,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Lifepotion')
+					print('Player picks up Lifepotion')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1511,6 +1526,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Manapotion')
+					print('Player picks up Manapotion')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1520,6 +1536,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Spiketrap')
+					print('Player picks up Spiketrap')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1529,6 +1546,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Beartrap')
+					print('Player picks up Beartrap')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1538,6 +1556,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Acidtrap')
+					print('Player picks up Acidtrap')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1547,6 +1566,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Electrotrap')
+					print('Player picks up Electrotrap')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1555,6 +1575,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 			if Object == 'Mine':
 				Collision=False
 				if len(InvList) < 10:
+					print('Player picks up Mine')
 					InvList.append('Mine')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1565,6 +1586,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Fire')
+					print('Player picks up Fire')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1574,6 +1596,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Teleport')
+					print('Player picks up Teleport')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1583,6 +1606,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Drain')
+					print('Player picks up Drain')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1592,6 +1616,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Lightning')
+					print('Player picks up Lightning')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1601,6 +1626,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Fireball')
+					print('Player picks up Fireball')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1610,6 +1636,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('WShield')
+					print('Player picks up WShield')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1619,6 +1646,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Shield')
+					print('Player picks up Shield')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1628,6 +1656,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('TShield')
+					print('Player picks up TShield')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1637,6 +1666,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Chainmail')
+					print('Player picks up Chainmail')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1646,6 +1676,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if len(InvList) < 10:
 					InvList.append('Plate')
+					print('Player picks up Plate')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1655,6 +1686,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if LeatherAmount < 10:
 					LeatherAmount=LeatherAmount+1
+					print('Player picks up Leather')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1664,6 +1696,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if BoneAmount < 10:
 					BoneAmount=BoneAmount+1
+					print('Player picks up Bone')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1673,6 +1706,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if WoodAmount < 10:
 					WoodAmount=WoodAmount+1
+					print('Player picks up Wood')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1682,6 +1716,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if IronAmount < 10:
 					IronAmount=IronAmount+1
+					print('Player picks up Iron')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -1691,6 +1726,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 				Collision=False
 				if SteelAmount < 10:
 					SteelAmount=SteelAmount+1
+					print('Player picks up Steel')
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
 					del Labyrinth[Counter]
@@ -3081,6 +3117,7 @@ def DoSpell(ItemCounter):
 		ActiveSpells.append(SpellDir)
 		ActiveSpells.append(SpellX)
 		ActiveSpells.append(SpellY)
+		print('Player casts', Spell)
 	return
 
 def UseItem(ItemCounter):
@@ -3095,46 +3132,55 @@ def UseItem(ItemCounter):
 	OldArmor=PlayerArmor
 	if InvList[ItemCounter].rstrip()=='Mace':
 		PlayerWeapon='Mace'
+		print('Player equips Mace')
 		del InvList[ItemCounter]
 		if not OldWeapon=='Fists':
 			InvList.append(OldWeapon)
 	elif InvList[ItemCounter].rstrip()=='Dagger':
 		PlayerWeapon='Dagger'
+		print('Player equips Dagger')
 		del InvList[ItemCounter]
 		if not OldWeapon=='Fists':
 			InvList.append(OldWeapon)
 	elif InvList[ItemCounter].rstrip()=='Sword':
 		PlayerWeapon='Sword'
+		print('Player equips Sword')
 		del InvList[ItemCounter]
 		if not OldWeapon=='Fists':
 			InvList.append(OldWeapon)
 	elif InvList[ItemCounter].rstrip()=='Battleaxe':
 		PlayerWeapon='Battleaxe'
+		print('Player equips Battleaxe')
 		del InvList[ItemCounter]
 		if not OldWeapon=='Fists':
 			InvList.append(OldWeapon)
 	elif InvList[ItemCounter].rstrip()=='Shield':
 		PlayerArmor='Shield'
+		print('Player equips Shield')
 		del InvList[ItemCounter]
 		if not OldArmor=='None':
 			InvList.append(OldArmor)
 	elif InvList[ItemCounter].rstrip()=='WShield':
 		PlayerArmor='WShield'
+		print('Player equips WShield')
 		del InvList[ItemCounter]
 		if not OldArmor=='None':
 			InvList.append(OldArmor)
 	elif InvList[ItemCounter].rstrip()=='TShield':
 		PlayerArmor='TShield'
+		print('Player equips TSHield')
 		del InvList[ItemCounter]
 		if not OldArmor=='None':
 			InvList.append(OldArmor)
 	elif InvList[ItemCounter].rstrip()=='Chainmail':
 		PlayerArmor='Chainmail'
+		print('Player equips Chainmail')
 		del InvList[ItemCounter]
 		if not OldArmor=='None':
 			InvList.append(OldArmor)
 	elif InvList[ItemCounter].rstrip()=='Plate':
 		PlayerArmor='Plate'
+		print('Player equips Plate')
 		del InvList[ItemCounter]
 		if not OldArmor=='None':
 			InvList.append(OldArmor)
@@ -3154,11 +3200,13 @@ def UseItem(ItemCounter):
 		DropItem(ItemCounter)
 	elif InvList[ItemCounter].rstrip()=='Lifepotion':
 		PlayerLife=PlayerLife+10
+		print('Player drinks Lifepotion')
 		if PlayerLife > PlayerLifeLevel*10:
 			PlayerLife=PlayerLifeLevel*10
 		Life.play()
 		del InvList[ItemCounter]
 	elif InvList[ItemCounter].rstrip()=='Manapotion':
+		print('Player drinks Manapotion')
 		PlayerMana=PlayerMana+10
 		if PlayerMana > PlayerMagic*5:
 			PlayerMana=PlayerMagic*5
@@ -3214,6 +3262,8 @@ def DropItem(ItemCounter):
 	Labyrinth.append(Object)
 	Labyrinth.append(PlayerX)
 	Labyrinth.append(PlayerY)
+	Item=str(InvList[ItemCounter]).rstrip()
+	print('Player drops', Item)
 	del InvList[ItemCounter]
 	return
 
@@ -3591,7 +3641,8 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 		SpellDir=3
 	if HeroX > PlayerX:
 		SpellDir=4
-
+	HeroName=str(HeroList[Counter+1])
+	print(HeroName, 'casts ', HeroSpell)
 	Spell=HeroSpell
 	SpellX=HeroX
 	SpellY=HeroY
@@ -3652,7 +3703,7 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 	ActiveSpells.append(SpellDir)
 	ActiveSpells.append(HeroX)
 	ActiveSpells.append(HeroY)
-
+	
 	DoScreen(Labyrinth, Level)
 
 	return
@@ -3670,8 +3721,10 @@ def DoHeroCombat(Counter):
 	global SpellY
 	global HeroList
 	PlayerDef=PlayerDefence
+	HeroName=str(HeroList[Counter+1])
 	HeroWeapon=str(HeroList[Counter+2])
 	HeroAttack=int(HeroList[Counter+5])
+	print(HeroName, 'hits player with', HeroWeapon)
 	if PlayerArmor=='WShield':
 		PlayerDef=PlayerDefence+1
 	elif PlayerArmor=='Shield':
@@ -3727,6 +3780,7 @@ def DoHeroCombat(Counter):
 		Bump.play()
 	if BreakChance >= randint(1,40):
 		Shatter.play()
+		print('Player', PlayerArmor, 'breaks')
 		PlayerArmor='None'
 	return
 
@@ -3781,6 +3835,7 @@ def EnemyMove(EnemyDir, Counter):
 			ObjectY=int(Labyrinth[LabNum+2])
 			if NewHeroX==ObjectX and NewHeroY==ObjectY:
 				if Object=='SpikeTrap':
+					print(HeroName, 'walks into', Object)
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
@@ -3794,6 +3849,7 @@ def EnemyMove(EnemyDir, Counter):
 					Spell='BloodSpatter'
 					Spikes.play()
 				if Object=='BearTrap':
+					print(HeroName, 'walks into', Object)
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
@@ -3807,6 +3863,7 @@ def EnemyMove(EnemyDir, Counter):
 					Spell='BloodSpatter'
 					Trap.play()
 				if Object=='AcidTrap':
+					print(HeroName, 'walks into', Object)
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
@@ -3819,6 +3876,7 @@ def EnemyMove(EnemyDir, Counter):
 					Spell='AcidPuddle'
 					Sizzle.play()
 				if Object=='ElectroTrap':
+					print(HeroName, 'walks into', Object)
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
@@ -3830,6 +3888,7 @@ def EnemyMove(EnemyDir, Counter):
 					Spell='ElectricSpark'
 					Lightning.play()
 				if Object=='Mine':
+					print(HeroName, 'walks into', Object)
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
 					del Labyrinth[LabNum]
@@ -3844,6 +3903,7 @@ def EnemyMove(EnemyDir, Counter):
 					Boom.play()
 			LabNum=LabNum+3
 		if HeroLife < 1:
+			print(HeroName, 'killed by', Object)
 			PlayerXP=PlayerXP+HeroLevel
 			Chance=randint(1,3)
 			if Chance==1:
@@ -3851,16 +3911,19 @@ def EnemyMove(EnemyDir, Counter):
 					Labyrinth.append(HeroDropItemOne)
 					Labyrinth.append(HeroX)
 					Labyrinth.append(HeroY)
+					print(HeroName, 'drops', HeroDropItemOne)
 			if Chance==2:
 				if not HeroDropItemTwo=='None':
 					Labyrinth.append(HeroDropItemTwo)
 					Labyrinth.append(HeroX)
 					Labyrinth.append(HeroY)
+					print(HeroName, 'drops', HeroDropItemTwo)
 			if Chance==3:
 				if not HeroDropItemTwo=='None':
 					Labyrinth.append(HeroDropItemThree)
 					Labyrinth.append(HeroX)
 					Labyrinth.append(HeroY)
+					print(HeroName, 'drops', HeroDropItemThree)
 
 			del HeroList[Counter]
 			del HeroList[Counter]
@@ -3878,6 +3941,7 @@ def EnemyMove(EnemyDir, Counter):
 			del HeroList[Counter]
 			del HeroList[Counter]
 			del HeroList[Counter]
+			print()
 			DeathScream.play()
 			return(Blocked)
 		else:
@@ -3906,6 +3970,7 @@ def HeroHunts(Counter):
 	HeroY=HeroList[Counter+15]
 	XDist=(HeroX-PlayerX)**2
 	YDist=(HeroY-PlayerY)**2
+	HeroName=str(HeroList[Counter+1])
 	Blocked=False
 	Horizontal=False
 	Vertical=False
@@ -3927,12 +3992,16 @@ def HeroHunts(Counter):
 	if Horizontal:
 		EnemyDir=EnemyDirHRZ
 		Blocked=EnemyMove(EnemyDir, Counter)
+		if Blocked==False:
+			print(HeroName, 'hunts')
 		if Blocked:
 			EnemyDir=EnemyDirVRT
 			EnemyMove(EnemyDir, Counter)
 	else:
 		EnemyDir=EnemyDirVRT
 		Blocked=EnemyMove(EnemyDir, Counter)
+		if Blocked==False:
+			print(HeroName, 'hunts')
 		if Blocked:
 			EnemyDir=EnemyDirHRZ
 			EnemyMove(EnemyDir, Counter)
@@ -3941,6 +4010,7 @@ def HeroHunts(Counter):
 def HeroFlees(Counter):
 	global PlayerX
 	global PlayerY
+	HeroName=str(HeroList[Counter+1])
 	HeroX=HeroList[Counter+14]
 	HeroY=HeroList[Counter+15]
 	XDist=(HeroX-PlayerX)**2
@@ -3966,16 +4036,19 @@ def HeroFlees(Counter):
 	if Horizontal:
 		EnemyDir=EnemyDirHRZ
 		Blocked=EnemyMove(EnemyDir, Counter)
+		if Blocked==False:
+			print(HeroName, 'flees')
 		if Blocked:
 			EnemyDir=EnemyDirVRT
 			EnemyMove(EnemyDir, Counter)
 	else:
 		EnemyDir=EnemyDirVRT
 		Blocked=EnemyMove(EnemyDir, Counter)
+		if Blocked==False:
+			print(HeroName, 'flees')
 		if Blocked:
 			EnemyDir=EnemyDirHRZ
 			EnemyMove(EnemyDir, Counter)
-
 	return
 
 def CheckEnemy(HeroList, CheckX, CheckY):
@@ -4152,6 +4225,7 @@ def DoCraftItem():
 						WoodAmount=WoodAmount-5
 						InvList.append('Lifepotion')
 						Pour.play()
+						print('Player crafts lifepotion')
 				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
 					MakingaChoice=False
 			DoScreen(Labyrinth, Level)
@@ -4221,24 +4295,28 @@ def DoCraftWeapon():
 						BoneAmount=BoneAmount-2
 						InvList.append('Dagger')
 						Tinkering.play()
+						print('Player crafts dagger')
 				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and LeatherAmount > 2 and WoodAmount > 1:
 					if len(InvList) < 10:
 						LeatherAmount=LeatherAmount-3
 						WoodAmount=WoodAmount-2
 						InvList.append('Mace')
 						Tinkering.play()
+						print('Player crafts mace')
 				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and LeatherAmount > 2 and IronAmount > 1:
 					if len(InvList) < 10:
 						LeatherAmount=LeatherAmount-3
 						IronAmount=IronAmount-2
 						InvList.append('Sword')
 						Tinkering.play()
+						print('Player crafts sword')
 				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and LeatherAmount > 3 and SteelAmount > 1:
 					if len(InvList) < 10:
 						LeatherAmount=LeatherAmount-4
 						SteelAmount=SteelAmount-2
 						InvList.append('Battleaxe')
 						Tinkering.play()
+						print('Player crafts battleaxe')
 				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
 					return
 			DoScreen(Labyrinth, Level)
@@ -4318,29 +4396,34 @@ def DoCraftArmor():
 						LeatherAmount=LeatherAmount-4
 						InvList.append('WShield')
 						Tinkering.play()
+						print('Player crafts WShield')
 				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and SteelAmount > 1 and BoneAmount > 3:
 					if len(InvList) < 10:
 						SteelAmount=SteelAmount-2
 						BoneAmount=BoneAmount-4
 						InvList.append('Shield')
 						Tinkering.play()
+						print('Player crafts shield')
 				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and SteelAmount > 2 and WoodAmount > 3:
 					if len(InvList) < 10:
 						SteelAmount=SteelAmount-3
 						WoodAmount=WoodAmount-4
 						InvList.append('TShield')
 						Tinkering.play()
+						print('Player crafts TShield')
 				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and SteelAmount > 2 and IronAmount > 3:
 					if len(InvList) < 10:
 						SteelAmount=SteelAmount-3
 						IronAmount=IronAmount-4
 						InvList.append('Chainmail')
 						Tinkering.play()
+						print('Player crafts chainmail')
 				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and SteelAmount > 7:
 					if len(InvList) < 10:
 						SteelAmount=SteelAmount-8
 						InvList.append('Plate')
 						Tinkering.play()
+						print('Player crafts plate')
 				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
 					return
 			DoScreen(Labyrinth, Level)
@@ -4419,29 +4502,34 @@ def DoCraftTrap():
 						LeatherAmount=LeatherAmount-2
 						InvList.append('Spiketrap')
 						Screwdriver.play()
+						print('Player crafts spiketrap')
 				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and BoneAmount > 3:
 					if len(InvList) < 10:
 						BoneAmount=BoneAmount-3
 						InvList.append('Beartrap')
 						Screwdriver.play()
+						print('Player crafts beartrap')
 				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and BoneAmount > 2 and WoodAmount > 1:
 					if len(InvList) < 10:
 						BoneAmount=BoneAmount-3
 						WoodAmount=WoodAmount-2
 						InvList.append('Acidtrap')
 						Screwdriver.play()
+						print('Player crafts acidtrap')
 				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and BoneAmount > 2 and IronAmount > 1:
 					if len(InvList) < 10:
 						BoneAmount=BoneAmount-3
 						IronAmount=IronAmount-2
 						InvList.append('Electrotrap')
 						Screwdriver.play()
+						print('Player crafts electrotrap')
 				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and BoneAmount > 3 and SteelAmount > 1:
 					if len(InvList) < 10:
 						BoneAmount=BoneAmount-4
 						SteelAmount=SteelAmount-2
 						InvList.append('Mine')
 						Screwdriver.play()
+						print('Player crafts mine')
 				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
 					return
 			DoScreen(Labyrinth, Level)
@@ -4520,29 +4608,34 @@ def DoCraftSpell():
 						IronAmount=IronAmount-2
 						InvList.append('Fire')
 						Writing.play()
+						print('Player crafts fire')
 				if (event.key == pygame.K_2 or event.key == pygame.K_KP2) and BoneAmount > 2 and IronAmount > 1:
 					if len(InvList) < 10:
 						BoneAmount=BoneAmount-3
 						IronAmount=IronAmount-2
 						InvList.append('Teleport')
 						Writing.play()
+						print('Player crafts teleport')
 				if (event.key == pygame.K_3 or event.key == pygame.K_KP3) and WoodAmount > 2 and IronAmount > 2:
 					if len(InvList) < 10:
 						WoodAmount=WoodAmount-3
 						IronAmount=IronAmount-3
 						InvList.append('Drain')
 						Writing.play()
+						print('Player crafts drain')
 				if (event.key == pygame.K_4 or event.key == pygame.K_KP4) and IronAmount > 5:
 					if len(InvList) < 10:
 						IronAmount=IronAmount-6
 						InvList.append('Lightning')
 						Writing.play()
+						print('Player crafts lightning')
 				if (event.key == pygame.K_5 or event.key == pygame.K_KP5) and IronAmount > 3 and SteelAmount > 2:
 					if len(InvList) < 10:
 						IronAmount=IronAmount-4
 						SteelAmount=SteelAmount-3
 						InvList.append('Fireball')
 						Writing.play()
+						print('Player crafts fireball')
 				if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
 					return
 			DoScreen(Labyrinth, Level)
@@ -4630,6 +4723,8 @@ def DoActiveSpells(ActiveSpells, MapGen):
 			NextX=SpellX-1
 			NextY=SpellY
 
+		print(ActiveSpell, 'at', SpellX, SpellY)
+
 		CheckX=NextX
 		CheckY=NextY
 		FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
@@ -4643,6 +4738,7 @@ def DoActiveSpells(ActiveSpells, MapGen):
 			del ActiveSpells[Counter]
 			del ActiveSpells[Counter]
 			del ActiveSpells[Counter]
+			print(ActiveSpell, 'fizzles')
 			MaxCounter=len(ActiveSpells)
 
 		if Counter < MaxCounter and SpellTravelling:
@@ -4814,7 +4910,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 	HeroX=int(HeroList[HeroCounter+14])
 	HeroY=int(HeroList[HeroCounter+15])
 	
-	print(HeroName, ' hit by ', ActiveSpell)
+	print(HeroName, 'hit by', ActiveSpell)
 
 	if Spell=='Fire':
 		Fire.play()
@@ -4950,6 +5046,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		HeroList[HeroCounter+3]=HeroArmor
 
 	if HeroLife < 1:
+		print(HeroName, 'killed by', ActiveSpell)
 		DeathScream.play()
 		PlayerXP=PlayerXP+HeroLevel
 		Chance=randint(1,3)
@@ -4985,6 +5082,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		del HeroList[HeroCounter]
 		del HeroList[HeroCounter]
 		HeroCounterMax=len(HeroList)
+		print()
 	else:
 		HeroList[HeroCounter+9]=HeroLife
 	del ActiveSpells[Counter]
@@ -4999,6 +5097,7 @@ def DoHealClosestHero(PlayerX, PlayerY, HeroList):
 	MaxCounter=len(HeroList)
 	Counter=0
 	while Counter < MaxCounter:
+		HeroName=str(HeroList[Counter+1])
 		HeroX=int(HeroList[Counter+14])
 		HeroY=int(HeroList[Counter+15])
 		PDist=PlayerDistance(HeroX, HeroY, PlayerX, PlayerY)
@@ -5008,9 +5107,39 @@ def DoHealClosestHero(PlayerX, PlayerY, HeroList):
 		Counter=Counter+16
 	HeroLife=int(HeroList[ClosestEnemy+9])
 	HeroLife=HeroLife+12
+	print(HeroName, 'healed 12 points')
 	HeroList[ClosestEnemy+9]=HeroLife
 	return
 
+def PlacePlayer():
+	global MapGen
+	global PlayerX
+	global PlayerY
+	TeleportXMin=-1*MapGen*9
+	TeleportXMax=MapGen*9
+	TeleportYMin=-1*MapGen*9
+	TeleportYMax=MapGen*9
+	LookingForASpot=True
+	while LookingForASpot:
+		NoBlock=True
+		TeleportX=randint(TeleportXMin, TeleportXMax)
+		TeleportY=randint(TeleportYMin, TeleportYMax)
+			
+		if (TeleportX/9)==int(TeleportX/9):
+			NoBlock=False
+		if (TeleportY/9)==int(TeleportY/9):
+			NoBlock=False
+
+		if NoBlock:
+			FloorFound=False
+			CheckX=TeleportX
+			CheckY=TeleportY
+			FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+			if FloorFound:
+				PlayerX=TeleportX
+				PlayerY=TeleportY
+				LookingForASpot=False
+	return
 
 # Main loop
 HasKey=True
@@ -5118,6 +5247,7 @@ if Level > 0:
 			PlaceDecorations()
 			PlaceGnome(Labyrinth)
 			PlaceHeroes(Labyrinth, Level)
+			PlacePlayer()
 			Ping.play()
 	else:
 		del Labyrinth[:]
@@ -5685,6 +5815,7 @@ while Level < LevelMax:
 				PlaceDecorations()
 				PlaceGnome(Labyrinth)
 				PlaceHeroes(Labyrinth, Level)
+				PlacePlayer()
 				Ping.play()
 			else:
 				DoVictory()
