@@ -5111,6 +5111,18 @@ def DoHealClosestHero(PlayerX, PlayerY, HeroList):
 	HeroList[ClosestEnemy+9]=HeroLife
 	return
 
+def CheckHero(TeleportX, TeleportY):
+	HeroPresent=False
+	Counter=0
+	MaxCounter=len(HeroList)
+	while Counter < MaxCounter:
+		HeroX=int(HeroList[Counter+14])
+		HeroY=int(HeroList[Counter+15])
+		if HeroX == TeleportX and HeroY == TeleportY:
+			HeroPresent=True
+		Counter=Counter+16
+	return(HeroPresent)
+
 def PlacePlayer():
 	global MapGen
 	global PlayerX
@@ -5136,9 +5148,11 @@ def PlacePlayer():
 			CheckY=TeleportY
 			FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
 			if FloorFound:
-				PlayerX=TeleportX
-				PlayerY=TeleportY
-				LookingForASpot=False
+				HeroPresent=CheckHero(TeleportX, TeleportY)
+				if not HeroPresent:
+					PlayerX=TeleportX
+					PlayerY=TeleportY
+					LookingForASpot=False
 	return
 
 # Main loop
