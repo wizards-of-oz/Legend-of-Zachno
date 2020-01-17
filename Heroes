@@ -1,5 +1,6 @@
 3
 Benny
+Soldier
 Fists
 None
 None
@@ -14,6 +15,7 @@ None
 None
 3
 Dave
+Soldier
 Dagger
 None
 None
@@ -28,6 +30,7 @@ Dagger
 SpikeTrap
 4
 Watch
+Soldier
 Mace
 None
 None
@@ -42,6 +45,7 @@ Mace
 Life
 4
 Flame Soldier
+Soldier2
 Sword
 None
 Fire
@@ -56,6 +60,7 @@ Sword
 FireScroll
 6
 Berserker
+Knight
 Battleaxe
 WShield
 None
@@ -70,6 +75,7 @@ BattleAxe
 WShield
 4
 Trapper
+Rogue
 Dagger
 None
 None
@@ -84,6 +90,7 @@ BearTrap
 SpikeTrap
 4
 Guard
+Soldier2
 Dagger
 None
 None
@@ -98,6 +105,7 @@ AcidTrap
 Life
 5
 Grenadier
+Soldier3
 Dagger
 None
 Fire
@@ -111,6 +119,7 @@ Dagger
 ElectroTrap
 FireScroll
 6
+Knight
 Knight
 Dagger
 WShield
@@ -126,6 +135,7 @@ Mine
 WShield
 5
 Amazon
+Amazon
 Mace
 None
 None
@@ -140,6 +150,7 @@ Life
 Life
 5
 Heavy Guard
+Soldier3
 Mace
 None
 Fire
@@ -153,6 +164,7 @@ Mace
 Mana
 FireScroll
 7
+Knight
 Knight
 Mace
 WShield
@@ -168,6 +180,7 @@ Mana
 WShield
 6
 Warlock
+Wizard
 Sword
 None
 Lightning
@@ -182,6 +195,7 @@ LightningScroll
 FireScroll
 8
 Hell Knight
+Knight
 Sword
 WShield
 Fireball
@@ -196,6 +210,7 @@ FireballScroll
 WShield
 15
 Paladin
+Knight
 Battleaxe
 Plate
 None
@@ -210,6 +225,7 @@ Plate
 WShield
 6
 Rogue
+Rogue
 Fists
 None
 None
@@ -224,6 +240,7 @@ BearTrap
 BearTrap
 6
 Rogue
+Rogue2
 Fists
 None
 None
@@ -238,6 +255,7 @@ AcidTrap
 Life
 6
 Blink Rogue
+Rogue2
 Fists
 None
 Teleport
@@ -252,6 +270,7 @@ ElectroTrap
 TeleportScroll
 8
 Defender
+Knight2
 Fists
 Shield
 None
@@ -266,6 +285,7 @@ Mine
 Shield
 6
 Shield Maiden
+Amazon
 Fists
 None
 None
@@ -280,6 +300,7 @@ Life
 Life
 6
 Blink Rogue
+Rogue3
 Fists
 None
 Teleport
@@ -294,6 +315,7 @@ Mana
 TeleportScroll
 8
 Greater Knight
+Knight2
 Dagger
 Shield
 None
@@ -308,6 +330,7 @@ Mana
 Shield
 8
 Thunder Wizard
+Wizard
 Fists
 None
 Lightning
@@ -322,6 +345,7 @@ LightningScroll
 TeleportScroll
 8
 Pyromancer Knight
+Knight2
 Dagger
 Shield
 Fireball
@@ -336,6 +360,7 @@ FireballScroll
 Shield
 17
 Warlord
+Knight2
 Battleaxe
 Plate
 None
@@ -350,6 +375,7 @@ Plate
 Shield
 8
 Shield Maiden
+Amazon2
 Fists
 None
 None
@@ -364,6 +390,7 @@ Life
 Life
 8
 Vampire Queen
+Amazon3
 Fists
 None
 Drain
@@ -378,6 +405,7 @@ Mana
 DrainScroll
 11
 Defender
+Knight2
 Dagger
 TShield
 None
@@ -392,6 +420,7 @@ Mine
 TShield
 9
 Storm Mage
+Wizard2
 Fists
 None
 Lightning
@@ -406,6 +435,7 @@ LightningScroll
 DrainScroll
 10
 Hell Knight
+Knight3
 Dagger
 TShield
 Fireball
@@ -420,6 +450,7 @@ FireballScroll
 TShield
 18
 Destroyer
+Knight3
 Battleaxe
 Plate
 None
@@ -434,6 +465,7 @@ Plate
 TShield
 9
 Storm Mage
+Wizard3
 Fists
 None
 Lightning
@@ -448,6 +480,7 @@ LightningScroll
 LightningScroll
 13
 Annihilator Knight
+Knight3
 Mace
 Chainmail
 Fireball
@@ -462,6 +495,7 @@ FireballScroll
 Chainmail
 18
 Lancelot
+Knight3
 Battleaxe
 Plate
 None
@@ -476,6 +510,7 @@ Plate
 Chainmail
 20
 King Arthur
+Knight3
 Battleaxe
 Plate
 None

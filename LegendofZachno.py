@@ -155,11 +155,22 @@ BlackHole=pygame.image.load('BlackHole.png')
 BloodDrop=pygame.image.load('BloodDrop.png')
 
 
+
 Soldier=pygame.image.load('Soldier.png')
+Soldier2=pygame.image.load('Soldier2.png')
+Soldier3=pygame.image.load('Soldier3.png')
 Rogue=pygame.image.load('Rogue.png')
+Rogue2=pygame.image.load('Rogue2.png')
+Rogue3=pygame.image.load('Rogue3.png')
 Amazon=pygame.image.load('Amazon.png')
+Amazon2=pygame.image.load('Amazon2.png')
+Amazon3=pygame.image.load('Amazon3.png')
 Wizard=pygame.image.load('Wizard.png')
+Wizard2=pygame.image.load('Wizard2.png')
+Wizard3=pygame.image.load('Wizard3.png')
 Knight=pygame.image.load('Knight.png')
+Knight2=pygame.image.load('Knight2.png')
+Knight3=pygame.image.load('Knight3.png')
 Imp=pygame.image.load('Imp.png')
 Micha=pygame.image.load('Micha.png')
 Mariska=pygame.image.load('Mariska.png')
@@ -238,16 +249,16 @@ def VisualScan(Labyrinth, HeroList, ActiveSpells):
 	MaxCounter=len(HeroList)
 	Counter=0
 	while Counter<MaxCounter:
-		Object=str(HeroList[Counter+1])
-		ObjectX=int(HeroList[Counter+14])
-		ObjectY=int(HeroList[Counter+15])
+		Object=str(HeroList[Counter+2])
+		ObjectX=int(HeroList[Counter+15])
+		ObjectY=int(HeroList[Counter+16])
 		XDiff=ObjectX-PlayerX
 		YDiff=ObjectY-PlayerY
 		if (-7 <= XDiff) and ( XDiff <= 7) and (-5 <= YDiff) and (YDiff <= 4):
 			VisualList.append(Object)
 			VisualList.append(XDiff)
 			VisualList.append(YDiff)
-		Counter=Counter+16
+		Counter=Counter+17
 	MaxCounter=len(ActiveSpells)
 	Counter=0
 	while Counter < MaxCounter:
@@ -337,62 +348,36 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=Plate
 	elif ObjectImage=='Gnome':
 		ScreenItem=Gnome
-	elif ObjectImage=='Benny':
+	elif ObjectImage=='Soldier':
 		ScreenItem=Soldier
-	elif ObjectImage=='Dave':
-		ScreenItem=Soldier
-	elif ObjectImage=='Watch':
-		ScreenItem=Soldier
-	elif ObjectImage=='Flame Soldier':
-		ScreenItem=Soldier
-	elif ObjectImage=='Berserker':
-		ScreenItem=Knight
-	elif ObjectImage=='Trapper':
-		ScreenItem=Rogue
-	elif ObjectImage=='Guard':
-		ScreenItem=Soldier
-	elif ObjectImage=='Grenadier':
-		ScreenItem=Soldier
-	elif ObjectImage=='Knight':
-		ScreenItem=Knight
-	elif ObjectImage=='Amazon':
-		ScreenItem=Amazon
-	elif ObjectImage=='Heavy Guard':
-		ScreenItem=Soldier
-	elif ObjectImage=='Warlock':
-		ScreenItem=Wizard
-	elif ObjectImage=='Hell Knight':
-		ScreenItem=Knight
-	elif ObjectImage=='Paladin':
-		ScreenItem=Knight
+	elif ObjectImage=='Soldier2':
+		ScreenItem=Soldier2
+	elif ObjectImage=='Soldier3':
+		ScreenItem=Soldier3
 	elif ObjectImage=='Rogue':
 		ScreenItem=Rogue
-	elif ObjectImage=='Blink Rogue':
-		ScreenItem=Rogue
-	elif ObjectImage=='Defender':
-		ScreenItem=Knight
-	elif ObjectImage=='Shield Maiden':
+	elif ObjectImage=='Rogue2':
+		ScreenItem=Rogue2
+	elif ObjectImage=='Rogue3':
+		ScreenItem=Rogue3
+	elif ObjectImage=='Amazon':
 		ScreenItem=Amazon
-	elif ObjectImage=='Greater Knight':
-		ScreenItem=Knight
-	elif ObjectImage=='Thunder Wizard':
+	elif ObjectImage=='Amazon2':
+		ScreenItem=Amazon2
+	elif ObjectImage=='Amazon3':
+		ScreenItem=Amazon3
+	elif ObjectImage=='Wizard':
 		ScreenItem=Wizard
-	elif ObjectImage=='Pyromancer Knight':
+	elif ObjectImage=='Wizard2':
+		ScreenItem=Wizard2
+	elif ObjectImage=='Wizard3':
+		ScreenItem=Wizard3
+	elif ObjectImage=='Knight':
 		ScreenItem=Knight
-	elif ObjectImage=='Warlord':
-		ScreenItem=Knight
-	elif ObjectImage=='Vampire Queen':
-		ScreenItem=Amazon
-	elif ObjectImage=='Storm Mage':
-		ScreenItem=Wizard
-	elif ObjectImage=='Destroyer':
-		ScreenItem=Knight
-	elif ObjectImage=='Annihilator Knight':
-		ScreenItem=Knight
-	elif ObjectImage=='Lancelot':
-		ScreenItem=Knight
-	elif ObjectImage=='King Arthur':
-		ScreenItem=Knight
+	elif ObjectImage=='Knight2':
+		ScreenItem=Knight2
+	elif ObjectImage=='Knight3':
+		ScreenItem=Knight3
 	elif ObjectImage=='Imp':
 		ScreenItem=Imp
 	elif ObjectImage=='Micha':
@@ -478,15 +463,15 @@ def HeroScan(Labyrinth, HeroList):
 	Counter=0
 	while Counter<MaxCounter:
 		HeroName=str(HeroList[Counter+1])
-		HeroLife=int(HeroList[Counter+9])
-		HeroWeapon=str(HeroList[Counter+2])
-		HeroArmor=str(HeroList[Counter+3])
-		HeroSpell=str(HeroList[Counter+4])
-		HeroAtt=int(HeroList[Counter+5])
-		HeroDef=int(HeroList[Counter+6])
-		HeroMana=int(HeroList[Counter+10])
-		ObjectX=int(HeroList[Counter+14])
-		ObjectY=int(HeroList[Counter+15])
+		HeroLife=int(HeroList[Counter+10])
+		HeroWeapon=str(HeroList[Counter+3])
+		HeroArmor=str(HeroList[Counter+4])
+		HeroSpell=str(HeroList[Counter+5])
+		HeroAtt=int(HeroList[Counter+6])
+		HeroDef=int(HeroList[Counter+7])
+		HeroMana=int(HeroList[Counter+11])
+		ObjectX=int(HeroList[Counter+15])
+		ObjectY=int(HeroList[Counter+16])
 		if HeroWeapon=='Dagger':
 			HeroAtt=HeroAtt+4
 		elif HeroWeapon=='Mace':
@@ -519,7 +504,7 @@ def HeroScan(Labyrinth, HeroList):
 			HeroLifeList.append(HeroMana)
 			HeroLifeList.append(XDiff)
 			HeroLifeList.append(YDiff)
-		Counter=Counter+16
+		Counter=Counter+17
 	return(HeroLifeList)
 
 # Display function
@@ -1297,15 +1282,15 @@ def DoPlayerCombat(Counter):
 	global SpellY
 
 	HeroLevel=int(HeroList[Counter])
-	HeroName=str(HeroList[Counter+1])
-	HeroArmor=str(HeroList[Counter+3])
-	HeroDefence=int(HeroList[Counter+6])
-	HeroLife=int(HeroList[Counter+9])
-	DropItemOne=str(HeroList[Counter+11])
-	DropItemTwo=str(HeroList[Counter+12])
-	DropItemThree=str(HeroList[Counter+13])
-	HeroX=int(HeroList[Counter+14])
-	HeroY=int(HeroList[Counter+15])
+	HeroName=str(HeroList[Counter+2])
+	HeroArmor=str(HeroList[Counter+4])
+	HeroDefence=int(HeroList[Counter+7])
+	HeroLife=int(HeroList[Counter+10])
+	DropItemOne=str(HeroList[Counter+12])
+	DropItemTwo=str(HeroList[Counter+13])
+	DropItemThree=str(HeroList[Counter+14])
+	HeroX=int(HeroList[Counter+15])
+	HeroY=int(HeroList[Counter+16])
 
 	BreakChance=0
 	if HeroArmor=='WShield':
@@ -1399,9 +1384,10 @@ def DoPlayerCombat(Counter):
 		del HeroList[Counter]
 		del HeroList[Counter]
 		del HeroList[Counter]
+		del HeroList[Counter]
 		print()
 	else:
-		HeroList[Counter+9]=HeroLife
+		HeroList[Counter+10]=HeroLife
 	return
 
 # Checks next position in movement and makes game decisions
@@ -1736,13 +1722,13 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 	Counter=0
 	MaxCounter=len(HeroList)
 	while Counter < MaxCounter:
-		HeroX=int(HeroList[Counter+14])
-		HeroY=int(HeroList[Counter+15])
+		HeroX=int(HeroList[Counter+15])
+		HeroY=int(HeroList[Counter+16])
 		if HeroX == NewX and HeroY == NewY:
 			DoPlayerCombat(Counter)
 			MaxCounter=len(HeroList)
 			Collision=True
-		Counter=Counter+16
+		Counter=Counter+17
 	Counter=0
 	MaxCounter=len(ActiveSpells)
 	while Counter < MaxCounter:
@@ -3288,18 +3274,19 @@ def PlaceHeroes(Labyrinth, Level):
 	while Counter < MaxCounter:
 		HeroLevel=int(ListofHeroes[Counter])
 		HeroName=ListofHeroes[Counter+1].rstrip()
-		HeroWeapon=ListofHeroes[Counter+2].rstrip()
-		HeroArmor=ListofHeroes[Counter+3].rstrip()
-		HeroSpell=ListofHeroes[Counter+4].rstrip()
-		HeroAttack=int(ListofHeroes[Counter+5])
-		HeroDefence=int(ListofHeroes[Counter+6])
-		HeroLifeLevel=int(ListofHeroes[Counter+7])
-		HeroMagic=int(ListofHeroes[Counter+8])
-		HeroLife=int(ListofHeroes[Counter+9])
-		HeroMana=int(ListofHeroes[Counter+10])
-		HeroDropItemOne=ListofHeroes[Counter+11].rstrip()
-		HeroDropItemTwo=ListofHeroes[Counter+12].rstrip()
-		HeroDropItemThree=ListofHeroes[Counter+13].rstrip()
+		HeroPicture=ListofHeroes[Counter+2].rstrip()
+		HeroWeapon=ListofHeroes[Counter+3].rstrip()
+		HeroArmor=ListofHeroes[Counter+4].rstrip()
+		HeroSpell=ListofHeroes[Counter+5].rstrip()
+		HeroAttack=int(ListofHeroes[Counter+6])
+		HeroDefence=int(ListofHeroes[Counter+7])
+		HeroLifeLevel=int(ListofHeroes[Counter+8])
+		HeroMagic=int(ListofHeroes[Counter+9])
+		HeroLife=int(ListofHeroes[Counter+10])
+		HeroMana=int(ListofHeroes[Counter+11])
+		HeroDropItemOne=ListofHeroes[Counter+12].rstrip()
+		HeroDropItemTwo=ListofHeroes[Counter+13].rstrip()
+		HeroDropItemThree=ListofHeroes[Counter+14].rstrip()
 		Number=1
 		MaxNumber=int(Level/HeroLevel)
 		while Number <= MaxNumber:
@@ -3326,6 +3313,7 @@ def PlaceHeroes(Labyrinth, Level):
 					if FloorFound:
 						HeroList.append(HeroLevel)
 						HeroList.append(HeroName)
+						HeroList.append(HeroPicture)
 						HeroList.append(HeroWeapon)
 						HeroList.append(HeroArmor)
 						HeroList.append(HeroSpell)
@@ -3348,7 +3336,7 @@ def PlaceHeroes(Labyrinth, Level):
 			pygame.display.flip()
 
 			Number=Number+1
-		Counter=Counter+14
+		Counter=Counter+15
 	if Level == 4:
 		LookingForASpot=True
 		while LookingForASpot:
@@ -3368,6 +3356,7 @@ def PlaceHeroes(Labyrinth, Level):
 				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
 				if FloorFound:
 					HeroList.append('4')
+					HeroList.append('Imp')
 					HeroList.append('Imp')
 					HeroList.append('Fists')
 					HeroList.append('None')
@@ -3409,6 +3398,7 @@ def PlaceHeroes(Labyrinth, Level):
 				if FloorFound:
 					HeroList.append('8')
 					HeroList.append('Micha')
+					HeroList.append('Micha')
 					HeroList.append('Dagger')
 					HeroList.append('Shield')
 					HeroList.append('Destroy')
@@ -3448,6 +3438,7 @@ def PlaceHeroes(Labyrinth, Level):
 				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
 				if FloorFound:
 					HeroList.append('12')
+					HeroList.append('Mariska')
 					HeroList.append('Mariska')
 					HeroList.append('Fists')
 					HeroList.append('TShield')
@@ -3489,6 +3480,7 @@ def PlaceHeroes(Labyrinth, Level):
 				if FloorFound:
 					HeroList.append('16')
 					HeroList.append('Maarten')
+					HeroList.append('Maarten')
 					HeroList.append('Sword')
 					HeroList.append('Chainmail')
 					HeroList.append('Disrupt')
@@ -3528,6 +3520,7 @@ def PlaceHeroes(Labyrinth, Level):
 				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
 				if FloorFound:
 					HeroList.append('20')
+					HeroList.append('Zachary')
 					HeroList.append('Zachary')
 					HeroList.append('Battleaxe')
 					HeroList.append('Plate')
@@ -3648,54 +3641,54 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 	SpellY=HeroY
 	FreeFlight=True
 	if Spell=='Fire':
-		HeroMana=int(HeroList[Counter+10])
+		HeroMana=int(HeroList[Counter+11])
 		HeroMana=HeroMana-1
-		HeroList[Counter+10]=HeroMana
+		HeroList[Counter+11]=HeroMana
 		Fire.play()
 	if Spell=='Teleport':
-		HeroMana=int(HeroList[Counter+10])
+		HeroMana=int(HeroList[Counter+11])
 		HeroMana=HeroMana-2
-		HeroList[Counter+10]=HeroMana
+		HeroList[Counter+11]=HeroMana
 		Teleport.play()
 	if Spell=='Drain':
-		HeroMana=int(HeroList[Counter+10])
+		HeroMana=int(HeroList[Counter+11])
 		HeroMana=HeroMana-3
-		HeroList[Counter+10]=HeroMana
+		HeroList[Counter+11]=HeroMana
 		Steal.play()
 	if Spell=='Lightning':
-		HeroMana=int(HeroList[Counter+10])
+		HeroMana=int(HeroList[Counter+11])
 		HeroMana=HeroMana-4
-		HeroList[Counter+10]=HeroMana
+		HeroList[Counter+11]=HeroMana
 		Lightning.play()
 	if Spell=='Fireball':
-		HeroMana=int(HeroList[Counter+10])
+		HeroMana=int(HeroList[Counter+11])
 		HeroMana=HeroMana-5
-		HeroList[Counter+10]=HeroMana
+		HeroList[Counter+11]=HeroMana
 		Fireball.play()
 	if Spell=='Disarm':
-		HeroMana=int(HeroList[Counter+10])
+		HeroMana=int(HeroList[Counter+11])
 		HeroMana=HeroMana-1
-		HeroList[Counter+10]=HeroMana
+		HeroList[Counter+11]=HeroMana
 		Mana.play()
 	if Spell=='Destroy':
-		HeroMana=int(HeroList[Counter+10])
+		HeroMana=int(HeroList[Counter+11])
 		HeroMana=HeroMana-2
-		HeroList[Counter+10]=HeroMana
+		HeroList[Counter+11]=HeroMana
 		Mana.play()
 	if Spell=='Steal':
-		HeroMana=int(HeroList[Counter+10])
+		HeroMana=int(HeroList[Counter+11])
 		HeroMana=HeroMana-3
-		HeroList[Counter+10]=HeroMana
+		HeroList[Counter+11]=HeroMana
 		Mana.play()
 	if Spell=='Disrupt':
-		HeroMana=int(HeroList[Counter+10])
+		HeroMana=int(HeroList[Counter+11])
 		HeroMana=HeroMana-4
-		HeroList[Counter+10]=HeroMana
+		HeroList[Counter+11]=HeroMana
 		Mana.play()
 	if Spell=='Nullify':
-		HeroMana=int(HeroList[Counter+10])
+		HeroMana=int(HeroList[Counter+11])
 		HeroMana=HeroMana-5
-		HeroList[Counter+10]=HeroMana
+		HeroList[Counter+11]=HeroMana
 		Mana.play()
 	
 	ActiveSpells.append(Spell)
@@ -3722,8 +3715,8 @@ def DoHeroCombat(Counter):
 	global HeroList
 	PlayerDef=PlayerDefence
 	HeroName=str(HeroList[Counter+1])
-	HeroWeapon=str(HeroList[Counter+2])
-	HeroAttack=int(HeroList[Counter+5])
+	HeroWeapon=str(HeroList[Counter+3])
+	HeroAttack=int(HeroList[Counter+6])
 	print(HeroName, 'hits player with', HeroWeapon)
 	if PlayerArmor=='WShield':
 		PlayerDef=PlayerDefence+1
@@ -3797,20 +3790,20 @@ def EnemyMove(EnemyDir, Counter):
 	Blocked=False
 	HeroLevel=int(HeroList[Counter])
 	HeroName=HeroList[Counter+1].rstrip()
-	HeroWeapon=HeroList[Counter+2].rstrip()
-	HeroArmor=HeroList[Counter+3].rstrip()
-	HeroSpell=HeroList[Counter+4].rstrip()
-	HeroAttack=int(HeroList[Counter+5])
-	HeroDefence=int(HeroList[Counter+6])
-	HeroLifeLevel=int(HeroList[Counter+7])
-	HeroMagic=int(HeroList[Counter+8])
-	HeroLife=int(HeroList[Counter+9])
-	HeroMana=int(HeroList[Counter+10])
-	HeroDropItemOne=HeroList[Counter+11].rstrip()
-	HeroDropItemTwo=HeroList[Counter+12].rstrip()
-	HeroDropItemThree=HeroList[Counter+13].rstrip()
-	HeroX=HeroList[Counter+14]
-	HeroY=HeroList[Counter+15]
+	HeroWeapon=HeroList[Counter+3].rstrip()
+	HeroArmor=HeroList[Counter+4].rstrip()
+	HeroSpell=HeroList[Counter+5].rstrip()
+	HeroAttack=int(HeroList[Counter+6])
+	HeroDefence=int(HeroList[Counter+7])
+	HeroLifeLevel=int(HeroList[Counter+8])
+	HeroMagic=int(HeroList[Counter+9])
+	HeroLife=int(HeroList[Counter+10])
+	HeroMana=int(HeroList[Counter+11])
+	HeroDropItemOne=HeroList[Counter+12].rstrip()
+	HeroDropItemTwo=HeroList[Counter+13].rstrip()
+	HeroDropItemThree=HeroList[Counter+14].rstrip()
+	HeroX=HeroList[Counter+15]
+	HeroY=HeroList[Counter+16]
 
 	if EnemyDir==8:
 		NewHeroX=HeroX
@@ -3870,7 +3863,7 @@ def EnemyMove(EnemyDir, Counter):
 					LabNumMax=len(Labyrinth)
 					HeroLife=HeroLife-9
 					HeroLifeLevel=HeroLifeLevel+5
-					HeroList[Counter+7]=HeroLifeLevel
+					HeroList[Counter+8]=HeroLifeLevel
 					SpellX=NewHeroX
 					SpellY=NewHeroY
 					Spell='AcidPuddle'
@@ -3941,14 +3934,15 @@ def EnemyMove(EnemyDir, Counter):
 			del HeroList[Counter]
 			del HeroList[Counter]
 			del HeroList[Counter]
+			del HeroList[Counter]
 			print()
 			DeathScream.play()
 			return(Blocked)
 		else:
-			HeroList[Counter+5]=HeroAttack
-			HeroList[Counter+6]=HeroDefence
-			HeroList[Counter+9]=HeroLife
-			HeroList[Counter+10]=HeroMana
+			HeroList[Counter+6]=HeroAttack
+			HeroList[Counter+7]=HeroDefence
+			HeroList[Counter+10]=HeroLife
+			HeroList[Counter+11]=HeroMana
 		CheckX=NewHeroX
 		CheckY=NewHeroY
 		FoundFloor=False
@@ -3956,8 +3950,8 @@ def EnemyMove(EnemyDir, Counter):
 		NoEnemy=True
 		NoEnemy=CheckEnemy(HeroList, CheckX, CheckY)
 		if FoundFloor and NoEnemy:
-			HeroList[Counter+14]=NewHeroX
-			HeroList[Counter+15]=NewHeroY
+			HeroList[Counter+15]=NewHeroX
+			HeroList[Counter+16]=NewHeroY
 			EnemyWalk.play()
 		else:
 			Blocked=True
@@ -3966,8 +3960,8 @@ def EnemyMove(EnemyDir, Counter):
 def HeroHunts(Counter):
 	global PlayerX
 	global PlayerY
-	HeroX=HeroList[Counter+14]
-	HeroY=HeroList[Counter+15]
+	HeroX=HeroList[Counter+15]
+	HeroY=HeroList[Counter+16]
 	XDist=(HeroX-PlayerX)**2
 	YDist=(HeroY-PlayerY)**2
 	HeroName=str(HeroList[Counter+1])
@@ -4011,8 +4005,8 @@ def HeroFlees(Counter):
 	global PlayerX
 	global PlayerY
 	HeroName=str(HeroList[Counter+1])
-	HeroX=HeroList[Counter+14]
-	HeroY=HeroList[Counter+15]
+	HeroX=HeroList[Counter+15]
+	HeroY=HeroList[Counter+16]
 	XDist=(HeroX-PlayerX)**2
 	YDist=(HeroY-PlayerY)**2
 	Blocked=False
@@ -4057,12 +4051,12 @@ def CheckEnemy(HeroList, CheckX, CheckY):
 	NoEnemy=True
 	while Counter < MaxCounter:
 		HeroName=HeroList[Counter+1].rstrip()
-		HeroX=HeroList[Counter+14]
-		HeroY=HeroList[Counter+15]
+		HeroX=HeroList[Counter+15]
+		HeroY=HeroList[Counter+16]
 		if CheckX==HeroX and CheckY==HeroY:
 			if not HeroName=='':
 				NoEnemy=False
-		Counter = Counter+16
+		Counter = Counter+17
 	return(NoEnemy)
 
 def DoEnemies():
@@ -4072,20 +4066,20 @@ def DoEnemies():
 	while Counter < MaxCounter:
 		HeroLevel=int(HeroList[Counter])
 		HeroName=HeroList[Counter+1].rstrip()
-		HeroWeapon=HeroList[Counter+2].rstrip()
-		HeroArmor=HeroList[Counter+3].rstrip()
-		HeroSpell=HeroList[Counter+4].rstrip()
-		HeroAttack=int(HeroList[Counter+5])
-		HeroDefence=int(HeroList[Counter+6])
-		HeroLifeLevel=int(HeroList[Counter+7])
-		HeroMagic=int(HeroList[Counter+8])
-		HeroLife=int(HeroList[Counter+9])
-		HeroMana=int(HeroList[Counter+10])
-		HeroDropItemOne=HeroList[Counter+11].rstrip()
-		HeroDropItemTwo=HeroList[Counter+12].rstrip()
-		HeroDropItemThree=HeroList[Counter+13].rstrip()
-		HeroX=HeroList[Counter+14]
-		HeroY=HeroList[Counter+15]
+		HeroWeapon=HeroList[Counter+3].rstrip()
+		HeroArmor=HeroList[Counter+4].rstrip()
+		HeroSpell=HeroList[Counter+5].rstrip()
+		HeroAttack=int(HeroList[Counter+6])
+		HeroDefence=int(HeroList[Counter+7])
+		HeroLifeLevel=int(HeroList[Counter+8])
+		HeroMagic=int(HeroList[Counter+9])
+		HeroLife=int(HeroList[Counter+10])
+		HeroMana=int(HeroList[Counter+11])
+		HeroDropItemOne=HeroList[Counter+12].rstrip()
+		HeroDropItemTwo=HeroList[Counter+13].rstrip()
+		HeroDropItemThree=HeroList[Counter+14].rstrip()
+		HeroX=HeroList[Counter+15]
+		HeroY=HeroList[Counter+16]
 		XDiff=HeroX-PlayerX
 		YDiff=HeroY-PlayerY
 		TreshHold=10-HeroAttack
@@ -4144,7 +4138,7 @@ def DoEnemies():
 			else:
 				HeroFlees(Counter)
 				MaxCounter=len(HeroList)
-		Counter=Counter+16
+		Counter=Counter+17
 	return
 
 def DoCraftItem():
@@ -4745,14 +4739,14 @@ def DoActiveSpells(ActiveSpells, MapGen):
 			MaxHeroCounter=len(HeroList)
 			HeroCounter=0
 			while HeroCounter < MaxHeroCounter:
-				HeroX=int(HeroList[HeroCounter+14])
-				HeroY=int(HeroList[HeroCounter+15])
+				HeroX=int(HeroList[HeroCounter+15])
+				HeroY=int(HeroList[HeroCounter+16])
 				if NextX==HeroX and NextY==HeroY:
 					DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter)
 					MaxHeroCounter=len(HeroList)
 					MaxCounter=len(ActiveSpells)
 					SpellTravelling=False
-				HeroCounter=HeroCounter+16
+				HeroCounter=HeroCounter+17
 
 		if Counter < MaxCounter and SpellTravelling:
 			if NextX==PlayerX and NextY==PlayerY and Owner=='Hero':
@@ -4856,8 +4850,8 @@ def ResolveHeroSpell(ActiveSpell, Counter):
 		while HeroCounter < MaxHeroCounter:
 			HeroName=str(HeroList[HeroCounter+1])
 			if HeroName=='Mariska':
-				HeroList[HeroCounter+2]=GrabbedWeapon
-			HeroCounter=HeroCounter+16
+				HeroList[HeroCounter+3]=GrabbedWeapon
+			HeroCounter=HeroCounter+17
 	if ActiveSpell=='Disrupt':
 		Mana.play()
 		Spell=ActiveSpell
@@ -4887,6 +4881,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 	global PlayerArmor
 	global PlayerDefence
 	global PlayerLifeLevel
+	global PlayerMagic
 	global PlayerLife
 	global PlayerMana
 	global PlayerXP
@@ -4895,20 +4890,20 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 	global SpellY
 	HeroLevel=int(HeroList[HeroCounter])
 	HeroName=HeroList[HeroCounter+1].rstrip()
-	HeroWeapon=HeroList[HeroCounter+2].rstrip()
-	HeroArmor=HeroList[HeroCounter+3].rstrip()
-	HeroSpell=HeroList[HeroCounter+4].rstrip()
-	HeroAttack=int(HeroList[HeroCounter+5])
-	HeroDefence=int(HeroList[HeroCounter+6])
-	HeroLifeLevel=int(HeroList[HeroCounter+7])
-	HeroMagic=int(HeroList[HeroCounter+8])
-	HeroLife=int(HeroList[HeroCounter+9])
-	HeroMana=int(HeroList[HeroCounter+10])
-	HeroDropItemOne=HeroList[HeroCounter+11].rstrip()
-	HeroDropItemTwo=HeroList[HeroCounter+12].rstrip()
-	HeroDropItemThree=HeroList[HeroCounter+13].rstrip()
-	HeroX=int(HeroList[HeroCounter+14])
-	HeroY=int(HeroList[HeroCounter+15])
+	HeroWeapon=HeroList[HeroCounter+3].rstrip()
+	HeroArmor=HeroList[HeroCounter+4].rstrip()
+	HeroSpell=HeroList[HeroCounter+5].rstrip()
+	HeroAttack=int(HeroList[HeroCounter+6])
+	HeroDefence=int(HeroList[HeroCounter+7])
+	HeroLifeLevel=int(HeroList[HeroCounter+8])
+	HeroMagic=int(HeroList[HeroCounter+9])
+	HeroLife=int(HeroList[HeroCounter+10])
+	HeroMana=int(HeroList[HeroCounter+11])
+	HeroDropItemOne=HeroList[HeroCounter+12].rstrip()
+	HeroDropItemTwo=HeroList[HeroCounter+13].rstrip()
+	HeroDropItemThree=HeroList[HeroCounter+14].rstrip()
+	HeroX=int(HeroList[HeroCounter+15])
+	HeroY=int(HeroList[HeroCounter+16])
 	
 	print(HeroName, 'hit by', ActiveSpell)
 
@@ -4972,8 +4967,8 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 			if LifeGained > HeroLife:
 				LifeGained = HeroLife
 			PlayerLife=PlayerLife+LifeGained
-			if PlayerLife > (PlayerLifeLevel*10):
-				PlayerLife = (PlayerLifeLevel*10)
+			if PlayerLife > PlayerLifeLevel*10:
+				PlayerLife = PlayerLifeLevel*10
 			HeroLife=HeroLife-(12+PlayerMagic)
 		else:
 			HeroLife=HeroLife-12
@@ -5034,7 +5029,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		Spell=ActiveSpell
 		SpellX=HeroX
 		SpellY=HeroY
-		HeroList[HeroCounter+10]=HeroMana
+		HeroList[HeroCounter+11]=HeroMana
 	if Spell=='Nullify':
 		Shatter.play()
 		HeroWeapon='Fists'
@@ -5042,8 +5037,8 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		Spell=ActiveSpell
 		SpellX=HeroX
 		SpellY=HeroY
-		HeroList[HeroCounter+2]=HeroWeapon
-		HeroList[HeroCounter+3]=HeroArmor
+		HeroList[HeroCounter+3]=HeroWeapon
+		HeroList[HeroCounter+4]=HeroArmor
 
 	if HeroLife < 1:
 		print(HeroName, 'killed by', ActiveSpell)
@@ -5081,6 +5076,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		del HeroList[HeroCounter]
 		del HeroList[HeroCounter]
 		del HeroList[HeroCounter]
+		del HeroList[HeroCounter]
 		HeroCounterMax=len(HeroList)
 		print()
 	else:
@@ -5098,17 +5094,17 @@ def DoHealClosestHero(PlayerX, PlayerY, HeroList):
 	Counter=0
 	while Counter < MaxCounter:
 		HeroName=str(HeroList[Counter+1])
-		HeroX=int(HeroList[Counter+14])
-		HeroY=int(HeroList[Counter+15])
+		HeroX=int(HeroList[Counter+15])
+		HeroY=int(HeroList[Counter+16])
 		PDist=PlayerDistance(HeroX, HeroY, PlayerX, PlayerY)
 		if PDist < Proximity:
 			Proximity=PDist
 			ClosestEnemy=Counter
-		Counter=Counter+16
+		Counter=Counter+17
 	HeroLife=int(HeroList[ClosestEnemy+9])
 	HeroLife=HeroLife+12
 	print(HeroName, 'healed 12 points')
-	HeroList[ClosestEnemy+9]=HeroLife
+	HeroList[ClosestEnemy+10]=HeroLife
 	return
 
 def CheckHero(TeleportX, TeleportY):
@@ -5116,11 +5112,11 @@ def CheckHero(TeleportX, TeleportY):
 	Counter=0
 	MaxCounter=len(HeroList)
 	while Counter < MaxCounter:
-		HeroX=int(HeroList[Counter+14])
-		HeroY=int(HeroList[Counter+15])
+		HeroX=int(HeroList[Counter+15])
+		HeroY=int(HeroList[Counter+16])
 		if HeroX == TeleportX and HeroY == TeleportY:
 			HeroPresent=True
-		Counter=Counter+16
+		Counter=Counter+17
 	return(HeroPresent)
 
 def PlacePlayer():
@@ -5353,22 +5349,24 @@ if Level > 0:
 		while HeroCounter < HeroCounterMax:
 			HeroLevel=str(HeroSave[HeroCounter]).rstrip()
 			HeroName=str(HeroSave[HeroCounter+1]).rstrip()
-			HeroWeapon=str(HeroSave[HeroCounter+2]).rstrip()
-			HeroArmor=str(HeroSave[HeroCounter+3]).rstrip()
-			HeroSpell=str(HeroSave[HeroCounter+4]).rstrip()
-			HeroAttack=int(HeroSave[HeroCounter+5])
-			HeroDefence=int(HeroSave[HeroCounter+6])
-			HeroLifeLevel=int(HeroSave[HeroCounter+7])
-			HeroMagic=int(HeroSave[HeroCounter+8])
-			HeroLife=int(HeroSave[HeroCounter+9])
-			HeroMana=int(HeroSave[HeroCounter+10])
-			HeroDropItemOne=str(HeroSave[HeroCounter+11]).rstrip()
-			HeroDropItemTwo=str(HeroSave[HeroCounter+12]).rstrip()
-			HeroDropItemThree=str(HeroSave[HeroCounter+13]).rstrip()
-			HeroX=int(HeroSave[HeroCounter+14])
-			HeroY=int(HeroSave[HeroCounter+15])
+			HeroPicture=str(HeroSave[HeroCounter+2]).rstrip()
+			HeroWeapon=str(HeroSave[HeroCounter+3]).rstrip()
+			HeroArmor=str(HeroSave[HeroCounter+4]).rstrip()
+			HeroSpell=str(HeroSave[HeroCounter+5]).rstrip()
+			HeroAttack=int(HeroSave[HeroCounter+6])
+			HeroDefence=int(HeroSave[HeroCounter+7])
+			HeroLifeLevel=int(HeroSave[HeroCounter+8])
+			HeroMagic=int(HeroSave[HeroCounter+9])
+			HeroLife=int(HeroSave[HeroCounter+10])
+			HeroMana=int(HeroSave[HeroCounter+11])
+			HeroDropItemOne=str(HeroSave[HeroCounter+12]).rstrip()
+			HeroDropItemTwo=str(HeroSave[HeroCounter+13]).rstrip()
+			HeroDropItemThree=str(HeroSave[HeroCounter+14]).rstrip()
+			HeroX=int(HeroSave[HeroCounter+15])
+			HeroY=int(HeroSave[HeroCounter+16])
 			HeroList.append(HeroLevel)
 			HeroList.append(HeroName)
+			HeroList.append(HeroPicture)
 			HeroList.append(HeroWeapon)
 			HeroList.append(HeroArmor)
 			HeroList.append(HeroSpell)
@@ -5383,7 +5381,7 @@ if Level > 0:
 			HeroList.append(HeroDropItemThree)
 			HeroList.append(HeroX)
 			HeroList.append(HeroY)
-			HeroCounter=HeroCounter+16
+			HeroCounter=HeroCounter+17
 
 while Level < LevelMax:
 	DoScreen(Labyrinth, Level)
@@ -5594,22 +5592,24 @@ while Level < LevelMax:
 					while HeroCounter < HeroCounterMax:
 						HeroLevel=str(HeroList[HeroCounter])+'\n'
 						HeroName=str(HeroList[HeroCounter+1])+'\n'
-						HeroWeapon=str(HeroList[HeroCounter+2])+'\n'
-						HeroArmor=str(HeroList[HeroCounter+3])+'\n'
-						HeroSpell=str(HeroList[HeroCounter+4])+'\n'
-						HeroAttack=str(HeroList[HeroCounter+5])+'\n'
-						HeroDefence=str(HeroList[HeroCounter+6])+'\n'
-						HeroLifeLevel=str(HeroList[HeroCounter+7])+'\n'
-						HeroMagic=str(HeroList[HeroCounter+8])+'\n'
-						HeroLife=str(HeroList[HeroCounter+9])+'\n'
-						HeroMana=str(HeroList[HeroCounter+10])+'\n'
-						HeroDropItemOne=str(HeroList[HeroCounter+11])+'\n'
-						HeroDropItemTwo=str(HeroList[HeroCounter+12])+'\n'
-						HeroDropItemThree=str(HeroList[HeroCounter+13])+'\n'
-						HeroX=str(HeroList[HeroCounter+14])+'\n'
-						HeroY=str(HeroList[HeroCounter+15])
+						HeroPicture=str(HeroList[HeroCounter+2])+'\n'
+						HeroWeapon=str(HeroList[HeroCounter+3])+'\n'
+						HeroArmor=str(HeroList[HeroCounter+4])+'\n'
+						HeroSpell=str(HeroList[HeroCounter+5])+'\n'
+						HeroAttack=str(HeroList[HeroCounter+6])+'\n'
+						HeroDefence=str(HeroList[HeroCounter+7])+'\n'
+						HeroLifeLevel=str(HeroList[HeroCounter+8])+'\n'
+						HeroMagic=str(HeroList[HeroCounter+9])+'\n'
+						HeroLife=str(HeroList[HeroCounter+10])+'\n'
+						HeroMana=str(HeroList[HeroCounter+11])+'\n'
+						HeroDropItemOne=str(HeroList[HeroCounter+12])+'\n'
+						HeroDropItemTwo=str(HeroList[HeroCounter+13])+'\n'
+						HeroDropItemThree=str(HeroList[HeroCounter+14])+'\n'
+						HeroX=str(HeroList[HeroCounter+15])+'\n'
+						HeroY=str(HeroList[HeroCounter+16])
 						HeroSave.write(HeroLevel)
 						HeroSave.write(HeroName)
+						HeroSave.write(HeroPicture)
 						HeroSave.write(HeroWeapon)
 						HeroSave.write(HeroArmor)
 						HeroSave.write(HeroSpell)
@@ -5626,7 +5626,7 @@ while Level < LevelMax:
 						HeroSave.write(HeroY)
 						if not HeroCounter==HeroCounterMax-1:
 							HeroSave.write('\n')
-						HeroCounter=HeroCounter+16
+						HeroCounter=HeroCounter+17
 					HeroSave.close()
 
 					if SaveSlot==0:
