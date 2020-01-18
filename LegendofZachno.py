@@ -1282,7 +1282,7 @@ def DoPlayerCombat(Counter):
 	global SpellY
 
 	HeroLevel=int(HeroList[Counter])
-	HeroName=str(HeroList[Counter+2])
+	HeroName=str(HeroList[Counter+1])
 	HeroArmor=str(HeroList[Counter+4])
 	HeroDefence=int(HeroList[Counter+7])
 	HeroLife=int(HeroList[Counter+10])
@@ -4920,7 +4920,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		Spell=ActiveSpell
 		SpellX=HeroX
 		SpellY=HeroY
-		HeroList[HeroCounter+5]=HeroAttack
+		HeroList[HeroCounter+6]=HeroAttack
 	if Spell=='Teleport':
 		if Owner=='Player':
 			HeroDefence=HeroDefence-int((8+PlayerMagic)/2)
@@ -4985,7 +4985,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		Spell='ElectricSpark'
 		SpellX=HeroX
 		SpellY=HeroY
-		HeroList[HeroCounter+10]=HeroMana
+		HeroList[HeroCounter+11]=HeroMana
 	if Spell=='Fireball':
 		Fireball.play()
 		if Owner=='Player':
@@ -5006,21 +5006,21 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		Spell=ActiveSpell
 		SpellX=HeroX
 		SpellY=HeroY
-		HeroList[HeroCounter+2]=HeroWeapon
+		HeroList[HeroCounter+3]=HeroWeapon
 	if Spell=='Destroy':
 		Shatter.play()
 		Spell=ActiveSpell
 		SpellX=HeroX
 		SpellY=HeroY
 		HeroArmor='None'
-		HeroList[HeroCounter+3]=HeroArmor
+		HeroList[HeroCounter+4]=HeroArmor
 	if Spell=='Steal':
 		Shatter.play()
 		Spell=ActiveSpell
 		SpellX=HeroX
 		SpellY=HeroY
 		HeroWeapon='Fists'
-		HeroList[HeroCounter+2]=HeroWeapon
+		HeroList[HeroCounter+3]=HeroWeapon
 	if Spell=='Disrupt':
 		Mana.play()
 		HeroMana=HeroMana-16
@@ -5080,7 +5080,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		HeroCounterMax=len(HeroList)
 		print()
 	else:
-		HeroList[HeroCounter+9]=HeroLife
+		HeroList[HeroCounter+10]=HeroLife
 	del ActiveSpells[Counter]
 	del ActiveSpells[Counter]
 	del ActiveSpells[Counter]
