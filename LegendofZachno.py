@@ -4931,7 +4931,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		Spell='BlackHole'
 		SpellX=HeroX
 		SpellY=HeroY
-		HeroList[HeroCounter+6]=HeroDefence
+		HeroList[HeroCounter+7]=HeroDefence
 		Teleport.play()
 		TeleportXMin=-1*MapGen*9
 		TeleportXMax=MapGen*9
@@ -4954,8 +4954,8 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 				CheckY=TeleportY
 				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
 				if FloorFound:
-					HeroList[HeroCounter+14]=TeleportX
-					HeroList[HeroCounter+15]=TeleportY
+					HeroList[HeroCounter+15]=TeleportX
+					HeroList[HeroCounter+16]=TeleportY
 					LookingForASpot=False
 	if Spell=='Drain':
 		Steal.play()
@@ -4999,7 +4999,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		Spell='Explosion'
 		SpellX=HeroX
 		SpellY=HeroY
-		HeroList[HeroCounter+6]=HeroDefence
+		HeroList[HeroCounter+7]=HeroDefence
 	if Spell=='Disarm':
 		Shatter.play()
 		HeroWeapon='Fists'
