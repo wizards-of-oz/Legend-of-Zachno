@@ -4717,7 +4717,7 @@ def DoActiveSpells(ActiveSpells, MapGen):
 			NextX=SpellX-1
 			NextY=SpellY
 
-		print(ActiveSpell, 'at', SpellX, SpellY)
+		print(ActiveSpell,'from', Owner, 'at', SpellX, SpellY)
 
 		CheckX=NextX
 		CheckY=NextY
@@ -4847,11 +4847,12 @@ def ResolveHeroSpell(ActiveSpell, Counter):
 		PlayerWeapon='Fists'
 		MaxHeroCounter=len(HeroList)
 		HeroCounter=0
-		while HeroCounter < MaxHeroCounter:
-			HeroName=str(HeroList[HeroCounter+1])
-			if HeroName=='Mariska':
-				HeroList[HeroCounter+3]=GrabbedWeapon
-			HeroCounter=HeroCounter+17
+		if not GrabbedWeapon=='Fists':
+			while HeroCounter < MaxHeroCounter:
+				HeroName=str(HeroList[HeroCounter+1]).rstrip()
+				if HeroName=='Mariska':
+					HeroList[HeroCounter+3]=GrabbedWeapon
+				HeroCounter=HeroCounter+17
 	if ActiveSpell=='Disrupt':
 		Mana.play()
 		Spell=ActiveSpell
