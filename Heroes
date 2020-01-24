@@ -30,7 +30,7 @@ Dagger
 SpikeTrap
 4
 Watch
-Soldier
+Soldier2
 Mace
 None
 None
@@ -60,7 +60,7 @@ Sword
 FireScroll
 6
 Berserker
-Knight
+Soldier3
 Battleaxe
 WShield
 None
@@ -105,7 +105,7 @@ AcidTrap
 Life
 5
 Grenadier
-Soldier3
+Soldier2
 Dagger
 None
 Fire
@@ -119,8 +119,8 @@ Dagger
 ElectroTrap
 FireScroll
 6
-Knight
-Knight
+Heavy Soldier
+Soldier3
 Dagger
 WShield
 None
@@ -150,7 +150,7 @@ Life
 Life
 5
 Heavy Guard
-Soldier3
+Soldier2
 Mace
 None
 Fire
@@ -164,8 +164,8 @@ Mace
 Mana
 FireScroll
 7
-Knight
-Knight
+Frontline Soldier
+Soldier3
 Mace
 WShield
 None
@@ -194,8 +194,8 @@ Sword
 LightningScroll
 FireScroll
 8
-Hell Knight
-Knight
+Fireball Soldier
+Soldier3
 Sword
 WShield
 Fireball
@@ -240,7 +240,7 @@ BearTrap
 BearTrap
 6
 Rogue
-Rogue2
+Rogue
 Fists
 None
 None
@@ -269,8 +269,8 @@ BearTrap
 ElectroTrap
 TeleportScroll
 8
-Defender
-Knight2
+Shield Rogue
+Rogue3
 Fists
 Shield
 None
@@ -300,7 +300,7 @@ Life
 Life
 6
 Blink Rogue
-Rogue3
+Rogue2
 Fists
 None
 Teleport
@@ -314,8 +314,8 @@ AcidTrap
 Mana
 TeleportScroll
 8
-Greater Knight
-Knight2
+Combat Rogue
+Rogue3
 Dagger
 Shield
 None
@@ -344,8 +344,8 @@ ElectroTrap
 LightningScroll
 TeleportScroll
 8
-Pyromancer Knight
-Knight2
+Fireball Rogue
+Rogue3
 Dagger
 Shield
 Fireball
@@ -404,8 +404,8 @@ Life
 Mana
 DrainScroll
 11
-Defender
-Knight2
+Warrior Queen
+Amazon3
 Dagger
 TShield
 None
@@ -434,8 +434,8 @@ ElectroTrap
 LightningScroll
 DrainScroll
 10
-Hell Knight
-Knight3
+Fire Wizard
+Wizard2
 Dagger
 TShield
 Fireball
@@ -450,7 +450,7 @@ FireballScroll
 TShield
 18
 Destroyer
-Knight3
+Knight2
 Battleaxe
 Plate
 None
@@ -465,7 +465,7 @@ Plate
 TShield
 9
 Storm Mage
-Wizard3
+Wizard2
 Fists
 None
 Lightning
@@ -479,8 +479,8 @@ LightningScroll
 LightningScroll
 LightningScroll
 13
-Annihilator Knight
-Knight3
+Archmage
+Wizard3
 Mace
 Chainmail
 Fireball
