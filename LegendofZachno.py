@@ -153,6 +153,7 @@ ElectricSpark=pygame.image.load('ElectricSpark.png')
 Explosion=pygame.image.load('Explosion.png')
 BlackHole=pygame.image.load('BlackHole.png')
 BloodDrop=pygame.image.load('BloodDrop.png')
+GoldCoin=pygame.image.load('Gold.png')
 
 
 
@@ -408,6 +409,8 @@ def GetScreenItem(ObjectImage):
 		ScreenItem=Disrupt
 	elif ObjectImage=='Nullify':
 		ScreenItem=Nullify
+	elif ObjectImage=='GoldCoin':
+		ScreenItem=GoldCoin
 	return(ScreenItem)
 
 def DoInventoryList():
@@ -1401,6 +1404,7 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 	global WoodAmount
 	global IronAmount
 	global SteelAmount
+	global Gold
 
 	Collision=False
 	Counter=0
@@ -1718,6 +1722,15 @@ def DoPlayerCollisionDetection(NewX, NewY, Labyrinth, HeroList):
 					del Labyrinth[Counter]
 					MaxCounter=len(Labyrinth)
 					Grab.play()
+			if Object == 'GoldCoin':
+				Collision=False
+				Gold=Gold+3
+				print('Player picks up Gold')
+				del Labyrinth[Counter]
+				del Labyrinth[Counter]
+				del Labyrinth[Counter]
+				MaxCounter=len(Labyrinth)
+				Trade.play()
 		Counter=Counter+3
 	Counter=0
 	MaxCounter=len(HeroList)
@@ -4908,7 +4921,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 	
 	print(HeroName, 'hit by', ActiveSpell)
 
-	if Spell=='Fire':
+	if ActiveSpell=='Fire':
 		Fire.play()
 		if Owner=='Player':
 			HeroLife=HeroLife-(4+PlayerMagic)
@@ -4922,7 +4935,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		SpellX=HeroX
 		SpellY=HeroY
 		HeroList[HeroCounter+6]=HeroAttack
-	if Spell=='Teleport':
+	if ActiveSpell=='Teleport':
 		if Owner=='Player':
 			HeroDefence=HeroDefence-int((8+PlayerMagic)/2)
 		else:
@@ -4958,7 +4971,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 					HeroList[HeroCounter+15]=TeleportX
 					HeroList[HeroCounter+16]=TeleportY
 					LookingForASpot=False
-	if Spell=='Drain':
+	if ActiveSpell=='Drain':
 		Steal.play()
 		Spell='BloodDrop'
 		SpellX=HeroX
@@ -4973,7 +4986,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 			HeroLife=HeroLife-(12+PlayerMagic)
 		else:
 			HeroLife=HeroLife-12
-	if Spell=='Lightning':
+	if ActiveSpell=='Lightning':
 		Lightning.play()
 		if Owner=='Player':
 			HeroLife=HeroLife-(16+PlayerMagic)
@@ -4987,7 +5000,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		SpellX=HeroX
 		SpellY=HeroY
 		HeroList[HeroCounter+11]=HeroMana
-	if Spell=='Fireball':
+	if ActiveSpell=='Fireball':
 		Fireball.play()
 		if Owner=='Player':
 			HeroLife=HeroLife-(20+PlayerMagic)
@@ -5001,28 +5014,28 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		SpellX=HeroX
 		SpellY=HeroY
 		HeroList[HeroCounter+7]=HeroDefence
-	if Spell=='Disarm':
+	if ActiveSpell=='Disarm':
 		Shatter.play()
 		HeroWeapon='Fists'
 		Spell=ActiveSpell
 		SpellX=HeroX
 		SpellY=HeroY
 		HeroList[HeroCounter+3]=HeroWeapon
-	if Spell=='Destroy':
+	if ActiveSpell=='Destroy':
 		Shatter.play()
 		Spell=ActiveSpell
 		SpellX=HeroX
 		SpellY=HeroY
 		HeroArmor='None'
 		HeroList[HeroCounter+4]=HeroArmor
-	if Spell=='Steal':
+	if ActiveSpell=='Steal':
 		Shatter.play()
 		Spell=ActiveSpell
 		SpellX=HeroX
 		SpellY=HeroY
 		HeroWeapon='Fists'
 		HeroList[HeroCounter+3]=HeroWeapon
-	if Spell=='Disrupt':
+	if ActiveSpell=='Disrupt':
 		Mana.play()
 		HeroMana=HeroMana-16
 		if HeroMana < 0:
@@ -5031,7 +5044,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		SpellX=HeroX
 		SpellY=HeroY
 		HeroList[HeroCounter+11]=HeroMana
-	if Spell=='Nullify':
+	if ActiveSpell=='Nullify':
 		Shatter.play()
 		HeroWeapon='Fists'
 		HeroArmor='None'
