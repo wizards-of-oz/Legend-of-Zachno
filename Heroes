@@ -10,9 +10,9 @@ None
 1
 10
 3
-None
-None
-None
+GoldCoin
+GoldCoin
+GoldCoin
 3
 Dave
 Soldier
@@ -25,7 +25,7 @@ None
 1
 10
 3
-None
+GoldCoin
 Dagger
 SpikeTrap
 4
@@ -40,7 +40,7 @@ None
 1
 20
 3
-None
+GoldCoin
 Mace
 Life
 4
@@ -55,7 +55,7 @@ Fire
 2
 10
 6
-None
+GoldCoin
 Sword
 FireScroll
 6
@@ -70,7 +70,7 @@ None
 2
 20
 6
-None
+GoldCoin
 BattleAxe
 WShield
 4
@@ -147,7 +147,7 @@ None
 3
 Mace
 Life
-Life
+GoldCoin
 5
 Heavy Guard
 Soldier2
@@ -236,8 +236,8 @@ None
 20
 6
 BearTrap
-BearTrap
-BearTrap
+GoldCoin
+GoldCoin
 6
 Rogue
 Rogue
@@ -297,7 +297,7 @@ None
 6
 AcidTrap
 Life
-Life
+GoldCoin
 6
 Blink Rogue
 Rogue2
@@ -386,8 +386,8 @@ None
 150
 9
 Life
-Life
-Life
+GoldCoin
+GoldCoin
 8
 Vampire Queen
 Amazon3
@@ -476,8 +476,8 @@ Lightning
 40
 45
 LightningScroll
-LightningScroll
-LightningScroll
+GoldCoin
+GoldCoin
 13
 Archmage
 Wizard3
@@ -521,5 +521,5 @@ None
 150
 45
 Plate
-Plate
-Plate
+GoldCoin
+GoldCoin
