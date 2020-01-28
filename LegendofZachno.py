@@ -5204,6 +5204,7 @@ LoadFile=open('Zachno.sav', 'r')
 LoadList=list(LoadFile)
 LoadFile.close()
 
+DoHelp()
 SaveSlot=DoSplash(LoadList)
 Level=int(LoadList[SaveSlot+1])
 MapGen=int(Level/2)+1
