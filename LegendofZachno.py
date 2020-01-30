@@ -667,7 +667,7 @@ def DoScreen (Labyrinth, Level):
 
 
 	SlotText='Saveslot: '+str(int((SaveSlot+20)/20))+' '+PlayerType
-	NumberOfEnemiesText='Enemies: '+str(int(len(HeroList)/15))
+	NumberOfEnemiesText='Enemies: '+str(int(len(HeroList)/17))
 	if PlayerLevel < 61:
 		ExperienceText='Experience: '+str(PlayerXP)+'/'+str(PlayerLevel*3)
 	else:
