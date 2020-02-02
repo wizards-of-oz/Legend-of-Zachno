@@ -1,4 +1,4 @@
-3
+2
 Benny
 Soldier
 Fists
@@ -13,7 +13,7 @@ None
 GoldCoin
 GoldCoin
 GoldCoin
-3
+2
 Dave
 Soldier
 Dagger
@@ -28,7 +28,7 @@ None
 GoldCoin
 Dagger
 SpikeTrap
-4
+3
 Watch
 Soldier2
 Mace
@@ -43,7 +43,7 @@ None
 GoldCoin
 Mace
 Life
-4
+3
 Flame Soldier
 Soldier2
 Sword
@@ -58,7 +58,7 @@ Fire
 GoldCoin
 Sword
 FireScroll
-6
+4
 Berserker
 Soldier3
 Battleaxe
@@ -73,7 +73,7 @@ None
 GoldCoin
 BattleAxe
 WShield
-4
+3
 Trapper
 Rogue
 Dagger
@@ -88,7 +88,7 @@ None
 Dagger
 BearTrap
 SpikeTrap
-4
+3
 Guard
 Soldier2
 Dagger
@@ -103,7 +103,7 @@ None
 Dagger
 AcidTrap
 Life
-5
+3
 Grenadier
 Soldier2
 Dagger
@@ -118,7 +118,7 @@ Fire
 Dagger
 ElectroTrap
 FireScroll
-6
+4
 Heavy Soldier
 Soldier3
 Dagger
@@ -133,7 +133,7 @@ None
 Dagger
 Mine
 WShield
-5
+4
 Amazon
 Amazon
 Mace
@@ -148,7 +148,7 @@ None
 Mace
 Life
 GoldCoin
-5
+4
 Heavy Guard
 Soldier2
 Mace
@@ -163,7 +163,7 @@ Fire
 Mace
 Mana
 FireScroll
-7
+5
 Frontline Soldier
 Soldier3
 Mace
@@ -178,7 +178,7 @@ None
 Mace
 Mana
 WShield
-6
+5
 Warlock
 Wizard
 Sword
@@ -193,7 +193,7 @@ Lightning
 Sword
 LightningScroll
 FireScroll
-8
+6
 Fireball Soldier
 Soldier3
 Sword
@@ -208,7 +208,7 @@ Fireball
 Sword
 FireballScroll
 WShield
-15
+11
 Paladin
 Knight
 Battleaxe
@@ -223,7 +223,7 @@ None
 BattleAxe
 Plate
 WShield
-6
+4
 Rogue
 Rogue
 Fists
@@ -238,7 +238,7 @@ None
 BearTrap
 GoldCoin
 GoldCoin
-6
+4
 Rogue
 Rogue
 Fists
@@ -253,7 +253,7 @@ None
 BearTrap
 AcidTrap
 Life
-6
+5
 Blink Rogue
 Rogue2
 Fists
@@ -268,7 +268,7 @@ Teleport
 BearTrap
 ElectroTrap
 TeleportScroll
-8
+6
 Shield Rogue
 Rogue3
 Fists
@@ -283,7 +283,7 @@ None
 BearTrap
 Mine
 Shield
-6
+5
 Shield Maiden
 Amazon
 Fists
@@ -298,7 +298,7 @@ None
 AcidTrap
 Life
 GoldCoin
-6
+5
 Blink Rogue
 Rogue2
 Fists
@@ -313,7 +313,7 @@ Teleport
 AcidTrap
 Mana
 TeleportScroll
-8
+6
 Combat Rogue
 Rogue3
 Dagger
@@ -328,7 +328,7 @@ None
 AcidTrap
 Mana
 Shield
-8
+6
 Thunder Wizard
 Wizard
 Fists
@@ -343,7 +343,7 @@ Lightning
 ElectroTrap
 LightningScroll
 TeleportScroll
-8
+6
 Fireball Rogue
 Rogue3
 Dagger
@@ -358,7 +358,7 @@ Fireball
 ElectroTrap
 FireballScroll
 Shield
-17
+13
 Warlord
 Knight2
 Battleaxe
@@ -373,7 +373,7 @@ None
 Mine
 Plate
 Shield
-8
+9
 Shield Maiden
 Amazon2
 Fists
@@ -381,14 +381,14 @@ None
 None
 3
 3
-15
+18
 3
 150
 9
 Life
 GoldCoin
 GoldCoin
-8
+6
 Vampire Queen
 Amazon3
 Fists
@@ -403,7 +403,7 @@ Drain
 Life
 Mana
 DrainScroll
-11
+9
 Warrior Queen
 Amazon3
 Dagger
@@ -411,14 +411,14 @@ TShield
 None
 6
 6
-15
+20
 6
-150
+200
 18
 Life
 Mine
 TShield
-9
+7
 Storm Mage
 Wizard2
 Fists
@@ -433,7 +433,7 @@ Lightning
 ElectroTrap
 LightningScroll
 DrainScroll
-10
+8
 Fire Wizard
 Wizard2
 Dagger
@@ -448,22 +448,22 @@ Fireball
 ElectroTrap
 FireballScroll
 TShield
-18
+16
 Destroyer
 Knight2
 Battleaxe
 Plate
 None
-15
-15
+18
+18
 10
-15
+18
 100
-45
+54
 Mine
 Plate
 TShield
-9
+11
 Storm Mage
 Wizard2
 Fists
@@ -472,13 +472,13 @@ Lightning
 4
 4
 4
-15
+20
 40
-45
+60
 LightningScroll
 GoldCoin
 GoldCoin
-13
+11
 Archmage
 Wizard3
 Mace
@@ -487,23 +487,23 @@ Fireball
 8
 8
 8
-15
+20
 80
-45
+60
 LightningScroll
 FireballScroll
 Chainmail
-18
+16
 Lancelot
 Knight3
 Battleaxe
 Plate
 None
-15
-15
-15
+19
+19
+19
 10
-140
+190
 30
 FireballScroll
 Plate
@@ -514,12 +514,12 @@ Knight3
 Battleaxe
 Plate
 None
-15
-15
-15
-15
-150
-45
+20
+20
+20
+20
+200
+60
 Plate
 GoldCoin
 GoldCoin
