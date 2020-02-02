@@ -3374,12 +3374,12 @@ def PlaceHeroes(Labyrinth, Level):
 					HeroList.append('Fists')
 					HeroList.append('None')
 					HeroList.append('Disarm')
-					HeroList.append('3')
-					HeroList.append('3')
-					HeroList.append('3')
-					HeroList.append('3')
-					HeroList.append('30')
-					HeroList.append('9')
+					HeroList.append('4')
+					HeroList.append('4')
+					HeroList.append('4')
+					HeroList.append('4')
+					HeroList.append('40')
+					HeroList.append('12')
 					HeroList.append('None')
 					HeroList.append('None')
 					HeroList.append('None')
@@ -3415,12 +3415,12 @@ def PlaceHeroes(Labyrinth, Level):
 					HeroList.append('Dagger')
 					HeroList.append('Shield')
 					HeroList.append('Destroy')
-					HeroList.append('6')
-					HeroList.append('6')
-					HeroList.append('6')
-					HeroList.append('6')
-					HeroList.append('60')
-					HeroList.append('18')
+					HeroList.append('8')
+					HeroList.append('8')
+					HeroList.append('8')
+					HeroList.append('8')
+					HeroList.append('80')
+					HeroList.append('24')
 					HeroList.append('BearTrap')
 					HeroList.append('BearTrap')
 					HeroList.append('BearTrap')
@@ -3456,12 +3456,12 @@ def PlaceHeroes(Labyrinth, Level):
 					HeroList.append('Fists')
 					HeroList.append('TShield')
 					HeroList.append('Steal')
-					HeroList.append('9')
-					HeroList.append('9')
-					HeroList.append('9')
-					HeroList.append('9')
-					HeroList.append('90')
-					HeroList.append('27')
+					HeroList.append('12')
+					HeroList.append('12')
+					HeroList.append('12')
+					HeroList.append('12')
+					HeroList.append('120')
+					HeroList.append('36')
 					HeroList.append('Life')
 					HeroList.append('Life')
 					HeroList.append('Life')
@@ -3497,12 +3497,12 @@ def PlaceHeroes(Labyrinth, Level):
 					HeroList.append('Sword')
 					HeroList.append('Chainmail')
 					HeroList.append('Disrupt')
-					HeroList.append('12')
-					HeroList.append('12')
-					HeroList.append('12')
-					HeroList.append('12')
-					HeroList.append('120')
-					HeroList.append('36')
+					HeroList.append('16')
+					HeroList.append('16')
+					HeroList.append('16')
+					HeroList.append('16')
+					HeroList.append('160')
+					HeroList.append('48')
 					HeroList.append('LightningScroll')
 					HeroList.append('LightningScroll')
 					HeroList.append('LightningScroll')
@@ -3538,12 +3538,12 @@ def PlaceHeroes(Labyrinth, Level):
 					HeroList.append('Battleaxe')
 					HeroList.append('Plate')
 					HeroList.append('Nullify')
-					HeroList.append('15')
-					HeroList.append('15')
-					HeroList.append('15')
-					HeroList.append('15')
-					HeroList.append('150')
-					HeroList.append('45')
+					HeroList.append('20')
+					HeroList.append('20')
+					HeroList.append('20')
+					HeroList.append('20')
+					HeroList.append('200')
+					HeroList.append('60')
 					HeroList.append('Plate')
 					HeroList.append('Plate')
 					HeroList.append('Plate')
@@ -4098,6 +4098,8 @@ def DoEnemies():
 		TreshHold=10-HeroAttack
 		SpellChance=randint(1,2)
 		EnemyScan=2*HeroLevel
+		if EnemyScan < 7:
+			EnemyScan=7
 		PDist=PlayerDistance (HeroX, HeroY, PlayerX, PlayerY)
 		if PDist < EnemyScan:
 			if HeroLife > (HeroLifeLevel*TreshHold):
@@ -4867,7 +4869,7 @@ def ResolveHeroSpell(ActiveSpell, Counter):
 					HeroList[HeroCounter+3]=GrabbedWeapon
 				HeroCounter=HeroCounter+17
 	if ActiveSpell=='Disrupt':
-		Mana.play()
+		Fail.play()
 		Spell=ActiveSpell
 		SpellX=PlayerX
 		SpellY=PlayerY
@@ -5036,7 +5038,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		HeroWeapon='Fists'
 		HeroList[HeroCounter+3]=HeroWeapon
 	if ActiveSpell=='Disrupt':
-		Mana.play()
+		Fail.play()
 		HeroMana=HeroMana-16
 		if HeroMana < 0:
 			HeroMana=0
