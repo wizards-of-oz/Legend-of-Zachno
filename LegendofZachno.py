@@ -3908,6 +3908,18 @@ def EnemyMove(EnemyDir, Counter):
 					Spell='Explosion'
 					Boom.play()
 			LabNum=LabNum+3
+		SpellCounter=0
+		MaxSpellCounter=len(ActiveSpells)
+		while SpellCounter < MaxSpellCounter:
+				ActiveSpell=str(ActiveSpells[SpellCounter])
+				Owner=str(ActiveSpells[SpellCounter+1])
+				ActiveSpellX=int(ActiveSpells[SpellCounter+3])
+				ActiveSpellY=int(ActiveSpells[SpellCounter+4])
+				if NewHeroX==ActiveSpellX and NewHeroY==ActiveSpellY:
+					DoHeroHitBySpell(ActiveSpell, Owner, SpellCounter, Counter)
+					MaxSpellCounter=len(ActiveSpells)
+					return(Blocked)
+				SpellCounter=SpellCounter+5
 		if HeroLife < 1:
 			print(HeroName, 'killed by', Object)
 			PlayerXP=PlayerXP+HeroLevel
@@ -5117,7 +5129,7 @@ def DoHealClosestHero(PlayerX, PlayerY, HeroList):
 			Proximity=PDist
 			ClosestEnemy=Counter
 		Counter=Counter+17
-	HeroLife=int(HeroList[ClosestEnemy+9])
+	HeroLife=int(HeroList[ClosestEnemy+10])
 	HeroLife=HeroLife+12
 	print(HeroName, 'healed 12 points')
 	HeroList[ClosestEnemy+10]=HeroLife
