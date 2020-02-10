@@ -4667,10 +4667,10 @@ def DoCraftSpell():
 def DoSelectClass():
 	pygame.key.set_repeat()
 	Text1='Select class to play with:'
-	Text2='1> Warrior'
-	Text3='2> Tank'
-	Text4='3> Rogue'
-	Text5='4> Mage'
+	Text2='1> Warrior - Strong attack, weak magic - Crafts: Weapons/armor'
+	Text3='2> Tank - Strong defence, weak attack - Crafts: Armor/traps'
+	Text4='3> Rogue - Much life, weak defence - Crafts: Traps/spells'
+	Text5='4> Mage - Strong magic, little life - Crafts: Weapons/spells'
 
 	Text1Surf = myfont.render(Text1, False, green)
 	Text2Surf = myfont.render(Text2, False, green)
@@ -5218,7 +5218,6 @@ LoadFile=open('Zachno.sav', 'r')
 LoadList=list(LoadFile)
 LoadFile.close()
 
-DoHelp()
 SaveSlot=DoSplash(LoadList)
 Level=int(LoadList[SaveSlot+1])
 MapGen=int(Level/2)+1
@@ -5412,6 +5411,7 @@ if Level > 0:
 			HeroList.append(HeroY)
 			HeroCounter=HeroCounter+17
 
+DoHelp()
 while Level < LevelMax:
 	DoScreen(Labyrinth, Level)
 	Running=True
