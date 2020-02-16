@@ -3705,7 +3705,7 @@ def DoHeroSpell(HeroX, HeroY, HeroSpell, Counter):
 		Mana.play()
 	
 	ActiveSpells.append(Spell)
-	ActiveSpells.append('Hero')
+	ActiveSpells.append(HeroName)
 	ActiveSpells.append(SpellDir)
 	ActiveSpells.append(HeroX)
 	ActiveSpells.append(HeroY)
@@ -4776,7 +4776,7 @@ def DoActiveSpells(ActiveSpells, MapGen):
 				HeroCounter=HeroCounter+17
 
 		if Counter < MaxCounter and SpellTravelling:
-			if NextX==PlayerX and NextY==PlayerY and Owner=='Hero':
+			if NextX==PlayerX and NextY==PlayerY and Owner!='Player':
 				ResolveHeroSpell(ActiveSpell, Counter)
 				MaxCounter=len(ActiveSpells)
 				SpellTravelling=False
@@ -4940,51 +4940,87 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		if Owner=='Player':
 			HeroLife=HeroLife-(4+PlayerMagic)
 			HeroAttack=HeroAttack-int((4+PlayerMagic)/2)
+			HeroList[HeroCounter+6]=HeroAttack
 		else:
-			HeroLife=HeroLife-4
-			HeroAttack=HeroAttack-2
-		if HeroAttack < 0:
-			HeroAttack=0
-		Spell=ActiveSpell
-		SpellX=HeroX
-		SpellY=HeroY
-		HeroList[HeroCounter+6]=HeroAttack
+			if Owner!=HeroName:
+				HeroLife=HeroLife-4
+				HeroAttack=HeroAttack-2
+				if HeroAttack < 0:
+					HeroAttack=0
+				Spell=ActiveSpell
+				SpellX=HeroX
+				SpellY=HeroY
+				HeroList[HeroCounter+6]=HeroAttack
+			else:
+				return
 	if ActiveSpell=='Teleport':
 		if Owner=='Player':
 			HeroDefence=HeroDefence-int((8+PlayerMagic)/2)
-		else:
-			HeroDefence=HeroDefence-4
-		if HeroDefence < 0:
-			HeroDefence=0
-		Spell='BlackHole'
-		SpellX=HeroX
-		SpellY=HeroY
-		HeroList[HeroCounter+7]=HeroDefence
-		Teleport.play()
-		TeleportXMin=-1*MapGen*9
-		TeleportXMax=MapGen*9
-		TeleportYMin=-1*MapGen*9
-		TeleportYMax=MapGen*9
-		LookingForASpot=True
-		while LookingForASpot:
-			NoBlock=True
-			TeleportX=randint(TeleportXMin, TeleportXMax)
-			TeleportY=randint(TeleportYMin, TeleportYMax)
-	
-			if (TeleportX/9)==int(TeleportX/9):
-				NoBlock=False
-			if (TeleportY/9)==int(TeleportY/9):
-				NoBlock=False
+			
+			Spell='BlackHole'
+			SpellX=HeroX
+			SpellY=HeroY
+			HeroList[HeroCounter+7]=HeroDefence
+			Teleport.play()
+			TeleportXMin=-1*MapGen*9
+			TeleportXMax=MapGen*9
+			TeleportYMin=-1*MapGen*9
+			TeleportYMax=MapGen*9
+			LookingForASpot=True
+			while LookingForASpot:
+				NoBlock=True
+				TeleportX=randint(TeleportXMin, TeleportXMax)
+				TeleportY=randint(TeleportYMin, TeleportYMax)
+				if (TeleportX/9)==int(TeleportX/9):
+					NoBlock=False
+				if (TeleportY/9)==int(TeleportY/9):
+					NoBlock=False
 
-			if NoBlock:
-				FloorFound=False
-				CheckX=TeleportX
-				CheckY=TeleportY
-				FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
-				if FloorFound:
-					HeroList[HeroCounter+15]=TeleportX
-					HeroList[HeroCounter+16]=TeleportY
-					LookingForASpot=False
+				if NoBlock:
+					FloorFound=False
+					CheckX=TeleportX
+					CheckY=TeleportY
+					FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+					if FloorFound:
+						HeroList[HeroCounter+15]=TeleportX
+						HeroList[HeroCounter+16]=TeleportY
+						LookingForASpot=False
+		else:
+			if Owner!=HeroName:
+				HeroDefence=HeroDefence-4
+				if HeroDefence < 0:
+					HeroDefence=0
+				Spell='BlackHole'
+				SpellX=HeroX
+				SpellY=HeroY
+				HeroList[HeroCounter+7]=HeroDefence
+				Teleport.play()
+				TeleportXMin=-1*MapGen*9
+				TeleportXMax=MapGen*9
+				TeleportYMin=-1*MapGen*9
+				TeleportYMax=MapGen*9
+				LookingForASpot=True
+				while LookingForASpot:
+					NoBlock=True
+					TeleportX=randint(TeleportXMin, TeleportXMax)
+					TeleportY=randint(TeleportYMin, TeleportYMax)
+
+					if (TeleportX/9)==int(TeleportX/9):
+						NoBlock=False
+					if (TeleportY/9)==int(TeleportY/9):
+						NoBlock=False
+
+					if NoBlock:
+						FloorFound=False
+						CheckX=TeleportX
+						CheckY=TeleportY
+						FloorFound=CheckFloor(Labyrinth, CheckX, CheckY)
+						if FloorFound:
+							HeroList[HeroCounter+15]=TeleportX
+							HeroList[HeroCounter+16]=TeleportY
+							LookingForASpot=False
+			else:
+				return
 	if ActiveSpell=='Drain':
 		Steal.play()
 		Spell='BloodDrop'
@@ -4999,17 +5035,24 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 				PlayerLife = PlayerLifeLevel*10
 			HeroLife=HeroLife-(12+PlayerMagic)
 		else:
-			HeroLife=HeroLife-12
+			if Owner!=HeroName:
+				HeroLife=HeroLife-12
+			else:
+				return
 	if ActiveSpell=='Lightning':
 		Lightning.play()
 		if Owner=='Player':
 			HeroLife=HeroLife-(16+PlayerMagic)
 			HeroMana=HeroMana-int((16+PlayerMagic)/2)
+			HeroList[HeroCounter+11]=HeroMana
 		else:
-			HeroLife=HeroLife-16
-			HeroMana=HeroMana-8
-		if HeroMana < 0:
-			HeroMana = 0
+			if Owner!=HeroName:
+				HeroLife=HeroLife-16
+				HeroMana=HeroMana-8
+			else:
+				return
+			if HeroMana < 0:
+				HeroMana = 0
 		Spell='ElectricSpark'
 		SpellX=HeroX
 		SpellY=HeroY
@@ -5019,9 +5062,13 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		if Owner=='Player':
 			HeroLife=HeroLife-(20+PlayerMagic)
 			HeroDefence=HeroDefence-int((20+PlayerMagic)/2)
+			HeroList[HeroCounter+7]=HeroDefence
 		else:
-			HeroLife=HeroLife-20
-			HeroDefence=HeroDefence-10
+			if Owner!=HeroName:
+				HeroLife=HeroLife-20
+				HeroDefence=HeroDefence-10
+			else:
+				return
 		if HeroDefence < 0:
 			HeroDefence=0
 		Spell='Explosion'
@@ -5029,44 +5076,59 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		SpellY=HeroY
 		HeroList[HeroCounter+7]=HeroDefence
 	if ActiveSpell=='Disarm':
-		Shatter.play()
-		HeroWeapon='Fists'
-		Spell=ActiveSpell
-		SpellX=HeroX
-		SpellY=HeroY
-		HeroList[HeroCounter+3]=HeroWeapon
+		if Owner!=HeroName:
+			Shatter.play()
+			HeroWeapon='Fists'
+			Spell=ActiveSpell
+			SpellX=HeroX
+			SpellY=HeroY
+			HeroList[HeroCounter+3]=HeroWeapon
+		else:
+			return
 	if ActiveSpell=='Destroy':
-		Shatter.play()
-		Spell=ActiveSpell
-		SpellX=HeroX
-		SpellY=HeroY
-		HeroArmor='None'
-		HeroList[HeroCounter+4]=HeroArmor
+		if Owner!=HeroName:
+			Shatter.play()
+			Spell=ActiveSpell
+			SpellX=HeroX
+			SpellY=HeroY
+			HeroArmor='None'
+			HeroList[HeroCounter+4]=HeroArmor
+		else:
+			return
 	if ActiveSpell=='Steal':
-		Shatter.play()
-		Spell=ActiveSpell
-		SpellX=HeroX
-		SpellY=HeroY
-		HeroWeapon='Fists'
-		HeroList[HeroCounter+3]=HeroWeapon
+		if Owner!=HeroName:
+			Shatter.play()
+			Spell=ActiveSpell
+			SpellX=HeroX
+			SpellY=HeroY
+			HeroWeapon='Fists'
+			HeroList[HeroCounter+3]=HeroWeapon
+		else:
+			return
 	if ActiveSpell=='Disrupt':
-		Fail.play()
-		HeroMana=HeroMana-16
-		if HeroMana < 0:
-			HeroMana=0
-		Spell=ActiveSpell
-		SpellX=HeroX
-		SpellY=HeroY
-		HeroList[HeroCounter+11]=HeroMana
+		if Owner!=HeroName:
+			Fail.play()
+			HeroMana=HeroMana-16
+			if HeroMana < 0:
+				HeroMana=0
+			Spell=ActiveSpell
+			SpellX=HeroX
+			SpellY=HeroY
+			HeroList[HeroCounter+11]=HeroMana
+		else:
+			return
 	if ActiveSpell=='Nullify':
-		Shatter.play()
-		HeroWeapon='Fists'
-		HeroArmor='None'
-		Spell=ActiveSpell
-		SpellX=HeroX
-		SpellY=HeroY
-		HeroList[HeroCounter+3]=HeroWeapon
-		HeroList[HeroCounter+4]=HeroArmor
+		if Owner!=HeroName:
+			Shatter.play()
+			HeroWeapon='Fists'
+			HeroArmor='None'
+			Spell=ActiveSpell
+			SpellX=HeroX
+			SpellY=HeroY
+			HeroList[HeroCounter+3]=HeroWeapon
+			HeroList[HeroCounter+4]=HeroArmor
+		else:
+			return
 
 	if HeroLife < 1:
 		print(HeroName, 'killed by', ActiveSpell)
