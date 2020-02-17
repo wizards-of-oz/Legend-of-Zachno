@@ -49,7 +49,9 @@ moon_glow = ((235,245,255))
 # Loading soundfiles into RAM in variables so i can use the .play() command
 Screwdriver = pygame.mixer.Sound('Screwdriver.ogg')
 Walk = pygame.mixer.Sound('Walk.ogg')
+EnemyWalkLight = pygame.mixer.Sound('EnemyWalkLight.ogg')
 EnemyWalk = pygame.mixer.Sound('EnemyWalk.ogg')
+EnemyWalkHeavy = pygame.mixer.Sound('EnemyWalkHeavy.ogg')
 Bump = pygame.mixer.Sound('Bump.ogg')
 StairsUp = pygame.mixer.Sound('Up.ogg')
 Ping = pygame.mixer.Sound('Ping.ogg')
@@ -3803,6 +3805,7 @@ def EnemyMove(EnemyDir, Counter):
 	Blocked=False
 	HeroLevel=int(HeroList[Counter])
 	HeroName=HeroList[Counter+1].rstrip()
+	HeroIcon=HeroList[Counter+2].rstrip()
 	HeroWeapon=HeroList[Counter+3].rstrip()
 	HeroArmor=HeroList[Counter+4].rstrip()
 	HeroSpell=HeroList[Counter+5].rstrip()
@@ -3977,7 +3980,14 @@ def EnemyMove(EnemyDir, Counter):
 		if FoundFloor and NoEnemy:
 			HeroList[Counter+15]=NewHeroX
 			HeroList[Counter+16]=NewHeroY
-			EnemyWalk.play()
+			if HeroIcon=='Rogue' or HeroIcon=='Rogue2' or HeroIcon=='Rogue3' or HeroIcon=='Wizard' or HeroIcon=='Wizard2' or HeroIcon=='Wizard3':
+				EnemyWalkLight.play()
+			elif HeroIcon=='Amazon' or HeroIcon=='Amazon2' or HeroIcon=='Amazon3':
+				EnemyWalk.play()
+			elif HeroIcon=='Soldier' or HeroIcon=='Soldier2' or HeroIcon=='Soldier3' or HeroIcon=='Knight' or HeroIcon=='Knight2' or HeroIcon=='Knight3':
+				EnemyWalkHeavy.play()
+			else:
+				EnemyWalk.play()
 		else:
 			Blocked=True
 	return(Blocked)
@@ -5037,6 +5047,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 		else:
 			if Owner!=HeroName:
 				HeroLife=HeroLife-12
+				DoHealClosestHero(PlayerX, PlayerY, HeroList)
 			else:
 				return
 	if ActiveSpell=='Lightning':
@@ -5187,9 +5198,9 @@ def DoHealClosestHero(PlayerX, PlayerY, HeroList):
 		HeroX=int(HeroList[Counter+15])
 		HeroY=int(HeroList[Counter+16])
 		PDist=PlayerDistance(HeroX, HeroY, PlayerX, PlayerY)
-		if PDist < Proximity:
-			Proximity=PDist
+		if HeroName=='Vampire Queen':
 			ClosestEnemy=Counter
+			break
 		Counter=Counter+17
 	HeroLife=int(HeroList[ClosestEnemy+10])
 	HeroLife=HeroLife+12
