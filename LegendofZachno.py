@@ -74,6 +74,7 @@ Auch = pygame.mixer.Sound('Auch.ogg')
 Applause = pygame.mixer.Sound('Applause.ogg')
 Fail = pygame.mixer.Sound('Fail.ogg')
 DeathScream = pygame.mixer.Sound('DeathScream.ogg')
+DeathScreamW = pygame.mixer.Sound('DeathScreamW.ogg')
 Spikes = pygame.mixer.Sound('Spikes.ogg')
 Trap = pygame.mixer.Sound('Trap.ogg')
 Sizzle = pygame.mixer.Sound('Sizzle.ogg')
@@ -1288,6 +1289,7 @@ def DoPlayerCombat(Counter):
 
 	HeroLevel=int(HeroList[Counter])
 	HeroName=str(HeroList[Counter+1])
+	HeroIcon=str(HeroList[Counter+2]).rstrip()
 	HeroArmor=str(HeroList[Counter+4])
 	HeroDefence=int(HeroList[Counter+7])
 	HeroLife=int(HeroList[Counter+10])
@@ -1352,7 +1354,10 @@ def DoPlayerCombat(Counter):
 
 	if HeroLife < 1:
 		print(HeroName, 'killed by player')
-		DeathScream.play()
+		if HeroIcon=='Rogue' or HeroIcon=='Rogue2' or HeroIcon=='Rogue3' or HeroIcon=='Amazon' or HeroIcon=='Amazon2' or HeroIcon=='Amazon3':
+			DeathScreamW.play()
+		else:
+			DeathScream.play()
 		PlayerXP=PlayerXP+HeroLevel
 		Chance=randint(1,3)
 		if Chance==1:
@@ -3964,7 +3969,10 @@ def EnemyMove(EnemyDir, Counter):
 			del HeroList[Counter]
 			del HeroList[Counter]
 			print()
-			DeathScream.play()
+			if HeroIcon=='Rogue' or HeroIcon=='Rogue2' or HeroIcon=='Rogue3' or HeroIcon=='Amazon' or HeroIcon=='Amazon2' or HeroIcon=='Amazon3':
+				DeathScreamW.play()
+			else:
+				DeathScream.play()
 			return(Blocked)
 		else:
 			HeroList[Counter+6]=HeroAttack
@@ -4928,6 +4936,7 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 	global SpellY
 	HeroLevel=int(HeroList[HeroCounter])
 	HeroName=HeroList[HeroCounter+1].rstrip()
+	HeroIcon=HeroList[HeroCounter+2].rstrip()
 	HeroWeapon=HeroList[HeroCounter+3].rstrip()
 	HeroArmor=HeroList[HeroCounter+4].rstrip()
 	HeroSpell=HeroList[HeroCounter+5].rstrip()
@@ -5143,7 +5152,10 @@ def DoHeroHitBySpell(ActiveSpell, Owner, Counter, HeroCounter):
 
 	if HeroLife < 1:
 		print(HeroName, 'killed by', ActiveSpell)
-		DeathScream.play()
+		if HeroIcon=='Rogue' or HeroIcon=='Rogue2' or HeroIcon=='Rogue3' or HeroIcon=='Amazon' or HeroIcon=='Amazon2' or HeroIcon=='Amazon3':
+			DeathScreamW.play()
+		else:
+			DeathScream.play()
 		PlayerXP=PlayerXP+HeroLevel
 		Chance=randint(1,3)
 		if Chance==1:
